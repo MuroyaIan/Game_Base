@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\00_Platform">
+      <UniqueIdentifier>{198c4975-fead-48f6-b273-62d2ec27390a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\00_Platform">
+      <UniqueIdentifier>{8b9acbf0-027b-4f3d-b99d-4850db64725a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\01_Tool">
+      <UniqueIdentifier>{079529af-bd19-49e3-a428-1f4d1329d895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\01_Tool">
+      <UniqueIdentifier>{c5b99aba-6501-42c5-8999-0128d7bdbce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{4ae4605d-66a1-4563-a465-33ffc73cd16f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\02_Geometry">
+      <UniqueIdentifier>{34a5ce99-135e-42ee-8e7d-7b249037e64a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\02_Geometry">
+      <UniqueIdentifier>{e6d5795f-7994-4ea8-8f3e-a622f2c6e51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{43b54cf9-a8eb-4177-84e6-a2ee289f6967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\ImGui">
+      <UniqueIdentifier>{c601025c-437a-41d2-b07f-f126f360af4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\ImGui\backends">
+      <UniqueIdentifier>{9a1c8a22-9de3-4cf5-b119-5427af084a9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\01_Tool\Input">
+      <UniqueIdentifier>{0ca6feb8-5569-4088-a3aa-306f109b8687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\01_Tool\Input">
+      <UniqueIdentifier>{6f473978-919c-4bf1-abb6-402fb50f62c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\03_Camera">
+      <UniqueIdentifier>{546918f0-ed86-4cb7-b776-18b51f6b650c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\03_Camera">
+      <UniqueIdentifier>{3f865dd3-6a6c-4669-9b1c-2c3f6c6280cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\04_Light">
+      <UniqueIdentifier>{21913585-4783-4497-9ca5-bf29ad452653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\04_Light">
+      <UniqueIdentifier>{24168ce2-5981-438e-9adc-fdde6461d916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\02_Geometry\Debug">
+      <UniqueIdentifier>{11956011-c128-4996-901f-9ec30a4c86eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\02_Geometry\Debug">
+      <UniqueIdentifier>{657b65a7-214d-4374-b253-406d05bdf13a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Instance">
+      <UniqueIdentifier>{b55fb2ab-ced4-461e-b518-c1c11fddc4b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\FBXSDK">
+      <UniqueIdentifier>{58c0bcac-cf94-45c4-b88f-0f2b80c67687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Viewer">
+      <UniqueIdentifier>{6bb9e70d-b50a-4832-8432-506d597bbf4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\02_Geometry\Model">
+      <UniqueIdentifier>{e42d8996-5f65-4afc-ba46-1369ad99a9b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\02_Geometry\Model">
+      <UniqueIdentifier>{a86e3099-fbe2-482b-9df4-870ec38bac23}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Startup.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\App_Win64.cpp">
+      <Filter>ソース ファイル\00_Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Shape_Default.cpp">
+      <Filter>ソース ファイル\02_Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\backends\imgui_impl_dx11.cpp">
+      <Filter>3rdParty\ImGui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\backends\imgui_impl_win32.cpp">
+      <Filter>3rdParty\ImGui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\imgui.cpp">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\imgui_demo.cpp">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\imgui_draw.cpp">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\imgui_tables.cpp">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\3rd_Party\ImGui\imgui_widgets.cpp">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\gMath.cpp">
+      <Filter>ソース ファイル\01_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\Rand.cpp">
+      <Filter>ソース ファイル\01_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\TextureLoader.cpp">
+      <Filter>ソース ファイル\01_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\TimeProc.cpp">
+      <Filter>ソース ファイル\01_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\imguiMgr.cpp">
+      <Filter>ソース ファイル\01_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\ShaderMgr.cpp">
+      <Filter>ソース ファイル\02_Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\Input\IM_GamePad.cpp">
+      <Filter>ソース ファイル\01_Tool\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\Input\IM_Keyboard.cpp">
+      <Filter>ソース ファイル\01_Tool\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\Input\IM_Mouse.cpp">
+      <Filter>ソース ファイル\01_Tool\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\Input\InputMgr.cpp">
+      <Filter>ソース ファイル\01_Tool\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Camera\Camera_Test.cpp">
+      <Filter>ソース ファイル\03_Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\TextureMgr.cpp">
+      <Filter>ソース ファイル\02_Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Debug\DebugMgr.cpp">
+      <Filter>ソース ファイル\02_Geometry\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Debug\Mesh_Light.cpp">
+      <Filter>ソース ファイル\02_Geometry\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Light\PointLight.cpp">
+      <Filter>ソース ファイル\04_Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Shape_Tex.cpp">
+      <Filter>ソース ファイル\02_Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Shape_Model.cpp">
+      <Filter>ソース ファイル\02_Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Light\LightMgr.cpp">
+      <Filter>ソース ファイル\04_Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Light\Light.cpp">
+      <Filter>ソース ファイル\04_Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Light\DirectionalLight.cpp">
+      <Filter>ソース ファイル\04_Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Camera\CameraMgr.cpp">
+      <Filter>ソース ファイル\03_Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tool\TextIO.cpp">
+      <Filter>ソース ファイル\01_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Model\Mesh.cpp">
+      <Filter>ソース ファイル\02_Geometry\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Model\ModelMgr.cpp">
+      <Filter>ソース ファイル\02_Geometry\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Model\Model.cpp">
+      <Filter>ソース ファイル\02_Geometry\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Camera\Camera.cpp">
+      <Filter>ソース ファイル\03_Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Camera\Camera_FP.cpp">
+      <Filter>ソース ファイル\03_Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Model\TestPlayer.cpp">
+      <Filter>ソース ファイル\02_Geometry\Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Startup.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\App_Win64.h">
+      <Filter>ヘッダー ファイル\00_Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Shape_Default.h">
+      <Filter>ヘッダー ファイル\02_Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\stb_image.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\backends\imgui_impl_dx11.h">
+      <Filter>3rdParty\ImGui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\backends\imgui_impl_win32.h">
+      <Filter>3rdParty\ImGui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\imconfig.h">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\imgui.h">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\imgui_internal.h">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\imstb_rectpack.h">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\imstb_textedit.h">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\ImGui\imstb_truetype.h">
+      <Filter>3rdParty\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\gMath.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\gMemory.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\Rand.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\TextIO.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\TextureLoader.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\TimeProc.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\imguiMgr.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\ShaderMgr.h">
+      <Filter>ヘッダー ファイル\02_Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\Input\IM_GamePad.h">
+      <Filter>ヘッダー ファイル\01_Tool\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\Input\IM_Keyboard.h">
+      <Filter>ヘッダー ファイル\01_Tool\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\Input\IM_Mouse.h">
+      <Filter>ヘッダー ファイル\01_Tool\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\Input\InputMgr.h">
+      <Filter>ヘッダー ファイル\01_Tool\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Camera\Camera_Test.h">
+      <Filter>ヘッダー ファイル\03_Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\TextureMgr.h">
+      <Filter>ヘッダー ファイル\02_Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Debug\DebugMgr.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Debug\Mesh_Light.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Light\PointLight.h">
+      <Filter>ヘッダー ファイル\04_Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Shape_Tex.h">
+      <Filter>ヘッダー ファイル\02_Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Shape_Model.h">
+      <Filter>ヘッダー ファイル\02_Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Light\Light.h">
+      <Filter>ヘッダー ファイル\04_Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Light\LightMgr.h">
+      <Filter>ヘッダー ファイル\04_Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Light\DirectionalLight.h">
+      <Filter>ヘッダー ファイル\04_Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Camera\CameraMgr.h">
+      <Filter>ヘッダー ファイル\03_Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\3rd_Party\FBXSDK\include\fbxsdk.h">
+      <Filter>3rdParty\FBXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tool\FileIO.h">
+      <Filter>ヘッダー ファイル\01_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Model\Mesh.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Model\ModelMgr.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Model\Model.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Model\ModelRef.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Camera\Camera.h">
+      <Filter>ヘッダー ファイル\03_Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Camera\Camera_FP.h">
+      <Filter>ヘッダー ファイル\03_Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Model\TestPlayer.h">
+      <Filter>ソース ファイル\02_Geometry\Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameApp.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Asset\dx11.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Asset\dog.cur">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Source\Shader\PS_Default.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_VertexBlend.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Default.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_VertexBlend.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_Texture.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Texture.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_SingleColor.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_Phong.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Instance.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Instance_VertexBlend.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Instance_Texture.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Instance_Phong.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_Model.hlsl">
+      <Filter>Shader\Viewer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Model.hlsl">
+      <Filter>Shader\Viewer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Model_Anim.hlsl">
+      <Filter>Shader\Viewer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Model_Instance.hlsl">
+      <Filter>Shader\Viewer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Model_Instance_VertexBlend.hlsl">
+      <Filter>Shader\Viewer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Instance_Phong_Anim.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Binder">
+      <UniqueIdentifier>{97b52641-65e2-45ed-becb-41d9a983cb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Drawer">
+      <UniqueIdentifier>{159d637b-9f69-465d-9edf-030117b897f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Binder">
+      <UniqueIdentifier>{601e6829-3f57-4da2-80c4-313a9c6d9504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer">
+      <UniqueIdentifier>{75a003e1-3ab3-4cba-a6e8-b0b7528316fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Binder\cb">
+      <UniqueIdentifier>{efb59349-a55f-4f12-8cd1-734a0ef52fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Binder\cb">
+      <UniqueIdentifier>{61ad3908-6e22-4f1a-bee6-4021c3ce2b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Drawer\vsd">
+      <UniqueIdentifier>{e991055e-8012-4b70-acba-859383ab47de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Binder.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\BinderRef.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\IndexBuffer.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\InputLayout.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\PixelShader.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Topology.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexShader.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\Drawer.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\DrawerRef.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Graphic.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Sampler.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\ConstantBuffer.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdRef.h">
+      <Filter>ヘッダー ファイル\Drawer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdSphere.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\VertexShaderData.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdBox.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdCone.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdGrid.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdPlane.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdPrism.h">
+      <Filter>ヘッダー ファイル\Drawer\vsd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMaterial.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Model.h">
+      <Filter>ヘッダー ファイル\Binder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbBone.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbLocal.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Binder.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\IndexBuffer.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\InputLayout.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\PixelShader.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Topology.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexShader.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Drawer\Drawer.cpp">
+      <Filter>ソース ファイル\Drawer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Graphic.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Sampler.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMaterial.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Model.cpp">
+      <Filter>ソース ファイル\Binder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbBone.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbLocal.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

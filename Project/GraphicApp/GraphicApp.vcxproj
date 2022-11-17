@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{df9e8bf6-e97a-4af6-999f-c0e298390a40}</ProjectGuid>
+    <RootNamespace>GraphicApp</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.20348.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Library\Binary\</OutDir>
+    <IntDir>$(ProjectDir)objFile\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_D</TargetName>
+    <IncludePath>$(SolutionDir)Library;$(SolutionDir)Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Library\Binary;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Library\Binary\</OutDir>
+    <IntDir>$(ProjectDir)objFile\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Library;$(SolutionDir)Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Library\Binary;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Binder.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\BinderRef.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbBone.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbLocal.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMaterial.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\ConstantBuffer.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\IndexBuffer.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\InputLayout.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\PixelShader.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Sampler.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Model.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Topology.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexShader.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\Drawer.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\DrawerRef.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\VertexShaderData.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdBox.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdCone.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdGrid.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdPlane.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdPrism.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdRef.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdSphere.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Graphic.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Binder.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbBone.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbLocal.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMaterial.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\InputLayout.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\PixelShader.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Sampler.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Model.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Topology.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexShader.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Drawer\Drawer.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Graphic.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WinApp\WinApp.vcxproj">
+      <Project>{6e564e6a-990b-4de2-b4f0-ac8e37b864a9}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
