@@ -89,6 +89,7 @@ public:
 private:
 
 	//変数宣言
+	Microsoft::WRL::ComPtr<IDXGIAdapter> m_pAdapter;				//アダプター
 	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;					//デバイス
 	Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain;			//スワップチェーン
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;			//コンテキスト
@@ -103,6 +104,9 @@ private:
 	bool m_bDrawImGui;						//ImGUI描画制御
 
 #endif // IMGUI
+
+	//プロトタイプ宣言
+	void InitDXGI();						//DXGI初期化
 
 	//権限指定
 	friend class BINDER;

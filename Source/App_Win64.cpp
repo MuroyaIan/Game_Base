@@ -41,8 +41,8 @@ constexpr int WND_POS_Y = 50;					//Windowç∂è„ç¿ïW
 
 //===== ÉNÉâÉXé¿ëï =====
 APP_64::APP_64() :
-	m_pWindow(), m_Message(), m_Time(),
-	m_pDX(), m_pShaderMgr(), m_pTextureMgr(), m_pModelMgr(), m_pGfx(), m_pInputMgr(), m_pEditor(), m_pCameraMgr(), m_pLightMgr(),
+	m_pWindow(), m_Message(), m_Time(), m_pDX(), m_pShaderMgr(), m_pTextureMgr(), m_pModelMgr(),
+	m_pGfx(), m_pInputMgr(), m_pEditor(), m_pCameraMgr(), m_pLightMgr(),
 	m_aDrawer(0), m_aModel(0), m_pSunLight(), m_aLight(4), m_pPlayer()
 {
 

@@ -19,61 +19,14 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
-	m_pDevice(), m_pSwapChain(), m_pContext(), m_pRTView(), m_pDSView(),
+	m_pAdapter(), m_pDevice(), m_pSwapChain(), m_pContext(), m_pRTView(), m_pDSView(),
 	m_mtxView(), m_mtxProjection()
 {
 	//エラーハンドル
 	HRESULT hr{};
 
-	//ファクトリ初期化
-	wrl::ComPtr<IDXGIFactory> pFactory;
-	wrl::ComPtr<IDXGIFactory6> pFactory6;
-
-#ifdef _DEBUG
-
-	hr = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&pFactory));	//デバッグ情報(DXGI)
-	ERROR_DX(hr);
-
-#else
-
-	hr = CreateDXGIFactory(IID_PPV_ARGS(&pFactory));
-	ERROR_DX(hr);
-
-#endif // _DEBUG
-
-	hr = pFactory->QueryInterface(IID_PPV_ARGS(&pFactory6));
-	ERROR_DX(hr);
-
-	//GPUデバイス指定(高パフォーマンス)
-	wrl::ComPtr<IDXGIAdapter> pAdapter;
-	hr = pFactory6->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&pAdapter));
-	ERROR_DX(hr);
-
-#ifdef _DEBUG
-
-	//GPU情報取得
-	IDXGIAdapter* pTempAdapter = nullptr;
-	for (size_t i = 0; ; i++) {
-
-		//アダプターのポインタを取得
-		hr = pFactory6->EnumAdapters(static_cast<UINT>(i), &pTempAdapter);
-		if (hr == DXGI_ERROR_NOT_FOUND)
-			break;
-
-		//デバイス名出力
-		DXGI_ADAPTER_DESC dad{};
-		hr = pTempAdapter->GetDesc(&dad);
-		ERROR_DX(hr);
-		std::wostringstream oss;
-		oss << "Info : GPU(" << i << ") " << dad.Description << std::endl;
-		PrintD(oss.str().c_str());
-
-		//メモリ解放
-		pTempAdapter->Release();
-		pTempAdapter = nullptr;
-	}
-
-#endif // _DEBUG
+	//DXGI初期化
+	InitDXGI();
 
 	//FeatureLevel設定
 	D3D_FEATURE_LEVEL FeatureLevels[] =
@@ -113,7 +66,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 	//デバイス・スワップチェーン初期化
 	hr = D3D11CreateDeviceAndSwapChain(
-		pAdapter.Get(),
+		m_pAdapter.Get(),
 		D3D_DRIVER_TYPE_UNKNOWN,
 		nullptr,
 		CreateDeviceFlag,
@@ -130,7 +83,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 		//dx11_1非対応の場合（dx11_0以下を試す）
 		hr = D3D11CreateDeviceAndSwapChain(
-			pAdapter.Get(),
+			m_pAdapter.Get(),
 			D3D_DRIVER_TYPE_UNKNOWN,
 			nullptr,
 			CreateDeviceFlag,
@@ -148,16 +101,16 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 		throw ERROR_EX2("GPUはDX11非対応です。");
 	ERROR_DX(hr);
 
-	//バックバッファアクセス取得
+	//RTV作成
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
-	hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+	hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));	//バッファ取得
 	ERROR_DX(hr);
 	hr = m_pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &m_pRTView);
 	ERROR_DX(hr);
 
 
 
-	//深度・ステンシルステート作成
+	//DSステート作成
 	D3D11_DEPTH_STENCIL_DESC dsDesc{};
 	dsDesc.DepthEnable = TRUE;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -165,13 +118,9 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
 	hr = m_pDevice->CreateDepthStencilState(&dsDesc, &pDSState);
 	ERROR_DX(hr);
+	m_pContext->OMSetDepthStencilState(pDSState.Get(), 1u);		//バインド処理
 
-	//ステートをバインド
-	m_pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
-
-
-
-	//深度・ステンシルバッファ作成
+	//DSバッファ作成(テクスチャ)
 	D3D11_TEXTURE2D_DESC descDepth{};
 	descDepth.Width = static_cast<UINT>(fWidth);
 	descDepth.Height = static_cast<UINT>(fHeight);
@@ -186,16 +135,14 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	hr = m_pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
 	ERROR_DX(hr);
 
-	//ビュー作成
+	//DSV作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
-	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.Format = descDepth.Format;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0u;
 	hr = m_pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &m_pDSView);
 	ERROR_DX(hr);
-
-	//ビューをバインド
-	m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), m_pDSView.Get());
+	m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), m_pDSView.Get());	//バインド処理
 
 
 
@@ -333,4 +280,61 @@ void GRAPHIC::SetDrawMode(DRAW_MODE Mode)
 		default:
 			break;
 	}
+}
+
+//DXGI初期化
+void GRAPHIC::InitDXGI()
+{
+	//エラーハンドル
+	HRESULT hr{};
+
+	//ファクトリ初期化
+	wrl::ComPtr<IDXGIFactory> pFactory;
+	wrl::ComPtr<IDXGIFactory6> pFactory6;
+
+#ifdef _DEBUG
+
+	hr = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&pFactory));	//デバッグ情報(DXGI)
+	ERROR_DX(hr);
+
+#else
+
+	hr = CreateDXGIFactory(IID_PPV_ARGS(&pFactory));
+	ERROR_DX(hr);
+
+#endif // _DEBUG
+
+	hr = pFactory->QueryInterface(IID_PPV_ARGS(&pFactory6));
+	ERROR_DX(hr);
+
+	//GPUデバイス指定(高パフォーマンス)
+	hr = pFactory6->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&m_pAdapter));
+	ERROR_DX(hr);
+
+#ifdef _DEBUG
+
+	//GPU情報取得
+	IDXGIAdapter* pTempAdapter = nullptr;
+	for (size_t i = 0; ; i++) {
+
+		//アダプターのポインタを取得
+		hr = pFactory6->EnumAdapters(static_cast<UINT>(i), &pTempAdapter);
+		if (hr == DXGI_ERROR_NOT_FOUND)
+			break;
+
+		//デバイス名出力
+		DXGI_ADAPTER_DESC dad{};
+		hr = pTempAdapter->GetDesc(&dad);
+		ERROR_DX(hr);
+		std::wostringstream oss;
+		oss << "Info : GPU(" << i << ") " << dad.Description << std::endl;
+		PrintD(oss.str().c_str());
+
+		//メモリ解放
+		pTempAdapter->Release();
+		pTempAdapter = nullptr;
+	}
+
+#endif // _DEBUG
+
 }
