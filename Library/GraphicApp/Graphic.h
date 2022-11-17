@@ -12,13 +12,21 @@
 //===== インクルード部 =====
 #include <WinApp/WinWindow.h>
 #include <wrl.h>					//COMポインタ
+#include <dxgi1_6.h>
 #include <d3d11.h>
-#include <d3dcompiler.h>			//シェーダ読込
+#include <d3dcompiler.h>			//シェーダコンパイル
 #include <DirectXMath.h>
 #include <Startup.h>				//デバッグ識別
 
+#ifdef _DEBUG
+
+#include <Initguid.h>
+#include <dxgidebug.h>				//DXGIデバッグ
+
+#endif // _DEBUG
+
 //===== 定数・マクロ定義 =====
-#define ERROR_DX(hr) if(hr != S_OK) throw ERROR_EX(hr)	//DirectXエラー出力用
+#define ERROR_DX(hr) if(hr != S_OK) throw ERROR_EX(hr)	//エラー出力(DirectX用)
 
 //===== クラス定義 =====
 
@@ -40,7 +48,7 @@ public:
 
 	//プロトタイプ宣言
 	GRAPHIC(HWND hWindow, float fWidth, float fHeight);
-	~GRAPHIC() noexcept;
+	~GRAPHIC() noexcept(!IS_DEBUG);
 	void BeginFrame(float R, float G, float B) const noexcept;						//フレーム開始
 	void DrawIndexed(UINT IndexNum) const noexcept(!IS_DEBUG);						//フレームバッファ書込み
 	void DrawInstanced(UINT IndexNum, UINT InstanceNum) const noexcept(!IS_DEBUG);	//インスタンシング描画
@@ -84,7 +92,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;					//デバイス
 	Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain;			//スワップチェーン
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;			//コンテキスト
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pTargetView;	//ターゲットビュー
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRTView;		//ターゲットビュー
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pDSView;		//深度・ステンシルビュー
 
 	DirectX::XMFLOAT4X4 m_mtxView;			//ビュー行列（カメラ）

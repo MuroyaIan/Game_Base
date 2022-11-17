@@ -8,6 +8,7 @@ using vcbMtx = VERTEX_CBUFFER<CB_MTX_V_P>;
 
 //===== 静的メンバ変数 =====
 std::unique_ptr<vcbMtx> CB_MTX_VP::m_pVcBuff = nullptr;
+int CB_MTX_VP::m_RefCount = 0;
 
 //===== クラス実装 =====
 CB_MTX_VP::CB_MTX_VP(GRAPHIC& Gfx) : BINDER()
@@ -15,10 +16,15 @@ CB_MTX_VP::CB_MTX_VP(GRAPHIC& Gfx) : BINDER()
 	//定数バッファ初期化
 	if (!m_pVcBuff)
 		m_pVcBuff = std::make_unique<vcbMtx>(Gfx, static_cast<UINT>(CB_SLOT_VS::CAMERA));
+	m_RefCount++;
 }
 
 CB_MTX_VP::~CB_MTX_VP() noexcept
 {
+	//バッファ解放
+	m_RefCount--;
+	if (m_RefCount == 0)
+		m_pVcBuff.reset();
 }
 
 //バインド処理

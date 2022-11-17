@@ -28,4 +28,5 @@ private:
 
 	//変数宣言
 	static std::unique_ptr<VERTEX_CBUFFER<CB_MTX_V_P>> m_pVcBuff;	//定数バッファのポインタ
+	static int m_RefCount;											//定数バッファの利用数
 };

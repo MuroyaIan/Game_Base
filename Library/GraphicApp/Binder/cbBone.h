@@ -28,6 +28,7 @@ private:
 
 	//変数宣言
 	static std::unique_ptr<VERTEX_CBUFFER<CB_MTX_BONE>> m_pVcBuff;	//定数バッファのポインタ
+	static int m_RefCount;											//定数バッファの利用数
 	const CB_MTX_BONE& m_aMtxBone;									//骨情報の提供先
 	bool m_bTransposeMatrix;										//転置処理実行フラグ
 };

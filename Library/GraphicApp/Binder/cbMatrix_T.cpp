@@ -8,6 +8,7 @@ using vcbMtx = VERTEX_CBUFFER<dx::XMFLOAT4X4>;
 
 //===== 静的メンバ変数 =====
 std::unique_ptr<vcbMtx> CB_MTX_T::m_pVcBuff = nullptr;
+int CB_MTX_T::m_RefCount = 0;
 
 //===== クラス実装 =====
 CB_MTX_T::CB_MTX_T(GRAPHIC& Gfx, const DRAWER& Parent) :
@@ -16,10 +17,15 @@ CB_MTX_T::CB_MTX_T(GRAPHIC& Gfx, const DRAWER& Parent) :
 	//定数バッファ初期化
 	if (!m_pVcBuff)
 		m_pVcBuff = std::make_unique<vcbMtx>(Gfx);
+	m_RefCount++;
 }
 
 CB_MTX_T::~CB_MTX_T() noexcept
 {
+	//バッファ解放
+	m_RefCount--;
+	if (m_RefCount == 0)
+		m_pVcBuff.reset();
 }
 
 //バインド処理

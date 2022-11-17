@@ -1,21 +1,10 @@
 
 //===== インクルード部 =====
 #include <Startup.h>
-
-#ifdef APP_WIN64
-
 #include <App_Win64.h>
 
-#endif // APP_WIN64
-
-//#ifdef DIRECTX_11
-//#
-//#elif defined(DIRECTX_12)
-//#
-//#endif // DIRECTX_11
-
 //***** エントリーポイント *****
-#ifdef APP_WIN64
+#ifdef _WIN64
 
 int CALLBACK WinMain(
 	_In_ HINSTANCE hInstance,			//Instanceハンドル
@@ -30,10 +19,29 @@ int CALLBACK WinMain(
 		(void)hPrevInstance;
 		(void)lpCmdLine;
 		(void)nCmdShow;
+
+#ifdef _DEBUG
+
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);	//メモリリーク検出
 
+#endif // _DEBUG
+
 		//アプリケーション実行
-		return APP_64{}.Run();
+		int wParam = APP_64{}.Run();
+
+#ifdef _DEBUG
+
+		{
+			//エラー処理
+			Microsoft::WRL::ComPtr<IDXGIDebug1> pDebugDxgi;
+			if (SUCCEEDED(DXGIGetDebugInterface1(0u, IID_PPV_ARGS(&pDebugDxgi))))
+				pDebugDxgi->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+		}
+
+#endif // _DEBUG
+
+		//終了処理
+		return wParam;
 	}
 	catch (const WIN_EO& e)
 	{
@@ -55,4 +63,4 @@ int CALLBACK WinMain(
 	return -1;
 }
 
-#endif // APP_WIN64
+#endif // _WIN64

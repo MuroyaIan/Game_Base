@@ -8,6 +8,7 @@ using vcbMtx = VERTEX_CBUFFER<CB_MTX_L_W_V_P>;
 
 //===== 静的メンバ変数 =====
 std::unique_ptr<vcbMtx> CB_MTX_LWVP::m_pVcBuff = nullptr;
+int CB_MTX_LWVP::m_RefCount = 0;
 
 //===== クラス実装 =====
 CB_MTX_LWVP::CB_MTX_LWVP(GRAPHIC& Gfx, const DRAWER& Parent, const DirectX::XMFLOAT4X4& mtxL) :
@@ -16,10 +17,15 @@ CB_MTX_LWVP::CB_MTX_LWVP(GRAPHIC& Gfx, const DRAWER& Parent, const DirectX::XMFL
 	//定数バッファ初期化
 	if (!m_pVcBuff)
 		m_pVcBuff = std::make_unique<vcbMtx>(Gfx);
+	m_RefCount++;
 }
 
 CB_MTX_LWVP::~CB_MTX_LWVP() noexcept
 {
+	//バッファ解放
+	m_RefCount--;
+	if (m_RefCount == 0)
+		m_pVcBuff.reset();
 }
 
 //バインド処理

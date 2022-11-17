@@ -11,11 +11,7 @@
 #pragma once
 
 //===== 定数・マクロ定義 =====
-#define APP_WIN64					//プラットフォーム指定
-#define DIRECTX_11					//dx11
-//#define DIRECTX_12				//dx12
 
-//デバッグ判定
 #ifdef _DEBUG
 
 constexpr bool IS_DEBUG = true;		//デバッグモード

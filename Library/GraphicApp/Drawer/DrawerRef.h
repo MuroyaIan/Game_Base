@@ -23,7 +23,11 @@ protected:
 
 	//プロトタイプ宣言
 	DRAWER_EX() noexcept : DRAWER() {}
-	~DRAWER_EX() noexcept override {}
+	~DRAWER_EX() noexcept override
+	{
+		for (auto& b : ms_aBinder)
+			b.reset();
+	}
 
 	bool StaticIsInit() const noexcept						//初期化確認
 	{

@@ -29,6 +29,7 @@ private:
 
 	//変数宣言
 	static std::unique_ptr<VERTEX_CBUFFER<CB_MTX_L_W_V_P>> m_pVcBuff;	//定数バッファのポインタ
+	static int m_RefCount;												//定数バッファの利用数
 	const DRAWER& m_Parent;												//所属するドロワー（has-a）
 	const DirectX::XMFLOAT4X4& m_mtxL;									//ローカル行列の提供先
 };

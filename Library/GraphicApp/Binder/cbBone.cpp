@@ -7,6 +7,7 @@ using vcbBone = VERTEX_CBUFFER<CB_MTX_BONE>;
 
 //===== 静的メンバ変数 =====
 std::unique_ptr<vcbBone> CB_BONE::m_pVcBuff = nullptr;
+int CB_BONE::m_RefCount = 0;
 
 //===== クラス実装 =====
 CB_BONE::CB_BONE(GRAPHIC& Gfx, const CB_MTX_BONE& aMtxBone, bool Transpose) :
@@ -15,10 +16,15 @@ CB_BONE::CB_BONE(GRAPHIC& Gfx, const CB_MTX_BONE& aMtxBone, bool Transpose) :
 	//定数バッファ初期化
 	if (!m_pVcBuff)
 		m_pVcBuff = std::make_unique<vcbBone>(Gfx, static_cast<UINT>(CB_SLOT_VS::BONE));
+	m_RefCount++;
 }
 
 CB_BONE::~CB_BONE() noexcept
 {
+	//バッファ解放
+	m_RefCount--;
+	if (m_RefCount == 0)
+		m_pVcBuff.reset();
 }
 
 //バインド処理

@@ -61,12 +61,6 @@
     <Filter Include="ソース ファイル\04_Light">
       <UniqueIdentifier>{24168ce2-5981-438e-9adc-fdde6461d916}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\02_Geometry\Debug">
-      <UniqueIdentifier>{11956011-c128-4996-901f-9ec30a4c86eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\02_Geometry\Debug">
-      <UniqueIdentifier>{657b65a7-214d-4374-b253-406d05bdf13a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader\Instance">
       <UniqueIdentifier>{b55fb2ab-ced4-461e-b518-c1c11fddc4b4}</UniqueIdentifier>
     </Filter>
@@ -81,6 +75,12 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\02_Geometry\Model">
       <UniqueIdentifier>{a86e3099-fbe2-482b-9df4-870ec38bac23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\02_Geometry\Debug">
+      <UniqueIdentifier>{11956011-c128-4996-901f-9ec30a4c86eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\02_Geometry\Debug">
+      <UniqueIdentifier>{657b65a7-214d-4374-b253-406d05bdf13a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

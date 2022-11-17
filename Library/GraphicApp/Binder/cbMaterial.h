@@ -31,5 +31,6 @@ private:
 
 	//変数宣言
 	static std::unique_ptr<PIXEL_CBUFFER<MATERIAL_DATA>> m_pPcBuff;		//定数バッファのポインタ
+	static int m_RefCount;												//定数バッファの利用数
 	const MATERIAL_DATA& m_Material;									//マテリアル情報の提供先
 };

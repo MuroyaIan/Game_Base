@@ -1,7 +1,6 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Graphic.h>
-#include <dxgi1_6.h>
 
 #ifdef IMGUI
 #
@@ -11,29 +10,24 @@
 #endif // IMGUI
 
 //===== 追加ライブラリ =====
+#pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dCompiler.lib")
-#pragma comment(lib, "dxgi.lib")
 
 namespace wrl = Microsoft::WRL;
 namespace dx = DirectX;
 
 //===== クラス実装 =====
 GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
-	m_pDevice(), m_pSwapChain(), m_pContext(), m_pTargetView(), m_pDSView(),
+	m_pDevice(), m_pSwapChain(), m_pContext(), m_pRTView(), m_pDSView(),
 	m_mtxView(), m_mtxProjection()
 {
-	//行列初期化
-	dx::XMStoreFloat4x4(&m_mtxView, dx::XMMatrixIdentity());
-	dx::XMStoreFloat4x4(&m_mtxProjection, dx::XMMatrixIdentity());
-
 	//エラーハンドル
 	HRESULT hr{};
 
-	//GPUデバイス指定(高パフォーマンス)
+	//ファクトリ初期化
 	wrl::ComPtr<IDXGIFactory> pFactory;
 	wrl::ComPtr<IDXGIFactory6> pFactory6;
-	wrl::ComPtr<IDXGIAdapter> pAdapter;
 
 #ifdef _DEBUG
 
@@ -49,8 +43,37 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 	hr = pFactory->QueryInterface(IID_PPV_ARGS(&pFactory6));
 	ERROR_DX(hr);
+
+	//GPUデバイス指定(高パフォーマンス)
+	wrl::ComPtr<IDXGIAdapter> pAdapter;
 	hr = pFactory6->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&pAdapter));
 	ERROR_DX(hr);
+
+#ifdef _DEBUG
+
+	//GPU情報取得
+	IDXGIAdapter* pTempAdapter = nullptr;
+	for (size_t i = 0; ; i++) {
+
+		//アダプターのポインタを取得
+		hr = pFactory6->EnumAdapters(static_cast<UINT>(i), &pTempAdapter);
+		if (hr == DXGI_ERROR_NOT_FOUND)
+			break;
+
+		//デバイス名出力
+		DXGI_ADAPTER_DESC dad{};
+		hr = pTempAdapter->GetDesc(&dad);
+		ERROR_DX(hr);
+		std::wostringstream oss;
+		oss << "Info : GPU(" << i << ") " << dad.Description << std::endl;
+		PrintD(oss.str().c_str());
+
+		//メモリ解放
+		pTempAdapter->Release();
+		pTempAdapter = nullptr;
+	}
+
+#endif // _DEBUG
 
 	//FeatureLevel設定
 	D3D_FEATURE_LEVEL FeatureLevels[] =
@@ -129,7 +152,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
 	hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
 	ERROR_DX(hr);
-	hr = m_pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &m_pTargetView);
+	hr = m_pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &m_pRTView);
 	ERROR_DX(hr);
 
 
@@ -172,7 +195,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	ERROR_DX(hr);
 
 	//ビューをバインド
-	m_pContext->OMSetRenderTargets(1u, m_pTargetView.GetAddressOf(), m_pDSView.Get());
+	m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), m_pDSView.Get());
 
 
 
@@ -188,6 +211,10 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 
 
+	//行列初期化
+	dx::XMStoreFloat4x4(&m_mtxView, dx::XMMatrixIdentity());
+	dx::XMStoreFloat4x4(&m_mtxProjection, dx::XMMatrixIdentity());
+
 #ifdef IMGUI
 
 	//IMGUI初期化
@@ -201,7 +228,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 }
 
-GRAPHIC::~GRAPHIC() noexcept
+GRAPHIC::~GRAPHIC() noexcept(!IS_DEBUG)
 {
 
 #ifdef IMGUI
@@ -211,6 +238,25 @@ GRAPHIC::~GRAPHIC() noexcept
 
 #endif // IMGUI
 
+//#ifdef _DEBUG
+//
+//	//エラー確認
+//	m_pDSView.Reset();
+//	m_pRTView.Reset();
+//	m_pContext.Reset();
+//	m_pSwapChain.Reset();
+//
+//	{
+//		wrl::ComPtr<ID3D11Debug> pDebugDX;
+//		HRESULT hr = m_pDevice->QueryInterface(IID_PPV_ARGS(&pDebugDX));
+//		ERROR_DX(hr);
+//		hr = pDebugDX->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+//		ERROR_DX(hr);
+//	}
+//	m_pDevice.Reset();
+//
+//#endif // _DEBUG
+
 }
 
 //フレーム開始
@@ -218,7 +264,7 @@ void GRAPHIC::BeginFrame(float R, float G, float B) const noexcept
 {
 	//バッファクリア
 	const float color[] = { R, G, B, 1.0f };
-	m_pContext->ClearRenderTargetView(m_pTargetView.Get(), color);
+	m_pContext->ClearRenderTargetView(m_pRTView.Get(), color);
 	m_pContext->ClearDepthStencilView(m_pDSView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 
 #ifdef IMGUI
@@ -277,13 +323,12 @@ void GRAPHIC::EndFrame() const
 void GRAPHIC::SetDrawMode(DRAW_MODE Mode)
 {
 	//ビューをバインド
-	switch (Mode)
-	{
+	switch (Mode) {
 		case GRAPHIC::DRAW_MODE::DRAW_2D:
-			m_pContext->OMSetRenderTargets(1u, m_pTargetView.GetAddressOf(), nullptr);
+			m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), nullptr);
 			break;
 		case GRAPHIC::DRAW_MODE::DRAW_3D:
-			m_pContext->OMSetRenderTargets(1u, m_pTargetView.GetAddressOf(), m_pDSView.Get());
+			m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), m_pDSView.Get());
 			break;
 		default:
 			break;
