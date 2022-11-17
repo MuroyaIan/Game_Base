@@ -11,7 +11,7 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/DrawerRef.h>
-#include <App_Win64.h>
+#include <App.h>
 
 //===== クラス定義 =====
 

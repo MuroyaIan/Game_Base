@@ -18,7 +18,7 @@ constexpr float AXIS_X_LIMIT = fPI * 0.5f - 0.001f;		//垂直回転角度制限
 constexpr float CAM_SPEED = 0.25f;						//カメラ移動速度
 
 //===== クラス実装 =====
-CAMERA_FP::CAMERA_FP(APP_64& App) noexcept : CAMERA(App), m_Input(m_App.GetInputMgr())
+CAMERA_FP::CAMERA_FP(APP& App) noexcept : CAMERA(App), m_Input(m_App.GetInputMgr())
 {
 	//親メンバ初期化
 	m_Pos = START_POS;

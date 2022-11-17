@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <App_Win64.h>
+#include <App.h>
 
 //===== 前方宣言 =====
 class MODEL;
@@ -23,7 +23,7 @@ class PLAYER
 public:
 
 	//プロトタイプ宣言
-	PLAYER(APP_64& App) noexcept;
+	PLAYER(APP& App) noexcept;
 	~PLAYER() noexcept;
 	void Update() noexcept;							//更新処理
 	void Draw() const noexcept(!IS_DEBUG);			//書込み処理

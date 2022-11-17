@@ -1,5 +1,5 @@
 /**
- * @file App_Win64.h
+ * @file App.h
  * @brief プラットフォーム処理（Win64）
  * @author 室谷イアン
  * @date 2022/06/09
@@ -53,13 +53,13 @@ class PLAYER;
 //===== クラス定義 =====
 
 //***** ゲームアプリ（Win64） *****
-class APP_64
+class APP
 {
 public:
 
 	//プロトタイプ宣言
-	APP_64();
-	~APP_64();
+	APP();
+	~APP();
 	int Run();											//アプリケーション実行
 	void Update();										//更新処理
 	void Draw();										//描画処理

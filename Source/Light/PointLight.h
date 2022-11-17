@@ -20,7 +20,7 @@ class POINT_LIGHT : public LIGHT
 public:
 
 	//プロトタイプ宣言
-	POINT_LIGHT(APP_64& App) noexcept;
+	POINT_LIGHT(APP& App) noexcept;
 	~POINT_LIGHT() noexcept override;
 	void Update() const noexcept override;	//更新処理
 

@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <App_Win64.h>
+#include <App.h>
 
 //===== 前方宣言 =====
 
@@ -59,7 +59,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	LIGHT(APP_64& App) noexcept;
+	LIGHT(APP& App) noexcept;
 	virtual ~LIGHT() noexcept;
 	virtual void Update() const noexcept;	//更新処理
 

@@ -9,7 +9,7 @@
 #endif // IMGUI
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-LIGHT::LIGHT(APP_64& App) noexcept
+LIGHT::LIGHT(APP& App) noexcept
 
 #ifdef IMGUI
 

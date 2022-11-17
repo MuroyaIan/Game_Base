@@ -10,7 +10,7 @@
 #include <EditorApp/ModelViewer/BoneLine.h>
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-VIEWER::VIEWER(APP_64& App) :
+VIEWER::VIEWER(APP& App) :
 	m_App(App), m_Gfx(App.GetGfxPack()), m_aDrawer(), m_Camera(App),
 	m_pLoader(), m_Scale(1.0f), m_bDrawNormal(false), m_bDrawSurface(false),
 	m_bDrawAnimation(false), m_AnimationID(0), m_AnimFrame(0), m_bAnimPause(false),

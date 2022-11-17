@@ -20,7 +20,7 @@ class CAMERA_TEST : public CAMERA
 public:
 
 	//プロトタイプ宣言
-	CAMERA_TEST(APP_64& App) noexcept;
+	CAMERA_TEST(APP& App) noexcept;
 	~CAMERA_TEST() noexcept override;
 	void Update() noexcept override;	//更新処理
 

@@ -40,7 +40,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	LIGHT_MGR(APP_64& App) noexcept;
+	LIGHT_MGR(APP& App) noexcept;
 	~LIGHT_MGR() noexcept;
 	void Draw() noexcept;									//描画処理
 	void AddPointLight(LIGHT::LIGHT_POINT Data) noexcept;	//ポイントライト登録

@@ -11,7 +11,7 @@ constexpr dx::XMFLOAT3 START_LOOK = { 0.0f, 0.0f, 0.0f };	//注視点位置
 constexpr dx::XMFLOAT3 START_UP = { 0.0f, 1.0f, 0.0f };		//アップベクトル
 
 //===== クラス実装 =====
-VIEWER_CAM::VIEWER_CAM(APP_64& App) noexcept :
+VIEWER_CAM::VIEWER_CAM(APP& App) noexcept :
 	m_App(App), m_LookAt(START_LOOK), m_vUp(START_UP),
 	m_FOV(60), g_AspectRatio(), m_NearZ(0.5f), m_FarZ(100.0f),
 	m_mtxWorld(), m_mtxView(), m_mtxProj(),

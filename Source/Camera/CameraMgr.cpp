@@ -7,7 +7,7 @@
 namespace dx = DirectX;
 
 //===== ÉNÉâÉXé¿ëï =====
-CAMERA_MGR::CAMERA_MGR(APP_64& App) noexcept : m_App(App), m_mtxView(), m_mtxProj(), m_aCamera(static_cast<int>(CAMERA_ID::MAX_CAMERA)), m_CurrentCamera(CAMERA_ID::TEST)
+CAMERA_MGR::CAMERA_MGR(APP& App) noexcept : m_App(App), m_mtxView(), m_mtxProj(), m_aCamera(static_cast<int>(CAMERA_ID::MAX_CAMERA)), m_CurrentCamera(CAMERA_ID::TEST)
 {
 	//çsóÒèâä˙âª
 	dx::XMMATRIX mtx = dx::XMMatrixIdentity();

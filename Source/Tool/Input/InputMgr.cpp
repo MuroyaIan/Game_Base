@@ -1,10 +1,10 @@
 
 //===== インクルード部 =====
 #include <Tool/Input/InputMgr.h>
-#include <App_Win64.h>
+#include <App.h>
 
 //===== クラス実装 =====
-INPUT_MGR::INPUT_MGR(APP_64& App) noexcept :
+INPUT_MGR::INPUT_MGR(APP& App) noexcept :
 	m_KB(App), m_Mouse(App, m_KB), m_GamePad(App)
 {
 }

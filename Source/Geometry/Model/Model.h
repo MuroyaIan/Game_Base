@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <App_Win64.h>
+#include <App.h>
 #include <Geometry/Model/ModelRef.h>
 #include <Geometry/Model/ModelMgr.h>
 

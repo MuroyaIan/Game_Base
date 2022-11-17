@@ -21,7 +21,7 @@ constexpr int MOUSE_X1 = static_cast<int>(VK_XBUTTON1);		//マウスの第1拡張ボタン
 constexpr int MOUSE_X2 = static_cast<int>(VK_XBUTTON2);		//マウスの第2拡張ボタン
 
 //===== 前方宣言 =====
-class APP_64;
+class APP;
 class MOUSE;
 class INPUT_KB;
 
@@ -33,7 +33,7 @@ class INPUT_CURSOR
 public:
 
 	//* プロトタイプ宣言 *
-	INPUT_CURSOR(APP_64& App, INPUT_KB& KB) noexcept;
+	INPUT_CURSOR(APP& App, INPUT_KB& KB) noexcept;
 	~INPUT_CURSOR() noexcept;
 	bool GetPress(int nBtn) const noexcept;				//プレス判定
 	bool GetTrigger(int nBtn) const noexcept;			//トリガー判定

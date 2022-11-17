@@ -12,7 +12,7 @@
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/DrawerRef.h>
 #include <GraphicApp/Drawer/vsdRef.h>
-#include <App_Win64.h>
+#include <App.h>
 
 //===== 前方宣言 =====
 class VIEWER;

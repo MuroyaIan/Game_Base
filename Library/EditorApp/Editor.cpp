@@ -8,7 +8,7 @@
 namespace dx = DirectX;
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-EDITOR::EDITOR(APP_64& App) noexcept :
+EDITOR::EDITOR(APP& App) noexcept :
 	m_bEnable(RUN_EDITOR), m_App(App), m_bFBX_Viewer(false), m_pViewer()
 {
 }

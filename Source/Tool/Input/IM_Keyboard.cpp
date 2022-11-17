@@ -1,10 +1,10 @@
 
 //===== インクルード部 =====
 #include <Tool/Input/IM_Keyboard.h>
-#include <App_Win64.h>
+#include <App.h>
 
 //===== クラス実装 =====
-INPUT_KB::INPUT_KB(APP_64& App) noexcept :
+INPUT_KB::INPUT_KB(APP& App) noexcept :
 	m_App(App), m_State(0x0000),
 	m_Press(), m_Trigger(), m_Release(), m_Repeat(), m_RepeatCnt(),m_RepeatInterval(),
 	m_pPress(nullptr), m_pTrigger(nullptr), m_pRelease(nullptr), m_pRepeat(nullptr), m_pRepeatCnt(nullptr), m_pRepeatInterval(nullptr)

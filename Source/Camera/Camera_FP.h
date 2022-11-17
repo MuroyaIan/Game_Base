@@ -20,7 +20,7 @@ class CAMERA_FP : public CAMERA
 public:
 
 	//プロトタイプ宣言
-	CAMERA_FP(APP_64& App) noexcept;
+	CAMERA_FP(APP& App) noexcept;
 	~CAMERA_FP() noexcept override;
 	void Update() noexcept override;	//更新処理
 

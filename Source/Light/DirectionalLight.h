@@ -20,7 +20,7 @@ class DIRECTIONAL_LIGHT : public LIGHT
 public:
 
 	//プロトタイプ宣言
-	DIRECTIONAL_LIGHT(APP_64& App) noexcept;
+	DIRECTIONAL_LIGHT(APP& App) noexcept;
 	~DIRECTIONAL_LIGHT() noexcept override;
 	void Update() const noexcept override;		//更新処理
 

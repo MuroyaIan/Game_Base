@@ -1,6 +1,6 @@
 
 //===== インクルード部 =====
-#include <App_Win64.h>
+#include <App.h>
 
 #ifdef _WIN64
 
@@ -40,7 +40,7 @@ constexpr int WND_POS_X = 150;
 constexpr int WND_POS_Y = 50;					//Window左上座標
 
 //===== クラス実装 =====
-APP_64::APP_64() :
+APP::APP() :
 	m_pWindow(), m_Message(), m_Time(), m_pDX(), m_pShaderMgr(), m_pTextureMgr(), m_pModelMgr(),
 	m_pGfx(), m_pInputMgr(), m_pEditor(), m_pCameraMgr(), m_pLightMgr(),
 	m_aDrawer(0), m_aModel(0), m_pSunLight(), m_aLight(4), m_pPlayer()
@@ -178,12 +178,12 @@ APP_64::APP_64() :
 	m_pPlayer = std::make_unique<PLAYER>(*this);
 }
 
-APP_64::~APP_64()
+APP::~APP()
 {
 }
 
 //アプリケーション実行
-int APP_64::Run()
+int APP::Run()
 {
 	//ゲームループ
 	while (true)
@@ -211,7 +211,7 @@ int APP_64::Run()
 }
 
 //更新処理
-void APP_64::Update()
+void APP::Update()
 {
 	//入力処理更新
 	m_pInputMgr->Update();
@@ -267,7 +267,7 @@ void APP_64::Update()
 }
 
 //描画処理
-void APP_64::Draw()
+void APP::Draw()
 {
 	//描画開始
 	m_pDX->BeginFrame(0.0f, 0.0f, 0.0f);

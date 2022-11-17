@@ -20,7 +20,7 @@ class VIEWER_CAM
 public:
 
 	//プロトタイプ宣言
-	VIEWER_CAM(APP_64& App) noexcept;
+	VIEWER_CAM(APP& App) noexcept;
 	~VIEWER_CAM() noexcept;
 	void Update() noexcept;									//更新処理
 	void UpdateMatrix() noexcept;							//行列更新
@@ -54,7 +54,7 @@ private:
 	};
 
 	//変数宣言
-	APP_64& m_App;						//App参照
+	APP& m_App;						//App参照
 
 	DirectX::XMFLOAT3 m_LookAt;			//注視点
 	DirectX::XMFLOAT3 m_vUp;			//アップベクトル

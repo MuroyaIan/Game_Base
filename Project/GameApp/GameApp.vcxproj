@@ -197,7 +197,7 @@
     <ClCompile Include="..\..\Source\Geometry\ShaderMgr.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Shape_Default.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Shape_Model.cpp" />
-    <ClCompile Include="..\..\Source\App_Win64.cpp" />
+    <ClCompile Include="..\..\Source\App.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Shape_Tex.cpp" />
     <ClCompile Include="..\..\Source\Geometry\TextureMgr.cpp" />
     <ClCompile Include="..\..\Source\Light\DirectionalLight.cpp" />
@@ -241,7 +241,7 @@
     <ClInclude Include="..\..\Source\Geometry\ShaderMgr.h" />
     <ClInclude Include="..\..\Source\Geometry\Shape_Default.h" />
     <ClInclude Include="..\..\Source\Geometry\Shape_Model.h" />
-    <ClInclude Include="..\..\Source\App_Win64.h" />
+    <ClInclude Include="..\..\Source\App.h" />
     <ClInclude Include="..\..\Source\Geometry\Shape_Tex.h" />
     <ClInclude Include="..\..\Source\Geometry\TextureMgr.h" />
     <ClInclude Include="..\..\Source\Light\DirectionalLight.h" />

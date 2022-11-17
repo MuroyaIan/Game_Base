@@ -15,7 +15,7 @@ constexpr float START_NEAR_Z = 0.5f;
 constexpr float START_FAR_Z = 40.0f;	//クリップ距離
 
 //===== クラス実装 =====
-CAMERA::CAMERA(APP_64& App) noexcept : m_App(App),
+CAMERA::CAMERA(APP& App) noexcept : m_App(App),
 	m_Pos(START_POS), m_LookAt(START_LOOK), m_vUp(START_UP),
 	m_FOV(START_FOV), g_AspectRatio(), m_NearZ(START_NEAR_Z), m_FarZ(START_FAR_Z),
 	m_mtxWorld(), m_mtxView(), m_mtxProj(), m_Rot(0.0f, 0.0f, 0.0f), m_Sensitivity(1.0f)

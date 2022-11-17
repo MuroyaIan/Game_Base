@@ -1,11 +1,11 @@
 
 //===== インクルード部 =====
 #include <Tool/Input/IM_Mouse.h>
-#include <App_Win64.h>
+#include <App.h>
 #include <Tool/Input/IM_Keyboard.h>
 
 //===== クラス実装 =====
-INPUT_CURSOR::INPUT_CURSOR(APP_64& App, INPUT_KB& KB) noexcept :
+INPUT_CURSOR::INPUT_CURSOR(APP& App, INPUT_KB& KB) noexcept :
 	m_Mouse(App.GetWindowProc()->m_Mouse), m_KB(KB), MoveVal()
 {
 }

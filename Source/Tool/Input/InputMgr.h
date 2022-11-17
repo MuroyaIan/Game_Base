@@ -15,7 +15,7 @@
 #include <Tool/Input/IM_GamePad.h>		//コントローラ入力
 
 //===== 前方宣言 =====
-class APP_64;
+class APP;
 
 //===== クラス定義 =====
 
@@ -30,7 +30,7 @@ public:
 	INPUT_PAD m_GamePad;				//コントローラ処理
 
 	//* プロトタイプ宣言 *
-	INPUT_MGR(APP_64& App) noexcept;
+	INPUT_MGR(APP& App) noexcept;
 	~INPUT_MGR() noexcept;
 	void Update() noexcept;				//更新処理
 };

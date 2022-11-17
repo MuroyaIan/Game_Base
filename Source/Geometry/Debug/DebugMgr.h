@@ -20,7 +20,7 @@ class DEBUG_MGR
 public:
 
 	//プロトタイプ宣言
-	DEBUG_MGR(APP_64& App) noexcept;
+	DEBUG_MGR(APP& App) noexcept;
 	~DEBUG_MGR() noexcept;
 	void Update() noexcept;								//更新処理
 	void Draw(GRAPHIC& Gfx) const noexcept(!IS_DEBUG);	//描画処理

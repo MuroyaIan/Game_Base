@@ -15,7 +15,7 @@ constexpr float START_NEAR_Z = 0.5f;
 constexpr float START_FAR_Z = 40.0f;	//クリップ距離
 
 //===== クラス実装 =====
-CAMERA_TEST::CAMERA_TEST(APP_64& App) noexcept : CAMERA(App), m_Input(m_App.GetInputMgr())
+CAMERA_TEST::CAMERA_TEST(APP& App) noexcept : CAMERA(App), m_Input(m_App.GetInputMgr())
 {
 	//親メンバ初期化
 	m_Pos = START_POS;

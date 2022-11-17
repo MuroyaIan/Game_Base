@@ -26,7 +26,7 @@ class VIEWER
 public:
 
 	//プロトタイプ宣言
-	VIEWER(APP_64& App);
+	VIEWER(APP& App);
 	~VIEWER() noexcept;
 	void Update() noexcept;						//更新処理
 	void Draw() const;							//描画処理
@@ -82,7 +82,7 @@ public:
 private:
 
 	//変数宣言
-	APP_64& m_App;										//アプリ参照
+	APP& m_App;										//アプリ参照
 	GFX_PACK& m_Gfx;									//描画データ参照
 	std::vector<std::unique_ptr<DRAWER>> m_aDrawer;		//描画配列
 	VIEWER_CAM m_Camera;								//カメラ

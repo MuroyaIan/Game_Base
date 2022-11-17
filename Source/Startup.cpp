@@ -1,7 +1,7 @@
 
 //===== インクルード部 =====
 #include <Startup.h>
-#include <App_Win64.h>
+#include <App.h>
 
 //***** エントリーポイント *****
 #ifdef _WIN64
@@ -27,7 +27,7 @@ int CALLBACK WinMain(
 #endif // _DEBUG
 
 		//アプリケーション実行
-		int wParam = APP_64{}.Run();
+		int wParam = APP{}.Run();
 
 #ifdef _DEBUG
 

@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <App_Win64.h>
+#include <App.h>
 
 //===== 前方宣言 =====
 class CAMERA;
@@ -32,7 +32,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	CAMERA_MGR(APP_64& App) noexcept;
+	CAMERA_MGR(APP& App) noexcept;
 	~CAMERA_MGR() noexcept;
 	void Update() noexcept;								//更新処理
 	void Draw() const noexcept;							//描画処理
@@ -43,7 +43,7 @@ public:
 private:
 
 	//変数宣言
-	APP_64& m_App;										//App参照
+	APP& m_App;										//App参照
 	DirectX::XMFLOAT4X4 m_mtxView;						//ビュー行列
 	DirectX::XMFLOAT4X4 m_mtxProj;						//投影行列
 	std::vector<std::unique_ptr<CAMERA>> m_aCamera;		//カメラのポインタ配列

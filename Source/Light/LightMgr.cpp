@@ -4,7 +4,7 @@
 #include <GraphicApp/Binder/BinderRef.h>
 
 //===== クラス実装 =====
-LIGHT_MGR::LIGHT_MGR(APP_64& App) noexcept :
+LIGHT_MGR::LIGHT_MGR(APP& App) noexcept :
 	m_Gfx(App.GetGfxPack()), m_LightData(), m_UsedData(0), m_UsedData_backup(m_UsedData), m_pcBuff()
 {
 	//定数バッファ作成

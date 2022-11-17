@@ -11,7 +11,7 @@
 namespace dx = DirectX;
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-DIRECTIONAL_LIGHT::DIRECTIONAL_LIGHT(APP_64& App) noexcept : LIGHT(App), m_LightMgr(App.GetLightMgr()), m_LightData()
+DIRECTIONAL_LIGHT::DIRECTIONAL_LIGHT(APP& App) noexcept : LIGHT(App), m_LightMgr(App.GetLightMgr()), m_LightData()
 {
 	m_LightData.Color_D = { 1.0f, 1.0f, 1.0f, 1.0f };
 }

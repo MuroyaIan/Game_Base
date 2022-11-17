@@ -5,7 +5,7 @@
 namespace dx = DirectX;
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-DEBUG_MGR::DEBUG_MGR(APP_64& App) noexcept :
+DEBUG_MGR::DEBUG_MGR(APP& App) noexcept :
 	m_Gfx(App.GetGfxPack()), m_Light(App.GetGfxPack())
 {
 }
