@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/06/12
  * @履歴 2022/06/12：ファイル作成
+ *		 2022/11/21：処理改善
  */
 
 //===== インクルードガード =====
@@ -47,13 +48,13 @@ public:
 	GRAPHIC& operator=(const GRAPHIC&) = delete;
 
 	//プロトタイプ宣言
-	GRAPHIC(HWND hWindow, float fWidth, float fHeight);
+	explicit GRAPHIC(HWND hWindow, float fWidth, float fHeight);
 	~GRAPHIC() noexcept(!IS_DEBUG);
-	void BeginFrame(float R, float G, float B) const noexcept;						//フレーム開始
-	void DrawIndexed(UINT IndexNum) const noexcept(!IS_DEBUG);						//フレームバッファ書込み
-	void DrawInstanced(UINT IndexNum, UINT InstanceNum) const noexcept(!IS_DEBUG);	//インスタンシング描画
-	void EndFrame() const;															//フレーム終了⇒描画開始
-	void SetDrawMode(DRAW_MODE Mode);												//描画モード設定
+	void BeginFrame(float R, float G, float B) const noexcept;				//フレーム開始
+	void DrawIndexed(UINT IndexNum) const noexcept;							//インデックス描画
+	void DrawInstanced(UINT IndexNum, UINT InstanceNum) const noexcept;		//インスタンシング描画
+	void EndFrame() const;													//フレーム終了⇒描画開始
+	void SetDrawMode(DRAW_MODE Mode) const noexcept;						//描画モード設定
 
 	void SetViewMtx(DirectX::XMFLOAT4X4 mtxView) noexcept			//ビュー行列へのアクセス
 	{
@@ -74,7 +75,7 @@ public:
 
 #ifdef IMGUI
 
-	void SetImGuiMode(const bool bEnable) noexcept					//ImGui描画ON/OFF
+	void SetImGuiMode(bool bEnable) noexcept						//ImGui描画ON/OFF
 	{
 		m_bDrawImGui = bEnable;
 	}

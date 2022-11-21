@@ -37,23 +37,23 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	UINT NumFeatureLevels = ARRAYSIZE(FeatureLevels);
 	D3D_FEATURE_LEVEL FeatureLevel{};
 
-	//ディスクリプタ作成
-	DXGI_SWAP_CHAIN_DESC sd{};
-	sd.BufferDesc.Width = 0u;
-	sd.BufferDesc.Height = 0u;
-	sd.BufferDesc.RefreshRate.Numerator = 0u;
-	sd.BufferDesc.RefreshRate.Denominator = 0u;
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	sd.SampleDesc.Count = 1u;
-	sd.SampleDesc.Quality = 0u;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.BufferCount = 1u;
-	sd.OutputWindow = hWindow;
-	sd.Windowed = TRUE;
-	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	sd.Flags = 0u;
+	//スワップチェーン設定
+	DXGI_SWAP_CHAIN_DESC scd{};
+	scd.BufferDesc.Width = 0u;
+	scd.BufferDesc.Height = 0u;
+	scd.BufferDesc.RefreshRate.Numerator = 0u;
+	scd.BufferDesc.RefreshRate.Denominator = 0u;
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	scd.SampleDesc.Count = 1u;
+	scd.SampleDesc.Quality = 0u;
+	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	scd.BufferCount = 1u;
+	scd.OutputWindow = hWindow;
+	scd.Windowed = TRUE;
+	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	scd.Flags = 0u;
 
 	//デバッグ設定
 	UINT CreateDeviceFlag = 0u;
@@ -73,7 +73,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 		FeatureLevels,
 		NumFeatureLevels,
 		D3D11_SDK_VERSION,
-		&sd,
+		&scd,
 		&m_pSwapChain,
 		&m_pDevice,
 		&FeatureLevel,
@@ -90,7 +90,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 			nullptr,
 			0u,
 			D3D11_SDK_VERSION,
-			&sd,
+			&scd,
 			&m_pSwapChain,
 			&m_pDevice,
 			&FeatureLevel,
@@ -111,40 +111,40 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 
 	//DSステート作成
-	D3D11_DEPTH_STENCIL_DESC dsDesc{};
-	dsDesc.DepthEnable = TRUE;
-	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	D3D11_DEPTH_STENCIL_DESC dsd{};
+	dsd.DepthEnable = TRUE;
+	dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsd.DepthFunc = D3D11_COMPARISON_LESS;
 	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
-	hr = m_pDevice->CreateDepthStencilState(&dsDesc, &pDSState);
+	hr = m_pDevice->CreateDepthStencilState(&dsd, &pDSState);
 	ERROR_DX(hr);
 	m_pContext->OMSetDepthStencilState(pDSState.Get(), 1u);		//バインド処理
 
 	//DSバッファ作成(テクスチャ)
-	D3D11_TEXTURE2D_DESC descDepth{};
-	descDepth.Width = static_cast<UINT>(fWidth);
-	descDepth.Height = static_cast<UINT>(fHeight);
-	descDepth.MipLevels = 1u;
-	descDepth.ArraySize = 1u;
-	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
-	descDepth.SampleDesc.Count = 1u;
-	descDepth.SampleDesc.Quality = 0u;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
-	hr = m_pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+	D3D11_TEXTURE2D_DESC tdDepth{};
+	tdDepth.Width = static_cast<UINT>(fWidth);
+	tdDepth.Height = static_cast<UINT>(fHeight);
+	tdDepth.MipLevels = 1u;
+	tdDepth.ArraySize = 1u;
+	tdDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	tdDepth.SampleDesc.Count = 1u;
+	tdDepth.SampleDesc.Quality = 0u;
+	tdDepth.Usage = D3D11_USAGE_DEFAULT;
+	tdDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	wrl::ComPtr<ID3D11Texture2D> pDSBuffer;
+	hr = m_pDevice->CreateTexture2D(&tdDepth, nullptr, &pDSBuffer);
 	ERROR_DX(hr);
 
 	//DSV作成
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
-	descDSV.Format = descDepth.Format;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	descDSV.Texture2D.MipSlice = 0u;
-	hr = m_pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &m_pDSView);
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvd{};
+	dsvd.Format = tdDepth.Format;
+	dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvd.Texture2D.MipSlice = 0u;
+	hr = m_pDevice->CreateDepthStencilView(pDSBuffer.Get(), &dsvd, &m_pDSView);
 	ERROR_DX(hr);
-	m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), m_pDSView.Get());	//バインド処理
 
-
+	//描画モード設定
+	SetDrawMode(DRAW_MODE::DRAW_3D);
 
 	//ビューポート設定（ラスタライザ）
 	D3D11_VIEWPORT vp{};
@@ -210,9 +210,9 @@ GRAPHIC::~GRAPHIC() noexcept(!IS_DEBUG)
 void GRAPHIC::BeginFrame(float R, float G, float B) const noexcept
 {
 	//バッファクリア
-	const float color[] = { R, G, B, 1.0f };
-	m_pContext->ClearRenderTargetView(m_pRTView.Get(), color);
-	m_pContext->ClearDepthStencilView(m_pDSView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	const float Color[] = { R, G, B, 1.0f };
+	m_pContext->ClearRenderTargetView(m_pRTView.Get(), Color);
+	m_pContext->ClearDepthStencilView(m_pDSView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 #ifdef IMGUI
 
@@ -227,15 +227,15 @@ void GRAPHIC::BeginFrame(float R, float G, float B) const noexcept
 
 }
 
-//フレームバッファ書込み
-void GRAPHIC::DrawIndexed(UINT IndexNum) const noexcept(!IS_DEBUG)
+//インデックス描画
+void GRAPHIC::DrawIndexed(UINT IndexNum) const noexcept
 {
 	//書込み処理
 	m_pContext->DrawIndexed(IndexNum, 0u, 0);
 }
 
 //インスタンシング描画
-void GRAPHIC::DrawInstanced(UINT IndexNum, UINT InstanceNum) const noexcept(!IS_DEBUG)
+void GRAPHIC::DrawInstanced(UINT IndexNum, UINT InstanceNum) const noexcept
 {
 	//書込み処理
 	m_pContext->DrawIndexedInstanced(IndexNum, InstanceNum, 0u, 0, 0u);
@@ -267,7 +267,7 @@ void GRAPHIC::EndFrame() const
 }
 
 //描画モード設定
-void GRAPHIC::SetDrawMode(DRAW_MODE Mode)
+void GRAPHIC::SetDrawMode(DRAW_MODE Mode) const noexcept
 {
 	//ビューをバインド
 	switch (Mode) {
