@@ -49,24 +49,24 @@ public:
 		}
 
 		//北極点頂点作成
-		const unsigned short usIdxNP = (unsigned short)aData.size();
+		const UINT usIdxNP = (UINT)aData.size();
 		aData.emplace_back();
 		dx::XMStoreFloat3(&aData.back().m_Pos, vBase);
 
 		//南極点頂点作成
-		const unsigned short usIdxSP = (unsigned short)aData.size();
+		const UINT usIdxSP = (UINT)aData.size();
 		aData.emplace_back();
 		dx::XMStoreFloat3(&aData.back().m_Pos, dx::XMVectorNegate(vBase));
 
 		//インデックス算出用ラムダ式
-		const auto CalcIdx = [LongDiv](unsigned short iLat, unsigned short iLong)
-		{ return static_cast<unsigned short>(iLat * LongDiv + iLong); };
+		const auto CalcIdx = [LongDiv](UINT iLat, UINT iLong)
+		{ return static_cast<UINT>(iLat * LongDiv + iLong); };
 
 		//インデックスリスト作成
-		std::vector<unsigned short> Indices;
-		const unsigned short Mod = static_cast<unsigned short>(LongDiv);
-		for (unsigned short iLat = 0; iLat < LatDiv - 2; iLat++) {
-			for (unsigned short iLong = 0; iLong < LongDiv; iLong++) {
+		std::vector<UINT> Indices;
+		const UINT Mod = static_cast<UINT>(LongDiv);
+		for (UINT iLat = 0; iLat < static_cast<UINT>(LatDiv - 2); iLat++) {
+			for (UINT iLong = 0; iLong < static_cast<UINT>(LongDiv); iLong++) {
 				Indices.emplace_back(CalcIdx(iLat,		iLong));
 				Indices.emplace_back(CalcIdx(iLat + 1u, iLong));
 				Indices.emplace_back(CalcIdx(iLat,		(iLong + 1u) % Mod));
@@ -77,8 +77,8 @@ public:
 		}
 
 		//極点周りのインデックスリスト作成
-		const unsigned short usLatDiv = static_cast<unsigned short>(LatDiv);
-		for (unsigned short iLong = 0; iLong < LongDiv; iLong++) {
+		const UINT usLatDiv = static_cast<UINT>(LatDiv);
+		for (UINT iLong = 0; iLong < static_cast<UINT>(LongDiv); iLong++) {
 
 			//北極点
 			Indices.push_back(usIdxNP);

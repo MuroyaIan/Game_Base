@@ -53,16 +53,16 @@ public:
 
 		//インデックス算出用ラムダ式
 		const auto CalcIdx = [nVtxNumX](int x, int y)
-		{ return static_cast<unsigned short>(y * nVtxNumX + x); };
+		{ return static_cast<UINT>(y * nVtxNumX + x); };
 
 		//インデックス作成
-		std::vector<unsigned short> Indices;
-		Indices.reserve(static_cast<unsigned short>(DivX * DivY * 6));	//サイズ指定
+		std::vector<UINT> Indices;
+		Indices.reserve(static_cast<UINT>(DivX * DivY * 6));	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
 				//ユニットごとの頂点インデックスを算出
-				const std::array<unsigned short, 4> aIndex = {
+				const std::array<UINT, 4> aIndex = {
 					CalcIdx(x, y),
 					CalcIdx(x + 1, y),
 					CalcIdx(x, y + 1),
@@ -115,16 +115,16 @@ public:
 
 		//インデックス算出用ラムダ式
 		const auto CalcIdx = [nVtxNumX](int x, int y)
-		{ return static_cast<unsigned short>(y * nVtxNumX + x); };
+		{ return static_cast<UINT>(y * nVtxNumX + x); };
 
 		//インデックス作成
-		std::vector<unsigned short> Indices;
-		Indices.reserve(static_cast<unsigned short>(DivX * DivY * 6));	//サイズ指定
+		std::vector<UINT> Indices;
+		Indices.reserve(static_cast<UINT>(DivX * DivY * 6));	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
 				//ユニットごとの頂点インデックスを算出
-				const std::array<unsigned short, 4> aIndex = {
+				const std::array<UINT, 4> aIndex = {
 					CalcIdx(x, y),
 					CalcIdx(x + 1, y),
 					CalcIdx(x, y + 1),
@@ -171,7 +171,7 @@ public:
 		}
 		vsd.m_Vertices = std::move(Vertices);
 		for (size_t i = 0, Cnt = vsd.m_Indices.size(); i < Cnt; i++)
-			vsd.m_Indices[i] = static_cast<unsigned short>(i);
+			vsd.m_Indices[i] = static_cast<UINT>(i);
 
 		//法線計算
 		vsd.SetVertexNormal();

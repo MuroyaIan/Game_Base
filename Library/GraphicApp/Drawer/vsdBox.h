@@ -38,7 +38,7 @@ public:
 		aData[7].m_Pos = {  Size,  Size,  Size };
 
 		//インデックス作成
-		const std::vector<unsigned short> Indices = {
+		const std::vector<UINT> Indices = {
 			0, 2, 1,	2, 3, 1,
 			1, 3, 5,	3, 7, 5,
 			2, 6, 3,	3, 6, 7,
@@ -88,7 +88,7 @@ public:
 		aData[13].m_UV = { 0.0f / 3.0f, 2.0f / 4.0f };
 
 		//インデックス作成
-		const std::vector<unsigned short> Indices = {
+		const std::vector<UINT> Indices = {
 			 0,  2,  1,		 2,  3,  1,
 			 4,  8,  5,		 5,  8,  9,
 			 2,  6,  3,		 3,  6,  7,
@@ -158,7 +158,7 @@ public:
 		aData[23].m_UV = { 2.0f / 3.0f, 1.0f / 4.0f };	//top
 
 		//インデックス作成
-		const std::vector<unsigned short> Indices = {
+		const std::vector<UINT> Indices = {
 			 0,  2,  1,		 2,  3,  1,
 			 4,  6,  5,		 6,  7,  5,
 			 8, 10,  9,		10, 11,  9,

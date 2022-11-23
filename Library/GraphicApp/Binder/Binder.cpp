@@ -6,6 +6,7 @@
 BINDER::BINDER() noexcept
 {
 }
+
 BINDER::~BINDER() noexcept
 {
 }

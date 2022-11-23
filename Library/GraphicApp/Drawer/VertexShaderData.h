@@ -128,12 +128,12 @@ class VS_DATA
 public:
 
 	//変数宣言
-	std::vector<T> m_Vertices;				//頂点情報
-	std::vector<unsigned short> m_Indices;	//インデックス情報
+	std::vector<T> m_Vertices;		//頂点情報
+	std::vector<UINT> m_Indices;	//インデックス情報
 
 	//プロトタイプ宣言
 	VS_DATA() noexcept : m_Vertices(0), m_Indices(0) {}
-	VS_DATA(std::vector<T> Vertices, std::vector<unsigned short> Indices, bool bTriangle = true) :
+	VS_DATA(std::vector<T> Vertices, std::vector<UINT> Indices, bool bTriangle = true) :
 		m_Vertices(std::move(Vertices)), m_Indices(std::move(Indices))
 	{
 		if (m_Vertices.size() <= 2 && bTriangle)
@@ -211,7 +211,7 @@ public:
 		}
 		m_Vertices = std::move(Vertices);
 		for (size_t i = 0, Cnt = m_Indices.size(); i < Cnt; i++)
-			m_Indices[i] = static_cast<unsigned short>(i);
+			m_Indices[i] = static_cast<UINT>(i);
 
 		//UV作成（デバッグ用、テクスチャなし）
 		for (size_t i = 0, Cnt = m_Indices.size() / 3; i < Cnt; i++) {

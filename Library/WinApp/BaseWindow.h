@@ -24,7 +24,7 @@ public:
 	MOUSE m_Mouse;			//マウス処理
 
 	//プロトタイプ宣言
-	IF_WINDOW() noexcept : m_Keyboard(), m_Mouse() {}
+	explicit IF_WINDOW() noexcept : m_Keyboard(), m_Mouse() {}
 	virtual ~IF_WINDOW() noexcept(false) {}
 	virtual void Transform(int nWndPosX, int nWndPosY, int nWndWidth = 0, int nWndHeight = 0) = 0;	//トランスフォーム
 	virtual void TitlePrint(const std::string& Text) const = 0;										//タイトル出力

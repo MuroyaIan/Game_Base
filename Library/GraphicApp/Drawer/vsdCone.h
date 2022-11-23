@@ -44,24 +44,24 @@ public:
 		//底部円形の中心頂点作成
 		aData.emplace_back();
 		aData.back().m_Pos = { 0.0f, -0.5f, 0.0f };
-		const unsigned short usCtrIdx = static_cast<unsigned short>(aData.size() - 1);	//インデックス参照
+		const UINT usCtrIdx = static_cast<UINT>(aData.size() - 1);	//インデックス参照
 
 		//コーンの先端頂点作成
 		aData.emplace_back();
 		aData.back().m_Pos = { 0.0f, 0.5f, 0.0f };
-		const unsigned short usTopIdx = static_cast<unsigned short>(aData.size() - 1);
+		const UINT usTopIdx = static_cast<UINT>(aData.size() - 1);
 
 		//底部円形上のインデックスリスト作成
-		std::vector<unsigned short> Indices;
-		const unsigned short Mod = static_cast<unsigned short>(DivNum);
-		for (unsigned short i = 0; i < DivNum; i++) {
+		std::vector<UINT> Indices;
+		const UINT Mod = static_cast<UINT>(DivNum);
+		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
 			Indices.push_back(usCtrIdx);
 			Indices.push_back((i + 1u) % Mod);
 			Indices.push_back(i);
 		}
 
 		//その他のインデックスリスト作成
-		for (unsigned short i = 0; i < DivNum; i++) {
+		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
 			Indices.push_back(usTopIdx);
 			Indices.push_back(i);
 			Indices.push_back((i + 1u) % Mod);

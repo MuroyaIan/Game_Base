@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/06/24
  * @履歴 2022/06/24：ファイル作成
+ *		 2022/11/21：処理改善
  */
 
 //===== インクルードガード =====
@@ -20,7 +21,7 @@ class BINDER
 public:
 
 	//プロトタイプ宣言
-	BINDER() noexcept;
+	explicit BINDER() noexcept;
 	virtual ~BINDER() noexcept;
 	virtual void Bind(GRAPHIC& Gfx) noexcept = 0;					//バインド処理
 

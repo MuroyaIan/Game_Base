@@ -38,12 +38,12 @@ public:
 		//底面（下）の中心頂点作成
 		aData.emplace_back();
 		aData.back().m_Pos = { 0.0f, -0.5f, 0.0f };
-		const unsigned short usDownCtrIdx = static_cast<unsigned short>(aData.size() - 1);	//インデックス参照
+		const UINT usDownCtrIdx = static_cast<UINT>(aData.size() - 1);	//インデックス参照
 
 		//底面（上）の中心頂点作成
 		aData.emplace_back();
 		aData.back().m_Pos = { 0.0f, 0.5f, 0.0f };
-		const unsigned short usUpCtrIdx = static_cast<unsigned short>(aData.size() - 1);
+		const UINT usUpCtrIdx = static_cast<UINT>(aData.size() - 1);
 
 		//底面頂点作成
 		for (int i = 0; i < DivNum; i++) {
@@ -65,10 +65,10 @@ public:
 		}
 
 		//側面のインデックスリスト作成
-		std::vector<unsigned short> Indices;
-		const unsigned short Mod = static_cast<unsigned short>(DivNum * 2);
-		for (unsigned short i = 0; i < DivNum; i++) {
-			const unsigned short Idx = i * 2;
+		std::vector<UINT> Indices;
+		const UINT Mod = static_cast<UINT>(DivNum * 2);
+		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
+			const UINT Idx = i * 2;
 			Indices.push_back(Idx + 2u);
 			Indices.push_back((Idx + 2u) % Mod + 2u);
 			Indices.push_back(Idx + 3u);
@@ -78,8 +78,8 @@ public:
 		}
 
 		//底面のインデックスリスト作成
-		for (unsigned short i = 0; i < DivNum; i++) {
-			const unsigned short Idx = i * 2;
+		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
+			const UINT Idx = i * 2;
 			Indices.push_back(Idx + 2u);
 			Indices.push_back(usDownCtrIdx);
 			Indices.push_back((Idx + 2u) % Mod + 2u);	//底面（下）

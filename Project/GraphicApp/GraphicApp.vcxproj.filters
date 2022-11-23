@@ -34,30 +34,30 @@
     <Filter Include="ヘッダー ファイル\Drawer\vsd">
       <UniqueIdentifier>{e991055e-8012-4b70-acba-859383ab47de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Binder\IA">
+      <UniqueIdentifier>{ceb563b3-25e2-4878-bab3-98d0a9ad2467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Binder\IA">
+      <UniqueIdentifier>{1a271a8f-407b-4753-a00f-31e6eea01f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Binder\SL">
+      <UniqueIdentifier>{8f919b36-3b2d-4d17-a99e-6a23f5a131b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Binder\SL">
+      <UniqueIdentifier>{f4296582-bae4-4e9f-a92e-036a5313f88a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Binder\TEX">
+      <UniqueIdentifier>{f929067b-ac84-4fbf-91c2-e570c36baf8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Binder\TEX">
+      <UniqueIdentifier>{6bbfb352-5e81-43b5-9cb6-e63702d0b653}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Binder.h">
       <Filter>ヘッダー ファイル\Binder</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\BinderRef.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\IndexBuffer.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\InputLayout.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\PixelShader.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\Topology.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexShader.h">
       <Filter>ヘッダー ファイル\Binder</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\Drawer.h">
@@ -68,12 +68,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Graphic.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\Sampler.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
@@ -114,36 +108,42 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMaterial.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Model.h">
-      <Filter>ヘッダー ファイル\Binder</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbBone.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbLocal.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h">
+      <Filter>ヘッダー ファイル\Binder\IA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\IndexBuffer.h">
+      <Filter>ヘッダー ファイル\Binder\IA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\InputLayout.h">
+      <Filter>ヘッダー ファイル\Binder\IA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Sampler.h">
+      <Filter>ヘッダー ファイル\Binder\TEX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture.h">
+      <Filter>ヘッダー ファイル\Binder\TEX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Model.h">
+      <Filter>ヘッダー ファイル\Binder\TEX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexShader.h">
+      <Filter>ヘッダー ファイル\Binder\SL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\PixelShader.h">
+      <Filter>ヘッダー ファイル\Binder\SL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Topology.h">
+      <Filter>ヘッダー ファイル\Binder\IA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Binder.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\IndexBuffer.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\InputLayout.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\PixelShader.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\Topology.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexShader.cpp">
       <Filter>ソース ファイル\Binder</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Drawer\Drawer.cpp">
@@ -151,12 +151,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Graphic.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\Sampler.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
@@ -170,14 +164,38 @@
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMaterial.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Model.cpp">
-      <Filter>ソース ファイル\Binder</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbBone.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbLocal.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp">
+      <Filter>ソース ファイル\Binder\IA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\IndexBuffer.cpp">
+      <Filter>ソース ファイル\Binder\IA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\InputLayout.cpp">
+      <Filter>ソース ファイル\Binder\IA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Sampler.cpp">
+      <Filter>ソース ファイル\Binder\TEX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture.cpp">
+      <Filter>ソース ファイル\Binder\TEX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Model.cpp">
+      <Filter>ソース ファイル\Binder\TEX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexShader.cpp">
+      <Filter>ソース ファイル\Binder\SL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\PixelShader.cpp">
+      <Filter>ソース ファイル\Binder\SL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Topology.cpp">
+      <Filter>ソース ファイル\Binder\IA</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

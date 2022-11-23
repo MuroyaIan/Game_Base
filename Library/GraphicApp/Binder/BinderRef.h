@@ -12,6 +12,16 @@
 //===== インクルード部 =====
 #include <GraphicApp/Binder/VertexBuffer.h>
 #include <GraphicApp/Binder/IndexBuffer.h>
+#include <GraphicApp/Binder/InputLayout.h>
+#include <GraphicApp/Binder/Topology.h>
+
+#include <GraphicApp/Binder/VertexShader.h>
+#include <GraphicApp/Binder/PixelShader.h>
+
+#include <GraphicApp/Binder/Sampler.h>
+#include <GraphicApp/Binder/Texture.h>
+#include <GraphicApp/Binder/Texture_Model.h>
+
 #include <GraphicApp/Binder/ConstantBuffer.h>
 #include <GraphicApp/Binder/cbMatrix_T.h>
 #include <GraphicApp/Binder/cbMatrix_VP.h>
@@ -19,12 +29,3 @@
 #include <GraphicApp/Binder/cbBone.h>
 #include <GraphicApp/Binder/cbLocal.h>
 #include <GraphicApp/Binder/cbMaterial.h>
-
-#include <GraphicApp/Binder/VertexShader.h>
-#include <GraphicApp/Binder/InputLayout.h>
-#include <GraphicApp/Binder/Topology.h>
-
-#include <GraphicApp/Binder/Texture.h>
-#include <GraphicApp/Binder/Texture_Model.h>
-#include <GraphicApp/Binder/Sampler.h>
-#include <GraphicApp/Binder/PixelShader.h>

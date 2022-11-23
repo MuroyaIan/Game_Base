@@ -53,16 +53,16 @@ public:
 
 		//インデックス算出用ラムダ式
 		const auto CalcIdx = [nVtxNumX](int x, int y)
-		{ return static_cast<unsigned short>(y * nVtxNumX + x); };
+		{ return static_cast<UINT>(y * nVtxNumX + x); };
 
 		//インデックス作成
-		std::vector<unsigned short> Indices;
-		Indices.reserve(static_cast<unsigned short>(DivX * DivY * 4 + (DivX + DivY) * 2));	//サイズ指定
+		std::vector<UINT> Indices;
+		Indices.reserve(static_cast<UINT>(DivX * DivY * 4 + (DivX + DivY) * 2));	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
 				//ユニットごとの頂点インデックスを算出
-				const std::array<unsigned short, 4> aIndex = {
+				const std::array<UINT, 4> aIndex = {
 					CalcIdx(x, y),
 					CalcIdx(x + 1, y),
 					CalcIdx(x, y + 1),

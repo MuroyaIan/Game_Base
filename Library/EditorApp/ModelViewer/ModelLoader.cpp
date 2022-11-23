@@ -410,9 +410,9 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 		int iCnt = static_cast<int>(i);
 
 		//ç∂éËånëŒçÙ
-		Mesh.vsData.m_Indices.emplace_back(static_cast<unsigned short>(iCnt * 3 + 2));
-		Mesh.vsData.m_Indices.emplace_back(static_cast<unsigned short>(iCnt * 3 + 1));
-		Mesh.vsData.m_Indices.emplace_back(static_cast<unsigned short>(iCnt * 3));
+		Mesh.vsData.m_Indices.emplace_back(static_cast<UINT>(iCnt * 3 + 2));
+		Mesh.vsData.m_Indices.emplace_back(static_cast<UINT>(iCnt * 3 + 1));
+		Mesh.vsData.m_Indices.emplace_back(static_cast<UINT>(iCnt * 3));
 	}
 
 	//í∏ì_éÊìæ

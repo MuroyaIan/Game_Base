@@ -21,7 +21,7 @@ class WIN_WINDOW : public IF_WINDOW
 public:
 
 	//プロトタイプ宣言
-	WIN_WINDOW(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nWndPosX = CW_USEDEFAULT, int nWndPosY = CW_USEDEFAULT);
+	explicit WIN_WINDOW(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nWndPosX = CW_USEDEFAULT, int nWndPosY = CW_USEDEFAULT);
 	~WIN_WINDOW() noexcept(false) override;
 	void Transform(int nWndPosX, int nWndPosY, int nWndWidth = 0, int nWndHeight = 0) override;		//トランスフォーム
 	void TitlePrint(const std::string& Text) const override;										//タイトル出力

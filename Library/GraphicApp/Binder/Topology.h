@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/06/25
  * @履歴 2022/06/25：ファイル作成
+ *		 2022/11/21：処理改善
  */
 
 //===== インクルードガード =====
@@ -20,7 +21,7 @@ class TOPOLOGY : public BINDER
 public:
 
 	//プロトタイプ宣言
-	TOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY Type) noexcept;
+	explicit TOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY Type) noexcept;
 	~TOPOLOGY() noexcept override;
 	void Bind(GRAPHIC& Gfx) noexcept override;	//バインド処理
 

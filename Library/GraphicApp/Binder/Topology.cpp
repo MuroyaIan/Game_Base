@@ -7,6 +7,7 @@ TOPOLOGY::TOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY Type) noexcept :
 	BINDER(), m_Type(Type)
 {
 }
+
 TOPOLOGY::~TOPOLOGY() noexcept
 {
 }

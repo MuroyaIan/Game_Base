@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/06/25
  * @履歴 2022/06/25：ファイル作成
+ *		 2022/11/22：処理改善
  */
 
 //===== インクルードガード =====
@@ -20,18 +21,18 @@ class INDEX_BUFFER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	INDEX_BUFFER(GRAPHIC& Gfx, const std::vector<unsigned short>& Indices);
+	explicit INDEX_BUFFER(GRAPHIC& Gfx, const std::vector<UINT>& aIndex);
 	~INDEX_BUFFER() noexcept override;
 	void Bind(GRAPHIC& Gfx) noexcept override;				//バインド処理
 
 	UINT GetIndexNum() const noexcept						//インデックス数取得
 	{
-		return m_Count;
+		return m_IndexNum;
 	}
 
 protected:
 
 	//変数宣言
-	UINT m_Count;											//インデックス数
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_pIndexBuffer;	//ポインタ
+	UINT m_IndexNum;										//インデックス数
 };

@@ -3,23 +3,23 @@
 #include <GraphicApp/Binder/IndexBuffer.h>
 
 //===== クラス実装 =====
-INDEX_BUFFER::INDEX_BUFFER(GRAPHIC& Gfx, const std::vector<unsigned short>& Indices) :
-	BINDER(), m_Count(static_cast<UINT>(Indices.size())), m_pIndexBuffer()
+INDEX_BUFFER::INDEX_BUFFER(GRAPHIC& Gfx, const std::vector<UINT>& aIndex) :
+	BINDER(), m_pIndexBuffer(), m_IndexNum(static_cast<UINT>(aIndex.size()))
 {
 	//エラーハンドル
 	HRESULT hr{};
 
 	//バッファ作成
-	D3D11_BUFFER_DESC ibd{};
-	ibd.ByteWidth = static_cast<UINT>(sizeof(unsigned short) * m_Count);
-	ibd.Usage = D3D11_USAGE_DEFAULT;
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0u;
-	ibd.MiscFlags = 0u;
-	ibd.StructureByteStride = static_cast<UINT>(sizeof(unsigned short));
-	D3D11_SUBRESOURCE_DATA isd{};
-	isd.pSysMem = Indices.data();
-	hr = GetDevice(Gfx)->CreateBuffer(&ibd, &isd, &m_pIndexBuffer);
+	D3D11_BUFFER_DESC bd{};
+	bd.ByteWidth = static_cast<UINT>(sizeof(UINT) * m_IndexNum);
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	bd.CPUAccessFlags = 0u;
+	bd.MiscFlags = 0u;
+	bd.StructureByteStride = static_cast<UINT>(sizeof(UINT));
+	D3D11_SUBRESOURCE_DATA sd{};
+	sd.pSysMem = aIndex.data();
+	hr = GetDevice(Gfx)->CreateBuffer(&bd, &sd, &m_pIndexBuffer);
 	ERROR_DX(hr);
 }
 
@@ -30,5 +30,5 @@ INDEX_BUFFER::~INDEX_BUFFER() noexcept
 //バインド処理
 void INDEX_BUFFER::Bind(GRAPHIC& Gfx) noexcept
 {
-	GetContext(Gfx)->IASetIndexBuffer(m_pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+	GetContext(Gfx)->IASetIndexBuffer(m_pIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0u);
 }
