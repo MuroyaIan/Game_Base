@@ -25,7 +25,7 @@ public:
 	//プロトタイプ宣言
 	CB_MATERIAL(GRAPHIC& Gfx, const MATERIAL_DATA& Material);
 	~CB_MATERIAL() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;							//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;							//バインド処理
 
 private:
 

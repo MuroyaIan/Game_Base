@@ -21,9 +21,9 @@ class INPUT_LAYOUT : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit INPUT_LAYOUT(GRAPHIC& Gfx, const std::vector<D3D11_INPUT_ELEMENT_DESC>& aLayout, ID3DBlob* pCodeVS);
+	explicit INPUT_LAYOUT(const GRAPHIC& Gfx, const std::vector<D3D11_INPUT_ELEMENT_DESC>& aLayout, ID3DBlob* pCodeVS);
 	~INPUT_LAYOUT() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;					//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;			//バインド処理
 
 protected:
 

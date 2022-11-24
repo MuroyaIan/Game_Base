@@ -20,15 +20,15 @@ class CB_BONE : public BINDER
 public:
 
 	//プロトタイプ宣言
-	CB_BONE(GRAPHIC& Gfx, const CB_MTX_BONE& aMtxBone, bool Transpose = false);
+	CB_BONE(GRAPHIC& Gfx, const CBD_MTX_BONE& aMtxBone, bool Transpose = false);
 	~CB_BONE() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;						//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;						//バインド処理
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<VERTEX_CBUFFER<CB_MTX_BONE>> m_pVcBuff;	//定数バッファのポインタ
+	static std::unique_ptr<VERTEX_CBUFFER<CBD_MTX_BONE>> m_pVcBuff;	//定数バッファのポインタ
 	static int m_RefCount;											//定数バッファの利用数
-	const CB_MTX_BONE& m_aMtxBone;									//骨情報の提供先
+	const CBD_MTX_BONE& m_aMtxBone;									//骨情報の提供先
 	bool m_bTransposeMatrix;										//転置処理実行フラグ
 };

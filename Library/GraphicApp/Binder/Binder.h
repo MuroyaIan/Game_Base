@@ -23,17 +23,17 @@ public:
 	//プロトタイプ宣言
 	explicit BINDER() noexcept;
 	virtual ~BINDER() noexcept;
-	virtual void Bind(GRAPHIC& Gfx) noexcept = 0;					//バインド処理
+	virtual void Bind(const GRAPHIC& Gfx) noexcept = 0;						//バインド処理
 
 protected:
 
 	//プロトタイプ宣言
-	static ID3D11Device* GetDevice(GRAPHIC& Gfx) noexcept			//デバイス取得
+	static ID3D11Device* GetDevice(const GRAPHIC& Gfx) noexcept				//デバイス取得
 	{
 		return Gfx.m_pDevice.Get();
 	}
 
-	static ID3D11DeviceContext* GetContext(GRAPHIC& Gfx) noexcept	//コンテキスト取得
+	static ID3D11DeviceContext* GetContext(const GRAPHIC& Gfx) noexcept		//コンテキスト取得
 	{
 		return Gfx.m_pContext.Get();
 	}

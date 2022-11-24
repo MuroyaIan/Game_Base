@@ -20,14 +20,14 @@ class CB_LOCAL : public BINDER
 public:
 
 	//プロトタイプ宣言
-	CB_LOCAL(GRAPHIC& Gfx, const CB_MTX_LOCAL& LocalData);
+	CB_LOCAL(GRAPHIC& Gfx, const CBD_MTX_LOCAL& LocalData);
 	~CB_LOCAL() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;							//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;							//バインド処理
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<VERTEX_CBUFFER<CB_MTX_LOCAL>> m_pVcBuff;		//定数バッファのポインタ
+	static std::unique_ptr<VERTEX_CBUFFER<CBD_MTX_LOCAL>> m_pVcBuff;		//定数バッファのポインタ
 	static int m_RefCount;												//定数バッファの利用数
-	const CB_MTX_LOCAL& m_LocalData;									//骨情報の提供先
+	const CBD_MTX_LOCAL& m_LocalData;									//骨情報の提供先
 };

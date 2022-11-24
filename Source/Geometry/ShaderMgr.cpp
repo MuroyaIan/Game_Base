@@ -268,8 +268,8 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 
 	{
 		//定数バッファ作成（ポリゴン色）
-		const CB_COLOR cbColor{};
-		m_aBinder[static_cast<int>(BINDER_ID::CB_PS_DEFAULT)] = std::make_unique<PIXEL_CBUFFER<CB_COLOR>>(m_DX, cbColor);
+		const CBD_COLOR cbColor{};
+		m_aBinder[static_cast<int>(BINDER_ID::CB_PS_DEFAULT)] = std::make_unique<PIXEL_CBUFFER<CBD_COLOR>>(m_DX, cbColor);
 	}
 }
 

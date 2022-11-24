@@ -27,11 +27,11 @@ struct LIGHT_POINT			//点光源
 	float Pad;              //仮置き
 };
 
-//テクスチャ
-Texture2D TexMap[3] : register(t1);     //0:Diffuse, 1:Specular, 2:Normal
-
 //サンプラー
-SamplerState Sampler;
+SamplerState Sampler : register(s0);
+
+//テクスチャ
+Texture2D TexMap[3] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal
 
 //定数バッファ（ライト情報）
 cbuffer CB_LIGHT : register(b1)

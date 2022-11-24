@@ -4,7 +4,7 @@
 #include <Tool/gMath.h>
 
 namespace dx = DirectX;
-using vcbMtx = VERTEX_CBUFFER<CB_MTX_L_W_V_P>;
+using vcbMtx = VERTEX_CBUFFER<CBD_MTX_LWVP>;
 
 //===== 静的メンバ変数 =====
 std::unique_ptr<vcbMtx> CB_MTX_LWVP::m_pVcBuff = nullptr;
@@ -29,7 +29,7 @@ CB_MTX_LWVP::~CB_MTX_LWVP() noexcept
 }
 
 //バインド処理
-void CB_MTX_LWVP::Bind(GRAPHIC& Gfx) noexcept
+void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) noexcept
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 Local = m_mtxL;
@@ -40,7 +40,7 @@ void CB_MTX_LWVP::Bind(GRAPHIC& Gfx) noexcept
 	gMath::MtxTranspose4x4_SSE(&World._11);
 	gMath::MtxTranspose4x4_SSE(&View._11);
 	gMath::MtxTranspose4x4_SSE(&Proj._11);
-	CB_MTX_L_W_V_P aMtx = { Local, World, View, Proj };
+	CBD_MTX_LWVP aMtx = { Local, World, View, Proj };
 	m_pVcBuff->Update(Gfx, aMtx);
 
 	//バインド処理

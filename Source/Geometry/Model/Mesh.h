@@ -14,7 +14,7 @@
 #include <Geometry/Model/Model.h>
 
 //===== 前方宣言 =====
-struct CB_MTX_LOCAL;
+struct CBD_MTX_LOCAL;
 
 //===== クラス定義 =====
 
@@ -51,7 +51,7 @@ private:
 	MATERIAL_DATA m_Material;						//マテリアル情報
 
 	bool& m_bStatic;								//静的メッシュかどうか
-	std::unique_ptr<CB_MTX_LOCAL> m_pLocalData;		//ローカル情報
+	std::unique_ptr<CBD_MTX_LOCAL> m_pLocalData;		//ローカル情報
 	int& m_AnimID;									//アニメーション番号
 	int& m_AnimID_Backup;							//アニメーション番号（バックアップ）
 	int& m_AnimFrame;								//アニメーション再生フレーム

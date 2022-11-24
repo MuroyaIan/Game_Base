@@ -5,11 +5,11 @@ struct VS_IN
 	float2 tex : TEXCOORD;
 };
 
-//テクスチャ
-Texture2D Tex2D;
-
 //サンプラー
-SamplerState Sampler;
+SamplerState Sampler : register(s0);
+
+//テクスチャ
+Texture2D Tex2D : register(t0);
 
 //エントリーポイント
 float4 main(VS_IN vsi) : SV_Target

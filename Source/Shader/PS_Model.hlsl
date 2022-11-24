@@ -9,11 +9,11 @@ struct PS_IN
 	matrix mtxView : MTX_V;     //ビュー行列
 };
 
-//テクスチャ
-Texture2D TexMap[3] : register(t1);     //0:Diffuse, 1:Specular, 2:Normal
-
 //サンプラー
-SamplerState Sampler;
+SamplerState Sampler : register(s0);
+
+//テクスチャ
+Texture2D TexMap[3] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal
 
 //定数バッファ（マテリアル）
 cbuffer CB_MATERIAL : register(b2)

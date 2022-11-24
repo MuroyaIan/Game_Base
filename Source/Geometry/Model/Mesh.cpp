@@ -51,7 +51,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	TEX_LOADER::ReleaseTexture(NullImage.pImageData);
 
 	//ƒ[ƒJƒ‹î•ñì¬
-	m_pLocalData = std::make_unique<CB_MTX_LOCAL>();
+	m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
 	AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, *m_pLocalData));
 }
 

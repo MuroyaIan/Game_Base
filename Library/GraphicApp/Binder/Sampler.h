@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/07/16
  * @履歴 2022/07/16：ファイル作成
+ *		 2022/11/24：処理改善
  */
 
 //===== インクルードガード =====
@@ -20,12 +21,13 @@ class SAMPLER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	SAMPLER(GRAPHIC& Gfx);
+	explicit SAMPLER(const GRAPHIC& Gfx, UINT StartSlot = 0u, bool IsPixel = false);
 	~SAMPLER() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;			//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;		//バインド処理
 
 protected:
 
 	//変数宣言
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSampler;	//ポインタ
+	UINT m_StartSlot;										//レジスタ番号
 };

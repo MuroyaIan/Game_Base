@@ -23,7 +23,7 @@ public:
 	//プロトタイプ宣言
 	CB_MTX_T(GRAPHIC& Gfx, const DRAWER& Parent);
 	~CB_MTX_T() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;		//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;		//バインド処理
 
 private:
 

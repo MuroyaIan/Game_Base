@@ -3,7 +3,7 @@
 #include <GraphicApp/Binder/InputLayout.h>
 
 //===== クラス実装 =====
-INPUT_LAYOUT::INPUT_LAYOUT(GRAPHIC& Gfx, const std::vector<D3D11_INPUT_ELEMENT_DESC>& aLayout, ID3DBlob* pCodeVS) :
+INPUT_LAYOUT::INPUT_LAYOUT(const GRAPHIC& Gfx, const std::vector<D3D11_INPUT_ELEMENT_DESC>& aLayout, ID3DBlob* pCodeVS) :
 	BINDER(), m_pInputLayout()
 {
 	//エラーハンドル
@@ -22,7 +22,7 @@ INPUT_LAYOUT::~INPUT_LAYOUT() noexcept
 }
 
 //バインド処理
-void INPUT_LAYOUT::Bind(GRAPHIC& Gfx) noexcept
+void INPUT_LAYOUT::Bind(const GRAPHIC& Gfx) noexcept
 {
 	GetContext(Gfx)->IASetInputLayout(m_pInputLayout.Get());
 }

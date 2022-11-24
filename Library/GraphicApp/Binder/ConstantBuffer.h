@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/06/25
  * @履歴 2022/06/25：ファイル作成
+ *		 2022/11/24：処理改善
  */
 
 //===== インクルードガード =====
@@ -30,12 +31,12 @@ enum class CB_SLOT_PS
 };
 
 //===== 構造体宣言 =====
-struct CB_COLOR							//カラー用定数バッファ
+struct CBD_COLOR						//ポリゴン色用データ
 {
 	//変数宣言
-	DirectX::XMFLOAT4 FaceColor[24];	//ポリゴン色（面情報）
+	DirectX::XMFLOAT4 FaceColor[24];	//ポリゴン色（面ごと）
 
-	CB_COLOR() noexcept
+	CBD_COLOR() noexcept
 	{
 		FaceColor[0]  = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 		FaceColor[1]  = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
@@ -62,28 +63,31 @@ struct CB_COLOR							//カラー用定数バッファ
 		FaceColor[22] = DirectX::XMFLOAT4(0.0f, 1.0f, 0.3f, 1.0f);
 		FaceColor[23] = DirectX::XMFLOAT4(0.0f, 0.3f, 1.0f, 1.0f);
 	}
-	~CB_COLOR() noexcept
+
+	~CBD_COLOR() noexcept
 	{}
 };
 
-struct CB_MTX_V_P					//変換行列用定数バッファ
+struct CBD_MTX_VP					//変換行列用データ(VP)
 {
 	//変数宣言
 	DirectX::XMFLOAT4X4 mtxView;	//ビュー行列
 	DirectX::XMFLOAT4X4 mtxProj;	//投影行列
 
-	CB_MTX_V_P() noexcept : mtxView(), mtxProj()
+	CBD_MTX_VP() noexcept : mtxView(), mtxProj()
 	{
 		DirectX::XMStoreFloat4x4(&mtxView, DirectX::XMMatrixIdentity());
 		DirectX::XMStoreFloat4x4(&mtxProj, DirectX::XMMatrixIdentity());
 	}
-	CB_MTX_V_P(DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept : mtxView(mtxV), mtxProj(mtxP)
+
+	CBD_MTX_VP(DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept : mtxView(mtxV), mtxProj(mtxP)
 	{}
-	~CB_MTX_V_P() noexcept
+
+	~CBD_MTX_VP() noexcept
 	{}
 };
 
-struct CB_MTX_L_W_V_P					//変換行列用定数バッファ
+struct CBD_MTX_LWVP					//変換行列用データ(LWVP)
 {
 	//変数宣言
 	DirectX::XMFLOAT4X4 mtxLocal;	//ローカル行列
@@ -91,43 +95,48 @@ struct CB_MTX_L_W_V_P					//変換行列用定数バッファ
 	DirectX::XMFLOAT4X4 mtxView;	//ビュー行列
 	DirectX::XMFLOAT4X4 mtxProj;	//投影行列
 
-	CB_MTX_L_W_V_P() noexcept : mtxLocal(), mtxWorld(), mtxView(), mtxProj()
+	CBD_MTX_LWVP() noexcept : mtxLocal(), mtxWorld(), mtxView(), mtxProj()
 	{
 		DirectX::XMStoreFloat4x4(&mtxLocal, DirectX::XMMatrixIdentity());
 		DirectX::XMStoreFloat4x4(&mtxWorld, DirectX::XMMatrixIdentity());
 		DirectX::XMStoreFloat4x4(&mtxView, DirectX::XMMatrixIdentity());
 		DirectX::XMStoreFloat4x4(&mtxProj, DirectX::XMMatrixIdentity());
 	}
-	CB_MTX_L_W_V_P(DirectX::XMFLOAT4X4 mtxL, DirectX::XMFLOAT4X4 mtxW, DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept : mtxLocal(mtxL), mtxWorld(mtxW), mtxView(mtxV), mtxProj(mtxP)
+
+	CBD_MTX_LWVP(DirectX::XMFLOAT4X4 mtxL, DirectX::XMFLOAT4X4 mtxW, DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept :
+		mtxLocal(mtxL), mtxWorld(mtxW), mtxView(mtxV), mtxProj(mtxP)
 	{}
-	~CB_MTX_L_W_V_P() noexcept
+
+	~CBD_MTX_LWVP() noexcept
 	{}
 };
 
-struct CB_MTX_BONE							//骨行列用定数バッファ
+struct CBD_MTX_BONE							//骨行列用データ
 {
 	//変数宣言
-	DirectX::XMFLOAT4X4 mtxBone[MAX_BONE];	//ワールド行列
+	DirectX::XMFLOAT4X4 mtxBone[MAX_BONE];	//骨のワールド行列
 
-	CB_MTX_BONE() noexcept : mtxBone()
+	CBD_MTX_BONE() noexcept : mtxBone()
 	{
 		for (auto& b : mtxBone)
 			DirectX::XMStoreFloat4x4(&b, DirectX::XMMatrixIdentity());
 	}
-	~CB_MTX_BONE() noexcept
+
+	~CBD_MTX_BONE() noexcept
 	{}
 };
 
-struct CB_MTX_LOCAL							//骨行列用定数バッファ
+struct CBD_MTX_LOCAL						//ローカル行列用データ
 {
 	//変数宣言
 	DirectX::XMFLOAT4X4 mtxSkin;			//骨なしメッシュ用ローカル行列
 
-	CB_MTX_LOCAL() noexcept : mtxSkin()
+	CBD_MTX_LOCAL() noexcept : mtxSkin()
 	{
 		DirectX::XMStoreFloat4x4(&mtxSkin, DirectX::XMMatrixIdentity());
 	}
-	~CB_MTX_LOCAL() noexcept
+
+	~CBD_MTX_LOCAL() noexcept
 	{}
 };
 
@@ -141,44 +150,45 @@ public:
 
 	//プロトタイプ宣言
 	CONSTANT_BUFFER(GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) :
-		BINDER(), m_pConstantBuffer(), m_Slot(Slot)
+		BINDER(), m_pConstantBuffer(), m_StartSlot(Slot)
 	{
 		//エラーハンドル
 		HRESULT hr{};
 
 		//バッファ作成
-		D3D11_BUFFER_DESC cbd{};
-		cbd.ByteWidth = static_cast<UINT>(sizeof(Consts));
-		cbd.Usage = D3D11_USAGE_DYNAMIC;
-		cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		cbd.MiscFlags = 0u;
-		cbd.StructureByteStride = 0u;
-		D3D11_SUBRESOURCE_DATA csd{};
-		csd.pSysMem = &Consts;
-		hr = GetDevice(Gfx)->CreateBuffer(&cbd, &csd, &m_pConstantBuffer);
+		D3D11_BUFFER_DESC bd{};
+		bd.ByteWidth = static_cast<UINT>(sizeof(C));
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bd.MiscFlags = 0u;
+		bd.StructureByteStride = 0u;
+		D3D11_SUBRESOURCE_DATA sd{};
+		sd.pSysMem = &Consts;
+		hr = GetDevice(Gfx)->CreateBuffer(&bd, &sd, &m_pConstantBuffer);
 		ERROR_DX(hr);
 	}
+
 	CONSTANT_BUFFER(GRAPHIC& Gfx, UINT Slot = 0u) :
-		BINDER(), m_pConstantBuffer(), m_Slot(Slot)		//バッファ初期化なし
+		BINDER(), m_pConstantBuffer(), m_StartSlot(Slot)	//バッファ初期化なし
 	{
 		//エラーハンドル
 		HRESULT hr{};
 
 		//バッファ作成
-		D3D11_BUFFER_DESC cbd{};
-		cbd.ByteWidth = static_cast<UINT>(sizeof(C));
-		cbd.Usage = D3D11_USAGE_DYNAMIC;
-		cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		cbd.MiscFlags = 0u;
-		cbd.StructureByteStride = 0u;
-		hr = GetDevice(Gfx)->CreateBuffer(&cbd, nullptr, &m_pConstantBuffer);
+		D3D11_BUFFER_DESC bd{};
+		bd.ByteWidth = static_cast<UINT>(sizeof(C));
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bd.MiscFlags = 0u;
+		bd.StructureByteStride = 0u;
+		hr = GetDevice(Gfx)->CreateBuffer(&bd, nullptr, &m_pConstantBuffer);
 		ERROR_DX(hr);
 	}
 	~CONSTANT_BUFFER() noexcept override {}
 
-	void Update(GRAPHIC& Gfx, const C& Consts) const	//バッファ更新
+	void Update(const GRAPHIC& Gfx, const C& Consts) const	//バッファ更新
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -190,7 +200,7 @@ public:
 			D3D11_MAP_WRITE_DISCARD, 0u,
 			&msr);												//GPUのアクセスをロック
 		ERROR_DX(hr);
-		memcpy(msr.pData, &Consts, sizeof(Consts));				//データ書込み
+		memcpy(msr.pData, &Consts, sizeof(C));					//データ書込み
 		GetContext(Gfx)->Unmap(m_pConstantBuffer.Get(), 0u);	//GPUのアクセスを解放
 	}
 
@@ -198,7 +208,7 @@ protected:
 
 	//変数宣言
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_pConstantBuffer;		//ポインタ
-	UINT m_Slot;												//入力スロット
+	UINT m_StartSlot;											//レジスタ番号
 };
 
 //***** 定数バッファ（頂点シェーダ用） *****
@@ -212,9 +222,9 @@ public:
 	VERTEX_CBUFFER(GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF::CONSTANT_BUFFER(Gfx, Slot) {}
 	~VERTEX_CBUFFER() noexcept override {}
 
-	void Bind(GRAPHIC& Gfx) noexcept override	//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override	//バインド処理
 	{
-		BINDER::GetContext(Gfx)->VSSetConstantBuffers(C_BUFF::m_Slot, 1u, C_BUFF::m_pConstantBuffer.GetAddressOf());
+		BINDER::GetContext(Gfx)->VSSetConstantBuffers(C_BUFF::m_StartSlot, 1u, C_BUFF::m_pConstantBuffer.GetAddressOf());
 	}
 
 private:
@@ -234,9 +244,9 @@ public:
 	PIXEL_CBUFFER(GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF::CONSTANT_BUFFER(Gfx, Slot) {}
 	~PIXEL_CBUFFER() noexcept override {}
 
-	void Bind(GRAPHIC& Gfx) noexcept override	//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override	//バインド処理
 	{
-		BINDER::GetContext(Gfx)->PSSetConstantBuffers(C_BUFF::m_Slot, 1u, C_BUFF::m_pConstantBuffer.GetAddressOf());
+		BINDER::GetContext(Gfx)->PSSetConstantBuffers(C_BUFF::m_StartSlot, 1u, C_BUFF::m_pConstantBuffer.GetAddressOf());
 	}
 
 private:

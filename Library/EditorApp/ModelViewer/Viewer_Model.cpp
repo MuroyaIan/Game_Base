@@ -25,7 +25,7 @@ VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, 
 	AddBind(std::make_unique<CB_MTX_LWVP>(Gfx, *this, m_MtxLocal));
 
 	//定数バッファ作成（骨情報）
-	m_pMtxBone = std::make_unique<CB_MTX_BONE>();
+	m_pMtxBone = std::make_unique<CBD_MTX_BONE>();
 	AddBind(std::make_unique<CB_BONE>(Gfx, *m_pMtxBone, true));
 
 	//定数バッファ作成（マテリアル）

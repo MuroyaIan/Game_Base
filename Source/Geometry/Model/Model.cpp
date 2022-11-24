@@ -23,7 +23,7 @@ MODEL::MODEL(GFX_PACK& Gfx, MODEL_MGR::MODEL_ID id) noexcept :
 
 	//定数バッファ作成（骨情報）
 	if (!m_bStatic) {
-		m_pMtxBone = std::make_unique<CB_MTX_BONE>();
+		m_pMtxBone = std::make_unique<CBD_MTX_BONE>();
 		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, *m_pMtxBone);
 	}
 }

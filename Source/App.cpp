@@ -137,15 +137,15 @@ APP::APP() :
 			MAX_NUM
 		};
 
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(7, 8));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, 15));
 		//SHAPE shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, static_cast<int>(SHAPE::MAX_NUM) - 1));
 		aDrawer[static_cast<int>(Shape)]->AddInstance();
 		return;
 	};
 
 	//生成処理
-	//for (int i = 0; i < nDrawNum; i++)
-	//	MakeGeom();
+	for (int i = 0; i < nDrawNum; i++)
+		MakeGeom();
 
 	//【モデルテスト】
 	//m_aModel.reserve(1);

@@ -3,15 +3,18 @@
 #include <GraphicApp/Binder/Sampler.h>
 
 //===== クラス実装 =====
-SAMPLER::SAMPLER(GRAPHIC& Gfx) :
-	BINDER(), m_pSampler()
+SAMPLER::SAMPLER(const GRAPHIC& Gfx, UINT StartSlot, bool IsPixel) :
+	BINDER(), m_pSampler(), m_StartSlot(StartSlot)
 {
 	//エラーハンドル
 	HRESULT hr{};
 
 	//サンプラー作成
 	D3D11_SAMPLER_DESC SamplerDesc{};
-	SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	if (IsPixel)
+		SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	else
+		SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -24,7 +27,7 @@ SAMPLER::~SAMPLER() noexcept
 }
 
 //バインド処理
-void SAMPLER::Bind(GRAPHIC& Gfx) noexcept
+void SAMPLER::Bind(const GRAPHIC& Gfx) noexcept
 {
-	GetContext(Gfx)->PSSetSamplers(0, 1, m_pSampler.GetAddressOf());
+	GetContext(Gfx)->PSSetSamplers(m_StartSlot, 1u, m_pSampler.GetAddressOf());
 }

@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/06/25
  * @履歴 2022/06/25：ファイル作成
+ *		 2022/11/24：処理改善
  */
 
 //===== インクルードガード =====
@@ -20,18 +21,18 @@ class VERTEX_SHADER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	VERTEX_SHADER(GRAPHIC& Gfx, const std::wstring& Path);
+	explicit VERTEX_SHADER(const GRAPHIC& Gfx, const std::wstring& Path);
 	~VERTEX_SHADER() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;						//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;				//バインド処理
 
 	ID3DBlob* GetBytecode() const noexcept							//シェーダファイル取得
 	{
-		return m_pBytecodeBlob.Get();
+		return m_pBlob.Get();
 	}
 
 protected:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3DBlob> m_pBytecodeBlob;				//シェーダファイル読込み用
+	Microsoft::WRL::ComPtr<ID3DBlob> m_pBlob;						//シェーダリソース
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader;		//ポインタ
 };

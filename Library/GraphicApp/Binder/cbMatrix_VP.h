@@ -22,11 +22,11 @@ public:
 	//プロトタイプ宣言
 	CB_MTX_VP(GRAPHIC& Gfx);
 	~CB_MTX_VP() noexcept override;
-	void Bind(GRAPHIC& Gfx) noexcept override;		//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;		//バインド処理
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<VERTEX_CBUFFER<CB_MTX_V_P>> m_pVcBuff;	//定数バッファのポインタ
+	static std::unique_ptr<VERTEX_CBUFFER<CBD_MTX_VP>> m_pVcBuff;	//定数バッファのポインタ
 	static int m_RefCount;											//定数バッファの利用数
 };

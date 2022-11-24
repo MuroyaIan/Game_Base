@@ -32,7 +32,7 @@ public:
 
 	//プロトタイプ宣言
 	template<class V>
-	explicit VERTEX_BUFFER(GRAPHIC& Gfx, const std::vector<V>& aVertice, bool bDynamic = false) :
+	explicit VERTEX_BUFFER(const GRAPHIC& Gfx, const std::vector<V>& aVertice, bool bDynamic = false) :
 		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MAX_TYPE)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MAX_TYPE))
 	{
 		//エラーハンドル
@@ -54,7 +54,7 @@ public:
 	}
 
 	template<class V, class I>
-	explicit VERTEX_BUFFER(GRAPHIC& Gfx, const std::vector<V>& aVertice, const std::vector<I>& aInstance, bool bDynamic = false) :
+	explicit VERTEX_BUFFER(const GRAPHIC& Gfx, const std::vector<V>& aVertice, const std::vector<I>& aInstance, bool bDynamic = false) :
 		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MAX_TYPE)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MAX_TYPE))
 	{
 		//エラーハンドル
@@ -92,7 +92,7 @@ public:
 	~VERTEX_BUFFER() noexcept override;
 
 	template<typename D>
-	void UpdateBuffer(GRAPHIC& Gfx, const std::vector<D>& aData, VB_TYPE Type) const	//バッファ更新
+	void UpdateBuffer(const GRAPHIC& Gfx, const std::vector<D>& aData, VB_TYPE Type) const	//バッファ更新
 	{
 		//例外処理
 		if (m_pVertexBuffers[static_cast<int>(Type)].Get() == nullptr)
@@ -115,7 +115,7 @@ public:
 	}
 
 	template<typename I>
-	void ResetInstanceBuffer(GRAPHIC& Gfx, const std::vector<I>& aInstance)				//インスタンスバッファ再設定
+	void ResetInstanceBuffer(const GRAPHIC& Gfx, const std::vector<I>& aInstance)	//インスタンスバッファ再設定
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -138,7 +138,7 @@ public:
 		m_aStride[static_cast<int>(VB_TYPE::INSTANCE)] = static_cast<UINT>(sizeof(I));
 	}
 
-	void Bind(GRAPHIC& Gfx) noexcept override;											//バインド処理
+	void Bind(const GRAPHIC& Gfx) noexcept override;	//バインド処理
 
 protected:
 
