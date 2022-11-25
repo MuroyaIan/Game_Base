@@ -27,7 +27,7 @@ PIXEL_SHADER::~PIXEL_SHADER() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void PIXEL_SHADER::Bind(const GRAPHIC& Gfx) noexcept
+void PIXEL_SHADER::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	GetContext(Gfx)->PSSetShader(m_pPixelShader.Get(), nullptr, 0u);
 }

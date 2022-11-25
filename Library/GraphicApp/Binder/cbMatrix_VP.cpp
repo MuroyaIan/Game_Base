@@ -28,7 +28,7 @@ CB_MTX_VP::~CB_MTX_VP() noexcept
 }
 
 //バインド処理
-void CB_MTX_VP::Bind(const GRAPHIC& Gfx) noexcept
+void CB_MTX_VP::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 View = Gfx.GetViewMtx();

@@ -22,7 +22,7 @@ INPUT_LAYOUT::~INPUT_LAYOUT() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void INPUT_LAYOUT::Bind(const GRAPHIC& Gfx) noexcept
+void INPUT_LAYOUT::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	GetContext(Gfx)->IASetInputLayout(m_pInputLayout.Get());
 }

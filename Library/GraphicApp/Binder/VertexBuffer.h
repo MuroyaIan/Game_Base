@@ -100,18 +100,7 @@ public:
 		if (Type == VB_TYPE::VERTEX && !m_bDynamicBuffer)
 			throw ERROR_EX2("頂点バッファは動的ではない!");
 
-		//エラーハンドル
-		HRESULT hr{};
-
-		//更新処理
-		D3D11_MAPPED_SUBRESOURCE msr{};
-		hr = GetContext(Gfx)->Map(
-			m_pVertexBuffers[static_cast<int>(Type)].Get(), 0u,
-			D3D11_MAP_WRITE_DISCARD, 0u,
-			&msr);																		//GPUのアクセスをロック
-		ERROR_DX(hr);
-		memcpy(msr.pData, aData.data(), static_cast<UINT>(sizeof(D) * aData.size()));	//データ書込み
-		GetContext(Gfx)->Unmap(m_pVertexBuffers[static_cast<int>(Type)].Get(), 0u);		//GPUのアクセスを解放
+		MapBuffer(Gfx, aData, m_pVertexBuffers[static_cast<int>(Type)].Get());
 	}
 
 	template<typename I>
@@ -138,7 +127,7 @@ public:
 		m_aStride[static_cast<int>(VB_TYPE::INSTANCE)] = static_cast<UINT>(sizeof(I));
 	}
 
-	void Bind(const GRAPHIC& Gfx) noexcept override;	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
 
 protected:
 

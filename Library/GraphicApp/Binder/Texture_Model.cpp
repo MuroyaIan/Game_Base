@@ -16,7 +16,7 @@ TEXTURE_MODEL::~TEXTURE_MODEL() noexcept
 }
 
 //ÉoÉCÉìÉhèàóù
-void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) noexcept
+void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	ID3D11ShaderResourceView* pBuffers[static_cast<int>(TEX_TYPE::MAX_TYPE)]{ nullptr };
 	for (size_t i = 0, Cnt = m_pTextureViews.size(); i < Cnt; i++)

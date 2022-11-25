@@ -23,7 +23,7 @@ public:
 	//プロトタイプ宣言
 	explicit PIXEL_SHADER(const GRAPHIC& Gfx, const std::wstring& Path);
 	~PIXEL_SHADER() noexcept override;
-	void Bind(const GRAPHIC& Gfx) noexcept override;			//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;		//バインド処理
 
 protected:
 

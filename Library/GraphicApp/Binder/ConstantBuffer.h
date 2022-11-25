@@ -149,59 +149,36 @@ class CONSTANT_BUFFER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	CONSTANT_BUFFER(GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) :
+	explicit CONSTANT_BUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) :
 		BINDER(), m_pConstantBuffer(), m_StartSlot(Slot)
 	{
 		//エラーハンドル
 		HRESULT hr{};
 
 		//バッファ作成
-		D3D11_BUFFER_DESC bd{};
-		bd.ByteWidth = static_cast<UINT>(sizeof(C));
-		bd.Usage = D3D11_USAGE_DYNAMIC;
-		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		bd.MiscFlags = 0u;
-		bd.StructureByteStride = 0u;
+		D3D11_BUFFER_DESC bd = GetBufferDesc(static_cast<UINT>(sizeof(C)));
 		D3D11_SUBRESOURCE_DATA sd{};
 		sd.pSysMem = &Consts;
 		hr = GetDevice(Gfx)->CreateBuffer(&bd, &sd, &m_pConstantBuffer);
 		ERROR_DX(hr);
 	}
 
-	CONSTANT_BUFFER(GRAPHIC& Gfx, UINT Slot = 0u) :
-		BINDER(), m_pConstantBuffer(), m_StartSlot(Slot)	//バッファ初期化なし
+	explicit CONSTANT_BUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) :
+		BINDER(), m_pConstantBuffer(), m_StartSlot(Slot)			//バッファ初期化なし
 	{
 		//エラーハンドル
 		HRESULT hr{};
 
 		//バッファ作成
-		D3D11_BUFFER_DESC bd{};
-		bd.ByteWidth = static_cast<UINT>(sizeof(C));
-		bd.Usage = D3D11_USAGE_DYNAMIC;
-		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		bd.MiscFlags = 0u;
-		bd.StructureByteStride = 0u;
+		D3D11_BUFFER_DESC bd = GetBufferDesc(static_cast<UINT>(sizeof(C)));
 		hr = GetDevice(Gfx)->CreateBuffer(&bd, nullptr, &m_pConstantBuffer);
 		ERROR_DX(hr);
 	}
 	~CONSTANT_BUFFER() noexcept override {}
 
-	void Update(const GRAPHIC& Gfx, const C& Consts) const	//バッファ更新
+	void Update(const GRAPHIC& Gfx, const C& Consts) const			//バッファ更新
 	{
-		//エラーハンドル
-		HRESULT hr{};
-
-		//更新処理
-		D3D11_MAPPED_SUBRESOURCE msr{};
-		hr = GetContext(Gfx)->Map(
-			m_pConstantBuffer.Get(), 0u,
-			D3D11_MAP_WRITE_DISCARD, 0u,
-			&msr);												//GPUのアクセスをロック
-		ERROR_DX(hr);
-		memcpy(msr.pData, &Consts, sizeof(C));					//データ書込み
-		GetContext(Gfx)->Unmap(m_pConstantBuffer.Get(), 0u);	//GPUのアクセスを解放
+		MapBuffer(Gfx, Consts, m_pConstantBuffer.Get());
 	}
 
 protected:
@@ -209,6 +186,20 @@ protected:
 	//変数宣言
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_pConstantBuffer;		//ポインタ
 	UINT m_StartSlot;											//レジスタ番号
+
+	//プロトタイプ宣言
+	D3D11_BUFFER_DESC GetBufferDesc(UINT ArraySize)				//バッファ設定取得
+	{
+		D3D11_BUFFER_DESC bd{};
+		bd.ByteWidth = ArraySize;
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bd.MiscFlags = 0u;
+		bd.StructureByteStride = 0u;
+
+		return bd;
+	}
 };
 
 //***** 定数バッファ（頂点シェーダ用） *****
@@ -218,11 +209,11 @@ class VERTEX_CBUFFER : public CONSTANT_BUFFER<C>
 public:
 
 	//プロトタイプ宣言
-	VERTEX_CBUFFER(GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF::CONSTANT_BUFFER(Gfx, Consts, Slot) {}
-	VERTEX_CBUFFER(GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF::CONSTANT_BUFFER(Gfx, Slot) {}
+	explicit VERTEX_CBUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF(Gfx, Consts, Slot) {}
+	explicit VERTEX_CBUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF(Gfx, Slot) {}
 	~VERTEX_CBUFFER() noexcept override {}
 
-	void Bind(const GRAPHIC& Gfx) noexcept override	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override	//バインド処理
 	{
 		BINDER::GetContext(Gfx)->VSSetConstantBuffers(C_BUFF::m_StartSlot, 1u, C_BUFF::m_pConstantBuffer.GetAddressOf());
 	}
@@ -240,11 +231,11 @@ class PIXEL_CBUFFER : public CONSTANT_BUFFER<C>
 public:
 
 	//プロトタイプ宣言
-	PIXEL_CBUFFER(GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF::CONSTANT_BUFFER(Gfx, Consts, Slot) {}
-	PIXEL_CBUFFER(GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF::CONSTANT_BUFFER(Gfx, Slot) {}
+	explicit PIXEL_CBUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF(Gfx, Consts, Slot) {}
+	explicit PIXEL_CBUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF(Gfx, Slot) {}
 	~PIXEL_CBUFFER() noexcept override {}
 
-	void Bind(const GRAPHIC& Gfx) noexcept override	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override	//バインド処理
 	{
 		BINDER::GetContext(Gfx)->PSSetConstantBuffers(C_BUFF::m_StartSlot, 1u, C_BUFF::m_pConstantBuffer.GetAddressOf());
 	}

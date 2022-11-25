@@ -39,8 +39,8 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 	//スワップチェーン設定
 	DXGI_SWAP_CHAIN_DESC scd{};
-	scd.BufferDesc.Width = 0u;
-	scd.BufferDesc.Height = 0u;
+	scd.BufferDesc.Width = static_cast<UINT>(fWidth);
+	scd.BufferDesc.Height = static_cast<UINT>(fHeight);
 	scd.BufferDesc.RefreshRate.Numerator = 0u;
 	scd.BufferDesc.RefreshRate.Denominator = 0u;
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;

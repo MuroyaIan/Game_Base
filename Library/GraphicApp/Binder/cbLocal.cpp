@@ -28,7 +28,7 @@ CB_LOCAL::~CB_LOCAL() noexcept
 }
 
 //バインド処理
-void CB_LOCAL::Bind(const GRAPHIC& Gfx) noexcept
+void CB_LOCAL::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
 	m_pVcBuff->Update(Gfx, m_LocalData);

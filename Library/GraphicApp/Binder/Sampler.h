@@ -23,11 +23,11 @@ public:
 	//プロトタイプ宣言
 	explicit SAMPLER(const GRAPHIC& Gfx, UINT StartSlot = 0u, bool IsPixel = false);
 	~SAMPLER() noexcept override;
-	void Bind(const GRAPHIC& Gfx) noexcept override;		//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;		//バインド処理
 
 protected:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSampler;	//ポインタ
-	UINT m_StartSlot;										//レジスタ番号
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSampler;		//ポインタ
+	UINT m_StartSlot;											//レジスタ番号
 };

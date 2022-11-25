@@ -22,7 +22,7 @@ public:
 	//プロトタイプ宣言
 	CB_MTX_VP(GRAPHIC& Gfx);
 	~CB_MTX_VP() noexcept override;
-	void Bind(const GRAPHIC& Gfx) noexcept override;		//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;			//バインド処理
 
 private:
 

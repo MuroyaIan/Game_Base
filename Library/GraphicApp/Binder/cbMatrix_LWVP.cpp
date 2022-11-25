@@ -29,7 +29,7 @@ CB_MTX_LWVP::~CB_MTX_LWVP() noexcept
 }
 
 //バインド処理
-void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) noexcept
+void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 Local = m_mtxL;

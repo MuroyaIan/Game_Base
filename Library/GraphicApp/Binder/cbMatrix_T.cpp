@@ -29,7 +29,7 @@ CB_MTX_T::~CB_MTX_T() noexcept
 }
 
 //バインド処理
-void CB_MTX_T::Bind(const GRAPHIC& Gfx) noexcept
+void CB_MTX_T::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 World = m_Parent.GetTransformMtx();

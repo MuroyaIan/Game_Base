@@ -28,7 +28,7 @@ INDEX_BUFFER::~INDEX_BUFFER() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void INDEX_BUFFER::Bind(const GRAPHIC& Gfx) noexcept
+void INDEX_BUFFER::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	GetContext(Gfx)->IASetIndexBuffer(m_pIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0u);
 }

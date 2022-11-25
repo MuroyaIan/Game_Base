@@ -24,7 +24,7 @@ public:
 	//プロトタイプ宣言
 	explicit TEXTURE(const GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, UINT StartSlot = 0u);
 	~TEXTURE() noexcept override;
-	void Bind(const GRAPHIC& Gfx) noexcept override;					//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理
 
 protected:
 
