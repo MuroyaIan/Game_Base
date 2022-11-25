@@ -20,7 +20,7 @@ BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LO
 
 		//定数バッファ作成（法線の色）
 		const dx::XMFLOAT4 cbNormalColor(0.5f, 1.0f, 1.0f, 1.0f);
-		AddStaticBind(std::make_unique<PIXEL_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
+		AddStaticBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
 	}
 
 	//頂点情報作成

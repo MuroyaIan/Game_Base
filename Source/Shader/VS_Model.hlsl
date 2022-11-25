@@ -20,7 +20,7 @@ struct VS_OUT
 };
 
 //定数バッファ（変換行列）
-cbuffer C_BUFFER
+cbuffer C_BUFFER : register(b0)
 {
 	matrix mtxLocal;    //ローカル行列
 	matrix mtxWorld;    //ワールド行列

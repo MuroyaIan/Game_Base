@@ -25,7 +25,7 @@ GRID::GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr) :
 
 		//定数バッファ作成（ポリゴン色）
 		const dx::XMFLOAT4 cbColor(0.5f, 0.5f, 0.5f, 1.0f);
-		AddStaticBind(std::make_unique<PIXEL_CBUFFER<dx::XMFLOAT4>>(Gfx, cbColor));
+		AddStaticBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbColor));
 	}
 
 	//定数バッファ作成（変換行列）

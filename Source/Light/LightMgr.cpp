@@ -8,7 +8,7 @@ LIGHT_MGR::LIGHT_MGR(APP& App) noexcept :
 	m_Gfx(App.GetGfxPack()), m_LightData(), m_UsedData(0), m_UsedData_backup(m_UsedData), m_pcBuff()
 {
 	//定数バッファ作成
-	m_pcBuff = std::make_unique<PIXEL_CBUFFER<LIGHT_PACK>>(m_Gfx.m_DX, static_cast<UINT>(CB_SLOT_PS::LIGHT));
+	m_pcBuff = std::make_unique<PS_CBUFFER<LIGHT_PACK>>(m_Gfx.m_DX, static_cast<UINT>(CB_SLOT_PS::LIGHT));
 }
 
 LIGHT_MGR::~LIGHT_MGR() noexcept

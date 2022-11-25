@@ -17,7 +17,7 @@
 //===== 前方宣言 =====
 class BINDER;
 class DRAWER;
-struct CBD_MTX_BONE;
+struct CBD_BONE;
 
 //===== クラス定義 =====
 
@@ -66,7 +66,7 @@ private:
 
 	bool m_bStatic;									//静的メッシュかどうか
 	std::unique_ptr<BINDER> m_pBoneBuffer;			//骨情報用バインダ
-	std::unique_ptr<CBD_MTX_BONE> m_pMtxBone;		//骨情報（定数バッファ用）
+	std::unique_ptr<CBD_BONE> m_pMtxBone;		//骨情報（定数バッファ用）
 	int m_AnimID;									//アニメーション番号
 	int m_AnimID_Backup;							//アニメーション番号（バックアップ）
 	int m_AnimFrame;								//アニメーション再生フレーム

@@ -17,7 +17,7 @@
 //===== 前方宣言 =====
 class VIEWER;
 class FBX_LOADER;
-struct CBD_MTX_BONE;
+struct CBD_BONE;
 class INPUT_MGR;
 
 //===== クラス定義 =====
@@ -56,7 +56,7 @@ private:
 	MATERIAL_DATA m_Material;					//マテリアル情報
 	bool m_bNoBone;								//骨なしメッシュ
 
-	std::unique_ptr<CBD_MTX_BONE> m_pMtxBone;	//骨情報
+	std::unique_ptr<CBD_BONE> m_pMtxBone;	//骨情報
 	bool& m_bDrawAnimation;						//アニメーション再生
 	int& m_AnimationID;							//アニメーション番号
 	int m_AnimFrame;							//再生するフレーム数

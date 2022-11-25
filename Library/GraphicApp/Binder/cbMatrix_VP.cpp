@@ -4,18 +4,18 @@
 #include <Tool/gMath.h>
 
 namespace dx = DirectX;
-using vcbMtx = VERTEX_CBUFFER<CBD_MTX_VP>;
+using vscb = VS_CBUFFER<CBD_MTX_VP>;
 
 //===== 静的メンバ変数 =====
-std::unique_ptr<vcbMtx> CB_MTX_VP::m_pVcBuff = nullptr;
+std::unique_ptr<vscb> CB_MTX_VP::m_pCBuffVS{};
 int CB_MTX_VP::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MTX_VP::CB_MTX_VP(GRAPHIC& Gfx) : BINDER()
+CB_MTX_VP::CB_MTX_VP(const GRAPHIC& Gfx) : BINDER()
 {
 	//定数バッファ初期化
-	if (!m_pVcBuff)
-		m_pVcBuff = std::make_unique<vcbMtx>(Gfx, static_cast<UINT>(CB_SLOT_VS::CAMERA));
+	if (!m_pCBuffVS)
+		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::CAMERA));
 	m_RefCount++;
 }
 
@@ -24,7 +24,7 @@ CB_MTX_VP::~CB_MTX_VP() noexcept
 	//バッファ解放
 	m_RefCount--;
 	if (m_RefCount == 0)
-		m_pVcBuff.reset();
+		m_pCBuffVS.reset();
 }
 
 //バインド処理
@@ -36,8 +36,8 @@ void CB_MTX_VP::Bind(const GRAPHIC& Gfx) const noexcept
 	gMath::MtxTranspose4x4_SSE(&View._11);
 	gMath::MtxTranspose4x4_SSE(&Proj._11);
 	CBD_MTX_VP aMtx = { View, Proj };
-	m_pVcBuff->Update(Gfx, aMtx);
+	m_pCBuffVS->Update(Gfx, aMtx);
 
 	//バインド処理
-	m_pVcBuff->Bind(Gfx);
+	m_pCBuffVS->Bind(Gfx);
 }

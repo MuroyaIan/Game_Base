@@ -17,7 +17,7 @@ constexpr int LIGHT_NUM = 16;		//点光源の最大描画数
 
 //===== 前方宣言 =====
 template<typename C>
-class PIXEL_CBUFFER;
+class PS_CBUFFER;
 
 //===== クラス定義 =====
 
@@ -62,5 +62,5 @@ private:
 	LIGHT_PACK m_LightData;									//ライト情報
 	int m_UsedData;											//ポイントライト使用数
 	int m_UsedData_backup;									//外部取得用
-	std::unique_ptr<PIXEL_CBUFFER<LIGHT_PACK>> m_pcBuff;	//定数バッファ
+	std::unique_ptr<PS_CBUFFER<LIGHT_PACK>> m_pcBuff;	//定数バッファ
 };

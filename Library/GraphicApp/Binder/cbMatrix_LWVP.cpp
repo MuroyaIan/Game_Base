@@ -1,22 +1,23 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Binder/cbMatrix_LWVP.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <Tool/gMath.h>
 
 namespace dx = DirectX;
-using vcbMtx = VERTEX_CBUFFER<CBD_MTX_LWVP>;
+using vscb = VS_CBUFFER<CBD_MTX_LWVP>;
 
 //===== 静的メンバ変数 =====
-std::unique_ptr<vcbMtx> CB_MTX_LWVP::m_pVcBuff = nullptr;
+std::unique_ptr<vscb> CB_MTX_LWVP::m_pCBuffVS{};
 int CB_MTX_LWVP::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MTX_LWVP::CB_MTX_LWVP(GRAPHIC& Gfx, const DRAWER& Parent, const DirectX::XMFLOAT4X4& mtxL) :
+CB_MTX_LWVP::CB_MTX_LWVP(const GRAPHIC& Gfx, const DRAWER& Parent, const DirectX::XMFLOAT4X4& mtxL) :
 	BINDER(), m_Parent(Parent), m_mtxL(mtxL)
 {
 	//定数バッファ初期化
-	if (!m_pVcBuff)
-		m_pVcBuff = std::make_unique<vcbMtx>(Gfx);
+	if (!m_pCBuffVS)
+		m_pCBuffVS = std::make_unique<vscb>(Gfx);
 	m_RefCount++;
 }
 
@@ -25,7 +26,7 @@ CB_MTX_LWVP::~CB_MTX_LWVP() noexcept
 	//バッファ解放
 	m_RefCount--;
 	if (m_RefCount == 0)
-		m_pVcBuff.reset();
+		m_pCBuffVS.reset();
 }
 
 //バインド処理
@@ -41,8 +42,8 @@ void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const noexcept
 	gMath::MtxTranspose4x4_SSE(&View._11);
 	gMath::MtxTranspose4x4_SSE(&Proj._11);
 	CBD_MTX_LWVP aMtx = { Local, World, View, Proj };
-	m_pVcBuff->Update(Gfx, aMtx);
+	m_pCBuffVS->Update(Gfx, aMtx);
 
 	//バインド処理
-	m_pVcBuff->Bind(Gfx);
+	m_pCBuffVS->Bind(Gfx);
 }

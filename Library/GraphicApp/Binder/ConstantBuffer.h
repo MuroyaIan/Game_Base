@@ -111,18 +111,18 @@ struct CBD_MTX_LWVP					//変換行列用データ(LWVP)
 	{}
 };
 
-struct CBD_MTX_BONE							//骨行列用データ
+struct CBD_BONE							//骨行列用データ
 {
 	//変数宣言
 	DirectX::XMFLOAT4X4 mtxBone[MAX_BONE];	//骨のワールド行列
 
-	CBD_MTX_BONE() noexcept : mtxBone()
+	CBD_BONE() noexcept : mtxBone()
 	{
 		for (auto& b : mtxBone)
 			DirectX::XMStoreFloat4x4(&b, DirectX::XMMatrixIdentity());
 	}
 
-	~CBD_MTX_BONE() noexcept
+	~CBD_BONE() noexcept
 	{}
 };
 
@@ -204,14 +204,14 @@ protected:
 
 //***** 定数バッファ（頂点シェーダ用） *****
 template<typename C>
-class VERTEX_CBUFFER : public CONSTANT_BUFFER<C>
+class VS_CBUFFER : public CONSTANT_BUFFER<C>
 {
 public:
 
 	//プロトタイプ宣言
-	explicit VERTEX_CBUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF(Gfx, Consts, Slot) {}
-	explicit VERTEX_CBUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF(Gfx, Slot) {}
-	~VERTEX_CBUFFER() noexcept override {}
+	explicit VS_CBUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF(Gfx, Consts, Slot) {}
+	explicit VS_CBUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF(Gfx, Slot) {}
+	~VS_CBUFFER() noexcept override {}
 
 	void Bind(const GRAPHIC& Gfx) const noexcept override	//バインド処理
 	{
@@ -226,14 +226,14 @@ private:
 
 //***** 定数バッファ（ピクセルシェーダ用） *****
 template<typename C>
-class PIXEL_CBUFFER : public CONSTANT_BUFFER<C>
+class PS_CBUFFER : public CONSTANT_BUFFER<C>
 {
 public:
 
 	//プロトタイプ宣言
-	explicit PIXEL_CBUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF(Gfx, Consts, Slot) {}
-	explicit PIXEL_CBUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF(Gfx, Slot) {}
-	~PIXEL_CBUFFER() noexcept override {}
+	explicit PS_CBUFFER(const GRAPHIC& Gfx, const C& Consts, UINT Slot = 0u) : C_BUFF(Gfx, Consts, Slot) {}
+	explicit PS_CBUFFER(const GRAPHIC& Gfx, UINT Slot = 0u) : C_BUFF(Gfx, Slot) {}
+	~PS_CBUFFER() noexcept override {}
 
 	void Bind(const GRAPHIC& Gfx) const noexcept override	//バインド処理
 	{

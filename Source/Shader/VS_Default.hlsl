@@ -6,7 +6,7 @@ struct VS_IN
 };
 
 //定数バッファ（変換行列）
-cbuffer C_BUFFER
+cbuffer C_BUFFER : register(b0)
 {
 	matrix mtxTransform;
 };
