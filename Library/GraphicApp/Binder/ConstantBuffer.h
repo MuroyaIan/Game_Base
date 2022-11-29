@@ -12,7 +12,6 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Binder/Binder.h>
-#include <GraphicApp/Drawer/VertexShaderData.h>
 
 //===== 列挙型宣言 =====
 enum class CB_SLOT_VS
@@ -65,78 +64,6 @@ struct CBD_COLOR						//ポリゴン色用データ
 	}
 
 	~CBD_COLOR() noexcept
-	{}
-};
-
-struct CBD_MTX_VP					//変換行列用データ(VP)
-{
-	//変数宣言
-	DirectX::XMFLOAT4X4 mtxView;	//ビュー行列
-	DirectX::XMFLOAT4X4 mtxProj;	//投影行列
-
-	CBD_MTX_VP() noexcept : mtxView(), mtxProj()
-	{
-		DirectX::XMStoreFloat4x4(&mtxView, DirectX::XMMatrixIdentity());
-		DirectX::XMStoreFloat4x4(&mtxProj, DirectX::XMMatrixIdentity());
-	}
-
-	CBD_MTX_VP(DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept : mtxView(mtxV), mtxProj(mtxP)
-	{}
-
-	~CBD_MTX_VP() noexcept
-	{}
-};
-
-struct CBD_MTX_LWVP					//変換行列用データ(LWVP)
-{
-	//変数宣言
-	DirectX::XMFLOAT4X4 mtxLocal;	//ローカル行列
-	DirectX::XMFLOAT4X4 mtxWorld;	//ワールド行列
-	DirectX::XMFLOAT4X4 mtxView;	//ビュー行列
-	DirectX::XMFLOAT4X4 mtxProj;	//投影行列
-
-	CBD_MTX_LWVP() noexcept : mtxLocal(), mtxWorld(), mtxView(), mtxProj()
-	{
-		DirectX::XMStoreFloat4x4(&mtxLocal, DirectX::XMMatrixIdentity());
-		DirectX::XMStoreFloat4x4(&mtxWorld, DirectX::XMMatrixIdentity());
-		DirectX::XMStoreFloat4x4(&mtxView, DirectX::XMMatrixIdentity());
-		DirectX::XMStoreFloat4x4(&mtxProj, DirectX::XMMatrixIdentity());
-	}
-
-	CBD_MTX_LWVP(DirectX::XMFLOAT4X4 mtxL, DirectX::XMFLOAT4X4 mtxW, DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept :
-		mtxLocal(mtxL), mtxWorld(mtxW), mtxView(mtxV), mtxProj(mtxP)
-	{}
-
-	~CBD_MTX_LWVP() noexcept
-	{}
-};
-
-struct CBD_BONE							//骨行列用データ
-{
-	//変数宣言
-	DirectX::XMFLOAT4X4 mtxBone[MAX_BONE];	//骨のワールド行列
-
-	CBD_BONE() noexcept : mtxBone()
-	{
-		for (auto& b : mtxBone)
-			DirectX::XMStoreFloat4x4(&b, DirectX::XMMatrixIdentity());
-	}
-
-	~CBD_BONE() noexcept
-	{}
-};
-
-struct CBD_MTX_LOCAL						//ローカル行列用データ
-{
-	//変数宣言
-	DirectX::XMFLOAT4X4 mtxSkin;			//骨なしメッシュ用ローカル行列
-
-	CBD_MTX_LOCAL() noexcept : mtxSkin()
-	{
-		DirectX::XMStoreFloat4x4(&mtxSkin, DirectX::XMMatrixIdentity());
-	}
-
-	~CBD_MTX_LOCAL() noexcept
 	{}
 };
 

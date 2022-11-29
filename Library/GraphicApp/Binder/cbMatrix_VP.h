@@ -13,6 +13,24 @@
 //===== インクルード部 =====
 #include <GraphicApp/Binder/ConstantBuffer.h>
 
+//===== 構造体宣言 =====
+struct CBD_MTX_VP
+{
+	//変数宣言
+	DirectX::XMFLOAT4X4 mtxView;	//ビュー行列
+	DirectX::XMFLOAT4X4 mtxProj;	//投影行列
+
+	CBD_MTX_VP() noexcept : mtxView(), mtxProj()
+	{
+		DirectX::XMStoreFloat4x4(&mtxView, DirectX::XMMatrixIdentity());
+		DirectX::XMStoreFloat4x4(&mtxProj, DirectX::XMMatrixIdentity());
+	}
+	CBD_MTX_VP(DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept : mtxView(mtxV), mtxProj(mtxP)
+	{}
+	~CBD_MTX_VP() noexcept
+	{}
+};
+
 //===== クラス定義 =====
 
 //***** 変換行列バッファ（ビュー行列、投影行列） *****

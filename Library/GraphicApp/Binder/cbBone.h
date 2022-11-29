@@ -12,6 +12,23 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Binder/ConstantBuffer.h>
+#include <GraphicApp/Drawer/VertexShaderData.h>
+
+//===== 構造体宣言 =====
+struct CBD_BONE
+{
+	//変数宣言
+	DirectX::XMFLOAT4X4 mtxBone[MAX_BONE];	//骨のワールド行列
+
+	CBD_BONE() noexcept : mtxBone()
+	{
+		for (auto& b : mtxBone)
+			DirectX::XMStoreFloat4x4(&b, DirectX::XMMatrixIdentity());
+	}
+
+	~CBD_BONE() noexcept
+	{}
+};
 
 //===== クラス定義 =====
 

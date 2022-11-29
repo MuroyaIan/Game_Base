@@ -162,8 +162,8 @@ void VIEWER::LoadModel(bool bAnimOnly)
 			if (m_pLoader->GetSkeleton().size() > 0) {
 				for (size_t i = 0, Cnt = m_pLoader->GetSkeleton().size(); i < Cnt; i++)
 					m_Drawer_Bone->AddInstance();
+				m_Drawer_BoneLine = std::make_unique<BONE_LINE>(m_Gfx.m_DX, m_Gfx.m_ShaderMgr, *this, *m_pLoader, *m_Drawer_Bone);
 			}
-			m_Drawer_BoneLine = std::make_unique<BONE_LINE>(m_Gfx.m_DX, m_Gfx.m_ShaderMgr, *this, *m_pLoader, *m_Drawer_Bone);
 		}
 		else {
 

@@ -13,7 +13,7 @@ constexpr dx::XMFLOAT3 START_UP = { 0.0f, 1.0f, 0.0f };		//アップベクトル
 //===== クラス実装 =====
 VIEWER_CAM::VIEWER_CAM(APP& App) noexcept :
 	m_App(App), m_LookAt(START_LOOK), m_vUp(START_UP),
-	m_FOV(60), g_AspectRatio(), m_NearZ(0.5f), m_FarZ(100.0f),
+	m_FOV(60), g_AspectRatio(), m_NearZ(0.5f), m_FarZ(10000.0f),
 	m_mtxWorld(), m_mtxView(), m_mtxProj(),
 	m_Mode(MODE::NONE), m_MousePos_Old(dx::XMFLOAT2(0.0f, 0.0f)),
 	m_Rot(dx::XMFLOAT3(gMath::GetRad(30), gMath::GetRad(-30), 0.0f)), m_Level_RotSPD(5), m_Pos(START_POS),
