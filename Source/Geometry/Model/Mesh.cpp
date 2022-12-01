@@ -8,7 +8,7 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 MESH::MESH(MODEL& ModelRef, int MeshIdx) :
-	DRAWER_EX(), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx),
+	DRAWER_EX(ModelRef.m_Gfx.m_DX), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx),
 	m_Gfx(ModelRef.m_Gfx), m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
 	m_bStatic(ModelRef.m_bStatic), m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimID_Backup(ModelRef.m_AnimID_Backup),
 	m_AnimFrame(ModelRef.m_AnimFrame), m_AnimFrame_Backup(ModelRef.m_AnimFrame_Backup),
@@ -74,9 +74,10 @@ void MESH::Update() noexcept
 }
 
 //書込み処理
-void MESH::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void MESH::Draw(int InstanceNum) const noexcept
 {
 	//例外処理
+	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -84,15 +85,14 @@ void MESH::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
 	std::vector<INSTANCE_DATA> aInstData = m_aInstanceData;
 	for (auto& i : aInstData)
 		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
-	GetVertexBuffer().UpdateBuffer(Gfx, aInstData, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::INSTANCE);
 
 	//インスタンス描画
 	if (m_bStatic)
 		m_Gfx.m_ShaderMgr.Bind_Instance_Phong();
 	else
 		m_Gfx.m_ShaderMgr.Bind_Instance_Phong_Anim();
-	(void)bDrawInstance;
-	DRAWER::Draw(Gfx, true);
+	DRAWER::Draw(m_InstanceNum);
 }
 
 //インスタンス追加

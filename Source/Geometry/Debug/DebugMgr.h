@@ -22,11 +22,11 @@ public:
 	//プロトタイプ宣言
 	DEBUG_MGR(APP& App) noexcept;
 	~DEBUG_MGR() noexcept;
-	void Update() noexcept;								//更新処理
-	void Draw(GRAPHIC& Gfx) const noexcept(!IS_DEBUG);	//描画処理
-	UINT GetPolygonNum() const noexcept;				//ポリゴン数取得
+	void Update() noexcept;					//更新処理
+	void Draw() const;						//描画処理
+	UINT GetPolygonNum() const noexcept;	//ポリゴン数取得
 
-	MESH_LIGHT& GetLightMesh() noexcept					//ライトメッシュ取得
+	MESH_LIGHT& GetLightMesh() noexcept		//ライトメッシュ取得
 	{
 		return m_Light;
 	}

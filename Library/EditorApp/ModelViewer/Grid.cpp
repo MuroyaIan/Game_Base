@@ -8,7 +8,7 @@ namespace dx = DirectX;
 
 //===== ÉNÉâÉXé¿ëï =====
 GRID::GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr) :
-	DRAWER_EX(), m_ShaderMgr(ShaderMgr), m_mtxWorld(), m_Size(dx::XMFLOAT2(20.0f, 20.0f))
+	DRAWER_EX(Gfx), m_ShaderMgr(ShaderMgr), m_mtxWorld(), m_Size(dx::XMFLOAT2(20.0f, 20.0f))
 {
 	//ê√ìIèâä˙âªÇ™çœÇÒÇæèÍçá
 	if (!StaticIsInit()) {
@@ -45,11 +45,11 @@ void GRID::Update() noexcept
 }
 
 //èëçûÇ›èàóù
-void GRID::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void GRID::Draw(int InstanceNum) const noexcept
 {
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_DEFAULT);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_DEFAULT);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_LINE);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_ONE_COLOR);
-	DRAWER::Draw(Gfx, bDrawInstance);
+	DRAWER::Draw(InstanceNum);
 }

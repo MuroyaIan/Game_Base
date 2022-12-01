@@ -29,10 +29,10 @@ public:
 	//プロトタイプ宣言
 	MODEL(GFX_PACK& Gfx, MODEL_MGR::MODEL_ID id) noexcept;
 	~MODEL() noexcept;
-	void Update() noexcept;							//更新処理
-	void Draw() const noexcept(!IS_DEBUG);			//書込み処理
-	int AddInstance();								//インスタンス追加
-	UINT GetPolygonNum() const noexcept;			//ポリゴン数取得
+	void Update() noexcept;								//更新処理
+	void Draw() const noexcept;							//書込み処理
+	int AddInstance();									//インスタンス追加
+	UINT GetPolygonNum() const noexcept;				//ポリゴン数取得
 
 	void ChangeAnimID(int id) noexcept					//アニメーション変更
 	{

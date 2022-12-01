@@ -22,7 +22,7 @@ class DRAWER_EX : public DRAWER
 protected:
 
 	//プロトタイプ宣言
-	DRAWER_EX() noexcept : DRAWER() {}
+	explicit DRAWER_EX(GRAPHIC& Gfx) noexcept : DRAWER(Gfx) {}
 	~DRAWER_EX() noexcept override
 	{
 		for (auto& b : ms_aBinder)

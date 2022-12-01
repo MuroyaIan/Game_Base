@@ -9,7 +9,7 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 SHAPE_TEX::SHAPE_TEX(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type, TEXTURE_MGR::TEX_ID Tex) :
-	DRAWER_EX(), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_Tex(Tex), m_aMtxData(m_InstanceNum)
+	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_Tex(Tex), m_aMtxData(m_InstanceNum)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_T> Model = VSD_MAKER::MakeData_Tex(m_Type);
@@ -74,9 +74,10 @@ void SHAPE_TEX::Update() noexcept
 }
 
 //書込み処理
-void SHAPE_TEX::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void SHAPE_TEX::Draw(int InstanceNum) const noexcept
 {
 	//例外処理
+	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -84,13 +85,12 @@ void SHAPE_TEX::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
 	std::vector<DirectX::XMFLOAT4X4> aMtxWorld = m_aMtxWorld;
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
-	GetVertexBuffer().UpdateBuffer(Gfx, aMtxWorld, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::INSTANCE);
 
 	//インスタンス描画
 	m_Gfx.m_TextureMgr.Bind(m_Tex);
 	m_Gfx.m_ShaderMgr.Bind_Instance_Texture();
-	(void)bDrawInstance;
-	DRAWER::Draw(Gfx, true);
+	DRAWER::Draw(m_InstanceNum);
 }
 
 //インスタンス追加

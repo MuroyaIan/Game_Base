@@ -1,45 +1,39 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/Drawer.h>
+#include <typeinfo>								//ポインタ内データの型確認
 #include <GraphicApp/Binder/IndexBuffer.h>
 #include <GraphicApp/Binder/VertexBuffer.h>
 
 //===== クラス実装 =====
-DRAWER::DRAWER() noexcept : m_aBinder(), m_pIndexBuffer(nullptr), m_InstanceNum(0), m_pVertexBuffer(nullptr)
+DRAWER::DRAWER(const GRAPHIC& Gfx) noexcept : m_Gfx(Gfx), m_aBinder(),
+	m_pIndexBuffer(nullptr), m_pVertexBuffer(nullptr), m_InstanceNum(0)
 {
 }
+
 DRAWER::~DRAWER() noexcept
 {
 }
 
-//インデックス数取得
-UINT DRAWER::GetIndexNum() const noexcept
-{
-	if (m_pIndexBuffer != nullptr)
-		return m_pIndexBuffer->GetIndexNum();
-	else
-		return GetStaticIndexBuffer().GetIndexNum();
-}
-
 //書込み処理
-void DRAWER::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void DRAWER::Draw(int InstanceNum) const noexcept
 {
-	for (auto& b : m_aBinder)										//バインド処理
-		b->Bind(Gfx);
-	for (auto& sb : GetStaticBind())								//バインド処理（静的）
-		sb->Bind(Gfx);
+	for (auto& b : m_aBinder)											//バインド処理
+		b->Bind(m_Gfx);
+	for (auto& sb : GetStaticBind())									//バインド処理（静的）
+		sb->Bind(m_Gfx);
 
 	if (m_pIndexBuffer != nullptr) {
-		if (!bDrawInstance)
-			Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());			//フレームバッファ書込み
+		if (InstanceNum < 0)
+			m_Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());			//フレームバッファ書込み
 		else
-			Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), m_InstanceNum);
+			m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), InstanceNum);
 	}
 	else {
-		if (!bDrawInstance)
-			Gfx.DrawIndexed(GetStaticIndexBuffer().GetIndexNum());	//インデックスバッファ固定の場合
+		if (InstanceNum < 0)
+			m_Gfx.DrawIndexed(GetStaticIndexBuffer().GetIndexNum());	//インデックスバッファ固定の場合
 		else
-			Gfx.DrawInstanced(GetStaticIndexBuffer().GetIndexNum(), m_InstanceNum);
+			m_Gfx.DrawInstanced(GetStaticIndexBuffer().GetIndexNum(), InstanceNum);
 	}
 }
 
@@ -66,4 +60,13 @@ void DRAWER::AddBind(std::unique_ptr<BINDER> pBinder)
 
 	//所有権移行
 	m_aBinder.push_back(std::move(pBinder));
+}
+
+//インデックス数取得
+UINT DRAWER::GetIndexNum() const noexcept
+{
+	if (m_pIndexBuffer != nullptr)
+		return m_pIndexBuffer->GetIndexNum();
+	else
+		return GetStaticIndexBuffer().GetIndexNum();
 }

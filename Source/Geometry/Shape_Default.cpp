@@ -9,7 +9,7 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 SHAPE_DEFAULT::SHAPE_DEFAULT(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
-	DRAWER_EX(), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_aMtxData(m_InstanceNum)
+	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_aMtxData(m_InstanceNum)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = VSD_MAKER::MakeData_Default(m_Type);
@@ -69,9 +69,10 @@ void SHAPE_DEFAULT::Update() noexcept
 }
 
 //書込み処理
-void SHAPE_DEFAULT::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void SHAPE_DEFAULT::Draw(int InstanceNum) const noexcept
 {
 	//例外処理
+	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -79,12 +80,11 @@ void SHAPE_DEFAULT::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DE
 	std::vector<DirectX::XMFLOAT4X4> aMtxWorld = m_aMtxWorld;
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
-	GetVertexBuffer().UpdateBuffer(Gfx, aMtxWorld, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::INSTANCE);
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind_Instance();
-	(void)bDrawInstance;
-	DRAWER::Draw(Gfx, true);
+	DRAWER::Draw(m_InstanceNum);
 }
 
 //インスタンス追加

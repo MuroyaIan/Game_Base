@@ -58,7 +58,7 @@ void MODEL::Update() noexcept
 }
 
 //書込み処理
-void MODEL::Draw() const noexcept(!IS_DEBUG)
+void MODEL::Draw() const noexcept
 {
 	//骨情報をバインド
 	if (!m_bStatic)
@@ -66,7 +66,7 @@ void MODEL::Draw() const noexcept(!IS_DEBUG)
 
 	//メッシュ描画
 	for (auto& m : m_aMesh)
-		m->Draw(m_Gfx.m_DX);
+		m->Draw();
 }
 
 //インスタンス追加

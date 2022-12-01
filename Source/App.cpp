@@ -291,7 +291,7 @@ void APP::Draw()
 
 		//3D描画
 		for (auto& d : m_aDrawer)
-			d->Draw(*m_pDX);
+			d->Draw();
 		for (auto& m : m_aModel)
 			m->Draw();
 		m_pPlayer->Draw();
@@ -301,7 +301,7 @@ void APP::Draw()
 #ifdef IMGUI
 
 		//デバッグマネージャ描画
-		m_pDebugMgr->Draw(*m_pDX);
+		m_pDebugMgr->Draw();
 
 		//ImGui描画
 		if (m_pDX->IsImGuiEnabled()) {

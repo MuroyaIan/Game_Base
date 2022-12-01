@@ -10,7 +10,7 @@ namespace dx = DirectX;
 
 //===== ÉNÉâÉXé¿ëï =====
 VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex, INPUT_MGR& Input) :
-	DRAWER_EX(), m_ShaderMgr(ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
+	DRAWER_EX(Gfx), m_ShaderMgr(ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
 	m_Input(Input), m_Scale(Viewer.GetModelScale()), m_Rot()
 {
@@ -109,11 +109,11 @@ void VIEWER_MODEL::Update() noexcept
 	}
 }
 
-void VIEWER_MODEL::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 {
 	m_ShaderMgr.Bind_Model();
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::SAMPLER);
-	DRAWER::Draw(Gfx, bDrawInstance);
+	DRAWER::Draw(InstanceNum);
 }
 
 //í∏ì_èÓïÒçÏê¨

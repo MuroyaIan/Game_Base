@@ -11,7 +11,6 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Graphic.h>
-#include <typeinfo>					//ポインタ内データの型確認
 
 //===== 前方宣言 =====
 class BINDER;
@@ -27,40 +26,46 @@ public:
 
 	//コピーNG
 	DRAWER(const DRAWER&) = delete;
+	DRAWER& operator=(const DRAWER&) = delete;
 
 	//プロトタイプ宣言
-	DRAWER() noexcept;
+	explicit DRAWER(const GRAPHIC& Gfx) noexcept;
 	virtual ~DRAWER() noexcept;
-	UINT GetIndexNum() const noexcept;														//インデックス数取得
 
 	virtual void Update() noexcept = 0;														//更新処理
-	virtual void Draw(GRAPHIC& Gfx, bool bDrawInstance = false) const noexcept(!IS_DEBUG);	//書込み処理
-	virtual DirectX::XMFLOAT4X4 GetTransformMtx(int InstanceIndex = 0) const noexcept = 0;	//変形行列取得
+	virtual void Draw(int InstanceNum = -1) const noexcept;									//描画処理
 	virtual UINT GetPolygonNum() const noexcept = 0;										//ポリゴン数取得
+	virtual DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept = 0;	//ワールド行列取得
+
 	virtual int AddInstance()																//インスタンス追加
 	{
-		throw ERROR_EX2("子クラスでインスタンス化行ってください。");
+		throw ERROR_EX2("子クラスで継承してください。");
 	}
+
 	virtual void ClearInstance()															//インスタンスクリア
 	{
-		throw ERROR_EX2("子クラスでインスタンスをクリアしてください。");
+		throw ERROR_EX2("子クラスで継承しください。");
 	}
 
 protected:
 
-	//プロトタイプ宣言
-	void AddBind(std::unique_ptr<BINDER> pBinder);		//バインダ登録
+	//変数宣言
+	const GRAPHIC& m_Gfx;							//グラフィック参照先
 
-	void SetInstanceNum(int Num)						//インスタンス数設定
+	//プロトタイプ宣言
+	void AddBind(std::unique_ptr<BINDER> pBinder);	//バインダ登録
+	UINT GetIndexNum() const noexcept;				//インデックス数取得
+
+	VERTEX_BUFFER& GetVertexBuffer() const			//頂点バッファ参照
+	{
+		return *m_pVertexBuffer;
+	}
+
+	void SetInstanceNum(int Num)					//インスタンス数設定
 	{
 		if (Num < 0)
 			throw ERROR_EX2("インスタンス数は1以上でなければならない。");
 		m_InstanceNum = Num;
-	}
-
-	VERTEX_BUFFER& GetVertexBuffer() const		//頂点バッファ参照
-	{
-		return *m_pVertexBuffer;
 	}
 
 	virtual const std::vector<std::unique_ptr<BINDER>>& GetStaticBind() const noexcept = 0;		//静的配列参照
@@ -71,6 +76,6 @@ private:
 	//変数宣言
 	std::vector<std::unique_ptr<BINDER>> m_aBinder;		//バインダのポインタ配列
 	const INDEX_BUFFER* m_pIndexBuffer;					//インデックスバッファのポインタ（所有権なし）
-	int m_InstanceNum;									//インスタンス数
 	VERTEX_BUFFER* m_pVertexBuffer;						//頂点バッファのポインタ（インスタンス更新用）
+	int m_InstanceNum;									//インスタンス数
 };

@@ -34,7 +34,7 @@ void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 Local = m_mtxL;
-	dx::XMFLOAT4X4 World = m_Parent.GetTransformMtx();
+	dx::XMFLOAT4X4 World = m_Parent.GetWorldMatrix();
 	dx::XMFLOAT4X4 View = Gfx.GetViewMtx();
 	dx::XMFLOAT4X4 Proj = Gfx.GetProjectionMtx();
 	gMath::MtxTranspose4x4_SSE(&Local._11);

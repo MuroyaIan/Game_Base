@@ -12,7 +12,7 @@ void SetVertexAnimation(VS_DATA<VERTEX>& vsData, FBX_LOADER::BONE_DATA& Bone, FB
 
 //===== クラス実装 =====
 BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn) :
-	DRAWER_EX(), m_Gfx(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_mtxWorld(), m_Bone(BoneIn),
+	DRAWER_EX(Gfx), m_Gfx(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_mtxWorld(), m_Bone(BoneIn),
 	m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame())
 {
 	//初期化(静的)
@@ -60,16 +60,16 @@ void BONE_LINE::Update() noexcept
 	}
 
 	//ワールド行列更新
-	m_mtxWorld = m_Bone.GetTransformMtx();
+	m_mtxWorld = m_Bone.GetWorldMatrix();
 }
 
-void BONE_LINE::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void BONE_LINE::Draw(int InstanceNum) const noexcept
 {
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_DEFAULT);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_DEFAULT);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_LINE);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_ONE_COLOR);
-	DRAWER::Draw(Gfx, bDrawInstance);
+	DRAWER::Draw(InstanceNum);
 }
 
 //頂点情報作成

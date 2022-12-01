@@ -10,7 +10,7 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) :
-	DRAWER_EX(), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
+	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
 	m_aMtxLocal(m_InstanceNum), m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame()), m_Scale(1.0f),
 	m_MtxLocal(), m_MtxWorld(), m_ModelScale(Viewer.GetModelScale()),
 	m_Input(Input), m_Rot()
@@ -100,9 +100,10 @@ void BONE::Update() noexcept
 }
 
 //書込み処理
-void BONE::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void BONE::Draw(int InstanceNum) const noexcept
 {
 	//例外処理
+	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -110,15 +111,14 @@ void BONE::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
 	std::vector<DirectX::XMFLOAT4X4> aMtxLocal = m_aMtxLocal;
 	for (auto& i : aMtxLocal)
 		gMath::MtxTranspose4x4_SSE(&i._11);
-	GetVertexBuffer().UpdateBuffer(Gfx, aMtxLocal, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxLocal, VERTEX_BUFFER::VB_TYPE::INSTANCE);
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_INSTANCE_VTX_BLEND);
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_INSTANCE_VTX_BLEND);
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_TRI);
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_VTX_BLEND);
-	(void)bDrawInstance;
-	DRAWER::Draw(Gfx, true);
+	DRAWER::Draw(m_InstanceNum);
 }
 
 //インスタンス追加

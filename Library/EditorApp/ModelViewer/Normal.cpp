@@ -8,7 +8,7 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 NORMAL::NORMAL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn) :
-	DRAWER_EX(), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
+	DRAWER_EX(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
 {
 	//初期化(静的)
 	if (!StaticIsInit()) {
@@ -37,16 +37,16 @@ NORMAL::~NORMAL() noexcept
 void NORMAL::Update() noexcept
 {
 	//行列更新
-	m_mtxWorld = m_Model.GetTransformMtx();
+	m_mtxWorld = m_Model.GetWorldMatrix();
 }
 
-void NORMAL::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void NORMAL::Draw(int InstanceNum) const noexcept
 {
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_DEFAULT);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_DEFAULT);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_LINE);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_ONE_COLOR);
-	DRAWER::Draw(Gfx, bDrawInstance);
+	DRAWER::Draw(InstanceNum);
 }
 
 //頂点情報作成

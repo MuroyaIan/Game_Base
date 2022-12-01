@@ -6,7 +6,7 @@
 
 //===== クラス実装 =====
 SURFACE::SURFACE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn) :
-	DRAWER_EX(), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
+	DRAWER_EX(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = MakeData_VS();
@@ -27,13 +27,13 @@ SURFACE::~SURFACE() noexcept
 void SURFACE::Update() noexcept
 {
 	//行列更新
-	m_mtxWorld = m_Model.GetTransformMtx();
+	m_mtxWorld = m_Model.GetWorldMatrix();
 }
 
-void SURFACE::Draw(GRAPHIC& Gfx, bool bDrawInstance) const noexcept(!IS_DEBUG)
+void SURFACE::Draw(int InstanceNum) const noexcept
 {
 	m_ShaderMgr.Bind_Default();
-	DRAWER::Draw(Gfx, bDrawInstance);
+	DRAWER::Draw(InstanceNum);
 }
 
 //頂点情報作成

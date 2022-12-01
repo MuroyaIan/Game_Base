@@ -24,10 +24,10 @@ public:
 	MESH_LIGHT(GFX_PACK& Gfx);
 	~MESH_LIGHT() noexcept override;
 	void Update() noexcept override;															//更新処理
-	void Draw(GRAPHIC& Gfx, bool bDrawInstance = false) const noexcept(!IS_DEBUG) override;		//書込み処理
+	void Draw(int InstanceNum = -1) const noexcept override;		//書込み処理
 	int AddInstance() override;																	//インスタンス追加
 
-	DirectX::XMFLOAT4X4 GetTransformMtx(int InstanceIndex = 0) const noexcept override			//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override			//変形行列取得
 	{
 		return m_aMtxWorld[InstanceIndex];
 	}

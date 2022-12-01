@@ -33,7 +33,7 @@ CB_MTX_T::~CB_MTX_T() noexcept
 void CB_MTX_T::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
-	dx::XMFLOAT4X4 World = m_Parent.GetTransformMtx();
+	dx::XMFLOAT4X4 World = m_Parent.GetWorldMatrix();
 	dx::XMFLOAT4X4 View = Gfx.GetViewMtx();
 	dx::XMFLOAT4X4 Proj = Gfx.GetProjectionMtx();
 	dx::XMFLOAT4X4 mtxWVP = World;

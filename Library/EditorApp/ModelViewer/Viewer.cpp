@@ -57,31 +57,31 @@ void VIEWER::Draw() const
 	if (m_aDrawer.size() > 1) {
 
 		//グリッド
-		m_aDrawer[0]->Draw(m_Gfx.m_DX);
+		m_aDrawer[0]->Draw();
 		if (!m_bDrawBone) {
 			for (size_t i = 0, Cnt = m_pLoader->GetMeshCount(); i < Cnt; i++) {
 
 				//モデル（ポリゴン）
 				if (m_bDrawSurface)
-					m_aDrawer[3 + i * 3]->Draw(m_Gfx.m_DX);
+					m_aDrawer[3 + i * 3]->Draw();
 				else
-					m_aDrawer[1 + i * 3]->Draw(m_Gfx.m_DX);
+					m_aDrawer[1 + i * 3]->Draw();
 
 				//法線
 				if (m_bDrawNormal)
-					m_aDrawer[2 + i * 3]->Draw(m_Gfx.m_DX);
+					m_aDrawer[2 + i * 3]->Draw();
 			}
 		}
 		else {
 
 			//骨描画
-			m_Drawer_Bone->Draw(m_Gfx.m_DX);
-			m_Drawer_BoneLine->Draw(m_Gfx.m_DX);
+			m_Drawer_Bone->Draw();
+			m_Drawer_BoneLine->Draw();
 		}
 	}
 	else {
 		for (auto& d : m_aDrawer)
-			d->Draw(m_Gfx.m_DX);
+			d->Draw();
 	}
 
 #ifdef IMGUI

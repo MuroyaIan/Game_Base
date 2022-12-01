@@ -21,9 +21,9 @@ void DEBUG_MGR::Update() noexcept
 }
 
 //•`‰æˆ—
-void DEBUG_MGR::Draw(GRAPHIC& Gfx) const noexcept(!IS_DEBUG)
+void DEBUG_MGR::Draw() const
 {
-	m_Light.Draw(Gfx);
+	m_Light.Draw();
 }
 
 //ƒ|ƒŠƒSƒ“”æ“¾
