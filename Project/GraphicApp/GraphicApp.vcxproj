@@ -171,7 +171,6 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexShader.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\Drawer.h" />
-    <ClInclude Include="..\..\Library\GraphicApp\Drawer\DrawerRef.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\VertexShaderData.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdBox.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdCone.h" />

@@ -8,15 +8,11 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 NORMAL::NORMAL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn) :
-	DRAWER_EX(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
+	DRAWER(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
 {
-	//初期化(静的)
-	if (!StaticIsInit()) {
-
-		//定数バッファ作成（法線の色）
-		const dx::XMFLOAT4 cbNormalColor(1.0f, 1.0f, 0.5f, 1.0f);
-		AddStaticBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
-	}
+	//定数バッファ作成（法線の色）
+	const dx::XMFLOAT4 cbNormalColor(1.0f, 1.0f, 0.5f, 1.0f);
+	AddBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
 
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = MakeData_VS();

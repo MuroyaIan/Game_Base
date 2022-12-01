@@ -50,26 +50,23 @@ public:
 protected:
 
 	//変数宣言
-	const GRAPHIC& m_Gfx;							//グラフィック参照先
+	const GRAPHIC& m_Gfx;								//グラフィック参照先
 
 	//プロトタイプ宣言
-	void AddBind(std::unique_ptr<BINDER> pBinder);	//バインダ登録
-	UINT GetIndexNum() const noexcept;				//インデックス数取得
+	void AddBind(std::unique_ptr<BINDER> pBinder);		//バインダ登録
+	UINT GetIndexNum() const noexcept;					//インデックス数取得
 
-	VERTEX_BUFFER& GetVertexBuffer() const			//頂点バッファ参照
+	VERTEX_BUFFER& GetVertexBuffer() const noexcept		//頂点バッファ参照
 	{
 		return *m_pVertexBuffer;
 	}
 
-	void SetInstanceNum(int Num)					//インスタンス数設定
+	void SetInstanceNum(int Num)						//インスタンス数設定
 	{
 		if (Num < 0)
 			throw ERROR_EX2("インスタンス数は1以上でなければならない。");
 		m_InstanceNum = Num;
 	}
-
-	virtual const std::vector<std::unique_ptr<BINDER>>& GetStaticBind() const noexcept = 0;		//静的配列参照
-	virtual const INDEX_BUFFER& GetStaticIndexBuffer() const noexcept = 0;						//静的インデックスバッファ参照
 
 private:
 

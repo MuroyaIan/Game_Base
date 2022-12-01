@@ -8,22 +8,18 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 MESH_LIGHT::MESH_LIGHT(GFX_PACK& Gfx) :
-	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_aMtxData(m_InstanceNum)
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_aMtxData(m_InstanceNum)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = std::move(VSD_SPHERE::MakeData<VERTEX>());
 	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aMtxWorld));
 
-	//静的初期化
-	if (!StaticIsInit()) {
+	//インデックス情報作成
+	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
 
-		//インデックス情報作成
-		AddStaticBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
-
-		//定数バッファ作成（ポリゴン色）
-		const dx::XMFLOAT4 cbColor(1.0f, 1.0f, 0.0f, 0.0f);
-		AddStaticBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(m_Gfx.m_DX, cbColor));
-	}
+	//定数バッファ作成（ポリゴン色）
+	const dx::XMFLOAT4 cbColor(1.0f, 1.0f, 0.0f, 0.0f);
+	AddBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(m_Gfx.m_DX, cbColor));
 }
 
 MESH_LIGHT::~MESH_LIGHT() noexcept

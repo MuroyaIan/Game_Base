@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <Geometry/ShaderMgr.h>
 #include <GraphicApp/Drawer/vsdRef.h>
 
@@ -23,7 +23,7 @@ class INPUT_MGR;
 //===== クラス定義 =====
 
 //***** モデル描画 *****
-class VIEWER_MODEL : public DRAWER_EX<VIEWER_MODEL>
+class VIEWER_MODEL : public DRAWER
 {
 public:
 

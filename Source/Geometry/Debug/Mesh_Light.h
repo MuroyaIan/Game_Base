@@ -10,13 +10,13 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <App.h>
 
 //===== クラス定義 =====
 
 //***** ライト用メッシュ *****
-class MESH_LIGHT : public DRAWER_EX<MESH_LIGHT>
+class MESH_LIGHT : public DRAWER
 {
 public:
 

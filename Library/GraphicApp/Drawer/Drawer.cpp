@@ -15,26 +15,18 @@ DRAWER::~DRAWER() noexcept
 {
 }
 
-//書込み処理
+//描画処理
 void DRAWER::Draw(int InstanceNum) const noexcept
 {
-	for (auto& b : m_aBinder)											//バインド処理
+	//バインド処理
+	for (auto& b : m_aBinder)
 		b->Bind(m_Gfx);
-	for (auto& sb : GetStaticBind())									//バインド処理（静的）
-		sb->Bind(m_Gfx);
 
-	if (m_pIndexBuffer != nullptr) {
-		if (InstanceNum < 0)
-			m_Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());			//フレームバッファ書込み
-		else
-			m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), InstanceNum);
-	}
-	else {
-		if (InstanceNum < 0)
-			m_Gfx.DrawIndexed(GetStaticIndexBuffer().GetIndexNum());	//インデックスバッファ固定の場合
-		else
-			m_Gfx.DrawInstanced(GetStaticIndexBuffer().GetIndexNum(), InstanceNum);
-	}
+	//描画処理
+	if (InstanceNum < 0)
+		m_Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());
+	else
+		m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), InstanceNum);
 }
 
 //バインダ登録
@@ -65,8 +57,5 @@ void DRAWER::AddBind(std::unique_ptr<BINDER> pBinder)
 //インデックス数取得
 UINT DRAWER::GetIndexNum() const noexcept
 {
-	if (m_pIndexBuffer != nullptr)
-		return m_pIndexBuffer->GetIndexNum();
-	else
-		return GetStaticIndexBuffer().GetIndexNum();
+	return m_pIndexBuffer->GetIndexNum();
 }

@@ -10,13 +10,13 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <Geometry/ShaderMgr.h>
 
 //===== クラス定義 =====
 
 //***** グリッド描画 *****
-class GRID : public DRAWER_EX<GRID>
+class GRID : public DRAWER
 {
 public:
 

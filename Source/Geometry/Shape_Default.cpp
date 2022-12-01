@@ -9,7 +9,7 @@ namespace dx = DirectX;
 
 //===== ÉNÉâÉXé¿ëï =====
 SHAPE_DEFAULT::SHAPE_DEFAULT(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
-	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_aMtxData(m_InstanceNum)
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_aMtxData(m_InstanceNum)
 {
 	//í∏ì_èÓïÒçÏê¨
 	VS_DATA<VERTEX> Model = VSD_MAKER::MakeData_Default(m_Type);

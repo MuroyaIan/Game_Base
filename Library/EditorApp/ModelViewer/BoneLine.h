@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <Geometry/ShaderMgr.h>
 #include <GraphicApp/Drawer/VertexShaderData.h>
 
@@ -21,7 +21,7 @@ class FBX_LOADER;
 //===== クラス定義 =====
 
 //***** モデル描画 *****
-class BONE_LINE : public DRAWER_EX<BONE_LINE>
+class BONE_LINE : public DRAWER
 {
 public:
 

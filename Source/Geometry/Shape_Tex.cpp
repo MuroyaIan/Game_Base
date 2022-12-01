@@ -9,7 +9,7 @@ namespace dx = DirectX;
 
 //===== ÉNÉâÉXé¿ëï =====
 SHAPE_TEX::SHAPE_TEX(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type, TEXTURE_MGR::TEX_ID Tex) :
-	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_Tex(Tex), m_aMtxData(m_InstanceNum)
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aMtxWorld(m_InstanceNum), m_Tex(Tex), m_aMtxData(m_InstanceNum)
 {
 	//í∏ì_èÓïÒçÏê¨
 	VS_DATA<VERTEX_T> Model = VSD_MAKER::MakeData_Tex(m_Type);

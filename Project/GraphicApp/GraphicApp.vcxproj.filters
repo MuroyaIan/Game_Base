@@ -63,9 +63,6 @@
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\Drawer.h">
       <Filter>ヘッダー ファイル\Drawer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Drawer\DrawerRef.h">
-      <Filter>ヘッダー ファイル\Drawer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Graphic.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

@@ -10,14 +10,14 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <GraphicApp/Drawer/vsdRef.h>
 #include <App.h>
 
 //===== クラス定義 =====
 
 //***** ジオメトリ描画（ポリゴン表示） *****
-class SHAPE_DEFAULT : public DRAWER_EX<SHAPE_DEFAULT>
+class SHAPE_DEFAULT : public DRAWER
 {
 public:
 

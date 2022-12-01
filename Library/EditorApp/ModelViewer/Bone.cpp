@@ -10,7 +10,7 @@ namespace dx = DirectX;
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) :
-	DRAWER_EX(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
 	m_aMtxLocal(m_InstanceNum), m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame()), m_Scale(1.0f),
 	m_MtxLocal(), m_MtxWorld(), m_ModelScale(Viewer.GetModelScale()),
 	m_Input(Input), m_Rot()

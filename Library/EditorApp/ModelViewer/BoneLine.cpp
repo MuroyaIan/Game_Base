@@ -12,16 +12,13 @@ void SetVertexAnimation(VS_DATA<VERTEX>& vsData, FBX_LOADER::BONE_DATA& Bone, FB
 
 //===== クラス実装 =====
 BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn) :
-	DRAWER_EX(Gfx), m_Gfx(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_mtxWorld(), m_Bone(BoneIn),
+	DRAWER(Gfx), m_Gfx(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_mtxWorld(), m_Bone(BoneIn),
 	m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame())
 {
-	//初期化(静的)
-	if (!StaticIsInit()) {
 
-		//定数バッファ作成（法線の色）
-		const dx::XMFLOAT4 cbNormalColor(0.5f, 1.0f, 1.0f, 1.0f);
-		AddStaticBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
-	}
+	//定数バッファ作成（法線の色）
+	const dx::XMFLOAT4 cbNormalColor(0.5f, 1.0f, 1.0f, 1.0f);
+	AddBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
 
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = MakeData_VS();

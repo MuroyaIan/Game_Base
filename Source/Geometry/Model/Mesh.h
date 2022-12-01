@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <Geometry/Model/Model.h>
 
 //===== 前方宣言 =====
@@ -19,7 +19,7 @@ struct CBD_MTX_LOCAL;
 //===== クラス定義 =====
 
 //***** メッシュ描画 *****
-class MESH : public DRAWER_EX<MESH>
+class MESH : public DRAWER
 {
 public:
 

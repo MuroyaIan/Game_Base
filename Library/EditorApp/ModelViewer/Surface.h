@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <Geometry/ShaderMgr.h>
 #include <GraphicApp/Drawer/VertexShaderData.h>
 
@@ -20,7 +20,7 @@ class FBX_LOADER;
 //===== クラス定義 =====
 
 //***** モデル描画 *****
-class SURFACE : public DRAWER_EX<SURFACE>
+class SURFACE : public DRAWER
 {
 public:
 

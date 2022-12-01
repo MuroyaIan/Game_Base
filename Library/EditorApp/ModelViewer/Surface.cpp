@@ -6,7 +6,7 @@
 
 //===== ÉNÉâÉXé¿ëï =====
 SURFACE::SURFACE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn) :
-	DRAWER_EX(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
+	DRAWER(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
 {
 	//í∏ì_èÓïÒçÏê¨
 	VS_DATA<VERTEX> Model = MakeData_VS();

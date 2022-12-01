@@ -10,7 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Drawer/DrawerRef.h>
+#include <GraphicApp/Drawer/Drawer.h>
 #include <GraphicApp/Drawer/vsdRef.h>
 #include <App.h>
 
@@ -21,7 +21,7 @@ class FBX_LOADER;
 //===== クラス定義 =====
 
 //***** ジオメトリ描画（ポリゴン表示） *****
-class BONE : public DRAWER_EX<BONE>
+class BONE : public DRAWER
 {
 public:
 
