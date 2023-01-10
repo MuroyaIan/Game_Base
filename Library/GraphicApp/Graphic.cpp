@@ -315,7 +315,7 @@ void GRAPHIC::InitDXGI()
 
 	//GPU情報取得
 	IDXGIAdapter* pTempAdapter = nullptr;
-	for (size_t i = 0; ; i++) {
+	for (int i = 0; ; i++) {
 
 		//アダプターのポインタを取得
 		hr = pFactory6->EnumAdapters(static_cast<UINT>(i), &pTempAdapter);

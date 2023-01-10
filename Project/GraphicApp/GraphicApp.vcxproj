@@ -155,6 +155,7 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Binder.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\BinderRef.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbBone.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbdRef.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbLocal.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMaterial.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.h" />

@@ -12,6 +12,7 @@
 //===== インクルード部 =====
 #include <3rd_Party/FBXSDK/include/fbxsdk.h>
 #include <GraphicApp/Drawer/vsdRef.h>
+#include <GraphicApp/Binder/cbdRef.h>
 
 //===== クラス宣言 =====
 
@@ -62,7 +63,7 @@ public:
 		std::vector<VERTEX_INDEX> aIndexBuffer;					//頂点バッファインデックス
 		VS_DATA<VERTEX_M> vsData;								//頂点情報
 		std::string MaterialName;								//マテリアル名
-		MATERIAL_DATA MaterialData;								//マテリアル情報
+		CBD_MATERIAL MaterialData;								//マテリアル情報
 		bool IsPhong;											//Phongモデルフラグ
 		std::vector<std::string> aTex_Ambient;					//テクスチャ：環境光
 		std::vector<std::string> aTex_Diffuse;					//テクスチャ：拡散反射光

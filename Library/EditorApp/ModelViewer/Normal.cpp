@@ -56,7 +56,7 @@ VS_DATA<VERTEX> NORMAL::MakeData_VS() const
 	for (auto& d : vsData.m_Indices) {
 
 		//Žn“_
-		VERTEX vtx = vsData.m_Vertices[d].m_Pos;
+		VERTEX vtx = VERTEX{ vsData.m_Vertices[d].m_Pos };
 		vtx.m_Pos.x *= -1.0f;
 		vsDataOut.m_Vertices.emplace_back(std::move(vtx));
 

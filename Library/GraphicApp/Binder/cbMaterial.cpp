@@ -3,14 +3,14 @@
 #include <GraphicApp/Binder/cbMaterial.h>
 #include <GraphicApp/Drawer/vsdRef.h>
 
-using pscb = PS_CBUFFER<MATERIAL_DATA>;
+using pscb = PS_CBUFFER<CBD_MATERIAL>;
 
 //===== 静的メンバ変数 =====
 std::unique_ptr<pscb> CB_MATERIAL::m_pCBuffPS{};
 int CB_MATERIAL::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MATERIAL::CB_MATERIAL(const GRAPHIC& Gfx, const MATERIAL_DATA& Material) :
+CB_MATERIAL::CB_MATERIAL(const GRAPHIC& Gfx, const CBD_MATERIAL& Material) :
 	BINDER(), m_Material(Material)
 {
 	//定数バッファ初期化

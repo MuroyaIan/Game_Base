@@ -7,7 +7,7 @@
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 DRAWER::DRAWER(const GRAPHIC& Gfx) noexcept : m_Gfx(Gfx), m_aBinder(),
-	m_pIndexBuffer(nullptr), m_pVertexBuffer(nullptr), m_InstanceNum(0)
+	m_pIndexBuffer(nullptr), m_pVertexBuffer(nullptr), m_MaxInstanceNum(0)
 {
 }
 

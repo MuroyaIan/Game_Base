@@ -22,7 +22,7 @@ public:
 
 	//プロトタイプ宣言
 	template<class V>
-	static VS_DATA<V> MakeTessellation(int DivNum)	//テッセレーション作成
+	static VS_DATA<V> MakeData(int DivNum = 24)		//データ作成
 	{
 		//前処理
 		namespace dx = DirectX;
@@ -67,40 +67,34 @@ public:
 		//側面のインデックスリスト作成
 		std::vector<UINT> Indices;
 		const UINT Mod = static_cast<UINT>(DivNum * 2);
-		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
+		for (int i = 0; i < DivNum; i++) {
 			const UINT Idx = i * 2;
-			Indices.push_back(Idx + 2u);
-			Indices.push_back((Idx + 2u) % Mod + 2u);
-			Indices.push_back(Idx + 3u);
-			Indices.push_back((Idx + 2u) % Mod + 2u);
-			Indices.push_back((Idx + 3u) % Mod + 2u);
-			Indices.push_back(Idx + 3u);
+			Indices.emplace_back(Idx + 2u);
+			Indices.emplace_back((Idx + 2u) % Mod + 2u);
+			Indices.emplace_back(Idx + 3u);
+			Indices.emplace_back((Idx + 2u) % Mod + 2u);
+			Indices.emplace_back((Idx + 3u) % Mod + 2u);
+			Indices.emplace_back(Idx + 3u);
 		}
 
 		//底面のインデックスリスト作成
-		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
+		for (int i = 0; i < DivNum; i++) {
 			const UINT Idx = i * 2;
-			Indices.push_back(Idx + 2u);
-			Indices.push_back(usDownCtrIdx);
-			Indices.push_back((Idx + 2u) % Mod + 2u);	//底面（下）
-			Indices.push_back(usUpCtrIdx);
-			Indices.push_back(Idx + 3u);
-			Indices.push_back((Idx + 3u) % Mod + 2u);	//底面（上）
+			Indices.emplace_back(Idx + 2u);
+			Indices.emplace_back(usDownCtrIdx);
+			Indices.emplace_back((Idx + 2u) % Mod + 2u);	//底面（下）
+			Indices.emplace_back(usUpCtrIdx);
+			Indices.emplace_back(Idx + 3u);
+			Indices.emplace_back((Idx + 3u) % Mod + 2u);	//底面（上）
 		}
 
 		return VS_DATA<V>(std::move(aData), std::move(Indices));
 	}
 
 	template<class V>
-	static VS_DATA<V> MakeData(int DivNum = 24)		//データ作成
-	{
-		return MakeTessellation<V>(DivNum);
-	}
-
-	template<class V>
 	static VS_DATA<V> MakeData_Model(int DivNum = 24)	//データ作成（モデル用）
 	{
-		VS_DATA<V> vsd = MakeTessellation<V>(DivNum);
+		VS_DATA<V> vsd = MakeData<V>(DivNum);
 		vsd.ResetDataForModel();
 		vsd.SetVertexNormal();
 		return vsd;
@@ -109,6 +103,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	VSD_PRISM() noexcept {}
+	explicit VSD_PRISM() noexcept {}
 	~VSD_PRISM() noexcept {}
 };

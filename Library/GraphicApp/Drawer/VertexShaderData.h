@@ -32,9 +32,7 @@ struct VTX_COLOR
 };
 
 //===== クラス定義 =====
-
-//***** 頂点情報 *****
-class VERTEX					//ベースクラス
+class VERTEX					//頂点情報(ベースクラス)
 {
 public:
 
@@ -42,8 +40,8 @@ public:
 	DirectX::XMFLOAT3 m_Pos;	//位置
 
 	//プロトタイプ宣言
-	VERTEX() noexcept : m_Pos() {}
-	VERTEX(DirectX::XMFLOAT3 Pos) noexcept : m_Pos(Pos) {}
+	explicit VERTEX() noexcept : m_Pos() {}
+	explicit VERTEX(DirectX::XMFLOAT3 Pos) noexcept : m_Pos(Pos) {}
 	~VERTEX() noexcept {}
 };
 
@@ -56,8 +54,9 @@ public:
 	VTX_COLOR m_Color;			//色
 
 	//プロトタイプ宣言
-	VERTEX_C() noexcept : m_Pos(), m_Color() {}
-	VERTEX_C(DirectX::XMFLOAT3 Pos, VTX_COLOR Color) noexcept : m_Pos(Pos), m_Color(Color) {}
+	explicit VERTEX_C() noexcept : m_Pos(), m_Color() {}
+	explicit VERTEX_C(DirectX::XMFLOAT3 Pos, VTX_COLOR Color) noexcept :
+		m_Pos(Pos), m_Color(Color) {}
 	~VERTEX_C() noexcept {}
 };
 
@@ -70,8 +69,9 @@ public:
 	DirectX::XMFLOAT2 m_UV;		//UV座標
 
 	//プロトタイプ宣言
-	VERTEX_T() noexcept : m_Pos(), m_UV() {}
-	VERTEX_T(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv) noexcept : m_Pos(Pos), m_UV(uv) {}
+	explicit VERTEX_T() noexcept : m_Pos(), m_UV() {}
+	explicit VERTEX_T(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv) noexcept :
+		m_Pos(Pos), m_UV(uv) {}
 	~VERTEX_T() noexcept {}
 };
 
@@ -85,8 +85,8 @@ public:
 	DirectX::XMFLOAT3 m_Normal;		//法線
 
 	//プロトタイプ宣言
-	VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal() {}
-	VERTEX_M(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
+	explicit VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal() {}
+	explicit VERTEX_M(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
 		m_Pos(Pos), m_UV(uv), m_Normal(Normal) {}
 	~VERTEX_M() noexcept {}
 };
@@ -99,18 +99,18 @@ public:
 	DirectX::XMFLOAT3 m_Pos;			//位置
 	DirectX::XMFLOAT2 m_UV;				//UV座標
 	DirectX::XMFLOAT3 m_Normal;			//法線
-	int m_BoneID[4];					//骨番号
+	int m_BoneID[4];					//骨番号(最大の骨番号は使用しない)
 	float m_BoneWeight[4];				//骨比重
 
 	//プロトタイプ宣言
-	VERTEX_MB() noexcept : m_Pos(), m_UV(), m_Normal(), m_BoneID(), m_BoneWeight()
+	explicit VERTEX_MB() noexcept : m_Pos(), m_UV(), m_Normal(), m_BoneID(), m_BoneWeight()
 	{
 		for (auto& b : m_BoneID)
 			b = MAX_BONE - 1;
 		for (auto& w : m_BoneWeight)
 			w = 0.0f;
 	}
-	VERTEX_MB(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
+	explicit VERTEX_MB(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
 		m_Pos(Pos), m_UV(uv), m_Normal(Normal), m_BoneID(), m_BoneWeight()
 	{
 		for (auto& b : m_BoneID)
@@ -132,44 +132,48 @@ public:
 	std::vector<UINT> m_Indices;	//インデックス情報
 
 	//プロトタイプ宣言
-	VS_DATA() noexcept : m_Vertices(0), m_Indices(0) {}
-	VS_DATA(std::vector<T> Vertices, std::vector<UINT> Indices, bool bTriangle = true) :
+	explicit VS_DATA() noexcept : m_Vertices(0), m_Indices(0) {}
+	explicit VS_DATA(std::vector<T> Vertices, std::vector<UINT> Indices, bool bTriangle = true) :
 		m_Vertices(std::move(Vertices)), m_Indices(std::move(Indices))
 	{
-		if (m_Vertices.size() <= 2 && bTriangle)
-			throw ERROR_EX2("【警告】頂点数が2以下！");
-		if (m_Indices.size() % 3 != 0 && bTriangle)
-			throw ERROR_EX2("【警告】インデックス数が3で割り切れない！");
+		//三角ポリゴンの場合条件確認
+		if (!bTriangle)
+			return;
+		if (m_Vertices.size() <= 2)
+			throw ERROR_EX2("【警告】ポリゴンの頂点数が2以下！");
+		if (m_Indices.size() <= 0)
+			throw ERROR_EX2("【警告】ポリゴンのインデックス情報は空です！");
+		if (m_Indices.size() % 3 != 0)
+			throw ERROR_EX2("【警告】ポリゴンのインデックス数が3で割り切れない！");
 	}
 	~VS_DATA() noexcept {}
 
-	void InitSize(DirectX::XMFLOAT4X4 mtxScale) noexcept	//サイズ初期化
+	void SetVertexPos(DirectX::XMFLOAT4X4 mtxTransform) noexcept	//頂点位置設定（初期変形）
 	{
+		namespace dx = DirectX;
+
 		//行列作成
-		const DirectX::XMFLOAT4X4 scale = mtxScale;
-		const DirectX::XMMATRIX mtx = DirectX::XMLoadFloat4x4(&scale);
+		const dx::XMFLOAT4X4 transform = mtxTransform;
+		const dx::XMMATRIX mtx = dx::XMLoadFloat4x4(&transform);
 
 		//初期化処理
 		for (auto& v : m_Vertices) {
-			const DirectX::XMVECTOR Pos = DirectX::XMLoadFloat3(&v.m_Pos);
-			DirectX::XMStoreFloat3(&v.m_Pos, DirectX::XMVector3Transform(Pos, mtx));
+			const dx::XMVECTOR Pos = dx::XMLoadFloat3(&v.m_Pos);
+			dx::XMStoreFloat3(&v.m_Pos, dx::XMVector3Transform(Pos, mtx));
 		}
 	}
 
-	void SetVertexNormal() noexcept(!IS_DEBUG)				//法線計算
+	void SetVertexNormal()	//頂点法線設定（三角ポリゴン限定）
 	{
-
-#ifdef _DEBUG
+		namespace dx = DirectX;
 
 		//例外処理
 		if (m_Vertices.size() <= 2 || m_Indices.size() % 3 != 0)
-			throw ERROR_EX2("【警告】頂点情報がポリゴンの要件を満たさない！");
+			throw ERROR_EX2("【警告】頂点情報が三角ポリゴンの要件を満たさない！");
 		if (m_Indices.size() <= 0)
 			throw ERROR_EX2("【警告】インデックス情報は空です！");
 
-#endif // _DEBUG
-
-		//計算処理
+		//法線計算
 		for (size_t i = 0, Cnt = m_Indices.size(); i < Cnt; i += 3)
 		{
 			//ポリゴンの3頂点取得
@@ -178,31 +182,26 @@ public:
 			auto& vtx2 = m_Vertices[m_Indices[i + 2]];
 
 			//外積で法線算出
-			DirectX::XMFLOAT3 v1 = { vtx1.m_Pos.x - vtx0.m_Pos.x, vtx1.m_Pos.y - vtx0.m_Pos.y, vtx1.m_Pos.z - vtx0.m_Pos.z };
-			DirectX::XMFLOAT3 v2 = { vtx2.m_Pos.x - vtx0.m_Pos.x, vtx2.m_Pos.y - vtx0.m_Pos.y, vtx2.m_Pos.z - vtx0.m_Pos.z };
-			const auto n = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&v1), DirectX::XMLoadFloat3(&v2)));
+			const dx::XMFLOAT3 v1 = { vtx1.m_Pos.x - vtx0.m_Pos.x, vtx1.m_Pos.y - vtx0.m_Pos.y, vtx1.m_Pos.z - vtx0.m_Pos.z };
+			const dx::XMFLOAT3 v2 = { vtx2.m_Pos.x - vtx0.m_Pos.x, vtx2.m_Pos.y - vtx0.m_Pos.y, vtx2.m_Pos.z - vtx0.m_Pos.z };
+			const dx::XMVECTOR n = dx::XMVector3Normalize(dx::XMVector3Cross(dx::XMLoadFloat3(&v1), dx::XMLoadFloat3(&v2)));
 
 			//データ格納
-			DirectX::XMStoreFloat3(&vtx0.m_Normal, n);
-			DirectX::XMStoreFloat3(&vtx1.m_Normal, n);
-			DirectX::XMStoreFloat3(&vtx2.m_Normal, n);
+			dx::XMStoreFloat3(&vtx0.m_Normal, n);
+			dx::XMStoreFloat3(&vtx1.m_Normal, n);
+			dx::XMStoreFloat3(&vtx2.m_Normal, n);
 		}
 	}
 
-	void ResetDataForModel() noexcept(!IS_DEBUG)			//頂点データ再計算（モデル用）
+	void ResetDataForModel()	//頂点データ再設定（モデル用）
 	{
-
-#ifdef _DEBUG
-
 		//例外処理
 		if (m_Vertices.size() <= 2 || m_Indices.size() % 3 != 0)
 			throw ERROR_EX2("【警告】頂点情報がポリゴンの要件を満たさない！");
 		if (m_Indices.size() <= 0)
 			throw ERROR_EX2("【警告】インデックス情報は空です！");
 
-#endif // _DEBUG
-
-		//再計算処理
+		//再設定処理(頂点配列をインデックス配列と一致させる)
 		std::vector<T> Vertices(0);
 		for (auto& i : m_Indices) {
 			T vtx{};
@@ -213,7 +212,7 @@ public:
 		for (size_t i = 0, Cnt = m_Indices.size(); i < Cnt; i++)
 			m_Indices[i] = static_cast<UINT>(i);
 
-		//UV作成（デバッグ用、テクスチャなし）
+		//UV設定（デバッグ用）
 		for (size_t i = 0, Cnt = m_Indices.size() / 3; i < Cnt; i++) {
 			m_Vertices[i * 3 + 0].m_UV = { 0.0f, 0.0f };
 			m_Vertices[i * 3 + 1].m_UV = { 1.0f, 0.0f };

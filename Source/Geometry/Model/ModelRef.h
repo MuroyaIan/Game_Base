@@ -12,6 +12,7 @@
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/vsdRef.h>
 #include <Tool/TextureLoader.h>
+#include <GraphicApp/Binder/cbdRef.h>
 
 //===== 構造体宣言 =====
 namespace ModelRef {
@@ -31,7 +32,7 @@ namespace ModelRef {
 	{
 		std::string Name;					//メッシュ名
 		VS_DATA<VERTEX_MB> vsData;			//頂点情報
-		MATERIAL_DATA MaterialData;			//マテリアル情報
+		CBD_MATERIAL MaterialData;			//マテリアル情報
 		std::string Tex_D;					//テクスチャ：拡散反射光
 		std::vector<ANIM_PACK> aNoSkin;		//骨なしメッシュ用アニメーション配列
 

@@ -35,7 +35,7 @@ BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) 
 	Model_C.m_Vertices[5].m_Color = VTX_COLOR(255, 255,   0, 255);
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) * dx::XMMatrixRotationRollPitchYaw(gMath::GetRad(90), 0.0f, 0.0f));	//Z軸が前向き
-	Model_C.InitSize(mtx);
+	Model_C.SetVertexPos(mtx);
 	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model_C.m_Vertices, m_aMtxLocal));
 
 	//インデックス情報作成

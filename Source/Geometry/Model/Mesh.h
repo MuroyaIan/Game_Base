@@ -48,7 +48,7 @@ private:
 	GFX_PACK& m_Gfx;								//描画データ参照
 	int& m_InstanceNum;								//インスタンス数参照
 	std::vector<INSTANCE_DATA>& m_aInstanceData;	//インスタンス情報参照
-	MATERIAL_DATA m_Material;						//マテリアル情報
+	CBD_MATERIAL m_Material;						//マテリアル情報
 
 	bool& m_bStatic;								//静的メッシュかどうか
 	std::unique_ptr<CBD_MTX_LOCAL> m_pLocalData;		//ローカル情報

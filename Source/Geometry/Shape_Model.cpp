@@ -15,7 +15,7 @@ SHAPE_MODEL::SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 	VS_DATA<VERTEX_M> Model = VSD_MAKER::MakeData_Model(m_Type);
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
-	Model.InitSize(mtx);
+	Model.SetVertexPos(mtx);
 	for (auto& v : Model.m_Vertices) {	//ç¿ïWånïœä∑
 		v.m_Pos.x *= -1.0f;
 		v.m_Normal.x *= -1.0f;

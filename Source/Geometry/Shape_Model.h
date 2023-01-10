@@ -12,6 +12,7 @@
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/Drawer.h>
 #include <GraphicApp/Drawer/vsdRef.h>
+#include <GraphicApp/Binder/cbdRef.h>
 #include <App.h>
 
 //===== クラス定義 =====
@@ -45,7 +46,7 @@ private:
 	VSD_MAKER::SHAPE m_Type;						//形状タイプ
 	int m_InstanceNum;								//インスタンス数
 	std::vector<INSTANCE_DATA> m_aInstanceData;		//インスタンス情報
-	MATERIAL_DATA m_Material;						//マテリアル情報
+	CBD_MATERIAL m_Material;						//マテリアル情報
 
 	struct MTX_DATA
 	{

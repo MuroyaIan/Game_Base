@@ -65,7 +65,7 @@ protected:
 	{
 		if (Num < 0)
 			throw ERROR_EX2("インスタンス数は1以上でなければならない。");
-		m_InstanceNum = Num;
+		m_MaxInstanceNum = Num;
 	}
 
 private:
@@ -74,5 +74,5 @@ private:
 	std::vector<std::unique_ptr<BINDER>> m_aBinder;		//バインダのポインタ配列
 	const INDEX_BUFFER* m_pIndexBuffer;					//インデックスバッファのポインタ（所有権なし）
 	VERTEX_BUFFER* m_pVertexBuffer;						//頂点バッファのポインタ（インスタンス更新用）
-	int m_InstanceNum;									//インスタンス数
+	int m_MaxInstanceNum;								//最大インスタンス数
 };

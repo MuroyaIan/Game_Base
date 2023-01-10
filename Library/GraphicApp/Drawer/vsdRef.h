@@ -17,25 +17,6 @@
 #include <GraphicApp/Drawer/vsdPlane.h>
 
 //===== 構造体宣言 =====
-struct MATERIAL_DATA					//マテリアル情報
-{
-	DirectX::XMFLOAT4 Ambient;			//環境光
-	DirectX::XMFLOAT4 Diffuse;			//拡散反射光
-	DirectX::XMFLOAT4 Emissive;			//発射光
-	DirectX::XMFLOAT4 Transparent;		//透過度
-	DirectX::XMFLOAT4 Specular;			//鏡面反射光
-	float Shininess;					//光沢
-	float Pad1;
-	float Pad2;
-	float Pad3;							//仮置き
-
-	MATERIAL_DATA() noexcept :
-		Ambient(0.0f, 0.0f, 0.0f, 0.0f), Diffuse(0.0f, 0.0f, 0.0f, 0.0f), Emissive(0.0f, 0.0f, 0.0f, 0.0f), Transparent(0.0f, 0.0f, 0.0f, 0.0f),
-		Specular(0.0f, 0.0f, 0.0f, 0.0f), Shininess(2.0f), Pad1(0.0f), Pad2(0.0f), Pad3(0.0f)
-	{}
-	~MATERIAL_DATA() noexcept {}
-};
-
 struct INSTANCE_DATA					//インスタンス情報
 {
 	DirectX::XMFLOAT4X4 MtxWorld;		//ワールド行列
@@ -132,6 +113,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	VSD_MAKER() noexcept {}
+	explicit VSD_MAKER() noexcept {}
 	~VSD_MAKER() noexcept {}
 };

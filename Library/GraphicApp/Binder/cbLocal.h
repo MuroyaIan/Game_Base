@@ -13,21 +13,6 @@
 //===== インクルード部 =====
 #include <GraphicApp/Binder/ConstantBuffer.h>
 
-//===== 構造体宣言 =====
-struct CBD_MTX_LOCAL
-{
-	//変数宣言
-	DirectX::XMFLOAT4X4 mtxSkin;	//骨なしメッシュ用ローカル行列
-
-	CBD_MTX_LOCAL() noexcept : mtxSkin()
-	{
-		DirectX::XMStoreFloat4x4(&mtxSkin, DirectX::XMMatrixIdentity());
-	}
-
-	~CBD_MTX_LOCAL() noexcept
-	{}
-};
-
 //===== クラス定義 =====
 
 //***** 骨情報バッファ *****

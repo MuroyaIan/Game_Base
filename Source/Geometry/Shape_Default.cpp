@@ -15,7 +15,7 @@ SHAPE_DEFAULT::SHAPE_DEFAULT(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 	VS_DATA<VERTEX> Model = VSD_MAKER::MakeData_Default(m_Type);
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
-	Model.InitSize(mtx);
+	Model.SetVertexPos(mtx);
 	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aMtxWorld));
 
 	//インデックス情報作成

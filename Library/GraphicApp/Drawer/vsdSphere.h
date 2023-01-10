@@ -22,7 +22,7 @@ public:
 
 	//プロトタイプ宣言
 	template<class V>
-	static VS_DATA<V> MakeTessellation(int LatDiv, int LongDiv)		//テッセレーション作成
+	static VS_DATA<V> MakeData(int LatDiv = 12, int LongDiv = 12)	//データ作成
 	{
 		//前処理
 		namespace dx = DirectX;
@@ -59,51 +59,45 @@ public:
 		dx::XMStoreFloat3(&aData.back().m_Pos, dx::XMVectorNegate(vBase));
 
 		//インデックス算出用ラムダ式
-		const auto CalcIdx = [LongDiv](UINT iLat, UINT iLong)
+		const auto CalcIdx = [LongDiv](int iLat, int iLong)
 		{ return static_cast<UINT>(iLat * LongDiv + iLong); };
 
 		//インデックスリスト作成
 		std::vector<UINT> Indices;
-		const UINT Mod = static_cast<UINT>(LongDiv);
-		for (UINT iLat = 0; iLat < static_cast<UINT>(LatDiv - 2); iLat++) {
-			for (UINT iLong = 0; iLong < static_cast<UINT>(LongDiv); iLong++) {
-				Indices.emplace_back(CalcIdx(iLat,		iLong));
-				Indices.emplace_back(CalcIdx(iLat + 1u, iLong));
-				Indices.emplace_back(CalcIdx(iLat,		(iLong + 1u) % Mod));
-				Indices.emplace_back(CalcIdx(iLat,		(iLong + 1u) % Mod));
-				Indices.emplace_back(CalcIdx(iLat + 1u, iLong));
-				Indices.emplace_back(CalcIdx(iLat + 1u, (iLong + 1u) % Mod));
+		const int Mod = LongDiv;
+		for (int iLat = 0; iLat < LatDiv - 2; iLat++) {
+			for (int iLong = 0; iLong < LongDiv; iLong++) {
+				Indices.emplace_back(CalcIdx(iLat,	   iLong));
+				Indices.emplace_back(CalcIdx(iLat + 1, iLong));
+				Indices.emplace_back(CalcIdx(iLat,	   (iLong + 1) % Mod));
+				Indices.emplace_back(CalcIdx(iLat,	   (iLong + 1) % Mod));
+				Indices.emplace_back(CalcIdx(iLat + 1, iLong));
+				Indices.emplace_back(CalcIdx(iLat + 1, (iLong + 1) % Mod));
 			}
 		}
 
 		//極点周りのインデックスリスト作成
-		const UINT usLatDiv = static_cast<UINT>(LatDiv);
-		for (UINT iLong = 0; iLong < static_cast<UINT>(LongDiv); iLong++) {
+		const int usLatDiv = LatDiv;
+		for (int iLong = 0; iLong < LongDiv; iLong++) {
 
 			//北極点
-			Indices.push_back(usIdxNP);
-			Indices.push_back(CalcIdx(0u, iLong));
-			Indices.push_back(CalcIdx(0u, (iLong + 1u) % Mod));
+			Indices.emplace_back(usIdxNP);
+			Indices.emplace_back(CalcIdx(0, iLong));
+			Indices.emplace_back(CalcIdx(0, (iLong + 1) % Mod));
 
 			//南極点
-			Indices.push_back(CalcIdx(usLatDiv - 2u, (iLong + 1u) % Mod));
-			Indices.push_back(CalcIdx(usLatDiv - 2u, iLong));
-			Indices.push_back(usIdxSP);
+			Indices.emplace_back(CalcIdx(usLatDiv - 2, (iLong + 1) % Mod));
+			Indices.emplace_back(CalcIdx(usLatDiv - 2, iLong));
+			Indices.emplace_back(usIdxSP);
 		}
 
 		return VS_DATA<V>(std::move(aData), std::move(Indices));
 	}
 
 	template<class V>
-	static VS_DATA<V> MakeData(int LatDiv = 12, int LongDiv = 12)	//データ作成
-	{
-		return MakeTessellation<V>(LatDiv, LongDiv);
-	}
-
-	template<class V>
 	static VS_DATA<V> MakeData_Model(int LatDiv = 12, int LongDiv = 12)		//データ作成（モデル用）
 	{
-		VS_DATA<V> vsd = MakeTessellation<V>(LatDiv, LongDiv);
+		VS_DATA<V> vsd = MakeData<V>(LatDiv, LongDiv);
 		vsd.ResetDataForModel();
 		vsd.SetVertexNormal();
 		return vsd;
@@ -112,6 +106,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	VSD_SPHERE() noexcept {}
+	explicit VSD_SPHERE() noexcept {}
 	~VSD_SPHERE() noexcept {}
 };

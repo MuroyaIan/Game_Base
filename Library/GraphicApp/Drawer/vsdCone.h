@@ -22,7 +22,7 @@ public:
 
 	//プロトタイプ宣言
 	template<class V>
-	static VS_DATA<V> MakeTessellation(int DivNum)	//テッセレーション作成
+	static VS_DATA<V> MakeData(int DivNum = 24)		//データ作成
 	{
 		//前処理
 		namespace dx = DirectX;
@@ -54,32 +54,26 @@ public:
 		//底部円形上のインデックスリスト作成
 		std::vector<UINT> Indices;
 		const UINT Mod = static_cast<UINT>(DivNum);
-		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
-			Indices.push_back(usCtrIdx);
-			Indices.push_back((i + 1u) % Mod);
-			Indices.push_back(i);
+		for (UINT i = 0u; i < static_cast<UINT>(DivNum); i++) {
+			Indices.emplace_back(usCtrIdx);
+			Indices.emplace_back((i + 1u) % Mod);
+			Indices.emplace_back(i);
 		}
 
 		//その他のインデックスリスト作成
-		for (UINT i = 0; i < static_cast<UINT>(DivNum); i++) {
-			Indices.push_back(usTopIdx);
-			Indices.push_back(i);
-			Indices.push_back((i + 1u) % Mod);
+		for (UINT i = 0u; i < static_cast<UINT>(DivNum); i++) {
+			Indices.emplace_back(usTopIdx);
+			Indices.emplace_back(i);
+			Indices.emplace_back((i + 1u) % Mod);
 		}
 
 		return VS_DATA<V>(std::move(aData), std::move(Indices));
 	}
 
 	template<class V>
-	static VS_DATA<V> MakeData(int DivNum = 24)		//データ作成
-	{
-		return MakeTessellation<V>(DivNum);
-	}
-
-	template<class V>
 	static VS_DATA<V> MakeData_Model(int DivNum = 24)	//データ作成（モデル用）
 	{
-		VS_DATA<V> vsd = MakeTessellation<V>(DivNum);
+		VS_DATA<V> vsd = MakeData<V>(DivNum);
 		vsd.ResetDataForModel();
 		vsd.SetVertexNormal();
 		return vsd;
@@ -88,6 +82,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	VSD_CONE() noexcept {}
+	explicit VSD_CONE() noexcept {}
 	~VSD_CONE() noexcept {}
 };

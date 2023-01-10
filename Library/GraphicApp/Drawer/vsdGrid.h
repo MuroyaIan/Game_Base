@@ -22,7 +22,7 @@ class VSD_GRID
 public:
 
 	template<class V>
-	static VS_DATA<V> MakeTessellation(int DivX, int DivY)	//テッセレーション作成
+	static VS_DATA<V> MakeData(int DivX = 1, int DivY = 1)	//データ作成
 	{
 		//前処理
 		namespace dx = DirectX;
@@ -57,12 +57,12 @@ public:
 
 		//インデックス作成
 		std::vector<UINT> Indices;
-		Indices.reserve(static_cast<UINT>(DivX * DivY * 4 + (DivX + DivY) * 2));	//サイズ指定
+		Indices.reserve(static_cast<size_t>(DivX * DivY * 4 + (DivX + DivY) * 2));	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
 				//ユニットごとの頂点インデックスを算出
-				const std::array<UINT, 4> aIndex = {
+				const std::array<UINT, 3> aIndex = {
 					CalcIdx(x, y),
 					CalcIdx(x + 1, y),
 					CalcIdx(x, y + 1),
@@ -91,15 +91,9 @@ public:
 		return VS_DATA<V>(std::move(aData), std::move(Indices), false);
 	}
 
-	template<class V>
-	static VS_DATA<V> MakeData(int DivX = 1, int DivY = 1)	//データ作成
-	{
-		return MakeTessellation<V>(DivX, DivY);
-	}
-
 private:
 
 	//プロトタイプ宣言
-	VSD_GRID() noexcept {}
+	explicit VSD_GRID() noexcept {}
 	~VSD_GRID() noexcept {}
 };

@@ -13,6 +13,7 @@
 #include <GraphicApp/Drawer/Drawer.h>
 #include <Geometry/ShaderMgr.h>
 #include <GraphicApp/Drawer/vsdRef.h>
+#include <GraphicApp/Binder/cbdRef.h>
 
 //===== 前方宣言 =====
 class VIEWER;
@@ -53,7 +54,7 @@ private:
 	int m_MeshIndex;							//メッシュ番号
 	DirectX::XMFLOAT4X4 m_MtxLocal;				//ローカル行列
 	DirectX::XMFLOAT4X4 m_MtxWorld;				//ワールド行列
-	MATERIAL_DATA m_Material;					//マテリアル情報
+	CBD_MATERIAL m_Material;					//マテリアル情報
 	bool m_bNoBone;								//骨なしメッシュ
 
 	std::unique_ptr<CBD_BONE> m_pMtxBone;	//骨情報

@@ -14,7 +14,7 @@ GRID::GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr) :
 	VS_DATA<VERTEX> Model = std::move(VSD_GRID::MakeData<VERTEX>(20, 20));
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(m_Size.x, m_Size.y, 1.0f));
-	Model.InitSize(mtx);
+	Model.SetVertexPos(mtx);
 	AddBind(std::make_unique<VERTEX_BUFFER>(Gfx, Model.m_Vertices));
 
 	//インデックス情報作成

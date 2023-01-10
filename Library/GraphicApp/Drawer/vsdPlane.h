@@ -22,7 +22,7 @@ class VSD_PLANE
 public:
 
 	template<class V>
-	static VS_DATA<V> MakeTessellation(int DivX, int DivY)	//テッセレーション作成
+	static VS_DATA<V> MakeData(int DivX = 1, int DivY = 1)	//データ作成
 	{
 		//前処理
 		namespace dx = DirectX;
@@ -57,7 +57,7 @@ public:
 
 		//インデックス作成
 		std::vector<UINT> Indices;
-		Indices.reserve(static_cast<UINT>(DivX * DivY * 6));	//サイズ指定
+		Indices.reserve(static_cast<size_t>(DivX * DivY * 6));	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
@@ -83,7 +83,7 @@ public:
 	}
 
 	template<class V>
-	static VS_DATA<V> MakeTessellation_Tex(int DivX, int DivY)	//テッセレーション作成（テクスチャあり）
+	static VS_DATA<V> MakeData_Tex(int DivX = 1, int DivY = 1)	//データ作成（テクスチャあり）
 	{
 		//前処理
 		namespace dx = DirectX;
@@ -119,7 +119,7 @@ public:
 
 		//インデックス作成
 		std::vector<UINT> Indices;
-		Indices.reserve(static_cast<UINT>(DivX * DivY * 6));	//サイズ指定
+		Indices.reserve(static_cast<size_t>(DivX * DivY * 6));	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
@@ -141,37 +141,41 @@ public:
 			}
 		}
 
+		//マップ作成用に頂点情報を修正
+		std::vector<V> Vertices(0);
+		for (size_t i = 0, Cnt = Indices.size(); i < Cnt;) {
+
+			//UVを修正
+			std::vector<V> vtx(6);
+			vtx[0].m_UV = { 0.0f, 1.0f };
+			vtx[1].m_UV = { 0.0f, 0.0f };
+			vtx[2].m_UV = { 1.0f, 1.0f };
+			vtx[3].m_UV = { 1.0f, 1.0f };
+			vtx[4].m_UV = { 0.0f, 0.0f };
+			vtx[5].m_UV = { 1.0f, 0.0f };
+
+			//位置を修正
+			for (size_t j = 0; j < 6; j++) {
+				vtx[j].m_Pos = aData[Indices[i + j]].m_Pos;
+				Vertices.emplace_back(vtx[j]);
+			}
+
+			//次のループ
+			i += 6;
+		}
+		aData = std::move(Vertices);
+
+		//インデックスを修正
+		for (size_t i = 0, Cnt = Indices.size(); i < Cnt; i++)
+			Indices[i] = static_cast<UINT>(i);
+
 		return VS_DATA<V>(std::move(aData), std::move(Indices));
-	}
-
-	template<class V>
-	static VS_DATA<V> MakeData(int DivX = 1, int DivY = 1)		//データ作成
-	{
-		return MakeTessellation<V>(DivX, DivY);
-	}
-
-	template<class V>
-	static VS_DATA<V> MakeData_Tex(int DivX = 1, int DivY = 1)	//データ作成（テクスチャあり）
-	{
-		return MakeTessellation_Tex<V>(DivX, DivY);
 	}
 
 	template<class V>
 	static VS_DATA<V> MakeData_Model(int DivX = 1, int DivY = 1)	//データ作成（モデル用）
 	{
-		VS_DATA<V> vsd = MakeTessellation_Tex<V>(DivX, DivY);
-
-		//頂点情報再作成
-		std::vector<V> Vertices(0);
-		for (auto& i : vsd.m_Indices) {
-			V vtx{};
-			vtx.m_Pos = vsd.m_Vertices[i].m_Pos;
-			vtx.m_UV = vsd.m_Vertices[i].m_UV;
-			Vertices.emplace_back(std::move(vtx));
-		}
-		vsd.m_Vertices = std::move(Vertices);
-		for (size_t i = 0, Cnt = vsd.m_Indices.size(); i < Cnt; i++)
-			vsd.m_Indices[i] = static_cast<UINT>(i);
+		VS_DATA<V> vsd = MakeData_Tex<V>(DivX, DivY);
 
 		//法線計算
 		vsd.SetVertexNormal();
@@ -181,6 +185,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	VSD_PLANE() noexcept {}
+	explicit VSD_PLANE() noexcept {}
 	~VSD_PLANE() noexcept {}
 };

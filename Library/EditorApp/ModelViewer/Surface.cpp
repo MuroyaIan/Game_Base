@@ -45,7 +45,7 @@ VS_DATA<VERTEX> SURFACE::MakeData_VS() const
 	//í∏ì_çÏê¨
 	VS_DATA<VERTEX> vsDataOut;
 	for (auto& d : vsData.m_Vertices) {
-		VERTEX vtx = d.m_Pos;
+		VERTEX vtx = VERTEX{ d.m_Pos };
 		vtx.m_Pos.x *= -1.0f;
 		vsDataOut.m_Vertices.emplace_back(std::move(vtx));
 	}

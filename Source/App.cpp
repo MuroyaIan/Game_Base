@@ -137,7 +137,7 @@ APP::APP() :
 			MAX_NUM
 		};
 
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, 15));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(14, 14));
 		//SHAPE shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, static_cast<int>(SHAPE::MAX_NUM) - 1));
 		aDrawer[static_cast<int>(Shape)]->AddInstance();
 		return;
@@ -162,20 +162,20 @@ APP::APP() :
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);
 
 	//点光源初期化
-	//for(auto& l : m_aLight)
-	//	l = std::make_unique<POINT_LIGHT>(*this);
-	//m_aLight[0]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-	//m_aLight[1]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	//m_aLight[2]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
-	//m_aLight[3]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
-	//m_aLight[0]->GetData().Pos = DirectX::XMFLOAT4( 8.0f, 2.0f,  8.0f, 1.0f);
-	//m_aLight[1]->GetData().Pos = DirectX::XMFLOAT4(-8.0f, 2.0f,  8.0f, 1.0f);
-	//m_aLight[2]->GetData().Pos = DirectX::XMFLOAT4( 8.0f, 2.0f, -8.0f, 1.0f);
-	//m_aLight[3]->GetData().Pos = DirectX::XMFLOAT4(-8.0f, 2.0f, -8.0f, 1.0f);
+	for(auto& l : m_aLight)
+		l = std::make_unique<POINT_LIGHT>(*this);
+	m_aLight[0]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	m_aLight[1]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	m_aLight[2]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+	m_aLight[3]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
+	m_aLight[0]->GetData().Pos = DirectX::XMFLOAT4( 8.0f, 2.0f,  8.0f, 1.0f);
+	m_aLight[1]->GetData().Pos = DirectX::XMFLOAT4(-8.0f, 2.0f,  8.0f, 1.0f);
+	m_aLight[2]->GetData().Pos = DirectX::XMFLOAT4( 8.0f, 2.0f, -8.0f, 1.0f);
+	m_aLight[3]->GetData().Pos = DirectX::XMFLOAT4(-8.0f, 2.0f, -8.0f, 1.0f);
 
 
 
-	m_pPlayer = std::make_unique<PLAYER>(*this);
+	//m_pPlayer = std::make_unique<PLAYER>(*this);
 }
 
 APP::~APP()
@@ -228,15 +228,15 @@ void APP::Update()
 		m_pSunLight->Update();
 
 		//点光源更新
-		//for (auto& l : m_aLight)
-		//	l->Update();
+		for (auto& l : m_aLight)
+			l->Update();
 
 		//3D更新
 		for (auto& d : m_aDrawer)
 			d->Update();
 		for (auto& m : m_aModel)
 			m->Update();
-		m_pPlayer->Update();
+		//m_pPlayer->Update();
 	}
 
 #ifdef IMGUI
@@ -294,7 +294,7 @@ void APP::Draw()
 			d->Draw();
 		for (auto& m : m_aModel)
 			m->Draw();
-		m_pPlayer->Draw();
+		//m_pPlayer->Draw();
 
 
 

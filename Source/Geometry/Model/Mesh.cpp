@@ -21,7 +21,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	VS_DATA<VERTEX_MB> Model = Mesh.vsData;
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
-	Model.InitSize(mtx);
+	Model.SetVertexPos(mtx);
 	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aInstanceData));
 
 	//インデックス情報作成
