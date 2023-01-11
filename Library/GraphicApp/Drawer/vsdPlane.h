@@ -38,7 +38,7 @@ public:
 		const int nVtxNumY = DivY + 1;		//横・縦頂点数
 
 		//頂点作成
-		std::vector<V> aData(nVtxNumX * nVtxNumY);
+		std::vector<V> aData(static_cast<size_t>(nVtxNumX) * nVtxNumY);
 		const dx::XMVECTOR vBottomLeft = dx::XMVectorSet(-0.5f, -0.5f, 0.0f, 0.0f);		//板の左下頂点
 		const float fUnitSizeX = fWidth / DivX;
 		const float fUnitSizeY = fHeight / DivY;										//板の分割単位ごとの横幅・縦幅
@@ -57,7 +57,7 @@ public:
 
 		//インデックス作成
 		std::vector<UINT> Indices;
-		Indices.reserve(static_cast<size_t>(DivX * DivY * 6));	//サイズ指定
+		Indices.reserve(static_cast<size_t>(DivX) * DivY * 6);	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
@@ -99,7 +99,7 @@ public:
 		const int nVtxNumY = DivY + 1;		//横・縦頂点数
 
 		//頂点作成
-		std::vector<V> aData(nVtxNumX * nVtxNumY);
+		std::vector<V> aData(static_cast<size_t>(nVtxNumX) * nVtxNumY);
 		const dx::XMVECTOR vBottomLeft = dx::XMVectorSet(-0.5f, -0.5f, 0.0f, 0.0f);		//板の左下頂点
 		const float fUnitSizeX = fWidth / DivX;
 		const float fUnitSizeY = fHeight / DivY;										//板の分割単位ごとの横幅・縦幅
@@ -119,7 +119,7 @@ public:
 
 		//インデックス作成
 		std::vector<UINT> Indices;
-		Indices.reserve(static_cast<size_t>(DivX * DivY * 6));	//サイズ指定
+		Indices.reserve(static_cast<size_t>(DivX) * DivY * 6);	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 

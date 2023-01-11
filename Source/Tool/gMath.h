@@ -20,6 +20,8 @@ constexpr float fPI = std::numbers::pi_v<float>;
 constexpr double dPI = std::numbers::pi;			//円周率
 constexpr float f2PI = fPI * 2.0f;
 constexpr double d2PI = dPI * 2.0;					//360度ラジアン
+constexpr float fGravity = 9.80665f;
+constexpr double dGravity = 9.80665;				//重力加速度
 
 //===== クラス宣言 =====
 
@@ -75,10 +77,9 @@ public:
 namespace gMath
 {
 	//二乗する
-	template <typename T>
-	inline constexpr T Square(const T x) noexcept
+	inline float Square(const float x) noexcept
 	{
-		return x * x;
+		return std::powf(x, 2.0f);
 	}
 
 	//角度変換
@@ -102,11 +103,11 @@ namespace gMath
 	//ベクトル長さ取得
 	inline float VecLength(VECTOR2 Vector) noexcept
 	{
-		return std::sqrt(Square(Vector.x) + Square(Vector.y));
+		return std::sqrtf(Square(Vector.x) + Square(Vector.y));
 	}
 	inline float VecLength(VECTOR3 Vector) noexcept
 	{
-		return std::sqrt(Square(Vector.x) + Square(Vector.y) + Square(Vector.z));
+		return std::sqrtf(Square(Vector.x) + Square(Vector.y) + Square(Vector.z));
 	}
 
 	//ベクトル正規化

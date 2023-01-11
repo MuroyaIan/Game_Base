@@ -15,7 +15,7 @@ CB_MTX_VP::CB_MTX_VP(const GRAPHIC& Gfx) : BINDER()
 {
 	//定数バッファ初期化
 	if (!m_pCBuffVS)
-		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::CAMERA));
+		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::Camera));
 	m_RefCount++;
 }
 

@@ -16,7 +16,7 @@ BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) 
 	m_Input(Input), m_Rot()
 {
 	//頂点情報作成
-	VS_DATA<VERTEX> Model = VSD_MAKER::MakeData_Default(VSD_MAKER::SHAPE::PYRAMID);
+	VS_DATA<VERTEX> Model = VSD_MAKER::MakeData_Default(VSD_MAKER::SHAPE::Pyramid);
 	VS_DATA<VERTEX_C> Model_C;
 	Model_C.m_Indices = Model.m_Indices;
 	Model_C.m_Vertices.resize(Model.m_Vertices.size());
@@ -111,7 +111,7 @@ void BONE::Draw(int InstanceNum) const noexcept
 	std::vector<DirectX::XMFLOAT4X4> aMtxLocal = m_aMtxLocal;
 	for (auto& i : aMtxLocal)
 		gMath::MtxTranspose4x4_SSE(&i._11);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxLocal, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxLocal, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_INSTANCE_VTX_BLEND);
@@ -132,7 +132,7 @@ int BONE::AddInstance()
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxLocal);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxLocal, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxLocal, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);

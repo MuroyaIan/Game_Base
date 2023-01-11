@@ -39,8 +39,8 @@ public:
 	//描画モード
 	enum class DRAW_MODE
 	{
-		DRAW_2D,
-		DRAW_3D
+		Draw_2D,	//2D
+		Draw_3D		//3D
 	};
 
 	//コピーNG

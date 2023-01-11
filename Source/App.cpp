@@ -29,6 +29,7 @@
 #include <Light/DirectionalLight.h>
 #include <Light/PointLight.h>
 #include <Geometry/Model/TestPlayer.h>
+//#include <Geometry/Model/TestWave.h>
 
 namespace dx = DirectX;
 
@@ -94,22 +95,22 @@ APP::APP() :
 
 	//【描画テスト】
 	m_aDrawer.reserve(11);
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::BOX));
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::PYRAMID));
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::CONE));
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::PRISM));
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::CYLINDER));
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::SPHERE));
-	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::PLANE));
-	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::PLANE, TEXTURE_MGR::TEX_ID::TEX_TestPlane));
-	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::BOX, TEXTURE_MGR::TEX_ID::TEX_TestBox));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::BOX));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::PYRAMID));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::CONE));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::PRISM));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::CYLINDER));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::SPHERE));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::PLANE));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Box));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Pyramid));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Cone));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Prism));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Cylinder));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Sphere));
+	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Plane));
+	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::Box, TEXTURE_MGR::TEX_ID::TEX_TestBox));
+	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::Plane, TEXTURE_MGR::TEX_ID::TEX_TestPlane));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Box));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Pyramid));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Cone));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Prism));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Cylinder));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Sphere));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Plane));
 
 	//形状生成用ラムダ式
 	std::vector<std::unique_ptr<DRAWER>>& aDrawer = m_aDrawer;
@@ -124,8 +125,8 @@ APP::APP() :
 			CYLINDER,
 			SPHERE,
 			PLANE,
-			PLANE_TEX,
 			BOX_TEX,
+			PLANE_TEX,
 			MODEL_BOX,
 			MODEL_PYRAMID,
 			MODEL_CONE,
@@ -137,7 +138,7 @@ APP::APP() :
 			MAX_NUM
 		};
 
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(14, 14));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(9, 15));
 		//SHAPE shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, static_cast<int>(SHAPE::MAX_NUM) - 1));
 		aDrawer[static_cast<int>(Shape)]->AddInstance();
 		return;
@@ -152,6 +153,9 @@ APP::APP() :
 	//m_aModel.push_back(std::make_unique<MODEL>(*m_pGfx, MODEL_MGR::MODEL_ID::Tarantella));
 	//for (size_t i = 0; i < 1600; i++)
 	//	m_aModel[0]->AddInstance();
+
+	//水面テスト
+	//m_aDrawer.push_back(std::make_unique<WAVE>(*this));
 
 
 

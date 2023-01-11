@@ -46,14 +46,14 @@ void BONE_LINE::Update() noexcept
 			if (b.IsRoot)
 				SetVertexAnimation(vsData, b, m_Loader.GetSkin()[m_AnimationID], m_AnimFrame);
 		}
-		GetVertexBuffer().UpdateBuffer(m_Gfx, vsData.m_Vertices, VERTEX_BUFFER::VB_TYPE::VERTEX);
+		GetVertexBuffer().UpdateBuffer(m_Gfx, vsData.m_Vertices, VERTEX_BUFFER::VB_TYPE::Vertex);
 	}
 	else {
 		for (auto& b : BoneData) {
 			if (b.IsRoot)
 				SetVertex(vsData, b);
 		}
-		GetVertexBuffer().UpdateBuffer(m_Gfx, vsData.m_Vertices, VERTEX_BUFFER::VB_TYPE::VERTEX);
+		GetVertexBuffer().UpdateBuffer(m_Gfx, vsData.m_Vertices, VERTEX_BUFFER::VB_TYPE::Vertex);
 	}
 
 	//ワールド行列更新

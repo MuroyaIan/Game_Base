@@ -144,7 +144,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	ERROR_DX(hr);
 
 	//描画モード設定
-	SetDrawMode(DRAW_MODE::DRAW_3D);
+	SetDrawMode(DRAW_MODE::Draw_3D);
 
 	//ビューポート設定（ラスタライザ）
 	D3D11_VIEWPORT vp{};
@@ -271,10 +271,10 @@ void GRAPHIC::SetDrawMode(DRAW_MODE Mode) const noexcept
 {
 	//ビューをバインド
 	switch (Mode) {
-		case GRAPHIC::DRAW_MODE::DRAW_2D:
+		case GRAPHIC::DRAW_MODE::Draw_2D:
 			m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), nullptr);
 			break;
-		case GRAPHIC::DRAW_MODE::DRAW_3D:
+		case GRAPHIC::DRAW_MODE::Draw_3D:
 			m_pContext->OMSetRenderTargets(1u, m_pRTView.GetAddressOf(), m_pDSView.Get());
 			break;
 		default:

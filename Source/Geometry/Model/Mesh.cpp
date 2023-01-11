@@ -32,21 +32,21 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, m_Material));
 
 	//テクスチャバッファ作成
-	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MAX_TYPE));	//バッファ用配列
+	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));	//バッファ用配列
 	TEX_LOADER::TEX_DATA NullImage = TEX_LOADER::LoadTexture("Asset/Texture/null.png");				//空画像
 	std::string Tex_D = Mesh.Tex_D;																	//Diffuseテクスチャ名
 	if (Tex_D.size() > 0) {
 		for (auto& t : m_FileData.m_aTexPack) {
 			if (t.Name == Tex_D) {
-				aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::DIFFUSE)] = t.TexData;
+				aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = t.TexData;
 				break;
 			}
 		}
 	}
 	else
-		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::DIFFUSE)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::SPECULAR)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::NORMAL)] = NullImage;
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = NullImage;
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = NullImage;
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
 	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
 	TEX_LOADER::ReleaseTexture(NullImage.pImageData);
 
@@ -85,7 +85,7 @@ void MESH::Draw(int InstanceNum) const noexcept
 	std::vector<INSTANCE_DATA> aInstData = m_aInstanceData;
 	for (auto& i : aInstData)
 		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
 	if (m_bStatic)
@@ -100,7 +100,7 @@ int MESH::AddInstance()
 {
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aInstanceData);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);

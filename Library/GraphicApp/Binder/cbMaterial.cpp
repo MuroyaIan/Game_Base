@@ -15,7 +15,7 @@ CB_MATERIAL::CB_MATERIAL(const GRAPHIC& Gfx, const CBD_MATERIAL& Material) :
 {
 	//定数バッファ初期化
 	if (!m_pCBuffPS)
-		m_pCBuffPS = std::make_unique<pscb>(Gfx, static_cast<UINT>(CB_SLOT_PS::MATERIAL));
+		m_pCBuffPS = std::make_unique<pscb>(Gfx, static_cast<UINT>(CB_SLOT_PS::Material));
 	m_RefCount++;
 }
 

@@ -33,22 +33,22 @@ VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, 
 
 	//テクスチャバッファ作成
 	auto& MeshData = m_Loader.GetMesh(m_MeshIndex);
-	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MAX_TYPE));
+	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));
 	if (MeshData.aTex_Diffuse.size() > 0) {
 		std::string Path = m_Loader.GetFilePath();
 		Path += MeshData.aTex_Diffuse[0];
-		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::DIFFUSE)] = TEX_LOADER::LoadTexture(Path.c_str());
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = TEX_LOADER::LoadTexture(Path.c_str());
 	}
 	else
-		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::DIFFUSE)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 	if (MeshData.aTex_Specular.size() > 0) {
 		std::string Path = m_Loader.GetFilePath();
 		Path += MeshData.aTex_Specular[0];
-		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::SPECULAR)] = TEX_LOADER::LoadTexture(Path.c_str());
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = TEX_LOADER::LoadTexture(Path.c_str());
 	}
 	else
-		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::SPECULAR)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::NORMAL)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 
 	AddBind(std::make_unique<TEXTURE_MODEL>(Gfx, aData));
 

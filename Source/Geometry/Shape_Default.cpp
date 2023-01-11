@@ -80,7 +80,7 @@ void SHAPE_DEFAULT::Draw(int InstanceNum) const noexcept
 	std::vector<DirectX::XMFLOAT4X4> aMtxWorld = m_aMtxWorld;
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind_Instance();
@@ -114,7 +114,7 @@ int SHAPE_DEFAULT::AddInstance()
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxWorld);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxWorld, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);

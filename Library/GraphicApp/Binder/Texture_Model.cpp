@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 TEXTURE_MODEL::TEXTURE_MODEL(const GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot) :
-	BINDER(), m_pTextureViews(static_cast<int>(TEX_TYPE::MAX_TYPE)), m_StartSlot(StartSlot)
+	BINDER(), m_pTextureViews(static_cast<int>(TEX_TYPE::MaxType)), m_StartSlot(StartSlot)
 {
 	//バッファ作成
 	for (size_t i = 0, Cnt = m_pTextureViews.size(); i < Cnt; i++)
@@ -18,7 +18,7 @@ TEXTURE_MODEL::~TEXTURE_MODEL() noexcept
 //バインド処理
 void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) const noexcept
 {
-	ID3D11ShaderResourceView* pBuffers[static_cast<int>(TEX_TYPE::MAX_TYPE)]{ nullptr };
+	ID3D11ShaderResourceView* pBuffers[static_cast<int>(TEX_TYPE::MaxType)]{ nullptr };
 	for (size_t i = 0, Cnt = m_pTextureViews.size(); i < Cnt; i++)
 		pBuffers[i] = m_pTextureViews[i].Get();
 	GetContext(Gfx)->PSSetShaderResources(m_StartSlot, static_cast<UINT>(m_pTextureViews.size()), pBuffers);

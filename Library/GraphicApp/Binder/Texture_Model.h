@@ -24,11 +24,11 @@ public:
 	//テクスチャタイプ
 	enum class TEX_TYPE
 	{
-		DIFFUSE,
-		SPECULAR,
-		NORMAL,
+		Diffuse,	//拡散色
+		Specular,	//反射色
+		Normal,		//法線
 
-		MAX_TYPE
+		MaxType
 	};
 
 	//プロトタイプ宣言

@@ -24,16 +24,16 @@ public:
 	//バッファタイプ
 	enum class VB_TYPE
 	{
-		VERTEX,		//頂点情報
-		INSTANCE,	//インスタンス情報
+		Vertex,		//頂点情報
+		Instance,	//インスタンス情報
 
-		MAX_TYPE
+		MaxType
 	};
 
 	//プロトタイプ宣言
 	template<class V>
 	explicit VERTEX_BUFFER(const GRAPHIC& Gfx, const std::vector<V>& aVertice, bool bDynamic = false) :
-		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MAX_TYPE)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MAX_TYPE))
+		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MaxType)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MaxType))
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -46,16 +46,16 @@ public:
 		);
 		D3D11_SUBRESOURCE_DATA sd{};
 		sd.pSysMem = aVertice.data();
-		hr = GetDevice(Gfx)->CreateBuffer(&bd, &sd, &m_pVertexBuffers[static_cast<int>(VB_TYPE::VERTEX)]);
+		hr = GetDevice(Gfx)->CreateBuffer(&bd, &sd, &m_pVertexBuffers[static_cast<int>(VB_TYPE::Vertex)]);
 		ERROR_DX(hr);
 
 		//その他初期化
-		m_aStride[static_cast<int>(VB_TYPE::VERTEX)] = static_cast<UINT>(sizeof(V));
+		m_aStride[static_cast<int>(VB_TYPE::Vertex)] = static_cast<UINT>(sizeof(V));
 	}
 
 	template<class V, class I>
 	explicit VERTEX_BUFFER(const GRAPHIC& Gfx, const std::vector<V>& aVertice, const std::vector<I>& aInstance, bool bDynamic = false) :
-		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MAX_TYPE)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MAX_TYPE))
+		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MaxType)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MaxType))
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -68,7 +68,7 @@ public:
 		);
 		D3D11_SUBRESOURCE_DATA sd1{};
 		sd1.pSysMem = aVertice.data();
-		hr = GetDevice(Gfx)->CreateBuffer(&bd1, &sd1, &m_pVertexBuffers[static_cast<int>(VB_TYPE::VERTEX)]);
+		hr = GetDevice(Gfx)->CreateBuffer(&bd1, &sd1, &m_pVertexBuffers[static_cast<int>(VB_TYPE::Vertex)]);
 		ERROR_DX(hr);
 
 		//バッファ作成（インスタンス情報）
@@ -82,12 +82,12 @@ public:
 			static_cast<UINT>(sizeof(I)),
 			true
 		);
-		hr = GetDevice(Gfx)->CreateBuffer(&bd2, nullptr, &m_pVertexBuffers[static_cast<int>(VB_TYPE::INSTANCE)]);
+		hr = GetDevice(Gfx)->CreateBuffer(&bd2, nullptr, &m_pVertexBuffers[static_cast<int>(VB_TYPE::Instance)]);
 		ERROR_DX(hr);
 
 		//その他初期化
-		m_aStride[static_cast<int>(VB_TYPE::VERTEX)] = static_cast<UINT>(sizeof(V));
-		m_aStride[static_cast<int>(VB_TYPE::INSTANCE)] = static_cast<UINT>(sizeof(I));
+		m_aStride[static_cast<int>(VB_TYPE::Vertex)] = static_cast<UINT>(sizeof(V));
+		m_aStride[static_cast<int>(VB_TYPE::Instance)] = static_cast<UINT>(sizeof(I));
 	}
 	~VERTEX_BUFFER() noexcept override;
 
@@ -97,7 +97,7 @@ public:
 		//例外処理
 		if (m_pVertexBuffers[static_cast<int>(Type)].Get() == nullptr)
 			throw ERROR_EX2("バッファはnullです。");
-		if (Type == VB_TYPE::VERTEX && !m_bDynamicBuffer)
+		if (Type == VB_TYPE::Vertex && !m_bDynamicBuffer)
 			throw ERROR_EX2("頂点バッファは動的ではない!");
 
 		MapBuffer(Gfx, aData, m_pVertexBuffers[static_cast<int>(Type)].Get());
@@ -120,11 +120,11 @@ public:
 			static_cast<UINT>(sizeof(I)),
 			true
 		);
-		hr = GetDevice(Gfx)->CreateBuffer(&bd2, nullptr, &m_pVertexBuffers[static_cast<int>(VB_TYPE::INSTANCE)]);
+		hr = GetDevice(Gfx)->CreateBuffer(&bd2, nullptr, &m_pVertexBuffers[static_cast<int>(VB_TYPE::Instance)]);
 		ERROR_DX(hr);
 
 		//その他初期化
-		m_aStride[static_cast<int>(VB_TYPE::INSTANCE)] = static_cast<UINT>(sizeof(I));
+		m_aStride[static_cast<int>(VB_TYPE::Instance)] = static_cast<UINT>(sizeof(I));
 	}
 
 	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理

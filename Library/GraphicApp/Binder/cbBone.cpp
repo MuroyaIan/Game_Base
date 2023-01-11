@@ -15,7 +15,7 @@ CB_BONE::CB_BONE(const GRAPHIC& Gfx, const CBD_BONE& aMtxBone, bool Transpose) :
 {
 	//定数バッファ初期化
 	if (!m_pCBuffVS)
-		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::BONE));
+		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::Bone));
 	m_RefCount++;
 }
 

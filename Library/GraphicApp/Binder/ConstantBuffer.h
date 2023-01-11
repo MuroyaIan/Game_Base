@@ -17,17 +17,17 @@
 //===== 列挙型宣言 =====
 enum class CB_SLOT_VS
 {
-	DEFAULT,
-	CAMERA,
-	BONE,
-	LOCAL
+	Default,
+	Camera,		//カメラ
+	Bone,		//骨
+	Local		//ローカル行列
 };
 
 enum class CB_SLOT_PS
 {
-	DEFAULT,
-	LIGHT,
-	MATERIAL
+	Default,
+	Light,		//光
+	Material	//マテリアル
 };
 
 //===== クラス定義 =====

@@ -14,7 +14,7 @@ CB_LOCAL::CB_LOCAL(const GRAPHIC& Gfx, const CBD_MTX_LOCAL& LocalData) :
 {
 	//定数バッファ初期化
 	if (!m_pCBuffVS)
-		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::LOCAL));
+		m_pCBuffVS = std::make_unique<vscb>(Gfx, static_cast<UINT>(CB_SLOT_VS::Local));
 	m_RefCount++;
 }
 

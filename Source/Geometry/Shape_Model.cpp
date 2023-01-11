@@ -29,11 +29,11 @@ SHAPE_MODEL::SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, m_Material));
 
 	//テクスチャバッファ作成
-	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MAX_TYPE));
-	//aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::DIFFUSE)] = TEX_LOADER::LoadTexture("Asset/Texture/test2.png");
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::DIFFUSE)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::SPECULAR)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::NORMAL)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));
+	//aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = TEX_LOADER::LoadTexture("Asset/Texture/test2.png");
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
 	for (auto& d : aData)
 		TEX_LOADER::ReleaseTexture(d.pImageData);
@@ -102,7 +102,7 @@ void SHAPE_MODEL::Draw(int InstanceNum) const noexcept
 	std::vector<INSTANCE_DATA> aInstData = m_aInstanceData;
 	for (auto& i : aInstData)
 		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind_Instance_Phong();
@@ -141,7 +141,7 @@ int SHAPE_MODEL::AddInstance()
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aInstanceData);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::INSTANCE);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);
