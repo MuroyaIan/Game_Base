@@ -28,7 +28,7 @@ WAVE::WAVE(APP& App) :
 	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
 
 	//定数バッファ作成（マテリアル）
-	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, m_Material));
+	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, nullptr, m_Material));
 
 	//テクスチャバッファ作成
 	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));
@@ -115,7 +115,7 @@ void WAVE::Draw(int InstanceNum) const noexcept
 		return;
 
 	//インスタンス更新
-	std::vector<INSTANCE_DATA> aInstData = m_aInstanceData;
+	std::vector<VSD_INSTANCE> aInstData = m_aInstanceData;
 	for (auto& i : aInstData)
 		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::Instance);
@@ -130,7 +130,7 @@ int WAVE::AddInstance()
 {
 	//配列追加
 	m_InstanceNum++;
-	INSTANCE_DATA InstData{};
+	VSD_INSTANCE InstData{};
 	m_aInstanceData.push_back(InstData);
 
 	//インスタンスバッファ再設定

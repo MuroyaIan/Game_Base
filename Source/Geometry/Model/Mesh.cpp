@@ -29,7 +29,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 
 	//マテリアル情報作成
 	m_Material = Mesh.MaterialData;
-	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, m_Material));
+	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, nullptr, m_Material));
 
 	//テクスチャバッファ作成
 	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));	//バッファ用配列
@@ -52,7 +52,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 
 	//ローカル情報作成
 	m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
-	AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, *m_pLocalData));
+	AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, nullptr, *m_pLocalData));
 }
 
 MESH::~MESH() noexcept
@@ -82,7 +82,7 @@ void MESH::Draw(int InstanceNum) const noexcept
 		return;
 
 	//インスタンス更新
-	std::vector<INSTANCE_DATA> aInstData = m_aInstanceData;
+	std::vector<VSD_INSTANCE> aInstData = m_aInstanceData;
 	for (auto& i : aInstData)
 		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::Instance);

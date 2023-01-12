@@ -16,7 +16,7 @@ SamplerState Sampler : register(s0);
 Texture2D TexMap[3] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal
 
 //定数バッファ（マテリアル）
-cbuffer CB_MATERIAL : register(b2)
+cbuffer CB_MATERIAL : register(b0)
 {
 	float4 cbAmbient;       //環境光
 	float4 cbDiffuse;       //拡散反射光

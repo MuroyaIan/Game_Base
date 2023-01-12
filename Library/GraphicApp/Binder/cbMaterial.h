@@ -24,14 +24,19 @@ class CB_MATERIAL : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CB_MATERIAL(const GRAPHIC& Gfx, const CBD_MATERIAL& Material);
+	explicit CB_MATERIAL(const GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_MATERIAL& Material);
 	~CB_MATERIAL() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;			//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理
+
+	void SetBuffPtr(CB_PTR* cbPtr) const noexcept						//バッファポインタ設定
+	{
+		m_pCBuff->SetBuffPtr(cbPtr);
+	}
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<PS_CBUFFER<CBD_MATERIAL>> m_pCBuffPS;	//定数バッファのポインタ
-	static int m_RefCount;											//定数バッファの利用数
-	const CBD_MATERIAL& m_Material;								//マテリアル情報の提供先
+	static std::unique_ptr<CONSTANT_BUFFER<CBD_MATERIAL>> m_pCBuff;		//定数バッファのポインタ
+	static int m_RefCount;												//定数バッファの利用数
+	const CBD_MATERIAL& m_Material;										//マテリアル情報の提供先
 };

@@ -104,5 +104,6 @@ private:
 
 	//プロトタイプ宣言
 	explicit VSD_PRISM() noexcept {}
+
 	~VSD_PRISM() noexcept {}
 };

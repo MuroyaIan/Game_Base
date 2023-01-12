@@ -45,7 +45,7 @@ private:
 	GFX_PACK& m_Gfx;								//描画データ参照
 	VSD_MAKER::SHAPE m_Type;						//形状タイプ
 	int m_InstanceNum;								//インスタンス数
-	std::vector<INSTANCE_DATA> m_aInstanceData;		//インスタンス情報
+	std::vector<VSD_INSTANCE> m_aInstanceData;		//インスタンス情報
 	CBD_MATERIAL m_Material;						//マテリアル情報
 
 	struct MTX_DATA

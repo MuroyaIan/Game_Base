@@ -129,7 +129,7 @@ public:
 
 	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
 
-protected:
+private:
 
 	//変数宣言
 	std::vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> m_pVertexBuffers;				//ポインタ配列

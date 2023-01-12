@@ -24,15 +24,20 @@ class CB_MTX_LWVP : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CB_MTX_LWVP(const GRAPHIC& Gfx, const DRAWER& Parent, const DirectX::XMFLOAT4X4& mtxL);
+	explicit CB_MTX_LWVP(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent, const DirectX::XMFLOAT4X4& mtxL);
 	~CB_MTX_LWVP() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;			//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理
+
+	void SetBuffPtr(CB_PTR* cbPtr) const noexcept						//バッファポインタ設定
+	{
+		m_pCBuff->SetBuffPtr(cbPtr);
+	}
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<VS_CBUFFER<CBD_MTX_LWVP>> m_pCBuffVS;	//定数バッファのポインタ
-	static int m_RefCount;											//定数バッファの利用数
-	const DRAWER& m_Parent;											//所属するドロワー（has-a）
-	const DirectX::XMFLOAT4X4& m_mtxL;								//ローカル行列の提供先
+	static std::unique_ptr<CONSTANT_BUFFER<CBD_MTX_LWVP>> m_pCBuff;		//定数バッファのポインタ
+	static int m_RefCount;												//定数バッファの利用数
+	const DRAWER& m_Parent;												//所属するドロワー（has-a）
+	const DirectX::XMFLOAT4X4& m_mtxL;									//ローカル行列の提供先
 };

@@ -30,7 +30,7 @@ public:
 		return m_pBlob.Get();
 	}
 
-protected:
+private:
 
 	//変数宣言
 	Microsoft::WRL::ComPtr<ID3DBlob> m_pBlob;						//シェーダリソース

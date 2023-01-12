@@ -93,6 +93,11 @@ public:
 	void Bind_Instance_Phong() const noexcept;			//バインド処理（インスタンシング＿Phongモデル）
 	void Bind_Instance_Phong_Anim() const noexcept;		//バインド処理（インスタンシング＿Phongモデル＿アニメ付）
 
+	BINDER* GetBinder(BINDER_ID id) const noexcept		//バインダのポインタ取得
+	{
+		return m_aBinder[static_cast<int>(id)].get();
+	}
+
 private:
 
 	//変数宣言

@@ -107,5 +107,6 @@ private:
 
 	//プロトタイプ宣言
 	explicit VSD_SPHERE() noexcept {}
+
 	~VSD_SPHERE() noexcept {}
 };

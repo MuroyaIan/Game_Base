@@ -41,8 +41,12 @@ BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) 
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model_C.m_Indices));
 
-	//定数バッファ作成（変換行列）
-	AddBind(std::make_unique<CB_MTX_LWVP>(m_Gfx.m_DX, *this, m_MtxLocal));
+	//VS定数バッファ作成（変換行列）
+	CB_PTR cbData;
+	AddBind(std::make_unique<CB_MTX_LWVP>(m_Gfx.m_DX, &cbData, *this, m_MtxLocal));
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//ローカル行列初期化
 	dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());

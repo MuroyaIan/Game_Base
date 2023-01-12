@@ -21,13 +21,18 @@ class CB_MTX_VP : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CB_MTX_VP(const GRAPHIC& Gfx);
+	explicit CB_MTX_VP(const GRAPHIC& Gfx, CB_PTR* cbPtr);
 	~CB_MTX_VP() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;		//バインド処理
+	void Bind(const GRAPHIC& Gfx) const noexcept override;			//バインド処理
+
+	void SetBuffPtr(CB_PTR* cbPtr) const noexcept					//バッファポインタ設定
+	{
+		m_pCBuff->SetBuffPtr(cbPtr);
+	}
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<VS_CBUFFER<CBD_MTX_VP>> m_pCBuffVS;	//定数バッファのポインタ
-	static int m_RefCount;										//定数バッファの利用数
+	static std::unique_ptr<CONSTANT_BUFFER<CBD_MTX_VP>> m_pCBuff;	//定数バッファのポインタ
+	static int m_RefCount;											//定数バッファの利用数
 };

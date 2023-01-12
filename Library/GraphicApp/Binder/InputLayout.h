@@ -25,7 +25,7 @@ public:
 	~INPUT_LAYOUT() noexcept override;
 	void Bind(const GRAPHIC& Gfx) const noexcept override;		//バインド処理
 
-protected:
+private:
 
 	//変数宣言
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_pInputLayout;	//ポインタ

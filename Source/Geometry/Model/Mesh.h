@@ -47,7 +47,7 @@ private:
 	int m_MeshIdx;									//メッシュ番号
 	GFX_PACK& m_Gfx;								//描画データ参照
 	int& m_InstanceNum;								//インスタンス数参照
-	std::vector<INSTANCE_DATA>& m_aInstanceData;	//インスタンス情報参照
+	std::vector<VSD_INSTANCE>& m_aInstanceData;	//インスタンス情報参照
 	CBD_MATERIAL m_Material;						//マテリアル情報
 
 	bool& m_bStatic;								//静的メッシュかどうか

@@ -95,5 +95,6 @@ private:
 
 	//プロトタイプ宣言
 	explicit VSD_GRID() noexcept {}
+
 	~VSD_GRID() noexcept {}
 };

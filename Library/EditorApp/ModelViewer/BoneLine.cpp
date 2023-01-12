@@ -16,10 +16,6 @@ BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LO
 	m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame())
 {
 
-	//定数バッファ作成（法線の色）
-	const dx::XMFLOAT4 cbNormalColor(0.5f, 1.0f, 1.0f, 1.0f);
-	AddBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor));
-
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = MakeData_VS();
 	AddBind(std::make_unique<VERTEX_BUFFER>(Gfx, Model.m_Vertices, true));
@@ -27,8 +23,17 @@ BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LO
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(Gfx, Model.m_Indices));
 
-	//定数バッファ作成（変換行列）
-	AddBind(std::make_unique<CB_MTX_T>(Gfx, *this));
+	//VS定数バッファ作成（変換行列）
+	CB_PTR cbData;
+	AddBind(std::make_unique<CB_MTX_T>(Gfx, &cbData, *this));
+
+	//PS定数バッファ作成（法線の色）
+	const dx::XMFLOAT4 cbNormalColor(0.5f, 1.0f, 1.0f, 1.0f);
+	//AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor, -1, static_cast<int>(CB_SLOT_PS::Default)));
+	AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor, &cbData, false, true));
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 }
 
 BONE_LINE::~BONE_LINE() noexcept

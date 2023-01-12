@@ -48,7 +48,7 @@ private:
 	//変数宣言
 	GFX_PACK& m_Gfx;								//描画データ参照
 	int m_InstanceNum;								//インスタンス数
-	std::vector<INSTANCE_DATA> m_aInstanceData;		//インスタンス情報
+	std::vector<VSD_INSTANCE> m_aInstanceData;		//インスタンス情報
 	CBD_MATERIAL m_Material;						//マテリアル情報
 
 	INPUT_MGR& m_Input;								//入力参照

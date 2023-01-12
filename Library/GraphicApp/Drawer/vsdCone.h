@@ -83,5 +83,6 @@ private:
 
 	//プロトタイプ宣言
 	explicit VSD_CONE() noexcept {}
+
 	~VSD_CONE() noexcept {}
 };

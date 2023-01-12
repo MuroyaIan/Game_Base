@@ -264,12 +264,12 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 
 
 	//定数バッファ作成（VP行列）
-	m_aBinder[static_cast<int>(BINDER_ID::CB_VS_MTX_VP)] = std::make_unique<CB_MTX_VP>(m_DX);
+	m_aBinder[static_cast<int>(BINDER_ID::CB_VS_MTX_VP)] = std::make_unique<CB_MTX_VP>(m_DX, nullptr);
 
 	{
 		//定数バッファ作成（ポリゴン色）
 		const CBD_COLOR cbColor{};
-		m_aBinder[static_cast<int>(BINDER_ID::CB_PS_DEFAULT)] = std::make_unique<PS_CBUFFER<CBD_COLOR>>(m_DX, cbColor);
+		m_aBinder[static_cast<int>(BINDER_ID::CB_PS_DEFAULT)] = std::make_unique<CONSTANT_BUFFER<CBD_COLOR>>(m_DX, cbColor, nullptr, false, true);
 	}
 }
 

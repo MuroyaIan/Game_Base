@@ -36,7 +36,7 @@ public:
 	~TEXTURE_MODEL() noexcept override;
 	void Bind(const GRAPHIC& Gfx) const noexcept override;	//ƒoƒCƒ“ƒhˆ—
 
-protected:
+private:
 
 	using com_pSRV = Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>;
 

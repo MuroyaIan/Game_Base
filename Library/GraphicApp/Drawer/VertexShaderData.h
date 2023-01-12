@@ -26,8 +26,10 @@ struct VTX_COLOR
 
 	//プロトタイプ宣言
 	VTX_COLOR() noexcept : r(0), g(0), b(0), a(0) {}
+
 	VTX_COLOR(unsigned char rIn, unsigned char gIn, unsigned char bIn, unsigned char aIn) noexcept :
 		r(rIn), g(gIn), b(bIn), a(aIn) {}
+
 	~VTX_COLOR() noexcept {}
 };
 
@@ -41,7 +43,9 @@ public:
 
 	//プロトタイプ宣言
 	explicit VERTEX() noexcept : m_Pos() {}
+
 	explicit VERTEX(DirectX::XMFLOAT3 Pos) noexcept : m_Pos(Pos) {}
+
 	~VERTEX() noexcept {}
 };
 
@@ -55,8 +59,10 @@ public:
 
 	//プロトタイプ宣言
 	explicit VERTEX_C() noexcept : m_Pos(), m_Color() {}
+
 	explicit VERTEX_C(DirectX::XMFLOAT3 Pos, VTX_COLOR Color) noexcept :
 		m_Pos(Pos), m_Color(Color) {}
+
 	~VERTEX_C() noexcept {}
 };
 
@@ -70,8 +76,10 @@ public:
 
 	//プロトタイプ宣言
 	explicit VERTEX_T() noexcept : m_Pos(), m_UV() {}
+
 	explicit VERTEX_T(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv) noexcept :
 		m_Pos(Pos), m_UV(uv) {}
+
 	~VERTEX_T() noexcept {}
 };
 
@@ -86,8 +94,10 @@ public:
 
 	//プロトタイプ宣言
 	explicit VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal() {}
+
 	explicit VERTEX_M(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
 		m_Pos(Pos), m_UV(uv), m_Normal(Normal) {}
+
 	~VERTEX_M() noexcept {}
 };
 
@@ -110,6 +120,7 @@ public:
 		for (auto& w : m_BoneWeight)
 			w = 0.0f;
 	}
+
 	explicit VERTEX_MB(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
 		m_Pos(Pos), m_UV(uv), m_Normal(Normal), m_BoneID(), m_BoneWeight()
 	{
@@ -118,6 +129,7 @@ public:
 		for (auto& w : m_BoneWeight)
 			w = 0.0f;
 	}
+
 	~VERTEX_MB() noexcept {}
 };
 
@@ -133,6 +145,7 @@ public:
 
 	//プロトタイプ宣言
 	explicit VS_DATA() noexcept : m_Vertices(0), m_Indices(0) {}
+
 	explicit VS_DATA(std::vector<T> Vertices, std::vector<UINT> Indices, bool bTriangle = true) :
 		m_Vertices(std::move(Vertices)), m_Indices(std::move(Indices))
 	{
@@ -146,6 +159,7 @@ public:
 		if (m_Indices.size() % 3 != 0)
 			throw ERROR_EX2("【警告】ポリゴンのインデックス数が3で割り切れない！");
 	}
+
 	~VS_DATA() noexcept {}
 
 	void SetVertexPos(DirectX::XMFLOAT4X4 mtxTransform) noexcept	//頂点位置設定（初期変形）

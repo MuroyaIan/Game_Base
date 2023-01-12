@@ -30,7 +30,7 @@ public:
 		return m_IndexNum;
 	}
 
-protected:
+private:
 
 	//•Ï”éŒ¾
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_pIndexBuffer;	//ƒ|ƒCƒ“ƒ^

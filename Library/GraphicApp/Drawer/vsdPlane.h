@@ -186,5 +186,6 @@ private:
 
 	//プロトタイプ宣言
 	explicit VSD_PLANE() noexcept {}
+
 	~VSD_PLANE() noexcept {}
 };

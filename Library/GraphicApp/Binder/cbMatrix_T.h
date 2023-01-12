@@ -24,14 +24,19 @@ class CB_MTX_T : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CB_MTX_T(const GRAPHIC& Gfx, const DRAWER& Parent);
+	explicit CB_MTX_T(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent);
 	~CB_MTX_T() noexcept override;
 	void Bind(const GRAPHIC& Gfx) const noexcept override;					//バインド処理
+
+	void SetBuffPtr(CB_PTR* cbPtr) const noexcept							//バッファポインタ設定
+	{
+		m_pCBuff->SetBuffPtr(cbPtr);
+	}
 
 private:
 
 	//変数宣言
-	static std::unique_ptr<VS_CBUFFER<DirectX::XMFLOAT4X4>> m_pCBuffVS;		//定数バッファのポインタ
+	static std::unique_ptr<CONSTANT_BUFFER<DirectX::XMFLOAT4X4>> m_pCBuff;	//定数バッファのポインタ
 	static int m_RefCount;													//定数バッファの利用数
 	const DRAWER& m_Parent;													//所属するドロワー（has-a）
 };

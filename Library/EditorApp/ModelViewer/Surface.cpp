@@ -15,8 +15,15 @@ SURFACE::SURFACE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int Me
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(Gfx, Model.m_Indices));
 
-	//定数バッファ作成（変換行列）
-	AddBind(std::make_unique<CB_MTX_T>(Gfx, *this));
+	//VS定数バッファ作成（変換行列）
+	CB_PTR cbData;
+	AddBind(std::make_unique<CB_MTX_T>(Gfx, &cbData, *this));
+
+	//PS定数バッファ作成（ポリゴン色）
+	dynamic_cast<CONSTANT_BUFFER<CBD_COLOR>*>(m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_PS_DEFAULT))->SetBuffPtr(&cbData);
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 }
 
 SURFACE::~SURFACE() noexcept

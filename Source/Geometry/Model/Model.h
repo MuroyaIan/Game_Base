@@ -62,7 +62,7 @@ private:
 	std::vector<std::unique_ptr<DRAWER>> m_aMesh;	//メッシュ配列
 
 	int m_InstanceNum;								//インスタンス数
-	std::vector<INSTANCE_DATA> m_aInstanceData;		//インスタンス情報
+	std::vector<VSD_INSTANCE> m_aInstanceData;		//インスタンス情報
 
 	bool m_bStatic;									//静的メッシュかどうか
 	std::unique_ptr<BINDER> m_pBoneBuffer;			//骨情報用バインダ

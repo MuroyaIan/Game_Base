@@ -31,7 +31,7 @@ cbuffer C_BUFFER : register(b0)
 };
 
 //定数バッファ（骨情報）
-cbuffer CB_BONE : register(b2)
+cbuffer CB_BONE : register(b1)
 {
 	matrix mtxBone[250];    //骨行列
 };

@@ -138,7 +138,7 @@ APP::APP() :
 			MAX_NUM
 		};
 
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(9, 15));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(6, 9));
 		//SHAPE shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, static_cast<int>(SHAPE::MAX_NUM) - 1));
 		aDrawer[static_cast<int>(Shape)]->AddInstance();
 		return;
@@ -149,10 +149,10 @@ APP::APP() :
 		MakeGeom();
 
 	//【モデルテスト】
-	//m_aModel.reserve(1);
-	//m_aModel.push_back(std::make_unique<MODEL>(*m_pGfx, MODEL_MGR::MODEL_ID::Tarantella));
-	//for (size_t i = 0; i < 1600; i++)
-	//	m_aModel[0]->AddInstance();
+	m_aModel.reserve(1);
+	m_aModel.push_back(std::make_unique<MODEL>(*m_pGfx, MODEL_MGR::MODEL_ID::Tarantella));
+	for (size_t i = 0; i < 1600; i++)
+		m_aModel[0]->AddInstance();
 
 	//水面テスト
 	//m_aDrawer.push_back(std::make_unique<WAVE>(*this));
@@ -160,7 +160,7 @@ APP::APP() :
 
 
 	//カメラ初期化
-	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::FP);
+	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::TEST);
 
 	//太陽光初期化
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);

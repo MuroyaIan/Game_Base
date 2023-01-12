@@ -17,16 +17,16 @@
 #include <GraphicApp/Drawer/vsdPlane.h>
 
 //===== 構造体宣言 =====
-struct INSTANCE_DATA					//インスタンス情報
+struct VSD_INSTANCE						//インスタンス情報
 {
 	DirectX::XMFLOAT4X4 MtxWorld;		//ワールド行列
 
-	INSTANCE_DATA() noexcept : MtxWorld()
+	VSD_INSTANCE() noexcept : MtxWorld()
 	{
 		//ワールド行列初期化
 		DirectX::XMStoreFloat4x4(&MtxWorld, DirectX::XMMatrixIdentity());
 	}
-	~INSTANCE_DATA() noexcept {}
+	~VSD_INSTANCE() noexcept {}
 };
 
 //===== クラス定義 =====

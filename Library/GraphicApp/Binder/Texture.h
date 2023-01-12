@@ -26,7 +26,7 @@ public:
 	~TEXTURE() noexcept override;
 	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理
 
-protected:
+private:
 
 	//変数宣言
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pTextureView;	//ポインタ

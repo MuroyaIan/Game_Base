@@ -19,7 +19,7 @@ MESH_LIGHT::MESH_LIGHT(GFX_PACK& Gfx) :
 
 	//定数バッファ作成（ポリゴン色）
 	const dx::XMFLOAT4 cbColor(1.0f, 1.0f, 0.0f, 0.0f);
-	AddBind(std::make_unique<PS_CBUFFER<dx::XMFLOAT4>>(m_Gfx.m_DX, cbColor));
+	AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(m_Gfx.m_DX, cbColor, nullptr, -1, static_cast<int>(CB_SLOT_PS::Default)));
 }
 
 MESH_LIGHT::~MESH_LIGHT() noexcept

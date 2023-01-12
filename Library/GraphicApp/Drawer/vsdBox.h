@@ -176,5 +176,6 @@ private:
 
 	//プロトタイプ宣言
 	explicit VSD_BOX() noexcept {}
+
 	~VSD_BOX() noexcept {}
 };

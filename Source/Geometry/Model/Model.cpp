@@ -24,7 +24,7 @@ MODEL::MODEL(GFX_PACK& Gfx, MODEL_MGR::MODEL_ID id) noexcept :
 	//定数バッファ作成（骨情報）
 	if (!m_bStatic) {
 		m_pMtxBone = std::make_unique<CBD_BONE>();
-		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, *m_pMtxBone);
+		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, nullptr, *m_pMtxBone);
 	}
 }
 
@@ -75,7 +75,7 @@ int MODEL::AddInstance()
 	m_InstanceNum++;
 
 	//配列追加
-	INSTANCE_DATA InstData{};
+	VSD_INSTANCE InstData{};
 	InstData.MtxWorld = m_FileData.InitMtxWorld;
 	m_aInstanceData.push_back(InstData);
 

@@ -61,8 +61,10 @@ struct CBD_MTX_VP					//変換行列（VP）
 		DirectX::XMStoreFloat4x4(&mtxView, DirectX::XMMatrixIdentity());
 		DirectX::XMStoreFloat4x4(&mtxProj, DirectX::XMMatrixIdentity());
 	}
+
 	CBD_MTX_VP(DirectX::XMFLOAT4X4 mtxV, DirectX::XMFLOAT4X4 mtxP) noexcept : mtxView(mtxV), mtxProj(mtxP)
 	{}
+
 	~CBD_MTX_VP() noexcept
 	{}
 };
@@ -107,6 +109,7 @@ struct CBD_MATERIAL					//マテリアル情報
 		Ambient(0.0f, 0.0f, 0.0f, 0.0f), Diffuse(0.0f, 0.0f, 0.0f, 0.0f), Emissive(0.0f, 0.0f, 0.0f, 0.0f), Transparent(0.0f, 0.0f, 0.0f, 0.0f),
 		Specular(0.0f, 0.0f, 0.0f, 0.0f), Shininess(2.0f), Pad1(0.0f), Pad2(0.0f), Pad3(0.0f)
 	{}
+
 	~CBD_MATERIAL() noexcept {}
 };
 

@@ -21,15 +21,19 @@ VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, 
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(Gfx, Model.m_Indices));
 
-	//定数バッファ作成（変換行列）
-	AddBind(std::make_unique<CB_MTX_LWVP>(Gfx, *this, m_MtxLocal));
+	//VS定数バッファ作成（変換行列）
+	CB_PTR cbData;
+	AddBind(std::make_unique<CB_MTX_LWVP>(Gfx, &cbData, *this, m_MtxLocal));
 
-	//定数バッファ作成（骨情報）
+	//VS定数バッファ作成（骨情報）
 	m_pMtxBone = std::make_unique<CBD_BONE>();
-	AddBind(std::make_unique<CB_BONE>(Gfx, *m_pMtxBone, true));
+	AddBind(std::make_unique<CB_BONE>(Gfx, &cbData, *m_pMtxBone, true));
 
-	//定数バッファ作成（マテリアル）
-	AddBind(std::make_unique<CB_MATERIAL>(Gfx, m_Material));
+	//PS定数バッファ作成（マテリアル）
+	AddBind(std::make_unique<CB_MATERIAL>(Gfx, &cbData, m_Material));
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//テクスチャバッファ作成
 	auto& MeshData = m_Loader.GetMesh(m_MeshIndex);
