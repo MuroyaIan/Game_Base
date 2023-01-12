@@ -7,8 +7,8 @@
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-MODEL::MODEL(GFX_PACK& Gfx, MODEL_MGR::MODEL_ID id) noexcept :
-	m_Gfx(Gfx), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_aMesh(m_FileData.aMesh.size()),
+MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
+	m_Gfx(App.GetGfxPack()), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_aMesh(m_FileData.aMesh.size()),
 	m_InstanceNum(0), m_aInstanceData(m_InstanceNum),
 	m_bStatic(true), m_pBoneBuffer(), m_pMtxBone(), m_AnimID(1), m_AnimID_Backup(m_AnimID), m_AnimFrame(0), m_AnimFrame_Backup(m_AnimFrame), m_FrameCnt(0), m_FrameCnt_Backup(m_FrameCnt),
 	m_bBlendAnim(false), m_BlendTimer(0)
@@ -17,15 +17,15 @@ MODEL::MODEL(GFX_PACK& Gfx, MODEL_MGR::MODEL_ID id) noexcept :
 	if (m_FileData.aAnimFrame.size() > 0)
 		m_bStatic = false;
 
-	//メッシュ初期化
-	for (size_t i = 0, Cnt = m_FileData.aMesh.size(); i < Cnt; i++)
-		m_aMesh[i] = std::make_unique<MESH>(*this, static_cast<int>(i));
-
-	//定数バッファ作成（骨情報）
+	//VS定数バッファ作成（骨情報）
 	if (!m_bStatic) {
 		m_pMtxBone = std::make_unique<CBD_BONE>();
 		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, nullptr, *m_pMtxBone);
 	}
+
+	//メッシュ初期化
+	for (size_t i = 0, Cnt = m_FileData.aMesh.size(); i < Cnt; i++)
+		m_aMesh[i] = std::make_unique<MESH>(App, *this, static_cast<int>(i));
 }
 
 MODEL::~MODEL() noexcept

@@ -24,20 +24,20 @@ struct VS_OUT
 };
 
 //定数バッファ（変換行列）
-cbuffer CB_CAMERA : register(b1)
+cbuffer CB_CAMERA : register(b0)
 {
 	matrix mtxView;     //ビュー行列
 	matrix mtxProj;     //投影行列
 };
 
 //定数バッファ（骨情報）
-cbuffer CB_BONE : register(b2)
+cbuffer CB_BONE : register(b1)
 {
 	matrix mtxBone[250];    //骨行列
 };
 
 //定数バッファ（ローカル行列）
-cbuffer CB_LOCAL : register(b3)
+cbuffer CB_LOCAL : register(b2)
 {
 	matrix mtxSkin;     //骨なしメッシュ用ローカル行列
 };

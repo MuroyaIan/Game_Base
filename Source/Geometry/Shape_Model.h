@@ -23,7 +23,7 @@ class SHAPE_MODEL : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type);
+	SHAPE_MODEL(APP& App, VSD_MAKER::SHAPE Type);
 	~SHAPE_MODEL() noexcept override;
 	void Update() noexcept override;															//更新処理
 	void Draw(int InstanceNum = -1) const noexcept override;		//書込み処理

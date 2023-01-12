@@ -34,7 +34,7 @@ SamplerState Sampler : register(s0);
 Texture2D TexMap[3] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal
 
 //定数バッファ（ライト情報）
-cbuffer CB_LIGHT : register(b1)
+cbuffer CB_LIGHT : register(b0)
 {
 	LIGHT_DIRECTIONAL DirectionalLight;     //平行光源
 	LIGHT_POINT PointLight[16];             //点光源
@@ -42,7 +42,7 @@ cbuffer CB_LIGHT : register(b1)
 }
 
 //定数バッファ（マテリアル）
-cbuffer CB_MATERIAL : register(b2)
+cbuffer CB_MATERIAL : register(b1)
 {
 	float4 mAmbient;        //環境光
 	float4 mDiffuse;        //拡散反射光

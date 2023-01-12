@@ -1,6 +1,6 @@
 
 //定数バッファ（ポリゴン色）
-cbuffer C_BUFFER
+cbuffer C_BUFFER : register(b0)
 {
 	float4 FaceColor;
 };

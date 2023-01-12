@@ -55,6 +55,11 @@ public:
 		return m_UsedData_backup;
 	}
 
+	CONSTANT_BUFFER<LIGHT_PACK>* GetBuffPtr()				//バッファポインタ取得
+	{
+		return m_pcBuff.get();
+	}
+
 private:
 
 	//変数宣言

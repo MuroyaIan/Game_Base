@@ -24,7 +24,7 @@ class MESH : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	MESH(MODEL& ModelRef, int MeshIdx);
+	MESH(APP& App, MODEL& ModelRef, int MeshIdx);
 	~MESH() noexcept override;
 	void Update() noexcept override;															//更新処理
 	void Draw(int InstanceNum = -1) const noexcept override;		//書込み処理

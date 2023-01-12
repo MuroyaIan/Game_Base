@@ -110,10 +110,6 @@ public:
 	void Bind(const GRAPHIC& Gfx) const noexcept override	//ƒoƒCƒ“ƒhˆ—
 	{
 		(void)Gfx;
-		//if (m_SlotVS >= 0)
-		//	BINDER::GetContext(Gfx)->VSSetConstantBuffers(static_cast<UINT>(m_SlotVS), 1u, m_pConstantBuffer.GetAddressOf());
-		//if (m_SlotPS >= 0)
-		//	BINDER::GetContext(Gfx)->PSSetConstantBuffers(static_cast<UINT>(m_SlotPS), 1u, m_pConstantBuffer.GetAddressOf());
 	}
 
 private:

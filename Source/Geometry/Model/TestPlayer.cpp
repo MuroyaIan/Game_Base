@@ -6,7 +6,7 @@
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 PLAYER::PLAYER(APP& App) noexcept : m_pModel(), m_Input(App.GetInputMgr())
 {
-	m_pModel = std::make_unique<MODEL>(App.GetGfxPack(), MODEL_MGR::MODEL_ID::Tarantella);
+	m_pModel = std::make_unique<MODEL>(App, MODEL_MGR::MODEL_ID::Tarantella);
 	for (size_t i = 0; i < 100; i++)
 		m_pModel->AddInstance();
 }

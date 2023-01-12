@@ -457,6 +457,31 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 		aNormal.emplace_back(Normal);
 	}
 
+	//FbxGeometryElementNormal* pN = pMesh->GetElementNormal();
+	//FbxGeometryElementBinormal* pB = pMesh->GetElementBinormal();
+	//FbxGeometryElementTangent* pT = pMesh->GetElementTangent();
+
+	////pN->GetDirectArray().GetAt();
+
+	//FbxGeometryElement::EMappingMode mapping = pN->GetMappingMode();
+	//FbxGeometryElement::EReferenceMode reference = pN->GetReferenceMode();
+
+	//FbxLayerElementArrayTemplate<FbxVector4> pVtx = pN->GetDirectArray();
+	//int VtxCnt = pVtx.GetCount();
+	//FbxLayerElementArrayTemplate<int> pIdx = pN->GetIndexArray();
+	//int IdxCnt = pIdx.GetCount();
+
+	//std::vector<dx::XMFLOAT4> aTempNormal;
+	//for (size_t i = 0; i < VtxCnt; i++)
+	//{
+	//	auto TempNormals = pT->GetDirectArray().GetAt(static_cast<int>(i));
+	//	dx::XMFLOAT4 vNormal{};
+	//	vNormal.x = static_cast<float>(TempNormals.mData[0]);
+	//	vNormal.y = static_cast<float>(TempNormals.mData[1]);
+	//	vNormal.z = static_cast<float>(TempNormals.mData[3]);
+	//	aTempNormal.push_back(vNormal);
+	//}
+
 	//UVç¿ïWéÊìæ
 	std::vector<dx::XMFLOAT2> aUV;
 	FbxStringList uvSetNames;

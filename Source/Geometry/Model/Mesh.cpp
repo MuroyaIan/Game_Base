@@ -2,12 +2,13 @@
 //===== インクルード部 =====
 #include <Geometry/Model/Mesh.h>
 #include <GraphicApp/Binder/BinderRef.h>
+#include <Light/LightMgr.h>
 #include <Tool/Rand.h>
 
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-MESH::MESH(MODEL& ModelRef, int MeshIdx) :
+MESH::MESH(APP& App, MODEL& ModelRef, int MeshIdx) :
 	DRAWER(ModelRef.m_Gfx.m_DX), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx),
 	m_Gfx(ModelRef.m_Gfx), m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
 	m_bStatic(ModelRef.m_bStatic), m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimID_Backup(ModelRef.m_AnimID_Backup),
@@ -27,9 +28,26 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
 
-	//マテリアル情報作成
+	//VS定数バッファ作成（カメラ）
+	CB_PTR cbData;
+	dynamic_cast<CB_MTX_VP*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP))->SetBuffPtr(&cbData);
+
+	//VS定数バッファ作成(骨情報)
+	dynamic_cast<CB_BONE*>(ModelRef.m_pBoneBuffer.get())->SetBuffPtr(&cbData);
+
+	//VS定数バッファ作成(ローカル情報)
+	m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
+	AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, &cbData, *m_pLocalData));
+
+	//PS定数バッファ作成（ライト）
+	App.GetLightMgr().GetBuffPtr()->SetBuffPtr(&cbData);
+
+	//PS定数バッファ作成（マテリアル）
 	m_Material = Mesh.MaterialData;
-	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, nullptr, m_Material));
+	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, &cbData, m_Material));
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//テクスチャバッファ作成
 	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));	//バッファ用配列
@@ -49,10 +67,6 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
 	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
 	TEX_LOADER::ReleaseTexture(NullImage.pImageData);
-
-	//ローカル情報作成
-	m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
-	AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, nullptr, *m_pLocalData));
 }
 
 MESH::~MESH() noexcept

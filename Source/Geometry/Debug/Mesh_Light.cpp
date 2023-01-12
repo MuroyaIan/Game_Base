@@ -17,9 +17,16 @@ MESH_LIGHT::MESH_LIGHT(GFX_PACK& Gfx) :
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
 
-	//定数バッファ作成（ポリゴン色）
+	//VS定数バッファ作成（カメラ）
+	CB_PTR cbData;
+	dynamic_cast<CB_MTX_VP*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP))->SetBuffPtr(&cbData);
+
+	//PS定数バッファ作成（ポリゴン色）
 	const dx::XMFLOAT4 cbColor(1.0f, 1.0f, 0.0f, 0.0f);
-	AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(m_Gfx.m_DX, cbColor, nullptr, -1, static_cast<int>(CB_SLOT_PS::Default)));
+	AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(m_Gfx.m_DX, cbColor, &cbData, false, true));
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 }
 
 MESH_LIGHT::~MESH_LIGHT() noexcept

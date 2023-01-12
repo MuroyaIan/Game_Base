@@ -104,13 +104,13 @@ APP::APP() :
 	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Plane));
 	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::Box, TEXTURE_MGR::TEX_ID::TEX_TestBox));
 	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::Plane, TEXTURE_MGR::TEX_ID::TEX_TestPlane));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Box));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Pyramid));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Cone));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Prism));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Cylinder));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Sphere));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Plane));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Box));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Pyramid));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Cone));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Prism));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Cylinder));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Sphere));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Plane));
 
 	//形状生成用ラムダ式
 	std::vector<std::unique_ptr<DRAWER>>& aDrawer = m_aDrawer;
@@ -149,10 +149,10 @@ APP::APP() :
 		MakeGeom();
 
 	//【モデルテスト】
-	m_aModel.reserve(1);
-	m_aModel.push_back(std::make_unique<MODEL>(*m_pGfx, MODEL_MGR::MODEL_ID::Tarantella));
-	for (size_t i = 0; i < 1600; i++)
-		m_aModel[0]->AddInstance();
+	//m_aModel.reserve(1);
+	//m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
+	//for (size_t i = 0; i < 1600; i++)
+	//	m_aModel[0]->AddInstance();
 
 	//水面テスト
 	//m_aDrawer.push_back(std::make_unique<WAVE>(*this));

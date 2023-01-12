@@ -21,6 +21,16 @@ SHAPE_DEFAULT::SHAPE_DEFAULT(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
 
+	//VS定数バッファ作成（カメラ）
+	CB_PTR cbData;
+	dynamic_cast<CB_MTX_VP*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP))->SetBuffPtr(&cbData);
+
+	//PS定数バッファ作成（ポリゴン色）
+	dynamic_cast<CONSTANT_BUFFER<CBD_COLOR>*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_PS_DEFAULT))->SetBuffPtr(&cbData);
+
+	//定数バッファMgr作成
+	AddBind(std::make_unique<CBUFF_MGR>(cbData));
+
 	//行列情報初期化
 	for (auto& md : m_aMtxData) {
 		md.dt = 0.002f;
