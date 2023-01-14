@@ -8,7 +8,7 @@
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-MESH::MESH(APP& App, MODEL& ModelRef, int MeshIdx) :
+MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	DRAWER(ModelRef.m_Gfx.m_DX), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx),
 	m_Gfx(ModelRef.m_Gfx), m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
 	m_bStatic(ModelRef.m_bStatic), m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimID_Backup(ModelRef.m_AnimID_Backup),
@@ -30,17 +30,20 @@ MESH::MESH(APP& App, MODEL& ModelRef, int MeshIdx) :
 
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
-	dynamic_cast<CB_MTX_VP*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP))->SetBuffPtr(&cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP, &cbData);
 
 	//VS定数バッファ作成(骨情報)
-	dynamic_cast<CB_BONE*>(ModelRef.m_pBoneBuffer.get())->SetBuffPtr(&cbData);
+	if (!m_bStatic)
+		dynamic_cast<CB_BONE*>(ModelRef.m_pBoneBuffer.get())->SetBuffPtr(&cbData);
 
 	//VS定数バッファ作成(ローカル情報)
-	m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
-	AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, &cbData, *m_pLocalData));
+	if (!m_bStatic) {
+		m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
+		AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, &cbData, *m_pLocalData));
+	}
 
 	//PS定数バッファ作成（ライト）
-	App.GetLightMgr().GetBuffPtr()->SetBuffPtr(&cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_PS_LIGHT, &cbData);
 
 	//PS定数バッファ作成（マテリアル）
 	m_Material = Mesh.MaterialData;

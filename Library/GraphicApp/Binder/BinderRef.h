@@ -23,6 +23,7 @@
 #include <GraphicApp/Binder/Texture_Model.h>
 
 #include <GraphicApp/Binder/ConstantBuffer.h>
+#include <GraphicApp/Binder/cbMgr.h>
 #include <GraphicApp/Binder/cbMatrix_T.h>
 #include <GraphicApp/Binder/cbMatrix_VP.h>
 #include <GraphicApp/Binder/cbMatrix_LWVP.h>

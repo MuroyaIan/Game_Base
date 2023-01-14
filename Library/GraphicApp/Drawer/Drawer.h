@@ -39,12 +39,12 @@ public:
 
 	virtual int AddInstance()																//インスタンス追加
 	{
-		throw ERROR_EX2("子クラスで継承してください。");
+		throw ERROR_EX2("使用する場合は子クラスで継承してください。");
 	}
 
 	virtual void ClearInstance()															//インスタンスクリア
 	{
-		throw ERROR_EX2("子クラスで継承しください。");
+		throw ERROR_EX2("使用する場合は子クラスで継承しください。");
 	}
 
 protected:

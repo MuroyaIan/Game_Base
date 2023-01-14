@@ -19,7 +19,7 @@ MESH_LIGHT::MESH_LIGHT(GFX_PACK& Gfx) :
 
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
-	dynamic_cast<CB_MTX_VP*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP))->SetBuffPtr(&cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP, &cbData);
 
 	//PS定数バッファ作成（ポリゴン色）
 	const dx::XMFLOAT4 cbColor(1.0f, 1.0f, 0.0f, 0.0f);

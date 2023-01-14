@@ -9,8 +9,8 @@
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-SHAPE_MODEL::SHAPE_MODEL(APP& App, VSD_MAKER::SHAPE Type) :
-	DRAWER(App.GetGfxPack().m_DX), m_Gfx(App.GetGfxPack()), m_Type(Type), m_InstanceNum(0), m_aInstanceData(m_InstanceNum), m_Material(), m_aMtxData(m_InstanceNum)
+SHAPE_MODEL::SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_Type(Type), m_InstanceNum(0), m_aInstanceData(m_InstanceNum), m_Material(), m_aMtxData(m_InstanceNum)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_M> Model = VSD_MAKER::MakeData_Model(m_Type);
@@ -28,10 +28,10 @@ SHAPE_MODEL::SHAPE_MODEL(APP& App, VSD_MAKER::SHAPE Type) :
 
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
-	dynamic_cast<CB_MTX_VP*>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP))->SetBuffPtr(&cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP, &cbData);
 
 	//PS定数バッファ作成（ライト）
-	App.GetLightMgr().GetBuffPtr()->SetBuffPtr(&cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_PS_LIGHT, &cbData);
 
 	//PS定数バッファ作成（マテリアル）
 	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, &cbData, m_Material));

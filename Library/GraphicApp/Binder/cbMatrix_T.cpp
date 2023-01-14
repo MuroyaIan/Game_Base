@@ -31,7 +31,7 @@ CB_MTX_T::~CB_MTX_T() noexcept
 		m_pCBuff.reset();
 }
 
-//バインド処理
+//バインド処理(データ更新)
 void CB_MTX_T::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
@@ -43,7 +43,4 @@ void CB_MTX_T::Bind(const GRAPHIC& Gfx) const noexcept
 	gMath::MtxMultiply4x4_AVX(&mtxWVP._11, &Proj._11);
 	gMath::MtxTranspose4x4_SSE(&mtxWVP._11);
 	m_pCBuff->Update(Gfx, mtxWVP);
-
-	//バインド処理
-	m_pCBuff->Bind(Gfx);
 }

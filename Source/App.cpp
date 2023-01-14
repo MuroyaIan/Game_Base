@@ -104,13 +104,13 @@ APP::APP() :
 	m_aDrawer.push_back(std::make_unique<SHAPE_DEFAULT>(*m_pGfx, VSD_MAKER::SHAPE::Plane));
 	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::Box, TEXTURE_MGR::TEX_ID::TEX_TestBox));
 	m_aDrawer.push_back(std::make_unique<SHAPE_TEX>(*m_pGfx, VSD_MAKER::SHAPE::Plane, TEXTURE_MGR::TEX_ID::TEX_TestPlane));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Box));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Pyramid));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Cone));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Prism));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Cylinder));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Sphere));
-	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*this, VSD_MAKER::SHAPE::Plane));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Box));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Pyramid));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Cone));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Prism));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Cylinder));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Sphere));
+	m_aDrawer.push_back(std::make_unique<SHAPE_MODEL>(*m_pGfx, VSD_MAKER::SHAPE::Plane));
 
 	//å`èÛê∂ê¨ópÉâÉÄÉ_éÆ
 	std::vector<std::unique_ptr<DRAWER>>& aDrawer = m_aDrawer;

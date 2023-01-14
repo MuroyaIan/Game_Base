@@ -21,7 +21,7 @@ CAMERA::CAMERA(APP& App) noexcept : m_App(App),
 	m_mtxWorld(), m_mtxView(), m_mtxProj(), m_Rot(0.0f, 0.0f, 0.0f), m_Sensitivity(1.0f)
 {
 	//c‰¡”ä‰Šú‰»
-	auto [x, y] = m_App.GetWindowProc()->GetSize();
+	auto [x, y] = m_App.GetWindowProc().GetSize();
 	g_AspectRatio = static_cast<float>(x) / static_cast<float>(y);
 
 	//s—ñ‰Šú‰»

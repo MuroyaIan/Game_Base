@@ -29,7 +29,7 @@ CB_MTX_VP::~CB_MTX_VP() noexcept
 		m_pCBuff.reset();
 }
 
-//バインド処理
+//バインド処理(データ更新)
 void CB_MTX_VP::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
@@ -39,7 +39,4 @@ void CB_MTX_VP::Bind(const GRAPHIC& Gfx) const noexcept
 	gMath::MtxTranspose4x4_SSE(&Proj._11);
 	CBD_MTX_VP aMtx = { View, Proj };
 	m_pCBuff->Update(Gfx, aMtx);
-
-	//バインド処理
-	m_pCBuff->Bind(Gfx);
 }

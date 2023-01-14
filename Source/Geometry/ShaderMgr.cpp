@@ -2,6 +2,7 @@
 //===== インクルード部 =====
 #include <Geometry/ShaderMgr.h>
 #include <GraphicApp/Binder/BinderRef.h>
+#include <Light/LightMgr.h>
 
 //===== クラス実装 =====
 SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
@@ -271,6 +272,9 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 		const CBD_COLOR cbColor{};
 		m_aBinder[static_cast<int>(BINDER_ID::CB_PS_DEFAULT)] = std::make_unique<CONSTANT_BUFFER<CBD_COLOR>>(m_DX, cbColor, nullptr, false, true);
 	}
+
+	//定数バッファ作成（ライト情報）
+	m_aBinder[static_cast<int>(BINDER_ID::CB_PS_LIGHT)] = std::make_unique<CONSTANT_BUFFER<LIGHT_MGR::LIGHT_PACK>>(m_DX, nullptr, false, true);
 }
 
 SHADER_MGR::~SHADER_MGR() noexcept
@@ -370,4 +374,23 @@ void SHADER_MGR::Bind_Instance_Phong_Anim() const noexcept
 	m_aBinder[static_cast<int>(BINDER_ID::PT_TRI)]->Bind(m_DX);
 	m_aBinder[static_cast<int>(BINDER_ID::SAMPLER)]->Bind(m_DX);
 	m_aBinder[static_cast<int>(BINDER_ID::PS_PHONG)]->Bind(m_DX);
+}
+
+//定数バッファポインタ登録
+void SHADER_MGR::SetConstBufferPtr(BINDER_ID id, CB_PTR* cbPtr) const
+{
+	//登録処理
+	switch (id) {
+		case SHADER_MGR::BINDER_ID::CB_VS_MTX_VP:
+			dynamic_cast<CB_MTX_VP*>(m_aBinder[static_cast<int>(id)].get())->SetBuffPtr(cbPtr);
+			break;
+		case SHADER_MGR::BINDER_ID::CB_PS_DEFAULT:
+			dynamic_cast<CONSTANT_BUFFER<CBD_COLOR>*>(m_aBinder[static_cast<int>(id)].get())->SetBuffPtr(cbPtr);
+			break;
+		case SHADER_MGR::BINDER_ID::CB_PS_LIGHT:
+			dynamic_cast<CONSTANT_BUFFER<LIGHT_MGR::LIGHT_PACK>*>(m_aBinder[static_cast<int>(id)].get())->SetBuffPtr(cbPtr);
+			break;
+		default:
+			throw ERROR_EX2("BINDER_IDは定数バッファではありません。");
+	}
 }

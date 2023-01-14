@@ -5,10 +5,9 @@
 
 //===== クラス実装 =====
 LIGHT_MGR::LIGHT_MGR(APP& App) noexcept :
-	m_Gfx(App.GetGfxPack()), m_LightData(), m_UsedData(0), m_UsedData_backup(m_UsedData), m_pcBuff()
+	m_Gfx(App.GetGfxPack()), m_LightData(), m_UsedData(0), m_UsedData_backup(m_UsedData),
+	m_cBuffRef(dynamic_cast<CONSTANT_BUFFER<LIGHT_PACK>&>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_PS_LIGHT)))
 {
-	//定数バッファ作成
-	m_pcBuff = std::make_unique<CONSTANT_BUFFER<LIGHT_PACK>>(m_Gfx.m_DX, nullptr, -1, static_cast<int>(CB_SLOT_PS::Light));
 }
 
 LIGHT_MGR::~LIGHT_MGR() noexcept
@@ -19,8 +18,7 @@ LIGHT_MGR::~LIGHT_MGR() noexcept
 void LIGHT_MGR::Draw() noexcept
 {
 	//定数バッファ更新
-	m_pcBuff->Update(m_Gfx.m_DX, m_LightData);
-	m_pcBuff->Bind(m_Gfx.m_DX);
+	m_cBuffRef.Update(m_Gfx.m_DX, m_LightData);
 
 	//ライト登録リセット
 	m_UsedData_backup = m_UsedData;

@@ -64,9 +64,9 @@ public:
 	void Update();										//更新処理
 	void Draw();										//描画処理
 
-	IF_WINDOW* GetWindowProc() const noexcept			//ウィンドウ処理参照
+	IF_WINDOW& GetWindowProc() const noexcept			//ウィンドウ処理参照
 	{
-		return m_pWindow.get();
+		return *m_pWindow.get();
 	}
 	GAME_TIME& GetTimeProc() noexcept					//時間処理参照
 	{

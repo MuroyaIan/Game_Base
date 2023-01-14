@@ -141,6 +141,9 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbdRef.h">
       <Filter>ヘッダー ファイル\Binder</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMgr.h">
+      <Filter>ヘッダー ファイル\Binder\cb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Binder.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Topology.cpp">
       <Filter>ソース ファイル\Binder\IA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMgr.cpp">
+      <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

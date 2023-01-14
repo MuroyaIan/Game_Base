@@ -6,7 +6,7 @@
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 INPUT_CURSOR::INPUT_CURSOR(APP& App, INPUT_KB& KB) noexcept :
-	m_Mouse(App.GetWindowProc()->m_Mouse), m_KB(KB), MoveVal()
+	m_Mouse(App.GetWindowProc().m_Mouse), m_KB(KB), MoveVal()
 {
 }
 

@@ -14,6 +14,7 @@
 
 //===== 前方宣言 =====
 class BINDER;
+struct CB_PTR;
 
 //===== クラス定義 =====
 
@@ -75,6 +76,7 @@ public:
 		//定数バッファ
 		CB_VS_MTX_VP,
 		CB_PS_DEFAULT,
+		CB_PS_LIGHT,
 
 		ID_MAX
 	};
@@ -93,10 +95,12 @@ public:
 	void Bind_Instance_Phong() const noexcept;			//バインド処理（インスタンシング＿Phongモデル）
 	void Bind_Instance_Phong_Anim() const noexcept;		//バインド処理（インスタンシング＿Phongモデル＿アニメ付）
 
-	BINDER* GetBinder(BINDER_ID id) const noexcept		//バインダのポインタ取得
+	BINDER& GetBinder(BINDER_ID id) const noexcept		//バインダ参照を取得
 	{
-		return m_aBinder[static_cast<int>(id)].get();
+		return *m_aBinder[static_cast<int>(id)];
 	}
+
+	void SetConstBufferPtr(BINDER_ID id, CB_PTR* cbPtr) const;	//定数バッファポインタ登録
 
 private:
 

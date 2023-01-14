@@ -25,7 +25,7 @@ MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
 
 	//ƒƒbƒVƒ…‰Šú‰»
 	for (size_t i = 0, Cnt = m_FileData.aMesh.size(); i < Cnt; i++)
-		m_aMesh[i] = std::make_unique<MESH>(App, *this, static_cast<int>(i));
+		m_aMesh[i] = std::make_unique<MESH>(*this, static_cast<int>(i));
 }
 
 MODEL::~MODEL() noexcept

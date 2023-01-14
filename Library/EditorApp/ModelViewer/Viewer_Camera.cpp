@@ -20,7 +20,7 @@ VIEWER_CAM::VIEWER_CAM(APP& App) noexcept :
 	m_Level_Zoom(0), m_Backup_Wheel(0), m_ZoomSPD(1), m_CtrDist(START_POS.z), m_Offset(dx::XMFLOAT3(0.0f, 0.0f, 0.0f))
 {
 	//縦横比初期化
-	auto [x, y] = m_App.GetWindowProc()->GetSize();
+	auto [x, y] = m_App.GetWindowProc().GetSize();
 	g_AspectRatio = static_cast<float>(x) / static_cast<float>(y);
 
 	//行列初期化
@@ -38,9 +38,9 @@ VIEWER_CAM::~VIEWER_CAM() noexcept
 void VIEWER_CAM::Update() noexcept
 {
 	//カメラモード切替
-	if (m_App.GetWindowProc()->m_Mouse.LeftIsPressed())
+	if (m_App.GetWindowProc().m_Mouse.LeftIsPressed())
 		m_Mode = MODE::ORBIT;
-	else if (m_App.GetWindowProc()->m_Mouse.RightIsPressed())
+	else if (m_App.GetWindowProc().m_Mouse.RightIsPressed())
 		m_Mode = MODE::TRACK;
 	else
 		m_Mode = MODE::NONE;

@@ -15,7 +15,7 @@ CB_BONE::CB_BONE(const GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_BONE& aMtxBone, bo
 {
 	//定数バッファ初期化
 	if (!m_pCBuff)
-		m_pCBuff = std::make_unique<cb>(Gfx, cbPtr, true); //CB_SLOT_VS::Bone;
+		m_pCBuff = std::make_unique<cb>(Gfx, cbPtr, true);
 	else
 		m_pCBuff->SetBuffPtr(cbPtr);
 	m_RefCount++;
@@ -29,7 +29,7 @@ CB_BONE::~CB_BONE() noexcept
 		m_pCBuff.reset();
 }
 
-//バインド処理
+//バインド処理(データ更新)
 void CB_BONE::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
@@ -41,7 +41,4 @@ void CB_BONE::Bind(const GRAPHIC& Gfx) const noexcept
 	}
 	else
 		m_pCBuff->Update(Gfx, m_aMtxBone);
-
-	//バインド処理
-	m_pCBuff->Bind(Gfx);
 }

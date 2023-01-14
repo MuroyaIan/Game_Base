@@ -20,7 +20,7 @@ SURFACE::SURFACE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int Me
 	AddBind(std::make_unique<CB_MTX_T>(Gfx, &cbData, *this));
 
 	//PS定数バッファ作成（ポリゴン色）
-	dynamic_cast<CONSTANT_BUFFER<CBD_COLOR>*>(m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_PS_DEFAULT))->SetBuffPtr(&cbData);
+	m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_PS_DEFAULT, &cbData);
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));

@@ -31,7 +31,7 @@ CB_MTX_LWVP::~CB_MTX_LWVP() noexcept
 		m_pCBuff.reset();
 }
 
-//バインド処理
+//バインド処理(データ更新)
 void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
@@ -45,7 +45,4 @@ void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const noexcept
 	gMath::MtxTranspose4x4_SSE(&Proj._11);
 	CBD_MTX_LWVP aMtx = { Local, World, View, Proj };
 	m_pCBuff->Update(Gfx, aMtx);
-
-	//バインド処理
-	m_pCBuff->Bind(Gfx);
 }
