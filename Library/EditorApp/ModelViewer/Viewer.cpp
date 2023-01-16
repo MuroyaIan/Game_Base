@@ -88,7 +88,8 @@ void VIEWER::Draw() const
 
 #ifdef IMGUI
 
-	m_pLoader->Draw();
+	if (m_App.GetGfxPack().m_DX.IsImGuiEnabled())
+		m_pLoader->Draw();
 
 #endif // IMGUI
 

@@ -23,10 +23,10 @@ void DRAWER::Draw(int InstanceNum) const noexcept
 		b->Bind(m_Gfx);
 
 	//•`‰æˆ—
-	if (InstanceNum < 0)
+	if (InstanceNum < 1)
 		m_Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());
 	else
-		m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), InstanceNum);
+		m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), static_cast<UINT>(InstanceNum));
 }
 
 //ƒoƒCƒ“ƒ_“o˜^

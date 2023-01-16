@@ -38,7 +38,7 @@ FBX_LOADER::~FBX_LOADER() noexcept
 //描画処理
 void FBX_LOADER::Draw() const noexcept
 {
-	//テストメニュー
+	//ローダ用UI
 	if (ImGui::Begin("FBX Loader")){
 
 		//ノード情報

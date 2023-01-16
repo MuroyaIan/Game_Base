@@ -28,23 +28,23 @@ public:
 	//プロトタイプ宣言
 	BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input);
 	~BONE() noexcept override;
-	void Update() noexcept override;															//更新処理
-	void Draw(int InstanceNum = -1) const noexcept override;		//書込み処理
-	int AddInstance() override;																	//インスタンス追加
-	void ClearInstance() override;																//インスタンスクリア
+	void Update() noexcept override;													//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
+	int AddInstance() override;															//インスタンス追加
+	void ClearInstance() override;														//インスタンスクリア
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override			//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
 	{
 		(void)InstanceIndex;
 		return m_MtxWorld;
 	}
 
-	UINT GetPolygonNum() const noexcept override												//ポリゴン数取得
+	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
 	{
 		return GetIndexNum() / 3 * m_InstanceNum;
 	}
 
-	float& GetScale() noexcept																	//メッシュスケール参照
+	float& GetScale() noexcept															//メッシュスケール参照
 	{
 		return m_Scale;
 	}

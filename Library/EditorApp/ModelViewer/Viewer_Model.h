@@ -31,16 +31,16 @@ public:
 	//プロトタイプ宣言
 	VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex, INPUT_MGR& Input);
 	~VIEWER_MODEL() noexcept override;
-	void Update() noexcept override;															//更新処理
-	void Draw(int InstanceNum = -1) const noexcept override;		//書込み処理
+	void Update() noexcept override;													//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override			//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
 	{
 		(void)InstanceIndex;
 		return m_MtxWorld;
 	}
 
-	UINT GetPolygonNum() const noexcept override												//ポリゴン数取得
+	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
 	{
 		return GetIndexNum() / 3;
 	}

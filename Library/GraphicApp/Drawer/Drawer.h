@@ -33,7 +33,7 @@ public:
 	virtual ~DRAWER() noexcept;
 
 	virtual void Update() noexcept = 0;														//更新処理
-	virtual void Draw(int InstanceNum = -1) const noexcept;									//描画処理
+	virtual void Draw(int InstanceNum = 0) const noexcept;									//描画処理
 	virtual UINT GetPolygonNum() const noexcept = 0;										//ポリゴン数取得
 	virtual DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept = 0;	//ワールド行列取得
 

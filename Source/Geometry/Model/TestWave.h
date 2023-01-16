@@ -25,16 +25,16 @@ public:
 	//プロトタイプ宣言
 	WAVE(APP& App);
 	~WAVE() noexcept override;
-	void Update() noexcept override;															//更新処理
-	void Draw(int InstanceNum = -1) const noexcept override;		//書込み処理
-	int AddInstance() override;																	//インスタンス追加
+	void Update() noexcept override;													//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
+	int AddInstance() override;															//インスタンス追加
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override			//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
 	{
 		return m_aInstanceData[InstanceIndex].MtxWorld;
 	}
 
-	UINT GetPolygonNum() const noexcept override												//ポリゴン数取得
+	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
 	{
 		return GetIndexNum() / 3 * m_InstanceNum;
 	}

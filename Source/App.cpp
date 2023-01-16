@@ -249,10 +249,12 @@ void APP::Update()
 	m_pDebugMgr->Update();
 
 	//ImGui描画制御
-	if (m_pInputMgr->m_KB.GetPress(VK_TAB))
-		m_pDX->SetImGuiMode(false);
-	else
-		m_pDX->SetImGuiMode(true);
+	if (m_pInputMgr->m_KB.GetTrigger(VK_TAB)) {
+		if (m_pDX->IsImGuiEnabled())
+			m_pDX->SetImGuiMode(false);
+		else
+			m_pDX->SetImGuiMode(true);
+	}
 
 	//マウス表示・非表示
 	if (m_pInputMgr->m_KB.GetTrigger(VK_Q)) {

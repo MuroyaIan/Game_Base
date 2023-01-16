@@ -57,7 +57,7 @@ public:
 
 		//インデックス作成
 		std::vector<UINT> Indices;
-		Indices.reserve(static_cast<size_t>(DivX) * DivY * 4 + static_cast<size_t>(DivX + DivY) * 2);	//サイズ指定
+		Indices.reserve(static_cast<size_t>(DivX) * DivY * 4 + (static_cast<size_t>(DivX) + DivY) * 2);	//サイズ指定
 		for (int y = 0; y < DivY; y++) {
 			for (int x = 0; x < DivX; x++) {
 
