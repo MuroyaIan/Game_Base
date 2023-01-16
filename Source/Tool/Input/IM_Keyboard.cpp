@@ -75,24 +75,40 @@ void INPUT_KB::Update() noexcept
 //プレス判定
 bool INPUT_KB::GetPress(int nKey) const noexcept
 {
+	//IMGUI使用中判定NG
+	if (m_App.GetWindowProc().IsUsingImgui())
+		return false;
+
 	return (static_cast<int>(m_Press[nKey]) & 0x8000) ? true : false;
 }
 
 //トリガー判定
 bool INPUT_KB::GetTrigger(int nKey) const noexcept
 {
+	//IMGUI使用中判定NG
+	if (m_App.GetWindowProc().IsUsingImgui())
+		return false;
+
 	return (static_cast<int>(m_Trigger[nKey]) & 0x8000) ? true : false;
 }
 
 //リリース判定
 bool INPUT_KB::GetRelease(int nKey) const noexcept
 {
+	//IMGUI使用中判定NG
+	if (m_App.GetWindowProc().IsUsingImgui())
+		return false;
+
 	return (static_cast<int>(m_Release[nKey]) & 0x8000) ? true : false;
 }
 
 //リピート判定
 bool INPUT_KB::GetRepeat(int nKey, float fInterval)
 {
+	//IMGUI使用中判定NG
+	if (m_App.GetWindowProc().IsUsingImgui())
+		return false;
+
 	//例外処理
 	if (fInterval <= 0.0f)
 		throw ERROR_EX2("リピート間隔は0以上にしてください。");

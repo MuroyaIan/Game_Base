@@ -42,11 +42,21 @@ public:
 
 	DirectX::XMFLOAT2 GetPos() const noexcept;			//座標取得
 	int GetWheelVal() const noexcept;					//ホイール値取得
-	DirectX::XMINT2 GetMoveVal() const noexcept;		//移動量取得
+	DirectX::XMINT2 GetMoveVal() const noexcept			//移動量取得
+	{
+		return MoveVal;
+	}
+
+	void Show() const noexcept;
+	void Hide() const noexcept;							//マウス表示・不表示
+	bool IsDrawing() const noexcept;					//マウス描画状態確認
+	void EnableRawInput() const noexcept;
+	void DisableRawInput() const noexcept;				//RawInput使用・不使用
 
 private:
 
 	//* 変数宣言 *
+	IF_WINDOW& m_Window;		//Windows参照
 	MOUSE& m_Mouse;				//マウス参照
 	INPUT_KB& m_KB;				//キーボード参照
 	DirectX::XMINT2 MoveVal;	//移動量（毎フレーム）

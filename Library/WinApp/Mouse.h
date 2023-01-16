@@ -115,10 +115,12 @@ public:
 	{
 		int x;
 		int y;
+		bool bClear;	//NULLデータであることを示すフラグ
 
-		RAW_DELTA() noexcept : x(0), y(0)
+		RAW_DELTA(bool bClr = false) noexcept : x(0), y(0), bClear(bClr)
 		{}
-		RAW_DELTA(int xIn, int yIn) noexcept : x(xIn), y(yIn)
+		RAW_DELTA(int xIn, int yIn, bool bClr = false) noexcept :
+			x(xIn), y(yIn), bClear(bClr)
 		{}
 		~RAW_DELTA() noexcept
 		{}

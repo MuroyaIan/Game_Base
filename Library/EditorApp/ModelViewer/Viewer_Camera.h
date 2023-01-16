@@ -20,7 +20,7 @@ class VIEWER_CAM
 public:
 
 	//プロトタイプ宣言
-	VIEWER_CAM(APP& App) noexcept;
+	explicit VIEWER_CAM(APP& App) noexcept;
 	~VIEWER_CAM() noexcept;
 	void Update() noexcept;									//更新処理
 	void UpdateMatrix() noexcept;							//行列更新
@@ -48,13 +48,14 @@ private:
 	//カメラモード
 	enum class MODE
 	{
-		NONE,	//操作なし
-		ORBIT,	//軌道（公転）モード
-		TRACK,	//注視点移動（視点も同期）
+		None,	//操作なし
+		Orbit,	//軌道（公転）モード
+		Track,	//注視点移動（視点も同期）
 	};
 
 	//変数宣言
-	APP& m_App;						//App参照
+	APP& m_App;							//App参照
+	INPUT_MGR& m_InputMgr;				//入力マネージャ参照
 
 	DirectX::XMFLOAT3 m_LookAt;			//注視点
 	DirectX::XMFLOAT3 m_vUp;			//アップベクトル
@@ -69,7 +70,6 @@ private:
 	DirectX::XMFLOAT4X4 m_mtxProj;		//投影行列
 
 	MODE m_Mode;						//操作モード
-	DirectX::XMFLOAT2 m_MousePos_Old;	//マウス座標（直前フレーム）
 	DirectX::XMFLOAT3 m_Rot;			//回転角（公転）
 	int m_Level_RotSPD;					//公転速度
 	DirectX::XMFLOAT3 m_Pos;			//3D座標

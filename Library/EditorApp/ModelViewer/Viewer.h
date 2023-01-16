@@ -26,13 +26,12 @@ class VIEWER
 public:
 
 	//プロトタイプ宣言
-	VIEWER(APP& App);
+	explicit VIEWER(APP& App);
 	~VIEWER() noexcept;
 	void Update() noexcept;						//更新処理
 	void Draw() const;							//描画処理
 	int GetPolygonNum() const noexcept;			//ポリゴン数取得
 	void LoadModel(bool bAnimOnly = false);		//モデル読込
-	BONE& GetBone() const noexcept;				//骨メッシュ参照
 
 	int GetDrawerNum() const noexcept			//ドロワー有効数取得
 	{
@@ -78,11 +77,12 @@ public:
 	{
 		return m_bDrawBone;
 	}
+	BONE& GetBone() const noexcept;				//骨メッシュ参照
 
 private:
 
 	//変数宣言
-	APP& m_App;										//アプリ参照
+	APP& m_App;											//アプリ参照
 	GFX_PACK& m_Gfx;									//描画データ参照
 	std::vector<std::unique_ptr<DRAWER>> m_aDrawer;		//描画配列
 	VIEWER_CAM m_Camera;								//カメラ

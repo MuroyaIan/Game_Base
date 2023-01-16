@@ -6,7 +6,7 @@
 
 //===== クラス実装 =====
 INPUT_CURSOR::INPUT_CURSOR(APP& App, INPUT_KB& KB) noexcept :
-	m_Mouse(App.GetWindowProc().m_Mouse), m_KB(KB), MoveVal()
+	m_Window(App.GetWindowProc()), m_Mouse(App.GetWindowProc().m_Mouse), m_KB(KB), MoveVal()
 {
 }
 
@@ -51,27 +51,53 @@ int INPUT_CURSOR::GetWheelVal() const noexcept
 	return m_Mouse.GetWheelVal();
 }
 
-//移動量取得
-DirectX::XMINT2 INPUT_CURSOR::GetMoveVal() const noexcept
+//マウス表示
+void INPUT_CURSOR::Show() const noexcept
 {
-	return MoveVal;
+	m_Window.EnableCursor();
+}
+
+//マウス不表示
+void INPUT_CURSOR::Hide() const noexcept
+{
+	m_Window.DisableCursor();
+}
+
+//マウス描画状態確認
+bool INPUT_CURSOR::IsDrawing() const noexcept
+{
+	return m_Window.IsUsingCursor();
+}
+
+//マウス使用
+void INPUT_CURSOR::EnableRawInput() const noexcept
+{
+	m_Window.m_Mouse.SetRawInput(true);
+}
+
+//マウス不使用
+void INPUT_CURSOR::DisableRawInput() const noexcept
+{
+	m_Window.m_Mouse.SetRawInput(false);
 }
 
 //更新処理
 void INPUT_CURSOR::Update() noexcept
 {
 	//マウス移動量取得
-	if (!m_Mouse.IsUsingRawInput())
-		return;
 	MoveVal.x = 0;
-	MoveVal.y = 0;
+	MoveVal.y = 0;						//移動量を0クリア
+	if (!m_Mouse.IsUsingRawInput())		//RawInput不使用の場合、処理を除外
+		return;
 	while (true) {
 		const auto d = m_Mouse.ReadRawDelta();
+
+		//脱出処理(移動量をすべて取得)
+		if (d.bClear)
+			break;
+
+		//デルタ分の移動量を全部加算
 		MoveVal.x += d.x;
 		MoveVal.y += d.y;
-
-		//脱出処理
-		if (d.x == 0 && d.y == 0)
-			break;
 	}
 }

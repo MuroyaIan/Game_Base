@@ -12,11 +12,10 @@ constexpr dx::XMFLOAT3 START_UP = { 0.0f, 1.0f, 0.0f };		//アップベクトル
 
 //===== クラス実装 =====
 VIEWER_CAM::VIEWER_CAM(APP& App) noexcept :
-	m_App(App), m_LookAt(START_LOOK), m_vUp(START_UP),
+	m_App(App), m_InputMgr(m_App.GetInputMgr()), m_LookAt(START_LOOK), m_vUp(START_UP),
 	m_FOV(60), g_AspectRatio(), m_NearZ(0.5f), m_FarZ(10000.0f),
 	m_mtxWorld(), m_mtxView(), m_mtxProj(),
-	m_Mode(MODE::NONE), m_MousePos_Old(dx::XMFLOAT2(0.0f, 0.0f)),
-	m_Rot(dx::XMFLOAT3(gMath::GetRad(30), gMath::GetRad(-30), 0.0f)), m_Level_RotSPD(5), m_Pos(START_POS),
+	m_Mode(MODE::None), m_Rot(dx::XMFLOAT3(gMath::GetRad(30), gMath::GetRad(-30), 0.0f)), m_Level_RotSPD(5), m_Pos(START_POS),
 	m_Level_Zoom(0), m_Backup_Wheel(0), m_ZoomSPD(1), m_CtrDist(START_POS.z), m_Offset(dx::XMFLOAT3(0.0f, 0.0f, 0.0f))
 {
 	//縦横比初期化
@@ -27,7 +26,7 @@ VIEWER_CAM::VIEWER_CAM(APP& App) noexcept :
 	UpdateMatrix();
 
 	//マウスホイール値初期化
-	m_Backup_Wheel = m_App.GetInputMgr().m_Mouse.GetWheelVal();
+	m_Backup_Wheel = m_InputMgr.m_Mouse.GetWheelVal();
 }
 
 VIEWER_CAM::~VIEWER_CAM() noexcept
@@ -38,40 +37,44 @@ VIEWER_CAM::~VIEWER_CAM() noexcept
 void VIEWER_CAM::Update() noexcept
 {
 	//カメラモード切替
-	if (m_App.GetWindowProc().m_Mouse.LeftIsPressed())
-		m_Mode = MODE::ORBIT;
-	else if (m_App.GetWindowProc().m_Mouse.RightIsPressed())
-		m_Mode = MODE::TRACK;
-	else
-		m_Mode = MODE::NONE;
+	if (m_InputMgr.m_Mouse.GetPress(MOUSE_L)) {
+		m_Mode = MODE::Orbit;
+		m_InputMgr.m_Mouse.EnableRawInput();
+	}
+	else if (m_InputMgr.m_Mouse.GetPress(MOUSE_R)) {
+		m_Mode = MODE::Track;
+		m_InputMgr.m_Mouse.EnableRawInput();
+	}
+	else {
+		m_Mode = MODE::None;
+		m_InputMgr.m_Mouse.DisableRawInput();
+	}
 
 	//例外処理
-	if (m_Mode == MODE::NONE) {
+	if (m_Mode == MODE::None) {
 
 		//ズーム操作
-		int Val = m_App.GetInputMgr().m_Mouse.GetWheelVal();
+		int Val = m_InputMgr.m_Mouse.GetWheelVal();
 		if (m_Backup_Wheel > Val) {
-			m_Level_Zoom--;							//ズーム距離更新
-			m_Backup_Wheel = Val;					//マウスホイール値保存
-			UpdateMatrix();							//行列更新
+			m_Level_Zoom--;					//ズーム距離更新
+			m_Backup_Wheel = Val;			//マウスホイール値保存
+			UpdateMatrix();					//行列更新
 		}
 		else if (m_Backup_Wheel < Val) {
-			if (m_CtrDist < -1.0f)					//無駄なズームインを防ぐ
+			if (m_CtrDist < -1.0f)			//無駄なズームインを防ぐ(視点が注視点を超えないよう)
 				m_Level_Zoom++;
 			m_Backup_Wheel = Val;
 			UpdateMatrix();
 		}
-
-		m_MousePos_Old = m_App.GetInputMgr().m_Mouse.GetPos();	//座標保存
 		return;
 	}
 
 	//マウス移動量算出
-	dx::XMFLOAT2 MousePos = m_App.GetInputMgr().m_Mouse.GetPos();
-	dx::XMFLOAT2 MouseMove = { MousePos.x - m_MousePos_Old.x, MousePos.y - m_MousePos_Old.y };
+	dx::XMINT2 MouseMoveRef = m_InputMgr.m_Mouse.GetMoveVal();
+	dx::XMFLOAT2 MouseMove{ static_cast<float>(MouseMoveRef.x) * 0.5f, static_cast<float>(MouseMoveRef.y) * 0.5f };
 
 	//オービット操作
-	if (m_Mode == MODE::ORBIT) {
+	if (m_Mode == MODE::Orbit) {
 
 		//回転量計算
 		float AngleX = 360.0f * MouseMove.x / 1600.0f;
@@ -82,7 +85,7 @@ void VIEWER_CAM::Update() noexcept
 	}
 
 	//***** トラック操作 *****
-	if (m_Mode == MODE::TRACK) {
+	if (m_Mode == MODE::Track) {
 
 		//オフセット更新
 		float dVal = 0.04f * m_CtrDist / START_POS.z;
@@ -93,9 +96,6 @@ void VIEWER_CAM::Update() noexcept
 
 	//行列更新
 	UpdateMatrix();
-
-	//マウス座標保存
-	m_MousePos_Old = m_App.GetInputMgr().m_Mouse.GetPos();
 }
 
 //行列更新

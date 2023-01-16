@@ -28,6 +28,7 @@ VIEWER::VIEWER(APP& App) :
 
 VIEWER::~VIEWER() noexcept
 {
+	//メモリ解放
 	if (!m_aDrawer.empty()) {
 		for (auto& d : m_aDrawer)
 			d.reset();
@@ -41,14 +42,15 @@ VIEWER::~VIEWER() noexcept
 //更新処理
 void VIEWER::Update() noexcept
 {
+	//カメラ更新
+	m_Camera.Update();
+
+	//モデル更新
 	for (auto& d : m_aDrawer)
 		d->Update();
 	m_Drawer_Bone->Update();
 	if (m_Drawer_BoneLine != nullptr)
 		m_Drawer_BoneLine->Update();
-
-	//カメラ更新
-	m_Camera.Update();
 }
 
 //描画処理
@@ -115,7 +117,7 @@ void VIEWER::LoadModel(bool bAnimOnly)
 	std::wstring strFileName{};
 	strFileName.reserve(MAX_PATH);
 	strFileName = p.c_str();
-	strFileName += L"\\Asset\\Model";
+	strFileName += L"\\Asset\\Model\\Input\\Folder";
 
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(ofn));
@@ -138,7 +140,7 @@ void VIEWER::LoadModel(bool bAnimOnly)
 
 			//今のモデルを解放
 			while (m_aDrawer.size() > 1)
-				m_aDrawer.erase(m_aDrawer.begin() + 1);
+				m_aDrawer.erase(m_aDrawer.begin() + 1);		//グリッドだけ残す
 			if (m_Drawer_Bone->GetPolygonNum() > 0)
 				m_Drawer_Bone->ClearInstance();
 			if (m_Drawer_BoneLine != nullptr)
@@ -180,6 +182,5 @@ void VIEWER::LoadModel(bool bAnimOnly)
 //骨メッシュ参照
 BONE& VIEWER::GetBone() const noexcept
 {
-	BONE* a = dynamic_cast<BONE*>(m_Drawer_Bone.get());
-	return *a;
+	return dynamic_cast<BONE&>(*m_Drawer_Bone);
 }

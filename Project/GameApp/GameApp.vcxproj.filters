@@ -361,12 +361,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Source\Shader\PS_VertexBlend.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_VertexBlend.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Source\Shader\PS_Texture.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
@@ -413,6 +407,12 @@
       <Filter>Shader\Base</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Source\Shader\VS_Default.hlsl">
+      <Filter>Shader\Base</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_VertexBlend.hlsl">
+      <Filter>Shader\Base</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_VertexBlend.hlsl">
       <Filter>Shader\Base</Filter>
     </FxCompile>
   </ItemGroup>

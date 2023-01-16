@@ -491,7 +491,7 @@ LRESULT WIN_WINDOW::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, m_RawBuffer.data(), &size, sizeof(RAWINPUTHEADER)) != size)
 				break;	//エラーメッセージ
 
-			// process the raw input data
+			//データ受取
 			auto& ri = reinterpret_cast<const RAWINPUT&>(*m_RawBuffer.data());
 			if (ri.header.dwType == RIM_TYPEMOUSE && (ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
 				m_Mouse.GetRawDelta(ri.data.mouse.lLastX, ri.data.mouse.lLastY);

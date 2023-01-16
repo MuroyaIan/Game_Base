@@ -19,27 +19,21 @@
     <Filter Include="ヘッダー ファイル\ModelViewer">
       <UniqueIdentifier>{6e595a25-a640-4fad-83c4-5dd1db3d04f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ModelViewer\Model">
+      <UniqueIdentifier>{ab6bdd8b-ba61-4f8b-a26e-de4260b9fcca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ModelViewer\Model">
+      <UniqueIdentifier>{dad112f9-5523-4bff-a918-cde95ad83b75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\EditorApp\Editor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Bone.cpp">
-      <Filter>ソース ファイル\ModelViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\BoneLine.cpp">
-      <Filter>ソース ファイル\ModelViewer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Grid.cpp">
       <Filter>ソース ファイル\ModelViewer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\EditorApp\ModelViewer\ModelLoader.cpp">
-      <Filter>ソース ファイル\ModelViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Normal.cpp">
-      <Filter>ソース ファイル\ModelViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Surface.cpp">
       <Filter>ソース ファイル\ModelViewer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Viewer.cpp">
@@ -48,30 +42,30 @@
     <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Viewer_Camera.cpp">
       <Filter>ソース ファイル\ModelViewer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Bone.cpp">
+      <Filter>ソース ファイル\ModelViewer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\BoneLine.cpp">
+      <Filter>ソース ファイル\ModelViewer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Normal.cpp">
+      <Filter>ソース ファイル\ModelViewer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Surface.cpp">
+      <Filter>ソース ファイル\ModelViewer\Model</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Library\EditorApp\ModelViewer\Viewer_Model.cpp">
-      <Filter>ソース ファイル\ModelViewer</Filter>
+      <Filter>ソース ファイル\ModelViewer\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\EditorApp\Editor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Bone.h">
-      <Filter>ヘッダー ファイル\ModelViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\BoneLine.h">
-      <Filter>ヘッダー ファイル\ModelViewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Grid.h">
       <Filter>ヘッダー ファイル\ModelViewer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\EditorApp\ModelViewer\ModelLoader.h">
-      <Filter>ヘッダー ファイル\ModelViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Normal.h">
-      <Filter>ヘッダー ファイル\ModelViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Surface.h">
       <Filter>ヘッダー ファイル\ModelViewer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Viewer.h">
@@ -80,8 +74,20 @@
     <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Viewer_Camera.h">
       <Filter>ヘッダー ファイル\ModelViewer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Bone.h">
+      <Filter>ヘッダー ファイル\ModelViewer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\BoneLine.h">
+      <Filter>ヘッダー ファイル\ModelViewer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Normal.h">
+      <Filter>ヘッダー ファイル\ModelViewer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Surface.h">
+      <Filter>ヘッダー ファイル\ModelViewer\Model</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Library\EditorApp\ModelViewer\Viewer_Model.h">
-      <Filter>ヘッダー ファイル\ModelViewer</Filter>
+      <Filter>ヘッダー ファイル\ModelViewer\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

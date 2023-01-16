@@ -256,13 +256,13 @@ void APP::Update()
 
 	//マウス表示・非表示
 	if (m_pInputMgr->m_KB.GetTrigger(VK_Q)) {
-		if (m_pWindow->IsUsingCursor()) {
-			m_pWindow->DisableCursor();
-			m_pWindow->m_Mouse.SetRawInput(true);
+		if (m_pInputMgr->m_Mouse.IsDrawing()) {
+			m_pInputMgr->m_Mouse.Hide();
+			m_pInputMgr->m_Mouse.EnableRawInput();
 		}
 		else {
-			m_pWindow->EnableCursor();
-			m_pWindow->m_Mouse.SetRawInput(false);
+			m_pInputMgr->m_Mouse.Show();
+			m_pInputMgr->m_Mouse.DisableRawInput();
 		}
 	}
 
@@ -356,7 +356,7 @@ void APP::Draw()
 					ImGui::Text(U8(u8"ホイール値")); ImGui::SameLine(); ImGui::Text(": %d", m_pInputMgr->m_Mouse.GetWheelVal());
 
 					ImGui::Text(U8(u8"マウス表示")); ImGui::SameLine(); ImGui::Text(":"); ImGui::SameLine();
-					if (m_pWindow->IsUsingCursor())
+					if (m_pInputMgr->m_Mouse.IsDrawing())
 						ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "True");
 					else {
 						ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "False");

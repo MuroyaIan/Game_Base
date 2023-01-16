@@ -105,9 +105,9 @@ void MOUSE::ClearBuffer() noexcept
 //RawInputバッファ読込み
 MOUSE::RAW_DELTA MOUSE::ReadRawDelta() noexcept
 {
-	//例外処理
+	//例外処理(キューが空になった)
 	if (m_RawDeltaBuffer.empty())
-		return RAW_DELTA{};
+		return RAW_DELTA{ true };
 
 	const RAW_DELTA Data = m_RawDeltaBuffer.front();	//次のイベントにアクセス
 	m_RawDeltaBuffer.pop();								//イベントを削除する

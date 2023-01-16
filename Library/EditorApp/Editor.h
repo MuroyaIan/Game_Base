@@ -25,7 +25,7 @@ class EDITOR
 public:
 
 	//プロトタイプ宣言
-	EDITOR(APP& App) noexcept;
+	explicit EDITOR(APP& App) noexcept;
 	~EDITOR() noexcept;
 	void Update();						//更新処理
 	void Draw();						//描画処理
@@ -39,7 +39,7 @@ private:
 
 	//変数宣言
 	bool m_bEnable;						//エディタ状態
-	APP& m_App;						//App参照
+	APP& m_App;							//App参照
 	bool m_bFBX_Viewer;					//FBXビューワー
 	std::unique_ptr<VIEWER> m_pViewer;	//ビューワ用ポインタ
 };

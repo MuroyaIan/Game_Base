@@ -2,7 +2,6 @@
 //===== インクルード部 =====
 #include <EditorApp/Editor.h>
 #include <EditorApp/ModelViewer/Viewer.h>
-#include <Tool/gMath.h>
 #include <EditorApp/ModelViewer/Bone.h>
 
 namespace dx = DirectX;
@@ -20,7 +19,7 @@ EDITOR::~EDITOR() noexcept
 //更新処理
 void EDITOR::Update()
 {
-	//ビューワ更新
+	//ビューワ処理
 	if (m_bFBX_Viewer) {
 
 		//ビューワ初期化
