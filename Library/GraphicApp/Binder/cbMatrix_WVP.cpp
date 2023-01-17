@@ -1,6 +1,6 @@
 
 //===== インクルード部 =====
-#include <GraphicApp/Binder/cbMatrix_T.h>
+#include <GraphicApp/Binder/cbMatrix_WVP.h>
 #include <GraphicApp/Drawer/Drawer.h>
 #include <Tool/gMath.h>
 
@@ -8,11 +8,11 @@ namespace dx = DirectX;
 using cb = CONSTANT_BUFFER<dx::XMFLOAT4X4>;
 
 //===== 静的メンバ変数 =====
-std::unique_ptr<cb> CB_MTX_T::m_pCBuff{};
-int CB_MTX_T::m_RefCount = 0;
+std::unique_ptr<cb> CB_MTX_WVP::m_pCBuff{};
+int CB_MTX_WVP::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MTX_T::CB_MTX_T(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent) :
+CB_MTX_WVP::CB_MTX_WVP(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent) :
 	BINDER(), m_Parent(Parent)
 {
 	//定数バッファ初期化
@@ -23,7 +23,7 @@ CB_MTX_T::CB_MTX_T(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent) :
 	m_RefCount++;
 }
 
-CB_MTX_T::~CB_MTX_T() noexcept
+CB_MTX_WVP::~CB_MTX_WVP() noexcept
 {
 	//バッファ解放
 	m_RefCount--;
@@ -32,7 +32,7 @@ CB_MTX_T::~CB_MTX_T() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MTX_T::Bind(const GRAPHIC& Gfx) const noexcept
+void CB_MTX_WVP::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 World = m_Parent.GetWorldMatrix();

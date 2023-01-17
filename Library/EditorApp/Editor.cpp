@@ -3,6 +3,7 @@
 #include <EditorApp/Editor.h>
 #include <EditorApp/ModelViewer/Viewer.h>
 #include <EditorApp/ModelViewer/Bone.h>
+#include <Tool/gMath.h>
 
 namespace dx = DirectX;
 
@@ -185,8 +186,13 @@ void EDITOR::Draw()
 
 						//メッシュスケール
 						float Scale = m_pViewer->GetModelScale();
-						ImGui::SliderFloat(U8(u8"スケール"), &Scale, 0.0f, 1.0f);
+						ImGui::SliderFloat(U8(u8"スケール"), &Scale, 0.0f, 1.0f, "%.2f");
 						m_pViewer->GetModelScale() = Scale;
+
+						//メッシュ回転(Y軸)
+						float RotY = gMath::GetDegree_f(m_pViewer->GetModelRotation());
+						ImGui::SliderFloat(U8(u8"Y軸回転"), &RotY, -180.0f, 180.0f, "%.f");
+						m_pViewer->GetModelRotation() = gMath::GetRad(RotY);
 
 						ImGui::TreePop();
 					}
@@ -198,7 +204,7 @@ void EDITOR::Draw()
 
 						//骨スケール
 						float Scale = m_pViewer->GetBone().GetScale();
-						ImGui::SliderFloat(U8(u8"スケール"), &Scale, 0.0f, 5.0f);
+						ImGui::SliderFloat(U8(u8"スケール"), &Scale, 0.0f, 5.0f, "%.1f");
 							m_pViewer->GetBone().GetScale() = Scale;
 
 						ImGui::TreePop();

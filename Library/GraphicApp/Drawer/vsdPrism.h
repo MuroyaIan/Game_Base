@@ -67,8 +67,8 @@ public:
 		//側面のインデックスリスト作成
 		std::vector<UINT> Indices;
 		const UINT Mod = static_cast<UINT>(DivNum * 2);
-		for (int i = 0; i < DivNum; i++) {
-			const UINT Idx = i * 2;
+		for (size_t i = 0; i < DivNum; i++) {
+			const UINT Idx = static_cast<UINT>(i * 2);
 			Indices.emplace_back(Idx + 2u);
 			Indices.emplace_back((Idx + 2u) % Mod + 2u);
 			Indices.emplace_back(Idx + 3u);
@@ -78,8 +78,8 @@ public:
 		}
 
 		//底面のインデックスリスト作成
-		for (int i = 0; i < DivNum; i++) {
-			const UINT Idx = i * 2;
+		for (size_t i = 0; i < DivNum; i++) {
+			const UINT Idx = static_cast<UINT>(i * 2);
 			Indices.emplace_back(Idx + 2u);
 			Indices.emplace_back(usDownCtrIdx);
 			Indices.emplace_back((Idx + 2u) % Mod + 2u);	//底面（下）

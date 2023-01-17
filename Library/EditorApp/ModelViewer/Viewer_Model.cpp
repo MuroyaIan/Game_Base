@@ -2,42 +2,42 @@
 //===== インクルード部 =====
 #include <EditorApp/ModelViewer/Viewer_Model.h>
 #include <GraphicApp/Binder/BinderRef.h>
-#include <Tool/gMath.h>
 #include <EditorApp/ModelViewer/Viewer.h>
-#include <Tool/Input/InputMgr.h>
 
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex, INPUT_MGR& Input) :
-	DRAWER(Gfx), m_ShaderMgr(ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
+VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex) :
+	DRAWER(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
-	m_Input(Input), m_Scale(Viewer.GetModelScale()), m_Rot()
+	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation())
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_MB> Model = MakeData_VS();
-	AddBind(std::make_unique<VERTEX_BUFFER>(Gfx, Model.m_Vertices));
+	AddBind(std::make_unique<VERTEX_BUFFER>(Gfx.m_DX, Model.m_Vertices));
 
 	//インデックス情報作成
-	AddBind(std::make_unique<INDEX_BUFFER>(Gfx, Model.m_Indices));
+	AddBind(std::make_unique<INDEX_BUFFER>(Gfx.m_DX, Model.m_Indices));
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_LWVP>(Gfx, &cbData, *this, m_MtxLocal));
+	AddBind(std::make_unique<CB_MTX_LWVP>(Gfx.m_DX, &cbData, *this, m_MtxLocal));
 
 	//VS定数バッファ作成（骨情報）
 	m_pMtxBone = std::make_unique<CBD_BONE>();
-	AddBind(std::make_unique<CB_BONE>(Gfx, &cbData, *m_pMtxBone, true));
+	AddBind(std::make_unique<CB_BONE>(Gfx.m_DX, &cbData, *m_pMtxBone, true));
 
 	//PS定数バッファ作成（マテリアル）
-	AddBind(std::make_unique<CB_MATERIAL>(Gfx, &cbData, m_Material));
+	AddBind(std::make_unique<CB_MATERIAL>(Gfx.m_DX, &cbData, m_Material));
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
-	//テクスチャバッファ作成
+	//テクスチャデータ読込
 	auto& MeshData = m_Loader.GetMesh(m_MeshIndex);
 	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));
+
+	//Diffuseマップ
 	if (MeshData.aTex_Diffuse.size() > 0) {
 		std::string Path = m_Loader.GetFilePath();
 		Path += MeshData.aTex_Diffuse[0];
@@ -45,6 +45,8 @@ VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, 
 	}
 	else
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+
+	//Specularマップ
 	if (MeshData.aTex_Specular.size() > 0) {
 		std::string Path = m_Loader.GetFilePath();
 		Path += MeshData.aTex_Specular[0];
@@ -52,12 +54,14 @@ VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, 
 	}
 	else
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+
+	//Normalマップ
 	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 
-	AddBind(std::make_unique<TEXTURE_MODEL>(Gfx, aData));
-
+	//テクスチャバッファ作成
+	AddBind(std::make_unique<TEXTURE_MODEL>(Gfx.m_DX, aData));
 	for (auto& d : aData)
-		TEX_LOADER::ReleaseTexture(d.pImageData);
+		TEX_LOADER::ReleaseTexture(d.pImageData);	//データ解放
 
 	//ローカル行列初期化
 	dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
@@ -68,7 +72,7 @@ VIEWER_MODEL::VIEWER_MODEL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, 
 	//マテリアル情報初期化
 	m_Material = MeshData.MaterialData;
 
-	//メッシュ情報初期化
+	//骨の影響を受けるか確認
 	if (MeshData.aNoSkinData.size() > 0)
 		m_bNoBone = true;
 }
@@ -80,28 +84,14 @@ VIEWER_MODEL::~VIEWER_MODEL() noexcept
 //更新処理
 void VIEWER_MODEL::Update() noexcept
 {
-	//回転制御
-	if (m_Input.m_KB.GetPress(VK_A))
-		m_Rot.y += gMath::GetRad(2);
-	else if (m_Input.m_KB.GetPress(VK_D))
-		m_Rot.y -= gMath::GetRad(2);
-	if (m_Input.m_KB.GetPress(VK_W))
-		m_Rot.x += gMath::GetRad(2);
-	else if (m_Input.m_KB.GetPress(VK_S))
-		m_Rot.x -= gMath::GetRad(2);
-	if (m_Input.m_KB.GetPress(VK_R)) {
-		m_Rot.x = 0.0f;
-		m_Rot.y = 0.0f;
-	}
-
 	//ワールド行列更新
 	dx::XMMATRIX mtx = dx::XMMatrixScaling(m_Scale, m_Scale, m_Scale)
-		* dx::XMMatrixRotationRollPitchYaw(m_Rot.x, m_Rot.y, m_Rot.z);
+		* dx::XMMatrixRotationRollPitchYaw(0.0f, m_RotY, 0.0f);
 	dx::XMStoreFloat4x4(&m_MtxWorld, mtx);
 
 	//骨情報更新
 	if (m_bDrawAnimation)
-		UpdateBoneData(m_AnimationID);
+		UpdateBoneData(m_AnimationID);	//アニメーション再生中⇒情報更新
 	else {
 
 		//骨情報リセット
@@ -172,24 +162,26 @@ void VIEWER_MODEL::UpdateBoneData(int AnimID) noexcept
 			//60FPS
 			m_AnimFrame++;
 
-			//フレームカウントリセット
+			//フレームカウント制御
 			if (m_FrameCnt > 0)
 				m_FrameCnt = 0;
 		}
 		else {
 
-			//30FPS
+			//フレームカウント制御
 			m_FrameCnt++;
 			if (m_FrameCnt > 1) {
 				m_FrameCnt = 0;
 
-				//60FPSと同じ処理
+				//30FPS
 				m_AnimFrame++;
 			}
 		}
 	}
 	else
-		m_AnimFrame = m_Viewer.GetAnimationFrame();
+		m_AnimFrame = m_Viewer.GetAnimationFrame();		//アニメーション一時停止⇒フレーム位置を保持
+
+	//再生フレーム数の範囲制御
 	if (m_AnimFrame < pAnimData->StartFrame)
 		m_AnimFrame = pAnimData->StartFrame;
 	if (m_AnimFrame >= pAnimData->StopFrame)

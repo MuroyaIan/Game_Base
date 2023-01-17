@@ -21,7 +21,7 @@ class GRID : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr);
+	explicit GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr);
 	~GRID() noexcept override;
 	void Update() noexcept override;													//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理

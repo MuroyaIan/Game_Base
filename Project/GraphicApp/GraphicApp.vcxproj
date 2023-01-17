@@ -160,7 +160,7 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMaterial.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.h" />
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_WVP.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMgr.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\ConstantBuffer.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\IndexBuffer.h" />
@@ -190,7 +190,7 @@
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMaterial.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.cpp" />
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_WVP.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMgr.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\IndexBuffer.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\InputLayout.cpp" />

@@ -69,7 +69,7 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.h">
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbMatrix_WVP.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\ConstantBuffer.h">
@@ -158,7 +158,7 @@
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_LWVP.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_T.cpp">
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_WVP.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbMatrix_VP.cpp">

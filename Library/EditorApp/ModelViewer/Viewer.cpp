@@ -11,8 +11,8 @@
 
 //===== クラス実装 =====
 VIEWER::VIEWER(APP& App) :
-	m_App(App), m_Gfx(App.GetGfxPack()), m_aDrawer(), m_Camera(App),
-	m_pLoader(), m_Scale(1.0f), m_bDrawNormal(false), m_bDrawSurface(false),
+	m_Gfx(App.GetGfxPack()), m_Input(App.GetInputMgr()), m_aDrawer(), m_Camera(App),
+	m_pLoader(), m_Scale(1.0f), m_RotY(0.0f), m_bDrawNormal(false), m_bDrawSurface(false),
 	m_bDrawAnimation(false), m_AnimationID(0), m_AnimFrame(0), m_bAnimPause(false),
 	m_Drawer_Bone(), m_Drawer_BoneLine(), m_bDrawBone(false)
 {
@@ -23,7 +23,7 @@ VIEWER::VIEWER(APP& App) :
 	m_aDrawer.push_back(std::make_unique<GRID>(m_Gfx.m_DX, m_Gfx.m_ShaderMgr));
 
 	//骨描画用メッシュ初期化
-	m_Drawer_Bone = std::make_unique<BONE>(m_Gfx, *this, *m_pLoader, m_App.GetInputMgr());
+	m_Drawer_Bone = std::make_unique<BONE>(m_Gfx, *this, *m_pLoader, m_Input);
 }
 
 VIEWER::~VIEWER() noexcept
@@ -44,6 +44,22 @@ void VIEWER::Update() noexcept
 {
 	//カメラ更新
 	m_Camera.Update();
+
+	//モデル回転制御
+	if (m_aDrawer.size() > 1) {
+		if (m_Input.m_KB.GetPress(VK_A))
+			m_RotY -= gMath::GetRad(2);
+		else if (m_Input.m_KB.GetPress(VK_D))
+			m_RotY += gMath::GetRad(2);
+		if (m_Input.m_KB.GetPress(VK_R))
+			m_RotY = 0.0f;
+
+		//回転範囲制御
+		if (m_RotY > gMath::GetRad(180))
+			m_RotY -= gMath::GetRad(360);
+		else if (m_RotY < -gMath::GetRad(180))
+			m_RotY += gMath::GetRad(360);
+	}
 
 	//モデル更新
 	for (auto& d : m_aDrawer)
@@ -88,7 +104,7 @@ void VIEWER::Draw() const
 
 #ifdef IMGUI
 
-	if (m_App.GetGfxPack().m_DX.IsImGuiEnabled())
+	if (m_Gfx.m_DX.IsImGuiEnabled())
 		m_pLoader->Draw();
 
 #endif // IMGUI
@@ -146,6 +162,8 @@ void VIEWER::LoadModel(bool bAnimOnly)
 				m_Drawer_Bone->ClearInstance();
 			if (m_Drawer_BoneLine != nullptr)
 				m_Drawer_BoneLine.reset();
+			m_Scale = 1.0f;
+			m_RotY = 0.0f;
 			m_bDrawAnimation = false;
 			m_AnimationID = 0;
 			m_AnimFrame = 0;
@@ -156,7 +174,7 @@ void VIEWER::LoadModel(bool bAnimOnly)
 
 			//モデル作成
 			for (size_t i = 0, Cnt = m_pLoader->GetMeshCount(); i < Cnt; i++) {
-				m_aDrawer.push_back(std::make_unique<VIEWER_MODEL>(m_Gfx.m_DX, m_Gfx.m_ShaderMgr, *this, *m_pLoader, static_cast<int>(i), m_App.GetInputMgr()));
+				m_aDrawer.push_back(std::make_unique<VIEWER_MODEL>(m_Gfx, *this, *m_pLoader, static_cast<int>(i)));
 				m_aDrawer.push_back(std::make_unique<NORMAL>(m_Gfx.m_DX, m_Gfx.m_ShaderMgr, *m_pLoader, static_cast<int>(i), *m_aDrawer[1 + 3 * i]));
 				m_aDrawer.push_back(std::make_unique<SURFACE>(m_Gfx.m_DX, m_Gfx.m_ShaderMgr, *m_pLoader, static_cast<int>(i), *m_aDrawer[1 + 3 * i]));
 			}

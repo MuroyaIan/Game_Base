@@ -24,7 +24,7 @@
 
 #include <GraphicApp/Binder/ConstantBuffer.h>
 #include <GraphicApp/Binder/cbMgr.h>
-#include <GraphicApp/Binder/cbMatrix_T.h>
+#include <GraphicApp/Binder/cbMatrix_WVP.h>
 #include <GraphicApp/Binder/cbMatrix_VP.h>
 #include <GraphicApp/Binder/cbMatrix_LWVP.h>
 #include <GraphicApp/Binder/cbBone.h>

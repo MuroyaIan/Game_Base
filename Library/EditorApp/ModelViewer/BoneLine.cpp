@@ -25,11 +25,10 @@ BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LO
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_T>(Gfx, &cbData, *this));
+	AddBind(std::make_unique<CB_MTX_WVP>(Gfx, &cbData, *this));
 
 	//PS定数バッファ作成（法線の色）
 	const dx::XMFLOAT4 cbNormalColor(0.5f, 1.0f, 1.0f, 1.0f);
-	//AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor, -1, static_cast<int>(CB_SLOT_PS::Default)));
 	AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(Gfx, cbNormalColor, &cbData, false, true));
 
 	//定数バッファMgr作成

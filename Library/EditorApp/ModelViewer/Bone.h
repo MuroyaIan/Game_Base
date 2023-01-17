@@ -26,7 +26,7 @@ class BONE : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input);
+	explicit BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input);
 	~BONE() noexcept override;
 	void Update() noexcept override;													//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
@@ -67,5 +67,5 @@ private:
 	float& m_ModelScale;							//モデルスケール
 
 	INPUT_MGR& m_Input;								//入力参照
-	DirectX::XMFLOAT3 m_Rot;						//回転
+	float& m_RotY;									//回転(Y軸)
 };

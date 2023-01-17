@@ -22,15 +22,18 @@ GRID::GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr) :
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_T>(Gfx, &cbData, *this));
+	AddBind(std::make_unique<CB_MTX_WVP>(Gfx, &cbData, *this));
 
 	//PS定数バッファ作成（ポリゴン色）
 	const dx::XMFLOAT4 cbColor(0.5f, 0.5f, 0.5f, 1.0f);
-	//AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(Gfx, cbColor, -1, static_cast<int>(CB_SLOT_PS::Default)));
 	AddBind(std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(Gfx, cbColor, &cbData, false, true));
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
+
+	//行列初期化
+	dx::XMMATRIX mtxW = dx::XMMatrixRotationRollPitchYaw(gMath::GetRad(90), 0.0f, 0.0f);	//初期姿勢
+	dx::XMStoreFloat4x4(&m_mtxWorld, mtxW);
 }
 
 GRID::~GRID() noexcept
@@ -40,9 +43,6 @@ GRID::~GRID() noexcept
 //更新処理
 void GRID::Update() noexcept
 {
-	//行列更新
-	dx::XMMATRIX mtx = dx::XMMatrixRotationRollPitchYaw(gMath::GetRad(90), 0.0f, 0.0f);		//初期姿勢
-	dx::XMStoreFloat4x4(&m_mtxWorld, mtx);
 }
 
 //書込み処理

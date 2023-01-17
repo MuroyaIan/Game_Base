@@ -4,8 +4,6 @@
 #include <GraphicApp/Binder/BinderRef.h>
 #include <EditorApp/ModelViewer/Viewer.h>
 
-#include <Tool/Rand.h>
-
 namespace dx = DirectX;
 
 //===== クラス実装 =====
@@ -13,7 +11,7 @@ BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) 
 	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
 	m_aMtxLocal(m_InstanceNum), m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame()), m_Scale(1.0f),
 	m_MtxLocal(), m_MtxWorld(), m_ModelScale(Viewer.GetModelScale()),
-	m_Input(Input), m_Rot()
+	m_Input(Input), m_RotY(Viewer.GetModelRotation())
 {
 	//頂点情報作成
 	VS_DATA<VERTEX> Model = VSD_MAKER::MakeData_Default(VSD_MAKER::SHAPE::Pyramid);
@@ -62,23 +60,9 @@ BONE::~BONE() noexcept
 //更新処理
 void BONE::Update() noexcept
 {
-	//回転制御
-	if (m_Input.m_KB.GetPress(VK_A))
-		m_Rot.y += gMath::GetRad(2);
-	else if (m_Input.m_KB.GetPress(VK_D))
-		m_Rot.y -= gMath::GetRad(2);
-	if (m_Input.m_KB.GetPress(VK_W))
-		m_Rot.x += gMath::GetRad(2);
-	else if (m_Input.m_KB.GetPress(VK_S))
-		m_Rot.x -= gMath::GetRad(2);
-	if (m_Input.m_KB.GetPress(VK_R)) {
-		m_Rot.x = 0.0f;
-		m_Rot.y = 0.0f;
-	}
-
 	//ワールド行列更新
 	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixScaling(m_ModelScale, m_ModelScale, m_ModelScale)
-		* dx::XMMatrixRotationRollPitchYaw(m_Rot.x, m_Rot.y, m_Rot.z));
+		* dx::XMMatrixRotationRollPitchYaw(0.0f, m_RotY, 0.0f));
 
 	//ローカル行列更新
 	if (m_InstanceNum == 0)
@@ -87,10 +71,14 @@ void BONE::Update() noexcept
 	auto pMtxInit = &m_Loader.GetSkeleton()[0];
 	for (size_t i = 0, Cnt = m_InstanceNum; i < Cnt; i++) {
 		if (!m_bDrawAnimation) {
+
+			//アニメーション一時停止⇒初期姿勢
 			dx::XMMATRIX mtxL = dx::XMMatrixScaling(m_Scale, m_Scale, m_Scale) * dx::XMLoadFloat4x4(&pMtxInit->InitMatrix);
 			dx::XMStoreFloat4x4(pMtxLocal, mtxL);
 		}
 		else {
+
+			//アニメーション再生中⇒指定フレーム時の姿勢
 			dx::XMMATRIX mtxL{};
 			if (m_Loader.GetSkin()[m_AnimationID].aFrameData[i].aBoneMatrix.size() > 0)
 				mtxL = dx::XMMatrixScaling(m_Scale, m_Scale, m_Scale) * dx::XMLoadFloat4x4(&m_Loader.GetSkin()[m_AnimationID].aFrameData[i].aBoneMatrix[m_AnimFrame]);
@@ -151,7 +139,6 @@ void BONE::ClearInstance()
 	m_aMtxLocal.clear();
 	m_Scale = 1.0f;
 	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixIdentity());
-	m_Rot = { 0.0f, 0.0f, 0.0f };
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxLocal);

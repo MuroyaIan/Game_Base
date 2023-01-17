@@ -19,7 +19,7 @@ NORMAL::NORMAL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int Mesh
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_T>(Gfx, &cbData, *this));
+	AddBind(std::make_unique<CB_MTX_WVP>(Gfx, &cbData, *this));
 
 	//PS定数バッファ作成（法線の色）
 	const dx::XMFLOAT4 cbNormalColor(1.0f, 1.0f, 0.5f, 1.0f);
