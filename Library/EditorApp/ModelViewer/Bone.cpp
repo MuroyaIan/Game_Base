@@ -72,7 +72,7 @@ void BONE::Update() noexcept
 	for (size_t i = 0, Cnt = m_InstanceNum; i < Cnt; i++) {
 		if (!m_bDrawAnimation) {
 
-			//アニメーション一時停止⇒初期姿勢
+			//アニメーション再生なし⇒初期姿勢
 			dx::XMMATRIX mtxL = dx::XMMatrixScaling(m_Scale, m_Scale, m_Scale) * dx::XMLoadFloat4x4(&pMtxInit->InitMatrix);
 			dx::XMStoreFloat4x4(pMtxLocal, mtxL);
 		}

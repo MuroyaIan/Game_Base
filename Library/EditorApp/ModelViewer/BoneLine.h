@@ -26,7 +26,7 @@ class BONE_LINE : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn);
+	explicit BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn);
 	~BONE_LINE() noexcept override;
 	void Update() noexcept override;													//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
@@ -56,5 +56,5 @@ private:
 	int& m_AnimFrame;						//再生するフレーム数
 
 	//プロトタイプ宣言
-	VS_DATA<VERTEX> MakeData_VS() const;	//頂点情報作成
+	VS_DATA<VERTEX_C> MakeData_VS() const;	//頂点情報作成
 };
