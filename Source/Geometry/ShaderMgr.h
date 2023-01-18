@@ -70,6 +70,7 @@ public:
 		PS_ONE_COLOR,
 		PS_VTX_BLEND,
 		PS_TEXTURE,
+
 		PS_MODEL,
 		PS_PHONG,
 

@@ -273,6 +273,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Asset\dog.cur" />
+    <None Include="..\..\Source\Shader\VS_Base.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EditorApp\EditorApp.vcxproj">

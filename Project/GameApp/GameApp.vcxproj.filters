@@ -359,17 +359,11 @@
     <None Include="..\..\Asset\dog.cur">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="..\..\Source\Shader\VS_Base.hlsli">
+      <Filter>Shader\Base</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Source\Shader\PS_Texture.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Texture.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\PS_SingleColor.hlsl">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Source\Shader\PS_Phong.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
@@ -413,6 +407,15 @@
       <Filter>Shader\Base</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Source\Shader\VS_VertexBlend.hlsl">
+      <Filter>Shader\Base</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_SingleColor.hlsl">
+      <Filter>Shader\Base</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\PS_Texture.hlsl">
+      <Filter>Shader\Base</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\VS_Texture.hlsl">
       <Filter>Shader\Base</Filter>
     </FxCompile>
   </ItemGroup>

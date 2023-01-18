@@ -1,31 +1,38 @@
+/**
+ * @file VS_Model.hlsl
+ * @brief 頂点シェーダ（モデル実装）
+ * @author 室谷イアン
+ * @date 2023/01/18
+ * @履歴 2023/01/18：ファイル作成
+ */
 
 //入力用構造体
 struct VS_IN
 {
-	float3 pos : POSITION;      //座標
-	float2 tex : TEXCOORD;      //UV座標
-	float3 normal : NORMAL;     //法線
+	float3 pos : POSITION;		//座標
+	float2 tex : TEXCOORD;		//UV座標
+	float3 normal : NORMAL;		//法線
 };
 
 //出力用構造体
 struct VS_OUT
 {
-	float3 posWV : POSITION;    //座標（変換後）
-	float2 tex : TEXCOORD;      //UV座標
-	float3 normalWV : NORMAL;   //法線（変換後）
+	float3 posWV : POSITION;	//座標（変換後）
+	float2 tex : TEXCOORD;		//UV座標
+	float3 normalWV : NORMAL;	//法線（変換後）
 
-	matrix mtxView : MTX_V;     //ビュー行列
+	matrix mtxView : MTX_V;		//ビュー行列
 
 	float4 pos : SV_Position;
 };
 
 //定数バッファ（変換行列）
-cbuffer C_BUFFER : register(b0)
+cbuffer CB_MTX_LWVP : register(b0)
 {
-	matrix mtxLocal;    //ローカル行列
-	matrix mtxWorld;    //ワールド行列
-	matrix mtxView;     //ビュー行列
-	matrix mtxProj;     //投影行列
+	matrix mtxLocal;	//ローカル行列
+	matrix mtxWorld;	//ワールド行列
+	matrix mtxView;		//ビュー行列
+	matrix mtxProj;		//投影行列
 };
 
 //エントリーポイント

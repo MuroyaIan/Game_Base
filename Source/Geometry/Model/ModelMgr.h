@@ -27,7 +27,6 @@ public:
 	//ƒ‚ƒfƒ‹”Ô†
 	enum class MODEL_ID
 	{
-		Zunnko,
 		Tarantella,
 		Unity,
 

@@ -8,19 +8,16 @@ namespace dx = DirectX;
 
 //===== 静的メンバ =====
 std::string MODEL_MGR::aModelName[static_cast<int>(MODEL_ID::MAX_MODEL)] = {
-	"Zunnko",
 	"Tarantella",
 	"UnityChan"
 };
 
 std::vector<std::string> MODEL_MGR::aAnimName[static_cast<int>(MODEL_ID::MAX_MODEL)] = {
-	{"Jump"},
 	{"Idle", "Walk", "Run"},
 	{"Jump", "Run"}
 };
 
 std::vector<bool> MODEL_MGR::aAnimFPS_30[static_cast<int>(MODEL_ID::MAX_MODEL)] = {
-	{false},
 	{true, false, false},
 	{true, true}
 };
@@ -54,18 +51,16 @@ MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::MAX_MODEL))
 	}
 
 	//ワールド行列初期化
-	dx::XMStoreFloat4x4(&m_aModelPackPtr[static_cast<int>(MODEL_ID::Zunnko)]->InitMtxWorld,
-		dx::XMMatrixScaling(1.0f, 1.0f, 1.0f)
-		* dx::XMMatrixRotationRollPitchYaw(0.0f, gMath::GetRad(180), 0.0f)
-		* dx::XMMatrixTranslation(0.0f, -10.0f, 0.0f));
 	dx::XMStoreFloat4x4(&m_aModelPackPtr[static_cast<int>(MODEL_ID::Tarantella)]->InitMtxWorld,
 		dx::XMMatrixScaling(0.1f, 0.1f, 0.1f)
 		* dx::XMMatrixRotationRollPitchYaw(0.0f, gMath::GetRad(180), 0.0f)
-		* dx::XMMatrixTranslation(0.0f, -10.0f, 0.0f));
+		* dx::XMMatrixTranslation(0.0f, -10.0f, 0.0f)
+	);
 	dx::XMStoreFloat4x4(&m_aModelPackPtr[static_cast<int>(MODEL_ID::Unity)]->InitMtxWorld,
 		dx::XMMatrixScaling(0.1f, 0.1f, 0.1f)
 		* dx::XMMatrixRotationRollPitchYaw(0.0f, gMath::GetRad(180), 0.0f)
-		* dx::XMMatrixTranslation(0.0f, -10.0f, 0.0f));
+		* dx::XMMatrixTranslation(0.0f, -10.0f, 0.0f)
+	);
 }
 
 MODEL_MGR::~MODEL_MGR() noexcept

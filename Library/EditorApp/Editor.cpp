@@ -51,7 +51,7 @@ void EDITOR::Draw()
 	if (m_App.m_pDX->IsImGuiEnabled()) {
 
 		//テストメニュー
-		if (ImGui::Begin("Game Editor Ver0.4"))
+		if (ImGui::Begin("Game Editor Ver0.5"))
 		{
 			//エディタ終了
 			if (ImGui::Button(U8(u8"ゲームモード開始")))
@@ -111,44 +111,39 @@ void EDITOR::Draw()
 				}
 
 				//骨表示切替
-				if (PolyNum > 0) {
+				if (PolyNum > 0 && m_pViewer->GetLoader().GetSkeleton().size() > 0) {
 					ImGui::Checkbox(U8(u8"骨表示"), &m_pViewer->GetFlag_DrawBone()); ImGui::SameLine();
 				}
 
 				//アニメーション再生
-				if (PolyNum > 0) {
+				if (PolyNum > 0 && m_pViewer->GetLoader().GetAnimation().size() > 0) {
 					ImGui::Checkbox(U8(u8"アニメーション再生"), &m_pViewer->GetFlag_DrawAnimation());
 					if (m_pViewer->GetFlag_DrawAnimation()) {
-						if (m_pViewer->GetLoader().GetAnimation().size() < 1)
-							m_pViewer->GetFlag_DrawAnimation() = false;
+						ImGui::NewLine();
+						ImGui::Text(U8(u8"アニメーションID")); ImGui::SameLine(); ImGui::Text(": %d", m_pViewer->GetAnimationID() + 1); ImGui::SameLine();
+						if (ImGui::Button("-")) {
+							m_pViewer->GetAnimationID()--;
+							if (m_pViewer->GetAnimationID() < 0)
+								m_pViewer->GetAnimationID() = 0;
+						}
+						ImGui::SameLine();
+						if (ImGui::Button("+")) {
+							m_pViewer->GetAnimationID()++;
+							if (m_pViewer->GetAnimationID() > m_pViewer->GetLoader().GetAnimation().size() - 1)
+								m_pViewer->GetAnimationID() = static_cast<int>(m_pViewer->GetLoader().GetAnimation().size()) - 1;
+						}
+
+						if (ImGui::Button(U8(u8"再生切替")))
+							m_pViewer->GetFlag_AnimPause() = !m_pViewer->GetFlag_AnimPause();
+						ImGui::SameLine(); ImGui::Text(U8(u8"状態")); ImGui::SameLine();
+						if (m_pViewer->GetFlag_AnimPause()) {
+							ImGui::Text(":"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), U8(u8"一時停止"));
+							auto& AnimData = m_pViewer->GetLoader().GetAnimation()[m_pViewer->GetAnimationID()];
+							ImGui::SliderInt(U8(u8"フレーム数"), &m_pViewer->GetAnimationFrame(), AnimData.StartFrame, AnimData.StopFrame - 1);
+						}
 						else {
-
-							ImGui::NewLine();
-							ImGui::Text(U8(u8"アニメーションID")); ImGui::SameLine(); ImGui::Text(": %d", m_pViewer->GetAnimationID() + 1); ImGui::SameLine();
-							if (ImGui::Button("-")) {
-								m_pViewer->GetAnimationID()--;
-								if (m_pViewer->GetAnimationID() < 0)
-									m_pViewer->GetAnimationID() = 0;
-							}
-							ImGui::SameLine();
-							if (ImGui::Button("+")) {
-								m_pViewer->GetAnimationID()++;
-								if (m_pViewer->GetAnimationID() > m_pViewer->GetLoader().GetAnimation().size() - 1)
-									m_pViewer->GetAnimationID() = static_cast<int>(m_pViewer->GetLoader().GetAnimation().size()) - 1;
-							}
-
-							if (ImGui::Button(U8(u8"再生切替")))
-								m_pViewer->GetFlag_AnimPause() = !m_pViewer->GetFlag_AnimPause();
-							ImGui::SameLine(); ImGui::Text(U8(u8"状態")); ImGui::SameLine();
-							if (m_pViewer->GetFlag_AnimPause()) {
-								ImGui::Text(":"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), U8(u8"一時停止"));
-								auto& AnimData = m_pViewer->GetLoader().GetAnimation()[m_pViewer->GetAnimationID()];
-								ImGui::SliderInt(U8(u8"フレーム数"), &m_pViewer->GetAnimationFrame(), AnimData.StartFrame, AnimData.StopFrame - 1);
-							}
-							else {
-								ImGui::Text(":"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), U8(u8"再生中"));
-								ImGui::Text(U8(u8"フレーム数")); ImGui::SameLine(); ImGui::Text(": %d", m_pViewer->GetAnimationFrame());
-							}
+							ImGui::Text(":"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), U8(u8"再生中"));
+							ImGui::Text(U8(u8"フレーム数")); ImGui::SameLine(); ImGui::Text(": %d", m_pViewer->GetAnimationFrame());
 						}
 					}
 				}
