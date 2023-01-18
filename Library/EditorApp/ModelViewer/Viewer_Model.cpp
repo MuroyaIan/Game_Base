@@ -106,7 +106,6 @@ void VIEWER_MODEL::Update() noexcept
 void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 {
 	m_ShaderMgr.Bind_Model();
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::SAMPLER);
 	DRAWER::Draw(InstanceNum);
 }
 

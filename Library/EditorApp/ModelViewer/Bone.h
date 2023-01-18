@@ -56,13 +56,12 @@ private:
 	int m_InstanceNum;								//インスタンス数
 	FBX_LOADER& m_Loader;							//ローダ参照
 
-	std::vector<DirectX::XMFLOAT4X4> m_aMtxLocal;	//ローカル行列
+	std::vector<DirectX::XMFLOAT4X4> m_aMtxBone;	//骨の姿勢行列(インスタンシング)
 	bool& m_bDrawAnimation;							//アニメーション再生
 	int& m_AnimationID;								//アニメーション番号
 	int& m_AnimFrame;								//再生するフレーム数
 	float m_Scale;									//メッシュスケール
 
-	DirectX::XMFLOAT4X4 m_MtxLocal;					//ローカル行列
 	DirectX::XMFLOAT4X4 m_MtxWorld;					//ワールド行列
 	float& m_ModelScale;							//モデルスケール
 

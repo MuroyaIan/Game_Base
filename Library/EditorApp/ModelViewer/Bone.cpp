@@ -9,8 +9,8 @@ namespace dx = DirectX;
 //===== クラス実装 =====
 BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) :
 	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
-	m_aMtxLocal(m_InstanceNum), m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame()), m_Scale(1.0f),
-	m_MtxLocal(), m_MtxWorld(), m_ModelScale(Viewer.GetModelScale()),
+	m_aMtxBone(m_InstanceNum), m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame()), m_Scale(1.0f),
+	m_MtxWorld(), m_ModelScale(Viewer.GetModelScale()),
 	m_Input(Input), m_RotY(Viewer.GetModelRotation())
 {
 	//頂点情報作成
@@ -34,20 +34,17 @@ BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) 
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) * dx::XMMatrixRotationRollPitchYaw(gMath::GetRad(90), 0.0f, 0.0f));	//Z軸が前向き
 	Model_C.SetVertexPos(mtx);
-	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model_C.m_Vertices, m_aMtxLocal));
+	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model_C.m_Vertices, m_aMtxBone));
 
 	//インデックス情報作成
 	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model_C.m_Indices));
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_LWVP>(m_Gfx.m_DX, &cbData, *this, m_MtxLocal));
+	AddBind(std::make_unique<CB_MTX_WVP>(m_Gfx.m_DX, &cbData, *this));
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
-
-	//ローカル行列初期化
-	dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
 
 	//ワールド行列初期化
 	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixIdentity());
@@ -67,7 +64,7 @@ void BONE::Update() noexcept
 	//ローカル行列更新
 	if (m_InstanceNum == 0)
 		return;
-	auto pMtxLocal = &m_aMtxLocal[0];
+	auto pMtxLocal = &m_aMtxBone[0];
 	auto pMtxInit = &m_Loader.GetSkeleton()[0];
 	for (size_t i = 0, Cnt = m_InstanceNum; i < Cnt; i++) {
 		if (!m_bDrawAnimation) {
@@ -100,14 +97,14 @@ void BONE::Draw(int InstanceNum) const noexcept
 		return;
 
 	//インスタンス更新
-	std::vector<DirectX::XMFLOAT4X4> aMtxLocal = m_aMtxLocal;
+	std::vector<DirectX::XMFLOAT4X4> aMtxLocal = m_aMtxBone;
 	for (auto& i : aMtxLocal)
 		gMath::MtxTranspose4x4_SSE(&i._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxLocal, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_INSTANCE_VTX_BLEND);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_INSTANCE_VTX_BLEND);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_BONE);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_BONE);
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_TRI);
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_VTX_BLEND);
 	DRAWER::Draw(m_InstanceNum);
@@ -120,11 +117,11 @@ int BONE::AddInstance()
 	m_InstanceNum++;
 	DirectX::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixIdentity());
-	m_aMtxLocal.emplace_back(mtx);
+	m_aMtxBone.emplace_back(mtx);
 
 	//インスタンスバッファ再設定
-	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxLocal);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxLocal, VERTEX_BUFFER::VB_TYPE::Instance);
+	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxBone);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxBone, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);
@@ -136,12 +133,12 @@ int BONE::AddInstance()
 void BONE::ClearInstance()
 {
 	m_InstanceNum = 0;
-	m_aMtxLocal.clear();
+	m_aMtxBone.clear();
 	m_Scale = 1.0f;
 	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixIdentity());
 
 	//インスタンスバッファ再設定
-	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxLocal);
+	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxBone);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);

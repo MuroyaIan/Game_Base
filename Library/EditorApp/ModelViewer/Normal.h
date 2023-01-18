@@ -52,5 +52,5 @@ private:
 	DRAWER& m_Model;						//モデル参照
 
 	//プロトタイプ宣言
-	VS_DATA<VERTEX> MakeData_VS() const;	//頂点情報作成
+	VS_DATA<VERTEX_C> MakeData_VS() const;	//頂点情報作成
 };
