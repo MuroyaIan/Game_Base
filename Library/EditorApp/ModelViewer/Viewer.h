@@ -77,11 +77,15 @@ public:
 	{
 		return m_bAnimPause;
 	}
+	BONE& GetBone() const noexcept;					//骨メッシュ参照
 	bool& GetFlag_DrawBone() noexcept				//骨描画フラグ参照
 	{
 		return m_bDrawBone;
 	}
-	BONE& GetBone() const noexcept;					//骨メッシュ参照
+	DirectX::XMFLOAT3& GetLightPos() noexcept		//ライト座標(XY軸)参照
+	{
+		return m_LightPos;
+	}
 
 private:
 
@@ -105,4 +109,6 @@ private:
 	std::unique_ptr<DRAWER> m_Drawer_Bone;				//骨描画用
 	std::unique_ptr<DRAWER> m_Drawer_BoneLine;			//骨ライン描画用
 	bool m_bDrawBone;									//骨描画フラグ
+
+	DirectX::XMFLOAT3 m_LightPos;						//ライト座標(XY軸)
 };

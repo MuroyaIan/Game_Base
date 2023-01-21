@@ -10,7 +10,7 @@ namespace dx = DirectX;
 VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex) :
 	DRAWER(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
-	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation())
+	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), m_LightPos(Viewer.GetLightPos())
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_MB> Model = MakeData_VS();
@@ -56,7 +56,13 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 
 	//Normalマップ
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+	if (MeshData.aTex_Normal.size() > 0) {
+		std::string Path = m_Loader.GetFilePath();
+		Path += MeshData.aTex_Normal[0];
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture(Path.c_str());
+	}
+	else
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 
 	//テクスチャバッファ作成
 	AddBind(std::make_unique<TEXTURE_MODEL>(Gfx.m_DX, aData));
@@ -101,6 +107,11 @@ void VIEWER_MODEL::Update() noexcept
 		//ローカル行列リセット
 		dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
 	}
+
+	//ライト座標更新
+	m_Material.Pad1 = m_LightPos.x;
+	m_Material.Pad2 = m_LightPos.y;
+	m_Material.Pad3 = m_LightPos.z;
 }
 
 void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
@@ -120,8 +131,10 @@ VS_DATA<VERTEX_MB> VIEWER_MODEL::MakeData_VS() const noexcept
 		//頂点情報
 		VERTEX_MB Vertex;
 		Vertex.m_Pos = v.m_Pos;
-		Vertex.m_Normal = v.m_Normal;
 		Vertex.m_UV = v.m_UV;
+		Vertex.m_Normal = v.m_Normal;
+		Vertex.m_Binormal = v.m_Binormal;
+		Vertex.m_Tangent = v.m_Tangent;
 		vsData.m_Vertices.emplace_back(Vertex);
 	}
 

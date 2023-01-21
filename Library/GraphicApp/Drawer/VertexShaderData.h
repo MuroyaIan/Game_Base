@@ -91,39 +91,45 @@ public:
 	DirectX::XMFLOAT3 m_Pos;		//位置
 	DirectX::XMFLOAT2 m_UV;			//UV座標
 	DirectX::XMFLOAT3 m_Normal;		//法線
+	DirectX::XMFLOAT3 m_Binormal;	//従法線
+	DirectX::XMFLOAT3 m_Tangent;	//接線
 
 	//プロトタイプ宣言
-	explicit VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal() {}
-
-	explicit VERTEX_M(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
-		m_Pos(Pos), m_UV(uv), m_Normal(Normal) {}
+	explicit VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal(), m_Binormal(), m_Tangent()
+	{
+		//UV情報初期化
+		m_Tangent	= { 1.0f, 0.0f, 0.0f };
+		m_Binormal	= { 0.0f, 1.0f, 0.0f };
+		m_Normal	= { 0.0f, 0.0f, 1.0f };
+	}
 
 	~VERTEX_M() noexcept {}
 };
 
-class VERTEX_MB							//モデル用（骨付き）
+class VERTEX_MB						//モデル用（骨付き）
 {
 public:
 
 	//変数宣言
-	DirectX::XMFLOAT3 m_Pos;			//位置
-	DirectX::XMFLOAT2 m_UV;				//UV座標
-	DirectX::XMFLOAT3 m_Normal;			//法線
-	int m_BoneID[4];					//骨番号(最大の骨番号は使用しない)
-	float m_BoneWeight[4];				//骨比重
+	DirectX::XMFLOAT3 m_Pos;		//位置
+	DirectX::XMFLOAT2 m_UV;			//UV座標
+	DirectX::XMFLOAT3 m_Normal;		//法線
+	DirectX::XMFLOAT3 m_Binormal;	//従法線
+	DirectX::XMFLOAT3 m_Tangent;	//接線
+	int m_BoneID[4];				//骨番号(最大の骨番号は使用しない)
+	float m_BoneWeight[4];			//骨比重
 
 	//プロトタイプ宣言
-	explicit VERTEX_MB() noexcept : m_Pos(), m_UV(), m_Normal(), m_BoneID(), m_BoneWeight()
+	explicit VERTEX_MB() noexcept :
+		m_Pos(), m_UV(), m_Normal(), m_Binormal(), m_Tangent(),
+		m_BoneID(), m_BoneWeight()
 	{
-		for (auto& b : m_BoneID)
-			b = MAX_BONE - 1;
-		for (auto& w : m_BoneWeight)
-			w = 0.0f;
-	}
+		//UV情報初期化
+		m_Tangent	= { 1.0f, 0.0f, 0.0f };
+		m_Binormal	= { 0.0f, 1.0f, 0.0f };
+		m_Normal	= { 0.0f, 0.0f, 1.0f };
 
-	explicit VERTEX_MB(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv, DirectX::XMFLOAT3 Normal) noexcept :
-		m_Pos(Pos), m_UV(uv), m_Normal(Normal), m_BoneID(), m_BoneWeight()
-	{
+		//骨情報初期化
 		for (auto& b : m_BoneID)
 			b = MAX_BONE - 1;
 		for (auto& w : m_BoneWeight)

@@ -65,6 +65,7 @@ private:
 
 	float& m_Scale;							//モデルスケール
 	float& m_RotY;							//回転(Y軸)
+	DirectX::XMFLOAT3& m_LightPos;			//ライト座標(XY軸)
 
 	//プロトタイプ宣言
 	VS_DATA<VERTEX_MB> MakeData_VS() const noexcept;	//頂点情報作成

@@ -71,12 +71,14 @@ public:
 		std::vector<std::string> aTex_Transparent;				//テクスチャ：透過度
 		std::vector<std::string> aTex_Specular;					//テクスチャ：鏡面反射光
 		std::vector<std::string> aTex_Shininess;				//テクスチャ：光沢
+		std::vector<std::string> aTex_Normal;					//テクスチャ：ノーマル
 		std::vector<LAYER_TEX_DATA> aLayerTex_Ambient;
 		std::vector<LAYER_TEX_DATA> aLayerTex_Diffuse;
 		std::vector<LAYER_TEX_DATA> aLayerTex_Emissive;
 		std::vector<LAYER_TEX_DATA> aLayerTex_Transparent;
 		std::vector<LAYER_TEX_DATA> aLayerTex_Specular;
-		std::vector<LAYER_TEX_DATA> aLayerTex_Shininess;		//レイヤテクスチャ
+		std::vector<LAYER_TEX_DATA> aLayerTex_Shininess;
+		std::vector<LAYER_TEX_DATA> aLayerTex_Normal;			//レイヤテクスチャ
 		std::vector<int> aBoneID;								//メッシュに影響を与える骨の番号
 		std::vector<FbxAMatrix> aReferenceGlobalInitPosition;	//姿勢計算用初期行列
 		std::vector<FbxMatrix> aClusterRelativeInitPosition;	//姿勢計算用初期行列
@@ -94,8 +96,8 @@ public:
 
 		MESH_DATA() noexcept :
 			NodeName(""), aIndexBuffer(0), vsData(), MaterialName(""), MaterialData(), IsPhong(true),
-			aTex_Ambient(0), aTex_Diffuse(0), aTex_Emissive(0), aTex_Transparent(0), aTex_Specular(0), aTex_Shininess(0),
-			aLayerTex_Ambient(0), aLayerTex_Diffuse(0), aLayerTex_Emissive(0), aLayerTex_Transparent(0), aLayerTex_Specular(0), aLayerTex_Shininess(0),
+			aTex_Ambient(0), aTex_Diffuse(0), aTex_Emissive(0), aTex_Transparent(0), aTex_Specular(0), aTex_Shininess(0), aTex_Normal(0),
+			aLayerTex_Ambient(0), aLayerTex_Diffuse(0), aLayerTex_Emissive(0), aLayerTex_Transparent(0), aLayerTex_Specular(0), aLayerTex_Shininess(0), aLayerTex_Normal(0),
 			aBoneID(0), aReferenceGlobalInitPosition(0), aClusterRelativeInitPosition(0), aNoSkinData(0)
 		{}
 		~MESH_DATA() noexcept {}

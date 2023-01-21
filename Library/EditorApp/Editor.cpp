@@ -206,6 +206,20 @@ void EDITOR::Draw()
 					}
 				}
 
+				//ライト制御
+				if (PolyNum > 0) {
+					if (ImGui::TreeNode(U8(u8"ライト"))) {
+
+						//ライト座標
+						dx::XMFLOAT3& LightPos = m_pViewer->GetLightPos();
+						ImGui::SliderFloat(U8(u8"座標X"), &LightPos.x, 0.0f, 1.0f, "%.1f");
+						ImGui::SliderFloat(U8(u8"座標Y"), &LightPos.y, 0.0f, 1.0f, "%.1f");
+						ImGui::SliderFloat(U8(u8"座標Z"), &LightPos.z, 0.0f, 1.0f, "%.1f");
+
+						ImGui::TreePop();
+					}
+				}
+
 				//カメラ情報
 				if (ImGui::TreeNode(U8(u8"カメラ"))) {
 

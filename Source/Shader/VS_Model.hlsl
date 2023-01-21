@@ -12,6 +12,8 @@ struct VS_IN
 	float3 pos : POSITION;			//座標
 	float2 tex : TEXCOORD;			//UV座標
 	float3 normal : NORMAL;			//法線
+	float3 binormal : BINORMAL;		//従法線
+	float3 tangent : TANGENT;		//接線
 	int boneID[4] : BONE;			//骨番号
 	float boneWeight[4] : WEIGHT;	//骨比重
 };
@@ -19,11 +21,11 @@ struct VS_IN
 //出力用構造体
 struct VS_OUT
 {
-	float3 posWV : POSITION;	//座標（変換後）
-	float2 tex : TEXCOORD;		//UV座標
-	float3 normalWV : NORMAL;	//法線（変換後）
+	float3 posWV : POSITION;		//座標（変換後）
+	float2 tex : TEXCOORD;			//UV座標
 
-	matrix mtxView : MTX_V;		//ビュー行列
+	float3x3 mtxTtoV : MTX_TWV;		//変換行列(接空間⇒ビュー空間）
+	float3x3 mtxView : MTX_V;		//ビュー行列
 
 	float4 pos : SV_Position;
 };
@@ -71,15 +73,20 @@ VS_OUT main(VS_IN vsi)
 	//テクスチャ
 	vso.tex = vsi.tex;
 
-	//法線
-	vso.normalWV = mul(vsi.normal, (float3x3) mtxL);
-	vso.normalWV = mul(vso.normalWV, (float3x3) mtxLocal);
-	vso.normalWV.x *= -1.0f;
-	vso.normalWV = mul(vso.normalWV, (float3x3) mtxWorld);
-	vso.normalWV = mul(vso.normalWV, (float3x3) mtxView);
+	//変換行列(接空間⇒ビュー空間）
+	vso.mtxTtoV._11_12_13 = vsi.tangent;
+	vso.mtxTtoV._21_22_23 = vsi.binormal;
+	vso.mtxTtoV._31_32_33 = vsi.normal;
+	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxL);
+	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxLocal);
+	vso.mtxTtoV._11 *= -1.0f;
+	vso.mtxTtoV._21 *= -1.0f;
+	vso.mtxTtoV._31 *= -1.0f;
+	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxWorld);
+	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxView);
 
 	//その他
-	vso.mtxView = mtxView;
+	vso.mtxView = (float3x3) mtxView;
 
 	return vso;
 }

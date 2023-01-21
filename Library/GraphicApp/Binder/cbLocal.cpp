@@ -32,5 +32,9 @@ CB_LOCAL::~CB_LOCAL() noexcept
 void CB_LOCAL::Bind(const GRAPHIC& Gfx) const noexcept
 {
 	//バッファ更新
-	m_pCBuff->Update(Gfx, m_LocalData);
+	m_pCBuff->Update(Gfx, m_LocalData);		//現状姿勢行列しかないため、転置処理は不要
+
+	//CBD_MTX_LOCAL LocalData = m_LocalData;
+	//gMath::MtxTranspose4x4_SSE(&LocalData.mtxSkin._11);
+	//m_pCBuff->Update(Gfx, LocalData);
 }

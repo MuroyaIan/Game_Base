@@ -12,7 +12,7 @@ std::unique_ptr<cb> CB_MTX_LWVP::m_pCBuff{};
 int CB_MTX_LWVP::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MTX_LWVP::CB_MTX_LWVP(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent, const DirectX::XMFLOAT4X4& mtxL) :
+CB_MTX_LWVP::CB_MTX_LWVP(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent, const dx::XMFLOAT4X4& mtxL) :
 	BINDER(), m_Parent(Parent), m_mtxL(mtxL)
 {
 	//定数バッファ初期化

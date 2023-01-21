@@ -4,6 +4,7 @@
 #include <Tool/imguiMgr.h>
 #include <Tool/FileIO.h>
 #include <Tool/TextIO.h>
+#include <Tool/gMath.h>
 
 //===== 追加ライブラリ =====
 #pragma comment(lib, "libfbxsdk-mt.lib")
@@ -416,7 +417,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 	}
 
 	//頂点取得
-	std::vector<dx::XMFLOAT3> aPos;
+	std::vector<dx::XMFLOAT3> aPos(0);
 	FbxVector4* Vertices = pMesh->GetControlPoints();           //頂点バッファ取得
 	Mesh.aIndexBuffer.resize(pMesh->GetControlPointsCount());   //頂点バッファ配列作成
 	int* Indices = pMesh->GetPolygonVertices();                 //インデックスバッファ取得
@@ -442,7 +443,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 	}
 
 	//法線取得
-	std::vector<dx::XMFLOAT3> aNormal;
+	std::vector<dx::XMFLOAT3> aNormal(0);
 	FbxArray<FbxVector4> Normals;
 	pMesh->GetPolygonVertexNormals(Normals);                        //法線リスト取得
 	for (size_t i = 0, Cnt = Normals.Size(); i < Cnt; i++) {
@@ -456,31 +457,6 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 		Normal.z = static_cast<float>(*pNor);
 		aNormal.emplace_back(Normal);
 	}
-
-	//FbxGeometryElementNormal* pN = pMesh->GetElementNormal();
-	//FbxGeometryElementBinormal* pB = pMesh->GetElementBinormal();
-	//FbxGeometryElementTangent* pT = pMesh->GetElementTangent();
-
-	////pN->GetDirectArray().GetAt();
-
-	//FbxGeometryElement::EMappingMode mapping = pN->GetMappingMode();
-	//FbxGeometryElement::EReferenceMode reference = pN->GetReferenceMode();
-
-	//FbxLayerElementArrayTemplate<FbxVector4> pVtx = pN->GetDirectArray();
-	//int VtxCnt = pVtx.GetCount();
-	//FbxLayerElementArrayTemplate<int> pIdx = pN->GetIndexArray();
-	//int IdxCnt = pIdx.GetCount();
-
-	//std::vector<dx::XMFLOAT4> aTempNormal;
-	//for (size_t i = 0; i < VtxCnt; i++)
-	//{
-	//	auto TempNormals = pT->GetDirectArray().GetAt(static_cast<int>(i));
-	//	dx::XMFLOAT4 vNormal{};
-	//	vNormal.x = static_cast<float>(TempNormals.mData[0]);
-	//	vNormal.y = static_cast<float>(TempNormals.mData[1]);
-	//	vNormal.z = static_cast<float>(TempNormals.mData[3]);
-	//	aTempNormal.push_back(vNormal);
-	//}
 
 	//UV座標取得
 	std::vector<dx::XMFLOAT2> aUV;
@@ -502,20 +478,162 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 			aUV.emplace_back(dx::XMFLOAT2(0.0f, 0.0f));
 	}
 
+	//従法線取得
+	std::vector<dx::XMFLOAT3> aBinormal(0);
+	if (pMesh->GetElementBinormalCount() > 0) {
+		FbxGeometryElementBinormal* pB = pMesh->GetElementBinormal();
+		FbxGeometryElement::EMappingMode mapping = pB->GetMappingMode();
+		FbxGeometryElement::EReferenceMode reference = pB->GetReferenceMode();
+		if (mapping == FbxGeometryElement::EMappingMode::eByControlPoint &&
+			reference == FbxGeometryElement::EReferenceMode::eDirect) {			//マッピングモードとリファレンスモードの確認
+
+			//取得処理
+			FbxLayerElementArrayTemplate<FbxVector4> paB = pB->GetDirectArray();
+			for (int i = 0, Cnt = paB.GetCount(); i < Cnt; i++) {
+				auto TempBinormal = paB.GetAt(i);
+				dx::XMFLOAT3 vBinormal{};
+				vBinormal.x = static_cast<float>(TempBinormal.mData[0]);
+				vBinormal.y = static_cast<float>(TempBinormal.mData[1]);
+				vBinormal.z = static_cast<float>(TempBinormal.mData[3]);
+				aBinormal.push_back(vBinormal);
+			}
+		}
+	}
+
+	//接線取得
+	std::vector<dx::XMFLOAT3> aTangent(0);
+	if (pMesh->GetElementTangentCount() > 0) {
+		FbxGeometryElementTangent* pT = pMesh->GetElementTangent();
+		FbxGeometryElement::EMappingMode mapping = pT->GetMappingMode();
+		FbxGeometryElement::EReferenceMode reference = pT->GetReferenceMode();
+		if (mapping == FbxGeometryElement::EMappingMode::eByControlPoint &&
+			reference == FbxGeometryElement::EReferenceMode::eDirect) {			//マッピングモードとリファレンスモードの確認
+
+			//取得処理
+			FbxLayerElementArrayTemplate<FbxVector4> paT = pT->GetDirectArray();
+			for (int i = 0, Cnt = paT.GetCount(); i < Cnt; i++) {
+				auto TempTangent = paT.GetAt(i);
+				dx::XMFLOAT3 vTangent{};
+				vTangent.x = static_cast<float>(TempTangent.mData[0]);
+				vTangent.y = static_cast<float>(TempTangent.mData[1]);
+				vTangent.z = static_cast<float>(TempTangent.mData[3]);
+				aTangent.push_back(vTangent);
+			}
+		}
+	}
+
+	//取得失敗の場合、従法線と接線を計算で求める
+	if (aBinormal.size() == 0 || aTangent.size() == 0) {
+		aBinormal.resize(0);
+		aTangent.resize(0);
+
+		//すべてのポリゴンを計算
+		for (size_t i = 0, Cnt = aPos.size() / 3; i < Cnt; i++) {
+
+			//頂点座標取得
+			dx::XMFLOAT3* pPos = &aPos[i * 3];
+			VECTOR3 Pos[3];
+			Pos[0] = { pPos->x, pPos->y, pPos->z };
+			pPos++;
+			Pos[1] = { pPos->x, pPos->y, pPos->z };
+			pPos++;
+			Pos[2] = { pPos->x, pPos->y, pPos->z };
+
+			//法線取得
+			dx::XMFLOAT3* pNormal = &aNormal[i * 3];
+			VECTOR3 Normal[3];
+			Normal[0] = { pNormal->x, pNormal->y, pNormal->z };
+			pNormal++;
+			Normal[1] = { pNormal->x, pNormal->y, pNormal->z };
+			pNormal++;
+			Normal[2] = { pNormal->x, pNormal->y, pNormal->z };
+
+			//UV座標取得
+			dx::XMFLOAT2* pTex = &aUV[i * 3];
+			VECTOR2 Tex[3];
+			Tex[0] = { pTex->x, 1.0f - pTex->y };
+			pTex++;
+			Tex[1] = { pTex->x, 1.0f - pTex->y };
+			pTex++;
+			Tex[2] = { pTex->x, 1.0f - pTex->y };
+
+			//接線を求める
+			VECTOR3 Tangent[3];
+
+			//Tangentのxを求める
+			VECTOR3 vEdge1{
+				Pos[1].x - Pos[0].x,
+				Tex[1].x - Tex[0].x,
+				Tex[1].y - Tex[0].y
+			};
+			VECTOR3 vEdge2{
+				Pos[2].x - Pos[0].x,
+				Tex[2].x - Tex[0].x,
+				Tex[2].y - Tex[0].y
+			};
+			VECTOR3 CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2));
+			if (CrossP.x == 0.0f)
+				CrossP.x = 1.0f;
+			float Result = -(CrossP.y / CrossP.x);
+			for (size_t j = 0; j < 3; j++)
+				Tangent[j].x = Result;
+
+			//Tangentのyを求める
+			vEdge1.x = Pos[1].y - Pos[0].y;
+			vEdge2.x = Pos[2].y - Pos[0].y;
+			CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2));
+			if (CrossP.x == 0.0f)
+				CrossP.x = 1.0f;
+			Result = -(CrossP.y / CrossP.x);
+			for (size_t j = 0; j < 3; j++)
+				Tangent[j].y = Result;
+
+			//Tangentのzを求める
+			vEdge1.x = Pos[1].z - Pos[0].z;
+			vEdge2.x = Pos[2].z - Pos[0].z;
+			CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2));
+			if (CrossP.x == 0.0f)
+				CrossP.x = 1.0f;
+			Result = -(CrossP.y / CrossP.x);
+			for (size_t j = 0; j < 3; j++)
+				Tangent[j].z = Result;
+
+			//法線と直行させる
+			for (size_t j = 0; j < 3; j++) {
+				Tangent[j] -= Normal[j] * gMath::VecDot(Tangent[j], Normal[j]);
+				Tangent[j] = gMath::VecNormalize(Tangent[j]);
+				aTangent.push_back({ Tangent[j].x, Tangent[j].y, Tangent[j].z });
+			}
+
+			//従法線を求める
+			VECTOR3 Bitangent[3];
+			for (size_t j = 0; j < 3; j++) {
+				Bitangent[j] = gMath::VecNormalize(gMath::VecCross(Normal[j], Tangent[j]));
+				aBinormal.push_back({ Bitangent[j].x, Bitangent[j].y, Bitangent[j].z });
+			}
+		}
+	}
+
 	//頂点情報まとめ
 	std::vector<VERTEX_M> aVertex;
 	auto pPos = &aPos[0];
 	auto pNormal = &aNormal[0];
 	auto pUV = &aUV[0];
+	auto pBinormal = &aBinormal[0];
+	auto pTangent = &aTangent[0];
 	for (size_t i = 0, Cnt = aPos.size(); i < Cnt; i++) {
 		VERTEX_M vtx;
 		vtx.m_Pos = *pPos;
 		vtx.m_Normal = *pNormal;
 		vtx.m_UV = *pUV;
+		vtx.m_Binormal = *pBinormal;
+		vtx.m_Tangent = *pTangent;
 		aVertex.emplace_back(vtx);
 		pPos++;
 		pNormal++;
 		pUV++;
+		pBinormal++;
+		pTangent++;
 	}
 	Mesh.vsData.m_Vertices = std::move(aVertex);
 
@@ -622,6 +740,18 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 	else if (Lambert != nullptr)
 		GetTexturePath(Mesh, SurfaceMaterial, false);
 
+	//テクスチャ確認
+	if (Mesh.aTex_Diffuse.size() > 0) {
+		Mesh.MaterialData.Diffuse.x = 1.0f;
+		Mesh.MaterialData.Diffuse.y = 1.0f;
+		Mesh.MaterialData.Diffuse.z = 1.0f;
+	}
+	if (Mesh.aTex_Specular.size() > 0) {
+		Mesh.MaterialData.Specular.x = 1.0f;
+		Mesh.MaterialData.Specular.y = 1.0f;
+		Mesh.MaterialData.Specular.z = 1.0f;
+	}
+
 	//骨情報取得
 	GetSkinData(Mesh, pMesh);
 
@@ -661,6 +791,9 @@ void FBX_LOADER::GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, 
 
 		//光沢
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sShininess, Mesh.aTex_Shininess, Mesh.aLayerTex_Shininess);
+
+		//ノーマルマップ
+		GetTextureName(pMaterial, FbxSurfaceMaterial::sNormalMap, Mesh.aTex_Normal, Mesh.aLayerTex_Normal);
 	}
 	else {
 
@@ -675,6 +808,9 @@ void FBX_LOADER::GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, 
 
 		//透過度
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sTransparentColor, Mesh.aTex_Transparent, Mesh.aLayerTex_Transparent);
+
+		//ノーマルマップ
+		GetTextureName(pMaterial, FbxSurfaceMaterial::sNormalMap, Mesh.aTex_Normal, Mesh.aLayerTex_Normal);
 	}
 }
 
@@ -810,7 +946,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 					vertexTransformMatrix = clusterRelativeCurrentPositionInverse * clusterRelativeInitPosition;
 
 					//スキン
-					DirectX::XMFLOAT4X4 Matrix{};
+					dx::XMFLOAT4X4 Matrix{};
 					float* pInitMtx = &Matrix.m[0][0];
 					auto pRefMtx = &vertexTransformMatrix[0][0];
 					for (size_t x = 0; x < 4; x++) {
@@ -874,7 +1010,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 				//vertexTransformMatrix = clusterRelativeCurrentPositionInverse * clusterRelativeInitPosition;
 
 				//スキン
-				DirectX::XMFLOAT4X4 Matrix{};
+				dx::XMFLOAT4X4 Matrix{};
 				float* pInitMtx = &Matrix.m[0][0];
 				auto pRefMtx = &globalPosition[0][0];
 				for (size_t x = 0; x < 4; x++) {
@@ -962,7 +1098,7 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 					vertexTransformMatrix = clusterRelativeCurrentPositionInverse * clusterRelativeInitPosition;
 
 					//スキン
-					DirectX::XMFLOAT4X4 Matrix{};
+					dx::XMFLOAT4X4 Matrix{};
 					float* pInitMtx = &Matrix.m[0][0];
 					auto pRefMtx = &vertexTransformMatrix[0][0];
 					for (size_t x = 0; x < 4; x++) {
@@ -1018,7 +1154,7 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 				FbxMatrix globalPosition = pNode->EvaluateGlobalTransform(time);
 
 				//行列格納
-				DirectX::XMFLOAT4X4 Matrix{};
+				dx::XMFLOAT4X4 Matrix{};
 				float* pInitMtx = &Matrix.m[0][0];
 				auto pRefMtx = &globalPosition[0][0];
 				for (size_t x = 0; x < 4; x++) {
@@ -1166,7 +1302,7 @@ void FBX_LOADER::LoadAnimation()
 					FbxMatrix globalPosition = pNode->EvaluateGlobalTransform(time);
 
 					//行列格納
-					DirectX::XMFLOAT4X4 Matrix{};
+					dx::XMFLOAT4X4 Matrix{};
 					float* pInitMtx = &Matrix.m[0][0];
 					auto pRefMtx = &globalPosition[0][0];
 					for (size_t x = 0; x < 4; x++) {
@@ -1198,7 +1334,7 @@ void FBX_LOADER::LoadAnimation()
 						vertexTransformMatrix = clusterRelativeCurrentPositionInverse * m.aClusterRelativeInitPosition[j];
 
 						//スキン
-						DirectX::XMFLOAT4X4 Matrix{};
+						dx::XMFLOAT4X4 Matrix{};
 						float* pInitMtx = &Matrix.m[0][0];
 						auto pRefMtx = &vertexTransformMatrix[0][0];
 						for (size_t x = 0; x < 4; x++) {
