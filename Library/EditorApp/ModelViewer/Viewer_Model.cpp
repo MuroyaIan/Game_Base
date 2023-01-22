@@ -8,27 +8,30 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex) :
-	DRAWER(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
-	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), m_LightPos(Viewer.GetLightPos())
+	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), pcbLight(), m_LightPos(Viewer.GetLightPos())
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_MB> Model = MakeData_VS();
-	AddBind(std::make_unique<VERTEX_BUFFER>(Gfx.m_DX, Model.m_Vertices));
+	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx, Model.m_Vertices));
 
 	//インデックス情報作成
-	AddBind(std::make_unique<INDEX_BUFFER>(Gfx.m_DX, Model.m_Indices));
+	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx, Model.m_Indices));
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_LWVP>(Gfx.m_DX, &cbData, *this, m_MtxLocal));
+	AddBind(std::make_unique<CB_MTX_LWVP>(m_Gfx, &cbData, *this, m_MtxLocal));
 
 	//VS定数バッファ作成（骨情報）
 	m_pMtxBone = std::make_unique<CBD_BONE>();
-	AddBind(std::make_unique<CB_BONE>(Gfx.m_DX, &cbData, *m_pMtxBone, true));
+	AddBind(std::make_unique<CB_BONE>(m_Gfx, &cbData, *m_pMtxBone, true));
+
+	//VS定数バッファ作成（光源制御）
+	pcbLight = std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(m_Gfx, &cbData, true);
 
 	//PS定数バッファ作成（マテリアル）
-	AddBind(std::make_unique<CB_MATERIAL>(Gfx.m_DX, &cbData, m_Material));
+	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx, &cbData, m_Material));
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
@@ -65,7 +68,7 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 
 	//テクスチャバッファ作成
-	AddBind(std::make_unique<TEXTURE_MODEL>(Gfx.m_DX, aData));
+	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx, aData));
 	for (auto& d : aData)
 		TEX_LOADER::ReleaseTexture(d.pImageData);	//データ解放
 
@@ -107,15 +110,16 @@ void VIEWER_MODEL::Update() noexcept
 		//ローカル行列リセット
 		dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
 	}
-
-	//ライト座標更新
-	m_Material.Pad1 = m_LightPos.x;
-	m_Material.Pad2 = m_LightPos.y;
-	m_Material.Pad3 = m_LightPos.z;
 }
 
+//描画処理
 void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 {
+	//PS定数バッファ作成（光源制御）
+	dx::XMFLOAT4 Offset = { m_LightPos.x, m_LightPos.y, m_LightPos.z, 0.0f };
+	pcbLight->Update(m_Gfx, Offset);
+
+	//その他のバインド⇒描画
 	m_ShaderMgr.Bind_Model();
 	DRAWER::Draw(InstanceNum);
 }

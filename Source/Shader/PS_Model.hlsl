@@ -9,11 +9,11 @@
 //入力用構造体
 struct PS_IN
 {
-	float3 posWV : POSITION;		//座標（変換後）
-	float2 tex : TEXCOORD;			//UV座標
+	float2 tex : TEXCOORD;				//UV座標
 
-	float3x3 mtxTtoV : MTX_TWV;		//変換行列(接空間⇒ビュー空間）
-	float3x3 mtxView : MTX_V;		//ビュー行列
+	float3 vDirT_ToLight : LIGHT_DIR;	//光への方向ベクトル(接空間）
+	float3 vNorT_ToLight : LIGHT_NOR;	//光への法線ベクトル(接空間）
+	float3 vNorT_ToCamera : CAM_NOR;	//カメラへの法線ベクトル(接空間）
 };
 
 //サンプラー
@@ -37,7 +37,6 @@ cbuffer CB_MATERIAL : register(b0)
 }
 
 //グローバル定数(仮の平行光源)
-static const float3 LightPos = { -1.0f, 1.0f, -1.0f };				//平行光源の向き
 static const float4 LightColor = { 1.0f, 1.0f, 1.0f, 1.0f };		//平行光源の光
 static const float4 GlobalAmbient = { 1.0f, 1.0f, 1.0f, 0.2f };		//大域環境光
 
@@ -54,11 +53,11 @@ float4 main(PS_IN psi) : SV_TARGET
 		TexMap[2].Sample(Sampler, psi.tex)		//Normal
 	};
 
-	//法線計算
-	//const float3 vNor_Model = normalize(psi.normalWV);
-	float3 vNor_Model = Texture._31_32_33 * 2.0f - 1.0f;
-	vNor_Model = mul(vNor_Model, psi.mtxTtoV);
-	vNor_Model = normalize(vNor_Model);
+	//法線取得
+	//const float3 vNorT_Model = normalize(psi.normalWV);
+	float3 vNorT_Model = Texture._31_32_33 * 2.0f - 1.0f;
+	vNorT_Model.x *= -1.0f;
+	vNorT_Model = normalize(vNorT_Model);
 
 	//モデル色計算
 	const float2x3 ModelColor = {
@@ -67,7 +66,7 @@ float4 main(PS_IN psi) : SV_TARGET
 	};
 
 	//平行光源の計算
-	const float3 Directional = CalcDirectionalLight(psi, vNor_Model, ModelColor);
+	const float3 Directional = CalcDirectionalLight(psi, vNorT_Model, ModelColor);
 
 	//グローバル環境光の計算
 	const float3 g_Ambient = GlobalAmbient.rgb * GlobalAmbient.a * ModelColor._11_12_13;
@@ -79,27 +78,19 @@ float4 main(PS_IN psi) : SV_TARGET
 //平行光源の計算
 float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor)
 {
-	//光への単位ベクトル
-	float3 PosL = LightPos.xyz;
-	PosL.x += Pad1 * 2.0f;
-	PosL.y -= Pad2 * 2.0f;
-	PosL.z += Pad3 * 2.0f;
-	const float3 vToLight = mul(PosL, psi.mtxView);
-	const float3 vNor_ToLight = normalize(vToLight);
-
 	//平行光源の色
-	const float3 Light = LightColor.rgb * LightColor.a;
+	const float3 LightRGB = LightColor.rgb * LightColor.a;
 
 	//拡散色算出
-	const float3 Diffuse = Light * max(0.0f, dot(vNor_ToLight, ModelNormal)) * ModelColor._11_12_13;
+	const float3 Diffuse = LightRGB * max(0.0f, dot(psi.vNorT_ToLight, ModelNormal)) * ModelColor._11_12_13;
 
 	//鏡面反射色算出
-	const float3 vRef = ModelNormal * dot(vToLight, ModelNormal) * 2.0f - vToLight;		//鏡面反射ベクトル
-	//const float PowerS = pow(2.0f, Texture._24 * 13.0f);								//αチャンネル付きスペキュラマップ?
-	const float3 Specular = Light * pow(max(0.0f, dot(normalize(vRef), normalize(-psi.posWV))), cbShininess) * ModelColor._21_22_23;
+	const float3 vRef = ModelNormal * dot(psi.vDirT_ToLight, ModelNormal) * 2.0f - psi.vDirT_ToLight;	//鏡面反射ベクトル
+	//const float PowerS = pow(2.0f, Texture._24 * 13.0f);												//αチャンネル付きスペキュラマップ?
+	const float3 Specular = LightRGB * pow(max(0.0f, dot(normalize(vRef), psi.vNorT_ToCamera)), cbShininess) * ModelColor._21_22_23;
 
 	//環境光の計算
-	const float3 Ambient = Light * cbAmbient.rgb;
+	const float3 Ambient = LightRGB * cbAmbient.rgb;
 
 	//最終の出力色計算
 	return Diffuse + Specular + Ambient;

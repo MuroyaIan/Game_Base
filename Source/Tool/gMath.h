@@ -111,37 +111,41 @@ namespace gMath
 	}
 
 	//ベクトル正規化
-	inline VECTOR2 VecNormalize(VECTOR2 Vector)
+	inline VECTOR2 VecNormalize(VECTOR2 Vector, bool bAlarm = true)
 	{
 		//変数宣言
 		VECTOR2 Vec = Vector;
-		float VecLen = VecLength(Vector);
+		float VecLen = VecLength(Vec);
 
 		//例外処理
-		if (VecLen == 0.0f)
+		if (VecLen == 0.0f && bAlarm)
 			throw ERROR_EX2("ベクトルの長さは0です!");
 
 		//計算
-		Vec.x /= VecLen;
-		Vec.y /= VecLen;
+		if (VecLen != 0.0f) {
+			Vec.x /= VecLen;
+			Vec.y /= VecLen;
+		}
 
 		//戻り値
 		return Vec;
 	}
-	inline VECTOR3 VecNormalize(VECTOR3 Vector)
+	inline VECTOR3 VecNormalize(VECTOR3 Vector, bool bAlarm = true)
 	{
 		//変数宣言
 		VECTOR3 Vec = Vector;
-		float VecLen = VecLength(Vector);
+		float VecLen = VecLength(Vec);
 
 		//例外処理
-		if (VecLen == 0.0f)
+		if (VecLen == 0.0f && bAlarm)
 			throw ERROR_EX2("ベクトルの長さは0です!");
 
 		//計算
-		Vec.x /= VecLen;
-		Vec.y /= VecLen;
-		Vec.z /= VecLen;
+		if (VecLen != 0.0f) {
+			Vec.x /= VecLen;
+			Vec.y /= VecLen;
+			Vec.z /= VecLen;
+		}
 
 		//戻り値
 		return Vec;

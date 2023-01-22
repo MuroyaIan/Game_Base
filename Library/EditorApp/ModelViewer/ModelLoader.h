@@ -211,8 +211,8 @@ private:
 	std::vector<SKIN_DATA> m_aSkin;						//スキン情報
 
 	//プロトタイプ宣言
-	void GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone = nullptr) noexcept;				//ノード取得
-	void GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcept;								//メッシュ取得
+	void GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone = nullptr);						//ノード取得
+	void GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName);										//メッシュ取得
 	void GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, bool IsPhong = true) noexcept;	//テクスチャパス取得
 	void GetTextureName(FbxSurfaceMaterial* pMaterial, const char* Type, std::vector<std::string>& Tex, std::vector<LAYER_TEX_DATA>& LayerTex) noexcept;	//テクスチャ名取得
 	void GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept;										//フレーム情報読込

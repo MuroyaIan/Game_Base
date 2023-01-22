@@ -110,5 +110,5 @@ private:
 	std::unique_ptr<DRAWER> m_Drawer_BoneLine;			//骨ライン描画用
 	bool m_bDrawBone;									//骨描画フラグ
 
-	DirectX::XMFLOAT3 m_LightPos;						//ライト座標(XY軸)
+	DirectX::XMFLOAT3 m_LightPos;						//ライト座標(変化量)
 };

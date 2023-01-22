@@ -20,6 +20,9 @@ class VIEWER;
 class FBX_LOADER;
 struct CBD_BONE;
 
+template<typename C>
+class CONSTANT_BUFFER;
+
 //===== クラス定義 =====
 
 //***** モデル描画 *****
@@ -47,6 +50,7 @@ public:
 private:
 
 	//変数宣言
+	GRAPHIC& m_Gfx;							//グラフィックAPI参照
 	SHADER_MGR& m_ShaderMgr;				//シェーダMgr参照
 	VIEWER& m_Viewer;						//ビューワ参照
 	FBX_LOADER& m_Loader;					//ローダ参照
@@ -65,7 +69,9 @@ private:
 
 	float& m_Scale;							//モデルスケール
 	float& m_RotY;							//回転(Y軸)
-	DirectX::XMFLOAT3& m_LightPos;			//ライト座標(XY軸)
+
+	std::unique_ptr<CONSTANT_BUFFER<DirectX::XMFLOAT4>> pcbLight;	//ライト座標用定数バッファのポインタ
+	DirectX::XMFLOAT3& m_LightPos;									//ライト座標(変化量)
 
 	//プロトタイプ宣言
 	VS_DATA<VERTEX_MB> MakeData_VS() const noexcept;	//頂点情報作成

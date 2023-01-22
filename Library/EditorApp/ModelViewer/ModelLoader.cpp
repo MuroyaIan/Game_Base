@@ -69,7 +69,7 @@ void FBX_LOADER::Draw() const noexcept
 
 			//メッシュ一覧
 			if (m_aMesh.size() > 0) {
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "MeshNum"); ImGui::SameLine(); ImGui::Text(": %d", m_aMesh.size());
+				ImGui::TextColored(ImVec4{ 1.0f, 1.0f, 0.0f, 1.0f }, "MeshNum"); ImGui::SameLine(); ImGui::Text(": %d", m_aMesh.size());
 			}
 			for (size_t i = 0, Cnt = m_aMesh.size(); i < Cnt; i++) {
 
@@ -82,9 +82,9 @@ void FBX_LOADER::Draw() const noexcept
 				ImGui::Text("Indices : %d", m_aMesh[i].vsData.m_Indices.size());
 				ImGui::Text("Material : %s", m_aMesh[i].MaterialName.c_str()); ImGui::SameLine();
 				if (m_aMesh[i].IsPhong)
-					ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.5f, 1.0f), "(Phong)");
+					ImGui::TextColored(ImVec4{ 1.0f, 1.0f, 0.5f, 1.0f }, "(Phong)");
 				else
-					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "(NotPhong)");
+					ImGui::TextColored(ImVec4{ 1.0f, 0.5f, 0.5f, 1.0f }, "(NotPhong)");
 
 				//テクスチャ情報
 				std::string TexName = "";
@@ -95,7 +95,7 @@ void FBX_LOADER::Draw() const noexcept
 					//環境光
 					if (m_aMesh[i].aTex_Ambient.size() > 0) {
 						for (size_t j = 0, jCnt = m_aMesh[i].aTex_Ambient.size(); j < jCnt; j++) {
-							ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Ambient"); ImGui::SameLine();
+							ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "Ambient"); ImGui::SameLine();
 							ImGui::Text("%d : %s", j + 1, m_aMesh[i].aTex_Ambient[j].c_str());
 						}
 					}
@@ -103,7 +103,7 @@ void FBX_LOADER::Draw() const noexcept
 						for (size_t j = 0, jCnt = m_aMesh[i].aLayerTex_Ambient.size(); j < jCnt; j++) {
 							ImGui::Text("Layer %d", j + 1);
 							for (size_t k = 0, kCnt = m_aMesh[i].aLayerTex_Ambient[j].aTex.size(); k < kCnt; k++) {
-								ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Ambient"); ImGui::SameLine();
+								ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "Ambient"); ImGui::SameLine();
 								ImGui::Text("%d : %s", k + 1, m_aMesh[i].aLayerTex_Ambient[j].aTex[k].c_str());
 							}
 						}
@@ -112,7 +112,7 @@ void FBX_LOADER::Draw() const noexcept
 					//拡散反射光
 					if (m_aMesh[i].aTex_Diffuse.size() > 0) {
 						for (size_t j = 0, jCnt = m_aMesh[i].aTex_Diffuse.size(); j < jCnt; j++) {
-							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Diffuse"); ImGui::SameLine();
+							ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 0.0f, 1.0f }, "Diffuse"); ImGui::SameLine();
 							ImGui::Text("%d : %s", j + 1, m_aMesh[i].aTex_Diffuse[j].c_str());
 						}
 					}
@@ -120,7 +120,7 @@ void FBX_LOADER::Draw() const noexcept
 						for (size_t j = 0, jCnt = m_aMesh[i].aLayerTex_Diffuse.size(); j < jCnt; j++) {
 							ImGui::Text("Layer %d", j + 1);
 							for (size_t k = 0, kCnt = m_aMesh[i].aLayerTex_Diffuse[j].aTex.size(); k < kCnt; k++) {
-								ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Diffuse"); ImGui::SameLine();
+								ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 0.0f, 1.0f }, "Diffuse"); ImGui::SameLine();
 								ImGui::Text("%d : %s", k + 1, m_aMesh[i].aLayerTex_Diffuse[j].aTex[k].c_str());
 							}
 						}
@@ -129,7 +129,7 @@ void FBX_LOADER::Draw() const noexcept
 					//発射光
 					if (m_aMesh[i].aTex_Emissive.size() > 0) {
 						for (size_t j = 0, jCnt = m_aMesh[i].aTex_Emissive.size(); j < jCnt; j++) {
-							ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "Emissive"); ImGui::SameLine();
+							ImGui::TextColored(ImVec4{ 0.0f, 0.0f, 1.0f, 1.0f }, "Emissive"); ImGui::SameLine();
 							ImGui::Text("%d : %s", j + 1, m_aMesh[i].aTex_Emissive[j].c_str());
 						}
 					}
@@ -137,7 +137,7 @@ void FBX_LOADER::Draw() const noexcept
 						for (size_t j = 0, jCnt = m_aMesh[i].aLayerTex_Emissive.size(); j < jCnt; j++) {
 							ImGui::Text("Layer %d", j + 1);
 							for (size_t k = 0, kCnt = m_aMesh[i].aLayerTex_Emissive[j].aTex.size(); k < kCnt; k++) {
-								ImGui::TextColored(ImVec4(0.0f, 0.0f, 1.0f, 1.0f), "Emissive"); ImGui::SameLine();
+								ImGui::TextColored(ImVec4{ 0.0f, 0.0f, 1.0f, 1.0f }, "Emissive"); ImGui::SameLine();
 								ImGui::Text("%d : %s", k + 1, m_aMesh[i].aLayerTex_Emissive[j].aTex[k].c_str());
 							}
 						}
@@ -146,7 +146,7 @@ void FBX_LOADER::Draw() const noexcept
 					//透過度
 					if (m_aMesh[i].aTex_Transparent.size() > 0) {
 						for (size_t j = 0, jCnt = m_aMesh[i].aTex_Transparent.size(); j < jCnt; j++) {
-							ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Transparent"); ImGui::SameLine();
+							ImGui::TextColored(ImVec4{ 1.0f, 1.0f, 0.0f, 1.0f }, "Transparent"); ImGui::SameLine();
 							ImGui::Text("%d : %s", j + 1, m_aMesh[i].aTex_Transparent[j].c_str());
 						}
 					}
@@ -154,7 +154,7 @@ void FBX_LOADER::Draw() const noexcept
 						for (size_t j = 0, jCnt = m_aMesh[i].aLayerTex_Transparent.size(); j < jCnt; j++) {
 							ImGui::Text("Layer %d", j + 1);
 							for (size_t k = 0, kCnt = m_aMesh[i].aLayerTex_Transparent[j].aTex.size(); k < kCnt; k++) {
-								ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Transparent"); ImGui::SameLine();
+								ImGui::TextColored(ImVec4{ 1.0f, 1.0f, 0.0f, 1.0f }, "Transparent"); ImGui::SameLine();
 								ImGui::Text("%d : %s", k + 1, m_aMesh[i].aLayerTex_Transparent[j].aTex[k].c_str());
 							}
 						}
@@ -163,7 +163,7 @@ void FBX_LOADER::Draw() const noexcept
 					//鏡面反射光
 					if (m_aMesh[i].aTex_Specular.size() > 0) {
 						for (size_t j = 0, jCnt = m_aMesh[i].aTex_Specular.size(); j < jCnt; j++) {
-							ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "Specular"); ImGui::SameLine();
+							ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 1.0f, 1.0f }, "Specular"); ImGui::SameLine();
 							ImGui::Text("%d : %s", j + 1, m_aMesh[i].aTex_Specular[j].c_str());
 						}
 					}
@@ -171,7 +171,7 @@ void FBX_LOADER::Draw() const noexcept
 						for (size_t j = 0, jCnt = m_aMesh[i].aLayerTex_Specular.size(); j < jCnt; j++) {
 							ImGui::Text("Layer %d", j + 1);
 							for (size_t k = 0, kCnt = m_aMesh[i].aLayerTex_Specular[j].aTex.size(); k < kCnt; k++) {
-								ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "Specular"); ImGui::SameLine();
+								ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 1.0f, 1.0f }, "Specular"); ImGui::SameLine();
 								ImGui::Text("%d : %s", k + 1, m_aMesh[i].aLayerTex_Specular[j].aTex[k].c_str());
 							}
 						}
@@ -180,7 +180,7 @@ void FBX_LOADER::Draw() const noexcept
 					//光沢
 					if (m_aMesh[i].aTex_Shininess.size() > 0) {
 						for (size_t j = 0, jCnt = m_aMesh[i].aTex_Shininess.size(); j < jCnt; j++) {
-							ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Shininess"); ImGui::SameLine();
+							ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 1.0f, 1.0f }, "Shininess"); ImGui::SameLine();
 							ImGui::Text("%d : %s", j + 1, m_aMesh[i].aTex_Shininess[j].c_str());
 						}
 					}
@@ -188,7 +188,7 @@ void FBX_LOADER::Draw() const noexcept
 						for (size_t j = 0, jCnt = m_aMesh[i].aLayerTex_Shininess.size(); j < jCnt; j++) {
 							ImGui::Text("Layer %d", j + 1);
 							for (size_t k = 0, kCnt = m_aMesh[i].aLayerTex_Shininess[j].aTex.size(); k < kCnt; k++) {
-								ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Shininess"); ImGui::SameLine();
+								ImGui::TextColored(ImVec4{ 0.0f, 1.0f, 1.0f, 1.0f }, "Shininess"); ImGui::SameLine();
 								ImGui::Text("%d : %s", k + 1, m_aMesh[i].aLayerTex_Shininess[j].aTex[k].c_str());
 							}
 						}
@@ -317,7 +317,7 @@ void FBX_LOADER::Load(const wchar_t* FilePath, bool bAnimOnly)
 }
 
 //ノード取得
-void FBX_LOADER::GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone) noexcept
+void FBX_LOADER::GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone)
 {
 	//属性タイプ名の配列
 	const char* AttrTypeNames[] = {
@@ -399,7 +399,7 @@ void FBX_LOADER::GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone) no
 }
 
 //メッシュ取得
-void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcept
+void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 {
 	//メッシュ作成
 	FbxMesh* pMesh = (FbxMesh*)MeshIn;
@@ -449,13 +449,14 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 	for (size_t i = 0, Cnt = Normals.Size(); i < Cnt; i++) {
 		auto pNor = &Normals[static_cast<int>(i)][0];
 
-		dx::XMFLOAT3 Normal{};
+		VECTOR3 Normal{};
 		Normal.x = static_cast<float>(*pNor);
 		pNor++;
 		Normal.y = static_cast<float>(*pNor);
 		pNor++;
 		Normal.z = static_cast<float>(*pNor);
-		aNormal.emplace_back(Normal);
+		Normal = gMath::VecNormalize(Normal);
+		aNormal.emplace_back(dx::XMFLOAT3{ Normal.x, Normal.y, Normal.z });
 	}
 
 	//UV座標取得
@@ -475,7 +476,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 	}
 	if (uvBuff.Size() == 0) {                                       //UV情報がない場合
 		for (size_t i = 0, Cnt = aNormal.size(); i < Cnt; i++)
-			aUV.emplace_back(dx::XMFLOAT2(0.0f, 0.0f));
+			aUV.emplace_back(dx::XMFLOAT2{ 0.0f, 0.0f });
 	}
 
 	//従法線取得
@@ -494,7 +495,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 				dx::XMFLOAT3 vBinormal{};
 				vBinormal.x = static_cast<float>(TempBinormal.mData[0]);
 				vBinormal.y = static_cast<float>(TempBinormal.mData[1]);
-				vBinormal.z = static_cast<float>(TempBinormal.mData[3]);
+				vBinormal.z = static_cast<float>(TempBinormal.mData[2]);
 				aBinormal.push_back(vBinormal);
 			}
 		}
@@ -516,7 +517,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 				dx::XMFLOAT3 vTangent{};
 				vTangent.x = static_cast<float>(TempTangent.mData[0]);
 				vTangent.y = static_cast<float>(TempTangent.mData[1]);
-				vTangent.z = static_cast<float>(TempTangent.mData[3]);
+				vTangent.z = static_cast<float>(TempTangent.mData[2]);
 				aTangent.push_back(vTangent);
 			}
 		}
@@ -571,7 +572,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 				Tex[2].x - Tex[0].x,
 				Tex[2].y - Tex[0].y
 			};
-			VECTOR3 CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2));
+			VECTOR3 CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2), false);
 			if (CrossP.x == 0.0f)
 				CrossP.x = 1.0f;
 			float Result = -(CrossP.y / CrossP.x);
@@ -581,7 +582,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 			//Tangentのyを求める
 			vEdge1.x = Pos[1].y - Pos[0].y;
 			vEdge2.x = Pos[2].y - Pos[0].y;
-			CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2));
+			CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2), false);
 			if (CrossP.x == 0.0f)
 				CrossP.x = 1.0f;
 			Result = -(CrossP.y / CrossP.x);
@@ -591,7 +592,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 			//Tangentのzを求める
 			vEdge1.x = Pos[1].z - Pos[0].z;
 			vEdge2.x = Pos[2].z - Pos[0].z;
-			CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2));
+			CrossP = gMath::VecNormalize(gMath::VecCross(vEdge1, vEdge2), false);
 			if (CrossP.x == 0.0f)
 				CrossP.x = 1.0f;
 			Result = -(CrossP.y / CrossP.x);
@@ -601,16 +602,27 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName) noexcep
 			//法線と直行させる
 			for (size_t j = 0; j < 3; j++) {
 				Tangent[j] -= Normal[j] * gMath::VecDot(Tangent[j], Normal[j]);
-				Tangent[j] = gMath::VecNormalize(Tangent[j]);
+				Tangent[j] = gMath::VecNormalize(Tangent[j], false);
 				aTangent.push_back({ Tangent[j].x, Tangent[j].y, Tangent[j].z });
 			}
 
 			//従法線を求める
 			VECTOR3 Bitangent[3];
 			for (size_t j = 0; j < 3; j++) {
-				Bitangent[j] = gMath::VecNormalize(gMath::VecCross(Normal[j], Tangent[j]));
+				Bitangent[j] = gMath::VecNormalize(gMath::VecCross(Normal[j], Tangent[j]), false);
 				aBinormal.push_back({ Bitangent[j].x, Bitangent[j].y, Bitangent[j].z });
 			}
+
+			////TBN行列を修正
+			//if (gMath::VecLength(Tangent[0]) == 0.0f || gMath::VecLength(Bitangent[0]) == 0.0f) {
+
+			//	for (size_t k = 0; k < 3; k++)
+			//	{
+			//		aTangent[i * 3 + k]  = { 1.0f, 0.0f, 0.0f };
+			//		aBinormal[i * 3 + k] = { 0.0f, 1.0f, 0.0f };
+			//		aNormal[i * 3 + k]   = { 0.0f, 0.0f, 1.0f };
+			//	}
+			//}
 		}
 	}
 
@@ -786,14 +798,14 @@ void FBX_LOADER::GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, 
 		//透過度
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sTransparentColor, Mesh.aTex_Transparent, Mesh.aLayerTex_Transparent);
 
+		//ノーマルマップ
+		GetTextureName(pMaterial, FbxSurfaceMaterial::sNormalMap, Mesh.aTex_Normal, Mesh.aLayerTex_Normal);
+
 		//鏡面反射光
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sSpecular, Mesh.aTex_Specular, Mesh.aLayerTex_Specular);
 
 		//光沢
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sShininess, Mesh.aTex_Shininess, Mesh.aLayerTex_Shininess);
-
-		//ノーマルマップ
-		GetTextureName(pMaterial, FbxSurfaceMaterial::sNormalMap, Mesh.aTex_Normal, Mesh.aLayerTex_Normal);
 	}
 	else {
 
@@ -882,7 +894,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 	FbxVector4 vecT = pNode->GetGeometricTranslation(FbxNode::eSourcePivot);
 	FbxVector4 vecR = pNode->GetGeometricRotation(FbxNode::eSourcePivot);
 	FbxVector4 vecS = pNode->GetGeometricScaling(FbxNode::eSourcePivot);
-	FbxAMatrix mtxGeometryOffset = FbxAMatrix(vecT, vecR, vecS);
+	FbxAMatrix mtxGeometryOffset = FbxAMatrix{ vecT, vecR, vecS };
 
 	//ボーン情報取得
 	size_t SkinCnt = pMesh->GetDeformerCount(FbxDeformer::eSkin);   //スキンの数取得
@@ -994,7 +1006,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 	//骨なしメッシュの場合
 	if (SkinCnt == 0) {
 		for (size_t i = 0, Cnt = m_aSkin.size() - AnimLoadBaseIndex; i < Cnt; ++i) {
-			Mesh.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX());    //行列配列確保
+			Mesh.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});    //行列配列確保
 			int AnimID = static_cast<int>(i + AnimLoadBaseIndex);       //アニメーションID
 			size_t MaxFrame = m_aAnimation[AnimID].StopFrame;           //再生するフレーム数
 
@@ -1037,7 +1049,7 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 	FbxVector4 vecT = pNode->GetGeometricTranslation(FbxNode::eSourcePivot);
 	FbxVector4 vecR = pNode->GetGeometricRotation(FbxNode::eSourcePivot);
 	FbxVector4 vecS = pNode->GetGeometricScaling(FbxNode::eSourcePivot);
-	FbxAMatrix mtxGeometryOffset = FbxAMatrix(vecT, vecR, vecS);
+	FbxAMatrix mtxGeometryOffset = FbxAMatrix{ vecT, vecR, vecS };
 
 	//ボーン情報取得
 	size_t SkinCnt = pMesh->GetDeformerCount(FbxDeformer::eSkin);   //スキンの数取得
@@ -1144,7 +1156,7 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 			return;
 
 		for (size_t i = 0, Cnt = m_aSkin.size() - AnimLoadBaseIndex; i < Cnt; ++i) {
-			MeshData->aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX());   //行列配列確保
+			MeshData->aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});   //行列配列確保
 			int AnimID = static_cast<int>(i + AnimLoadBaseIndex);           //アニメーションID
 			size_t MaxFrame = m_aAnimation[AnimID].StopFrame;               //再生するフレーム数
 
@@ -1241,7 +1253,7 @@ void FBX_LOADER::GetAnimationData() noexcept
 	AnimLoadBaseIndex = static_cast<int>(m_aSkin.size());   //読込開始位置更新
 	size_t BoneNum = m_aAnimation.size() - m_aSkin.size();
 	for (size_t i = 0; i < BoneNum; i++)
-		m_aSkin.emplace_back(SKIN_DATA());                  //スキン情報用配列確保
+		m_aSkin.emplace_back(SKIN_DATA{});                  //スキン情報用配列確保
 }
 
 //アニメーション読込
@@ -1275,7 +1287,7 @@ void FBX_LOADER::LoadAnimation()
 	if (BoneCount == 0)
 		throw ERROR_EX2("アニメーション読込エラー：骨ノードがない。");
 	for (size_t i = 0; i < BoneCount; ++i)
-		aBone.emplace_back(m_pScene->GetSrcObject<FbxSkeleton>(static_cast<int>(i))->GetNode());
+		aBone.push_back(m_pScene->GetSrcObject<FbxSkeleton>(static_cast<int>(i))->GetNode());
 
 	//アニメーションの数ごと
 	for (size_t i = 0, Cnt = m_aSkin.size() - AnimLoadBaseIndex; i < Cnt; ++i) {
@@ -1285,7 +1297,7 @@ void FBX_LOADER::LoadAnimation()
 
 			//骨なしの場合
 			if (m.aNoSkinData.size() > 0) {
-				m.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX());   //行列配列確保
+				m.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});   //行列配列確保
 
 				//メッシュノード確認
 				FbxNode* pNode = nullptr;

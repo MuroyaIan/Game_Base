@@ -21,11 +21,11 @@ struct VS_IN
 //出力用構造体
 struct VS_OUT
 {
-	float3 posWV : POSITION;		//座標（変換後）
-	float2 tex : TEXCOORD;			//UV座標
+	float2 tex : TEXCOORD;				//UV座標
 
-	float3x3 mtxTtoV : MTX_TWV;		//変換行列(接空間⇒ビュー空間）
-	float3x3 mtxView : MTX_V;		//ビュー行列
+	float3 vDirT_ToLight : LIGHT_DIR;	//光への方向ベクトル(接空間）
+	float3 vNorT_ToLight : LIGHT_NOR;	//光への法線ベクトル(接空間）
+	float3 vNorT_ToCamera : CAM_NOR;	//カメラへの法線ベクトル(接空間）
 
 	float4 pos : SV_Position;
 };
@@ -45,6 +45,15 @@ cbuffer CB_BONE : register(b1)
 	matrix mtxBone[250];	//骨行列
 };
 
+//定数バッファ（光源制御）
+cbuffer CB_LIGHT_CTRL : register(b2)
+{
+	float4 cbLightOffset;	//光源の変化量
+}
+
+//グローバル定数(仮の平行光源)
+static const float3 LightPos = { -1.0f, 1.0f, -1.0f };	//平行光源の向き
+
 //エントリーポイント
 VS_OUT main(VS_IN vsi)
 {
@@ -62,31 +71,58 @@ VS_OUT main(VS_IN vsi)
 		mtxL += mtxBone[vsi.boneID[i]] * vsi.boneWeight[i];		//影響する骨行列の加算
 
 	//座標計算
+	float3 PosWV;									//頂点座標(ビュー空間)⇒光計算用
 	vso.pos = mul(float4(vsi.pos, 1.0f), mtxL);
 	vso.pos = mul(vso.pos, mtxLocal);
 	vso.pos.x *= -1.0f;
 	vso.pos = mul(vso.pos, mtxWorld);
 	vso.pos = mul(vso.pos, mtxView);
-	vso.posWV = vso.pos.xyz;
+	PosWV = vso.pos.xyz;
 	vso.pos = mul(vso.pos, mtxProj);
 
 	//テクスチャ
 	vso.tex = vsi.tex;
 
 	//変換行列(接空間⇒ビュー空間）
-	vso.mtxTtoV._11_12_13 = vsi.tangent;
-	vso.mtxTtoV._21_22_23 = vsi.binormal;
-	vso.mtxTtoV._31_32_33 = vsi.normal;
-	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxL);
-	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxLocal);
-	vso.mtxTtoV._11 *= -1.0f;
-	vso.mtxTtoV._21 *= -1.0f;
-	vso.mtxTtoV._31 *= -1.0f;
-	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxWorld);
-	vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxView);
+	//vso.mtxTtoV._11_12_13 = vsi.tangent;
+	//vso.mtxTtoV._21_22_23 = vsi.binormal;
+	//vso.mtxTtoV._31_32_33 = vsi.normal;
+	//vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxL);
+	//vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxLocal);
+	//vso.mtxTtoV._11 *= -1.0f;
+	//vso.mtxTtoV._21 *= -1.0f;
+	//vso.mtxTtoV._31 *= -1.0f;
+	//vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxWorld);
+	//vso.mtxTtoV = mul(vso.mtxTtoV, (float3x3) mtxView);
 
-	//その他
-	vso.mtxView = (float3x3) mtxView;
+	//BTN行列を取得
+	float3x3 mtxT = {
+		vsi.tangent,
+		vsi.binormal,
+		vsi.normal
+	};
 
+	//光への単位ベクトル(接空間へ変換)
+	float3 PosL = LightPos.xyz;
+	PosL.x += cbLightOffset.x * 2.0f;
+	PosL.y -= cbLightOffset.y * 2.0f;
+	PosL.z += cbLightOffset.z * 2.0f;
+	vso.vDirT_ToLight = mul(PosL, (float3x3) mtxView);
+	vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose((float3x3) mtxView));
+	vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose((float3x3) mtxWorld));
+	vso.vDirT_ToLight.x *= -1.0f;
+	vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose(mtxT)); //平行光源の場合、疑似的に位置を単位ベクトルで設定
+	vso.vDirT_ToLight.x *= -1.0f;
+	vso.vNorT_ToLight = normalize(vso.vDirT_ToLight);	//光源への法線ベクトル
+
+	//頂点から注視点への方向ベクトル(接空間へ変換)
+	vso.vNorT_ToCamera = mul(PosWV, transpose((float3x3) mtxView));
+	vso.vNorT_ToCamera = mul(vso.vNorT_ToCamera, transpose((float3x3) mtxWorld));
+	vso.vNorT_ToCamera.x *= -1.0f;
+	vso.vNorT_ToCamera = mul(vso.vNorT_ToCamera, transpose(mtxT));
+	vso.vNorT_ToCamera.x *= -1.0f;
+	vso.vNorT_ToCamera = normalize(-vso.vNorT_ToCamera);
+
+	//戻り値
 	return vso;
 }
