@@ -1413,6 +1413,10 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 		pMeshBin->VertexNum = static_cast<int>(pMeshData->vsData.m_Indices.size());
 		if (m.aTex_Diffuse.size() > 0)
 			pMeshBin->NameSize_Diffuse = static_cast<int>(pMeshData->aTex_Diffuse[0].size());
+		if (m.aTex_Specular.size() > 0)
+			pMeshBin->NameSize_Specular = static_cast<int>(pMeshData->aTex_Specular[0].size());
+		if (m.aTex_Normal.size() > 0)
+			pMeshBin->NameSize_Normal = static_cast<int>(pMeshData->aTex_Normal[0].size());
 		pMeshBin++;
 		pMeshData++;
 	}
@@ -1432,8 +1436,10 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 			//頂点情報
 			VERTEX_MB Vertex;
 			Vertex.m_Pos = v.m_Pos;
-			Vertex.m_Normal = v.m_Normal;
 			Vertex.m_UV = v.m_UV;
+			Vertex.m_Normal = v.m_Normal;
+			Vertex.m_Binormal = v.m_Binormal;
+			Vertex.m_Tangent = v.m_Tangent;
 			vsData.m_Vertices.emplace_back(Vertex);
 		}
 
@@ -1480,10 +1486,22 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 		FILE_IO::SaveFile(oss.str().c_str(), &m_aMesh[i].MaterialData);
 		oss.str("");
 
-		//ファイル書出し（テクスチャ）
+		//ファイル書出し（テクスチャD）
 		oss << Path << "_Mesh" << i << "_TexD.bin";
 		if (m_aMesh[i].aTex_Diffuse.size() > 0)
 			FILE_IO::SaveFile(oss.str().c_str(), m_aMesh[i].aTex_Diffuse[0]);
+		oss.str("");
+
+		//ファイル書出し（テクスチャS）
+		oss << Path << "_Mesh" << i << "_TexS.bin";
+		if (m_aMesh[i].aTex_Specular.size() > 0)
+			FILE_IO::SaveFile(oss.str().c_str(), m_aMesh[i].aTex_Specular[0]);
+		oss.str("");
+
+		//ファイル書出し（テクスチャN）
+		oss << Path << "_Mesh" << i << "_TexN.bin";
+		if (m_aMesh[i].aTex_Normal.size() > 0)
+			FILE_IO::SaveFile(oss.str().c_str(), m_aMesh[i].aTex_Normal[0]);
 		oss.str("");
 	}
 

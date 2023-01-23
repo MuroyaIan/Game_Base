@@ -71,6 +71,7 @@ public:
 
 		PS_MODEL,
 		PS_MODEL_NORMAL,
+
 		PS_PHONG,
 
 		//定数バッファ
@@ -88,7 +89,6 @@ public:
 	void Bind_Default() const noexcept;					//バインド処理（デフォルト）
 	void Bind_VertexBlend() const noexcept;				//バインド処理（頂点ブレンド）
 	void Bind_Texture() const noexcept;					//バインド処理（テクスチャ）
-	void Bind_Model() const noexcept;					//バインド処理（モデル）
 	void Bind_Instance() const noexcept;				//バインド処理（インスタンシング）
 	void Bind_Instance_VertexBlend() const noexcept;	//バインド処理（インスタンシング＿頂点ブレンド）
 	void Bind_Instance_Texture() const noexcept;		//バインド処理（インスタンシング＿テクスチャ）

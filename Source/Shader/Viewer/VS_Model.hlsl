@@ -15,6 +15,8 @@ struct VS_IN
 	float3 pos : POSITION;			//座標
 	float2 tex : TEXCOORD;			//UV座標
 	float3 normal : NORMAL;			//法線
+	float3 binormal : BINORMAL;		//従法線
+	float3 tangent : TANGENT;		//接線
 	int boneID[4] : BONE;			//骨番号
 	float boneWeight[4] : WEIGHT;	//骨比重
 };

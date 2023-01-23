@@ -73,6 +73,8 @@ private:
 	std::unique_ptr<CONSTANT_BUFFER<DirectX::XMFLOAT4>> pcbLight;	//ライト座標用定数バッファのポインタ
 	DirectX::XMFLOAT3& m_LightPos;									//ライト座標(変化量)
 
+	bool bUseNormalMap;						//ノーマルマップ使用
+
 	//プロトタイプ宣言
 	VS_DATA<VERTEX_MB> MakeData_VS() const noexcept;	//頂点情報作成
 	void UpdateBoneData(int AnimID = 0) noexcept;		//骨情報更新

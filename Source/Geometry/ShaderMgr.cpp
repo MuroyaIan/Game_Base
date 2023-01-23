@@ -82,7 +82,7 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 		m_aBinder[static_cast<int>(BINDER_ID::IL_MODEL)] = std::make_unique<INPUT_LAYOUT>(m_DX, ied, pvsBC);
 	}
 
-	//VS_MODEL_NORMAL
+	//MODEL_NORMAL
 	{
 		//頂点シェーダ作成
 		std::unique_ptr<VERTEX_SHADER> pVS = std::make_unique<VERTEX_SHADER>(m_DX, L"Asset/Shader/VS_Model_Normal.cso");
@@ -308,16 +308,6 @@ void SHADER_MGR::Bind_Texture() const noexcept
 	m_aBinder[static_cast<int>(BINDER_ID::PT_TRI)]->Bind(m_DX);
 	m_aBinder[static_cast<int>(BINDER_ID::SAMPLER)]->Bind(m_DX);
 	m_aBinder[static_cast<int>(BINDER_ID::PS_TEXTURE)]->Bind(m_DX);
-}
-
-//バインド処理（モデル）
-void SHADER_MGR::Bind_Model() const noexcept
-{
-	m_aBinder[static_cast<int>(BINDER_ID::VS_MODEL)]->Bind(m_DX);
-	m_aBinder[static_cast<int>(BINDER_ID::IL_MODEL)]->Bind(m_DX);
-	m_aBinder[static_cast<int>(BINDER_ID::PT_TRI)]->Bind(m_DX);
-	m_aBinder[static_cast<int>(BINDER_ID::SAMPLER)]->Bind(m_DX);
-	m_aBinder[static_cast<int>(BINDER_ID::PS_MODEL)]->Bind(m_DX);
 }
 
 //バインド処理（インスタンシング）

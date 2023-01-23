@@ -10,7 +10,7 @@ namespace dx = DirectX;
 VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex) :
 	DRAWER(Gfx.m_DX), m_Gfx(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
-	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), pcbLight(), m_LightPos(Viewer.GetLightPos())
+	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), pcbLight(), m_LightPos(Viewer.GetLightPos()), bUseNormalMap(false)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_MB> Model = MakeData_VS();
@@ -60,6 +60,7 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 
 	//Normalマップ
 	if (MeshData.aTex_Normal.size() > 0) {
+		bUseNormalMap = true;
 		std::string Path = m_Loader.GetFilePath();
 		Path += MeshData.aTex_Normal[0];
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture(Path.c_str());
@@ -119,8 +120,21 @@ void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 	dx::XMFLOAT4 Offset = { m_LightPos.x, m_LightPos.y, m_LightPos.z, 0.0f };
 	pcbLight->Update(m_Gfx, Offset);
 
-	//その他のバインド⇒描画
-	m_ShaderMgr.Bind_Model();
+	//その他のバインド
+	if (bUseNormalMap) {
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_NORMAL);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_NORMAL);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_NORMAL);
+	}
+	else {
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL);
+	}
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_TRI);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::SAMPLER);
+
+	//描画
 	DRAWER::Draw(InstanceNum);
 }
 

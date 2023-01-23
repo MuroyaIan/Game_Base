@@ -29,9 +29,13 @@ struct MESH_BIN				//メッシュバイナリ(xxx_Mesh.bin)
 {
 	int NameSize;			//名前文字列のサイズ
 	int VertexNum;			//頂点数⇒(xxx_Mesh0_Data.bin)
-	int NameSize_Diffuse;	//テクスチャ名のサイズ
+	int NameSize_Diffuse;
+	int NameSize_Specular;
+	int NameSize_Normal;	//テクスチャ名のサイズ
 
-	MESH_BIN() noexcept : NameSize(0), VertexNum(0), NameSize_Diffuse(0)
+	MESH_BIN() noexcept :
+		NameSize(0), VertexNum(0),
+		NameSize_Diffuse(0), NameSize_Specular(0), NameSize_Normal(0)
 	{}
 	~MESH_BIN() noexcept {}
 };
