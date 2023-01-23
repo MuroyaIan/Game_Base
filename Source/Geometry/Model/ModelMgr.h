@@ -15,6 +15,7 @@
 //===== 前方宣言 =====
 namespace ModelRef {
 	struct MODEL_PACK;
+	struct TEX_PACK;
 }
 
 //===== クラス定義 =====
@@ -52,5 +53,6 @@ private:
 	static std::vector<bool> aAnimFPS_30[static_cast<int>(MODEL_ID::MAX_MODEL)];		//アニメーションFPSフラグ
 
 	//プロトタイプ宣言
-	void LoadModel(MODEL_ID id);	//モデル読込
+	void LoadModel(MODEL_ID id);															//モデル読込
+	void LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef);	//テクスチャ名読込
 };

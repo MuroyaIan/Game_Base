@@ -34,9 +34,13 @@ namespace ModelRef {
 		VS_DATA<VERTEX_MB> vsData;			//頂点情報
 		CBD_MATERIAL MaterialData;			//マテリアル情報
 		std::string Tex_D;					//テクスチャ：拡散反射光
+		std::string Tex_S;					//テクスチャ：鏡面反射光
+		std::string Tex_N;					//テクスチャ：ノーマルマップ
 		std::vector<ANIM_PACK> aNoSkin;		//骨なしメッシュ用アニメーション配列
 
-		MESH_PACK() noexcept : Name(""), vsData(), MaterialData(), Tex_D(""), aNoSkin(0)
+		MESH_PACK() noexcept :
+			Name(""), vsData(), MaterialData(),
+			Tex_D(""), Tex_S(""), Tex_N(""), aNoSkin(0)
 		{}
 		~MESH_PACK() noexcept {}
 	};

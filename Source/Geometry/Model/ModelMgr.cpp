@@ -106,6 +106,8 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		Model.aMesh[i].vsData.m_Indices.resize(aMeshBin[i].VertexNum);
 		Model.aMesh[i].vsData.m_Vertices.resize(aMeshBin[i].VertexNum);
 		Model.aMesh[i].Tex_D.resize(aMeshBin[i].NameSize_Diffuse);
+		Model.aMesh[i].Tex_S.resize(aMeshBin[i].NameSize_Specular);
+		Model.aMesh[i].Tex_N.resize(aMeshBin[i].NameSize_Normal);
 	}
 
 	//メッシュ情報（詳細）読込
@@ -131,33 +133,36 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		FILE_IO::LoadFile(oss.str().c_str(), &Model.aMesh[i].MaterialData);
 		oss.str("");
 
-		//ファイル読込（テクスチャ）
+		//ファイル読込（テクスチャD）
 		oss << Path << "_Mesh" << i << "_TexD.bin";
 		if (Model.aMesh[i].Tex_D.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_D);
 
 			//テクスチャデータ作成
 			std::string TexName = Model.aMesh[i].Tex_D;
-			if (Model.m_aTexPack.size() < 1) {           //そもそもテクスチャ配列にデータがない
-				ModelRef::TEX_PACK Data;
-				Data.Name = TexName;
-				Model.m_aTexPack.emplace_back(Data);
-			}
-			else{
-				for (size_t j = 0, Cnt = Model.m_aTexPack.size(); j < Cnt; j++) {
+			LoadTextureName(TexName, Model.m_aTexPack);
+		}
+		oss.str("");
 
-					//同じテクスチャが存在する場合
-					if (Model.m_aTexPack[j].Name == TexName)
-						break;
+		//ファイル読込（テクスチャS）
+		oss << Path << "_Mesh" << i << "_TexS.bin";
+		if (Model.aMesh[i].Tex_S.size() > 0) {
+			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_S);
 
-					//テクスチャが存在しない場合
-					if (j == Cnt - 1) {
-						ModelRef::TEX_PACK Data;
-						Data.Name = TexName;
-						Model.m_aTexPack.emplace_back(Data);
-					}
-				}
-			}
+			//テクスチャデータ作成
+			std::string TexName = Model.aMesh[i].Tex_S;
+			LoadTextureName(TexName, Model.m_aTexPack);
+		}
+		oss.str("");
+
+		//ファイル読込（テクスチャN）
+		oss << Path << "_Mesh" << i << "_TexN.bin";
+		if (Model.aMesh[i].Tex_N.size() > 0) {
+			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_N);
+
+			//テクスチャデータ作成
+			std::string TexName = Model.aMesh[i].Tex_N;
+			LoadTextureName(TexName, Model.m_aTexPack);
 		}
 		oss.str("");
 	}
@@ -247,6 +252,32 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 			//転置行列計算
 			for (auto& mtx : pMeshPack->aNoSkin[i].aMatrix)
 				gMath::MtxTranspose4x4_SSE(&mtx._11);
+		}
+	}
+}
+
+//テクスチャ名読込
+void MODEL_MGR::LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef)
+{
+	//そもそもテクスチャ配列にデータがない
+	if (DataRef.size() < 1) {
+		ModelRef::TEX_PACK Data;
+		Data.Name = TexName;
+		DataRef.emplace_back(Data);
+	}
+	else {
+		for (size_t j = 0, Cnt = DataRef.size(); j < Cnt; j++) {
+
+			//同じテクスチャが存在する場合
+			if (DataRef[j].Name == TexName)
+				break;
+
+			//テクスチャが存在しない場合
+			if (j == Cnt - 1) {
+				ModelRef::TEX_PACK Data;
+				Data.Name = TexName;
+				DataRef.emplace_back(Data);
+			}
 		}
 	}
 }

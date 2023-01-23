@@ -10,10 +10,11 @@ PIXEL_SHADER::PIXEL_SHADER(const GRAPHIC& Gfx, const std::wstring& Path) :
 {
 	//エラーハンドル
 	HRESULT hr{};
+	std::wstring strPath = Path;
 
 	//シェーダ作成
 	wrl::ComPtr<ID3DBlob> pBlob;
-	hr = D3DReadFileToBlob(Path.c_str(), &pBlob);
+	hr = D3DReadFileToBlob(strPath.c_str(), &pBlob);
 	ERROR_DX(hr);
 	hr = GetDevice(Gfx)->CreatePixelShader(
 		pBlob->GetBufferPointer(), pBlob->GetBufferSize(),

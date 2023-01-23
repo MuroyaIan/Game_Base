@@ -136,7 +136,8 @@ void WIN_WINDOW::Transform(int nWndPosX, int nWndPosY, int nWndWidth, int nWndHe
 //タイトル出力
 void WIN_WINDOW::TitlePrint(const std::string& Text) const
 {
-	if (!SetWindowTextA(m_hWindow, Text.c_str()))
+	std::string TitleName = Text;
+	if (!SetWindowTextA(m_hWindow, TitleName.c_str()))
 		throw ERROR_DEFAULT();
 }
 

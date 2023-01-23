@@ -8,9 +8,10 @@ VERTEX_SHADER::VERTEX_SHADER(const GRAPHIC& Gfx, const std::wstring& Path) :
 {
 	//エラーハンドル
 	HRESULT hr{};
+	std::wstring strPath = Path;
 
 	//シェーダ作成
-	hr = D3DReadFileToBlob(Path.c_str(), &m_pBlob);
+	hr = D3DReadFileToBlob(strPath.c_str(), &m_pBlob);
 	ERROR_DX(hr);
 	hr = GetDevice(Gfx)->CreateVertexShader(
 		m_pBlob->GetBufferPointer(), m_pBlob->GetBufferSize(),

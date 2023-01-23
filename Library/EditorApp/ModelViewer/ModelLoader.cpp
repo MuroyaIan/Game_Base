@@ -496,7 +496,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 				vBinormal.x = static_cast<float>(TempBinormal.mData[0]);
 				vBinormal.y = static_cast<float>(TempBinormal.mData[1]);
 				vBinormal.z = static_cast<float>(TempBinormal.mData[2]);
-				aBinormal.push_back(vBinormal);
+				aBinormal.emplace_back(vBinormal);
 			}
 		}
 	}
@@ -518,7 +518,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 				vTangent.x = static_cast<float>(TempTangent.mData[0]);
 				vTangent.y = static_cast<float>(TempTangent.mData[1]);
 				vTangent.z = static_cast<float>(TempTangent.mData[2]);
-				aTangent.push_back(vTangent);
+				aTangent.emplace_back(vTangent);
 			}
 		}
 	}
@@ -848,7 +848,7 @@ void FBX_LOADER::GetTextureName(FbxSurfaceMaterial* pMaterial, const char* Type,
 			char Sep2 = 47;     //ÅÀ'/'
 			std::vector<std::string> aStr1 = gText::Split(FileName, Sep1);
 			std::vector<std::string> aStr2 = gText::Split(aStr1[aStr1.size() - 1], Sep2);
-			Tex.push_back(aStr2[aStr2.size() - 1]);
+			Tex.emplace_back(aStr2[aStr2.size() - 1]);
 		}
 	}
 	else {
@@ -873,7 +873,7 @@ void FBX_LOADER::GetTextureName(FbxSurfaceMaterial* pMaterial, const char* Type,
 				char Sep2 = 47;     //ÅÀ'/'
 				std::vector<std::string> aStr1 = gText::Split(FileName, Sep1);
 				std::vector<std::string> aStr2 = gText::Split(aStr1[aStr1.size() - 1], Sep2);
-				LayerTex[j].aTex.push_back(aStr2[aStr2.size() - 1]);
+				LayerTex[j].aTex.emplace_back(aStr2[aStr2.size() - 1]);
 			}
 		}
 	}
