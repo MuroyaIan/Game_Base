@@ -82,6 +82,33 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 		m_aBinder[static_cast<int>(BINDER_ID::IL_MODEL)] = std::make_unique<INPUT_LAYOUT>(m_DX, ied, pvsBC);
 	}
 
+	//VS_MODEL_NORMAL
+	{
+		//頂点シェーダ作成
+		std::unique_ptr<VERTEX_SHADER> pVS = std::make_unique<VERTEX_SHADER>(m_DX, L"Asset/Shader/VS_Model_Normal.cso");
+		auto pvsBC = pVS->GetBytecode();
+		m_aBinder[static_cast<int>(BINDER_ID::VS_MODEL_NORMAL)] = std::move(pVS);
+
+		//入力レイアウト作成
+		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
+		{
+			{ "POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u,							 D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "TEXCOORD", 0u, DXGI_FORMAT_R32G32_FLOAT,	   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "NORMAL",	  0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "BINORMAL", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "TANGENT",  0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "BONE",	  0u, DXGI_FORMAT_R32_SINT,		   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "BONE",	  1u, DXGI_FORMAT_R32_SINT,		   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "BONE",	  2u, DXGI_FORMAT_R32_SINT,		   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "BONE",	  3u, DXGI_FORMAT_R32_SINT,		   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "WEIGHT",	  0u, DXGI_FORMAT_R32_FLOAT,	   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "WEIGHT",	  1u, DXGI_FORMAT_R32_FLOAT,	   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "WEIGHT",	  2u, DXGI_FORMAT_R32_FLOAT,	   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+			{ "WEIGHT",	  3u, DXGI_FORMAT_R32_FLOAT,	   0u, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0u }
+		};
+		m_aBinder[static_cast<int>(BINDER_ID::IL_MODEL_NORMAL)] = std::make_unique<INPUT_LAYOUT>(m_DX, ied, pvsBC);
+	}
+
 	//MODEL_BONE
 	{
 		//頂点シェーダ作成
@@ -226,6 +253,7 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 	m_aBinder[static_cast<int>(BINDER_ID::PS_VTX_BLEND)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_VertexBlend.cso");
 	m_aBinder[static_cast<int>(BINDER_ID::PS_TEXTURE)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Texture.cso");
 	m_aBinder[static_cast<int>(BINDER_ID::PS_MODEL)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Model.cso");
+	m_aBinder[static_cast<int>(BINDER_ID::PS_MODEL_NORMAL)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Model_Normal.cso");
 	m_aBinder[static_cast<int>(BINDER_ID::PS_PHONG)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Phong.cso");
 
 

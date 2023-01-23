@@ -9,7 +9,7 @@
 //定数バッファ（ポリゴン色）
 cbuffer C_BUFFER : register(b0)
 {
-	float4 FaceColor[24];	//ポリゴン区別用色配列(24色)
+	float4 FaceColor[24];	//ポリゴン区別用色配列（24色）
 };
 
 //エントリーポイント

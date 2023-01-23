@@ -32,6 +32,7 @@ public:
 		VS_TEXTURE,
 
 		VS_MODEL,
+		VS_MODEL_NORMAL,
 		VS_MODEL_BONE,
 
 		VS_INSTANCE,
@@ -46,6 +47,7 @@ public:
 		IL_TEXTURE,
 
 		IL_MODEL,
+		IL_MODEL_NORMAL,
 		IL_MODEL_BONE,
 
 		IL_INSTANCE,
@@ -68,6 +70,7 @@ public:
 		PS_TEXTURE,
 
 		PS_MODEL,
+		PS_MODEL_NORMAL,
 		PS_PHONG,
 
 		//定数バッファ
