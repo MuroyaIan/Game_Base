@@ -20,78 +20,26 @@ struct PS_IN
 };
 
 //プロトタイプ宣言
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor);	//平行光源の計算
+float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor);	//平行光源の計算
+float2 CalcDisplacementMapUV(PS_IN psi);											//視差マップのUVを計算
 
 //エントリーポイント
 float4 main(PS_IN psi) : SV_TARGET
 {
 	//UV座標を計算
-	float height_scale = 0.1f;
+	float2 TexDisp = psi.tex;
 
-	//サンプリング数設定（注視方向に応じてレイヤ層を分割する）
-	const float minLayers = 8;
-	const float maxLayers = 32;
-	float numLayers = lerp(maxLayers, minLayers, abs(dot(float3(0.0f, 0.0f, 1.0f), psi.vNorT_ToCamera)));
+#ifdef DISP_MAP
 
+	TexDisp = CalcDisplacementMapUV(psi);
 
-
-	// calculate the size of each layer
-	float layerDepth = 1.0f / numLayers; //層ごとの深さの割合
-	// depth of current layer
-	float currentLayerDepth = 0.0f;
-	// the amount to shift the texture coordinates per layer (from vector P)
-	//float2 vParallax = psi.vNorT_ToCamera.xy * height_scale;
-	float2 vParallax = psi.vNorT_ToCamera.xy / psi.vNorT_ToCamera.z * height_scale;
-	float2 deltaTexCoords = vParallax / numLayers; //層ごとの視差ベクトル
-
-
-
-	// get initial values
-	float2 currentTexCoords = psi.tex;
-	float currentDepthMapValue = TexMap[3].Sample(Sampler, currentTexCoords).r;
-
-	[loop][fastopt]
-	while (currentLayerDepth < currentDepthMapValue)
-	{
-		// shift texture coordinates along direction of P
-		currentTexCoords += deltaTexCoords;
-		// get depthmap value at current texture coordinates
-		currentDepthMapValue = TexMap[3].SampleLevel(Sampler, currentTexCoords, 0).r;
-		// get depth of next layer
-		currentLayerDepth += layerDepth;
-	}
-
-
-
-	// get texture coordinates before collision (reverse operations)
-	float2 prevTexCoords = currentTexCoords - deltaTexCoords;
-
-	// get depth after and before collision for linear interpolation
-	float afterDepth = currentDepthMapValue - currentLayerDepth;
-	float beforeDepth = TexMap[3].Sample(Sampler, prevTexCoords).r - currentLayerDepth + layerDepth;
-
-	// interpolation of texture coordinates
-	float weight = afterDepth / (afterDepth - beforeDepth);
-	float2 texDisp = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
-
-	//float height = TexMap[3].Sample(Sampler, psi.tex).r;
-	//float2 vParallax = psi.vNorT_ToCamera.xy / psi.vNorT_ToCamera.z * (height * height_scale);
-	//float2 texDisp = psi.tex + vParallax;
-
-	//UV座標確認（超過分のピクセルを破棄する）⇒平面の場合はこれで解決
-	texDisp = texDisp > 1.0f ? -1.0f : texDisp;
-	texDisp = texDisp < 0.0f ? -1.0f : texDisp;
-	clip(texDisp);
-
-
-
-	//float2 texDisp = psi.tex;
+#endif // DISP_MAP
 
 	//テクスチャ取得
 	const float3x4 Texture = {
-		TexMap[0].Sample(Sampler, texDisp),		//Diffuse
-		TexMap[1].Sample(Sampler, texDisp),		//Specular
-		TexMap[2].Sample(Sampler, texDisp)		//Normal
+		TexMap[0].Sample(Sampler, TexDisp),		//Diffuse
+		TexMap[1].Sample(Sampler, TexDisp),		//Specular
+		TexMap[2].Sample(Sampler, TexDisp)		//Normal
 	};
 
 	//法線取得
@@ -100,9 +48,10 @@ float4 main(PS_IN psi) : SV_TARGET
 	vNorT_Model = normalize(vNorT_Model);
 
 	//モデル色計算
-	const float2x3 ModelColor = {
+	const float3x3 ModelColor = {
 		cbDiffuse.rgb * cbDiffuse.w * Texture._11_12_13,	//Diffuse
-		cbSpecular.rgb * Texture._21_22_23					//Specular
+		cbSpecular.rgb * Texture._21_22_23,					//Specular
+		cbAmbient.rgb										//Ambient
 	};
 
 	//平行光源の計算
@@ -116,7 +65,7 @@ float4 main(PS_IN psi) : SV_TARGET
 }
 
 //平行光源の計算
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor)
+float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor)
 {
 	//平行光源の色
 	const float3 LightRGB = LightColor.rgb * LightColor.a;
@@ -129,8 +78,53 @@ float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor)
 	const float3 Specular = LightRGB * pow(max(0.0f, dot(normalize(vRef), psi.vNorT_ToCamera)), cbShininess) * ModelColor._21_22_23;
 
 	//環境光の計算
-	const float3 Ambient = LightRGB * cbAmbient.rgb;
+	const float3 Ambient = LightRGB * ModelColor._31_32_33;
 
 	//最終の出力色計算
 	return Diffuse + Specular + Ambient;
+}
+
+//視差マップのUVを計算
+float2 CalcDisplacementMapUV(PS_IN psi)
+{
+	//サンプリング数設定（注視方向に応じて深さ計算用レイヤの分割数を設定）
+	const float MinLayerNum = cbDisp_MinLayerNum;
+	const float MaxLayerNum = cbDisp_MaxLayerNum;
+	const float LayerNum = lerp(MinLayerNum, MaxLayerNum, abs(dot(float3(0.0f, 0.0f, 1.0f), psi.vNorT_ToCamera)));
+
+	//ループ計算用のデータを設定
+	float Depth_Layer = 0.0f;																//レイヤ深さ
+	const float DepthPerLayer = 1.0f / LayerNum;											//レイヤごとの深さ
+	const float DepthScale = cbDisp_DepthScale;												//視差マップ用深さ係数
+	//float2 vParallax = psi.vNorT_ToCamera.xy * DepthScale;
+	const float2 vParallax = psi.vNorT_ToCamera.xy / psi.vNorT_ToCamera.z * DepthScale;		//視差ベクトル（UV座標の総変化量）
+	const float2 vParallaxPerLayer = vParallax / LayerNum;									//レイヤごとの視差ベクトル
+	float2 CurrentUV = psi.tex;																//UV座標
+	float Depth_DispMap = TexMap[3].Sample(Sampler, CurrentUV).r;							//視差マップから取得した深さ
+
+	//深さ計算
+	[loop][fastopt]
+	while (Depth_Layer < Depth_DispMap) {
+
+		//レイヤごとのレイヤ深さと視差マップ深さを比較し、逆転する箇所を特定
+		Depth_Layer += DepthPerLayer;
+		CurrentUV += vParallaxPerLayer;
+		Depth_DispMap = TexMap[3].SampleLevel(Sampler, CurrentUV, 0.0f).r;
+	}
+
+	//逆転直前と直後の比較差から視差ベクトルの比重を求める
+	const float AfterDepth = Depth_Layer - Depth_DispMap;
+	const float2 PrevUV = CurrentUV - vParallaxPerLayer;											//逆転直前のUV座標
+	const float BeforeDepth = TexMap[3].Sample(Sampler, PrevUV).r - Depth_Layer + DepthPerLayer;
+	const float Weight = AfterDepth / (AfterDepth + BeforeDepth);
+
+	//UV座標を確定
+	float2 TexDisp = PrevUV * Weight + CurrentUV * (1.0f - Weight);
+
+	//UV座標範囲確認（超過分のピクセルを破棄する）⇒平面の場合はこれで解決
+	TexDisp = TexDisp > 1.0f ? -1.0f : TexDisp;
+	TexDisp = TexDisp < 0.0f ? -1.0f : TexDisp;
+	clip(TexDisp);
+
+	return TexDisp;
 }

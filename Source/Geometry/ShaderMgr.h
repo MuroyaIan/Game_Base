@@ -71,6 +71,7 @@ public:
 
 		PS_MODEL,
 		PS_MODEL_NORMAL,
+		PS_MODEL_DISP,
 
 		PS_PHONG,
 

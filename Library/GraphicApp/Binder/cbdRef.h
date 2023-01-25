@@ -101,13 +101,13 @@ struct CBD_MATERIAL					//マテリアル情報
 	DirectX::XMFLOAT4 Transparent;	//透過度
 	DirectX::XMFLOAT4 Specular;		//鏡面反射光
 	float Shininess;				//光沢
-	float Pad1;
-	float Pad2;
-	float Pad3;						//仮置き
+	float Disp_MinLayerNum;
+	float Disp_MaxLayerNum;			//視差マップのサンプリング範囲
+	float Disp_DepthScale;			//視差マップの深さ係数
 
 	CBD_MATERIAL() noexcept :
 		Ambient(0.0f, 0.0f, 0.0f, 0.0f), Diffuse(0.0f, 0.0f, 0.0f, 0.0f), Emissive(0.0f, 0.0f, 0.0f, 0.0f), Transparent(0.0f, 0.0f, 0.0f, 0.0f),
-		Specular(0.0f, 0.0f, 0.0f, 0.0f), Shininess(2.0f), Pad1(0.0f), Pad2(0.0f), Pad3(0.0f)
+		Specular(0.0f, 0.0f, 0.0f, 0.0f), Shininess(2.0f), Disp_MinLayerNum(8.0f), Disp_MaxLayerNum(32.0f), Disp_DepthScale(0.1f)
 	{}
 
 	~CBD_MATERIAL() noexcept {}

@@ -254,6 +254,7 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 	m_aBinder[static_cast<int>(BINDER_ID::PS_TEXTURE)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Texture.cso");
 	m_aBinder[static_cast<int>(BINDER_ID::PS_MODEL)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Model.cso");
 	m_aBinder[static_cast<int>(BINDER_ID::PS_MODEL_NORMAL)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Model_Normal.cso");
+	m_aBinder[static_cast<int>(BINDER_ID::PS_MODEL_DISP)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Model_Displacement.cso");
 	m_aBinder[static_cast<int>(BINDER_ID::PS_PHONG)] = std::make_unique<PIXEL_SHADER>(m_DX, L"Asset/Shader/PS_Phong.cso");
 
 

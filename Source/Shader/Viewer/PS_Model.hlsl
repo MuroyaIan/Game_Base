@@ -21,7 +21,7 @@ struct PS_IN
 };
 
 //プロトタイプ宣言
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor);	//平行光源の計算
+float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor);	//平行光源の計算
 
 //エントリーポイント
 float4 main(PS_IN psi) : SV_TARGET
@@ -33,9 +33,10 @@ float4 main(PS_IN psi) : SV_TARGET
 	};
 
 	//モデル色計算
-	const float2x3 ModelColor = {
+	const float3x3 ModelColor = {
 		cbDiffuse.rgb * cbDiffuse.w * Texture._11_12_13,	//Diffuse
-		cbSpecular.rgb * Texture._21_22_23					//Specular
+		cbSpecular.rgb * Texture._21_22_23,					//Specular
+		cbAmbient.rgb										//Ambient
 	};
 
 	//平行光源の計算
@@ -49,7 +50,7 @@ float4 main(PS_IN psi) : SV_TARGET
 }
 
 //平行光源の計算
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor)
+float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor)
 {
 	//平行光源の色
 	const float3 LightRGB = LightColor.rgb * LightColor.a;
@@ -63,7 +64,7 @@ float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor)
 	const float3 Specular = LightRGB * pow(max(0.0f, dot(normalize(vRef), psi.vNorV_ToCamera)), cbShininess) * ModelColor._21_22_23;
 
 	//環境光の計算
-	const float3 Ambient = LightRGB * cbAmbient.rgb;
+	const float3 Ambient = LightRGB * ModelColor._31_32_33;
 
 	//最終の出力色計算
 	return Diffuse + Specular + Ambient;

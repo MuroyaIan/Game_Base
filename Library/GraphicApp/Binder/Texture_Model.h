@@ -26,7 +26,7 @@ public:
 	{
 		Diffuse,		//拡散色
 		Specular,		//反射色
-		Normal,			//法線マップ
+		Normal,			//ノーマルマップ
 		Displacement,	//視差マップ
 
 		MaxType

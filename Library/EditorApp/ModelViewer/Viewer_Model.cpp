@@ -10,7 +10,7 @@ namespace dx = DirectX;
 VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex) :
 	DRAWER(Gfx.m_DX), m_Gfx(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
-	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), pcbLight(), m_LightPos(Viewer.GetLightPos()), bUseNormalMap(false)
+	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), pcbLight(), m_LightPos(Viewer.GetLightPos()), bUseNormalMap(false), bUseDispMap(false)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_MB> Model = MakeData_VS();
@@ -70,6 +70,7 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 
 	//Displacementマップ
 	if (MeshData.aTex_Displacement.size() > 0) {
+		bUseDispMap = true;
 		std::string Path = m_Loader.GetFilePath();
 		Path += MeshData.aTex_Displacement[0];
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = TEX_LOADER::LoadTexture(Path.c_str());
@@ -126,6 +127,12 @@ void VIEWER_MODEL::Update() noexcept
 		m_Material.Specular = m_Loader.GetMesh(m_MeshIndex).MaterialData.Specular;
 	else
 		m_Material.Specular = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_Material.Disp_MinLayerNum = m_Viewer.GetDispCoef().x;
+	m_Material.Disp_MaxLayerNum = m_Viewer.GetDispCoef().y;
+	m_Material.Disp_DepthScale = m_Viewer.GetDispCoef().z;										//視差マッピングの調整値を更新
+	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_MinLayerNum = m_Material.Disp_MinLayerNum;
+	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_MaxLayerNum = m_Material.Disp_MaxLayerNum;
+	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_DepthScale = m_Material.Disp_DepthScale;	//データをモデル側にも更新
 }
 
 //描画処理
@@ -140,9 +147,17 @@ void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 		m_Viewer.GetNormalMapFlag()) {
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_NORMAL);
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_NORMAL);
-		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_NORMAL);
+
+		//視差マップあり・なし
+		if (bUseDispMap &&
+			m_Viewer.GetDispMapFlag())
+			m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_DISP);
+		else
+			m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_NORMAL);
 	}
 	else {
+
+		//ノーマルマップなし
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL);
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL);
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL);

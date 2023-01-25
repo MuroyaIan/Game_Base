@@ -424,5 +424,8 @@
     <FxCompile Include="..\..\Source\Shader\Viewer\VS_Model_Normal.hlsl">
       <Filter>Shader\Viewer</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Viewer\PS_Model_Displacement.hlsl">
+      <Filter>Shader\Viewer</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

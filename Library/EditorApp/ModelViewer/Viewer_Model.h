@@ -74,6 +74,7 @@ private:
 	DirectX::XMFLOAT3& m_LightPos;									//ライト座標(変化量)
 
 	bool bUseNormalMap;						//ノーマルマップ使用
+	bool bUseDispMap;						//視差マップ使用
 
 	//プロトタイプ宣言
 	VS_DATA<VERTEX_MB> MakeData_VS() const noexcept;	//頂点情報作成

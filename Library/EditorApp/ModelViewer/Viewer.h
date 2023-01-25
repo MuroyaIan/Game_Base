@@ -94,6 +94,14 @@ public:
 	{
 		return m_bUseNormalMap;
 	}
+	bool& GetDispMapFlag() noexcept					//視差マップフラグ参照
+	{
+		return m_bUseDispMap;
+	}
+	DirectX::XMFLOAT3& GetDispCoef() noexcept		//視差マップ用係数参照
+	{
+		return m_DispCoef;
+	}
 
 private:
 
@@ -121,4 +129,6 @@ private:
 	DirectX::XMFLOAT3 m_LightPos;						//ライト座標(変化量)
 	bool m_bUseSpecular;								//鏡面反射を適用
 	bool m_bUseNormalMap;								//法線マップを適用
+	bool m_bUseDispMap;									//視差マップを適用
+	DirectX::XMFLOAT3 m_DispCoef;						//視差マップ用係数
 };

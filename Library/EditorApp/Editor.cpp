@@ -192,6 +192,20 @@ void EDITOR::Draw()
 						//マテリアル制御
 						ImGui::Checkbox(U8(u8"鏡面反射光"), &m_pViewer->GetSpecularFlag()); ImGui::SameLine();
 						ImGui::Checkbox(U8(u8"法線マップ"), &m_pViewer->GetNormalMapFlag());
+						if (m_pViewer->GetNormalMapFlag())
+							ImGui::Checkbox(U8(u8"視差マップ"), &m_pViewer->GetDispMapFlag());
+						else
+							m_pViewer->GetDispMapFlag() = false;
+
+						if (m_pViewer->GetDispMapFlag()) {
+							if (ImGui::TreeNode(U8(u8"視差マップ調整"))) {
+								ImGui::SliderFloat(U8(u8"最小サンプリング数"), &m_pViewer->GetDispCoef().x, 1.0f, 32.0f, "%.0f");
+								ImGui::SliderFloat(U8(u8"最大サンプリング数"), &m_pViewer->GetDispCoef().y, 2.0f, 64.0f, "%.0f");
+								ImGui::SliderFloat(U8(u8"視差深さ"), &m_pViewer->GetDispCoef().z, 0.0f, 1.0f, "%.2f");
+
+								ImGui::TreePop();
+							}
+						}
 
 						ImGui::TreePop();
 					}
