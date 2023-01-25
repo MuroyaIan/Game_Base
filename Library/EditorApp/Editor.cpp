@@ -51,7 +51,7 @@ void EDITOR::Draw()
 	if (m_App.m_pDX->IsImGuiEnabled()) {
 
 		//テストメニュー
-		if (ImGui::Begin("Game Editor Ver0.5"))
+		if (ImGui::Begin("Game Editor Ver0.7"))
 		{
 			//エディタ終了
 			if (ImGui::Button(U8(u8"ゲームモード開始")))
