@@ -14,7 +14,8 @@ VIEWER::VIEWER(APP& App) :
 	m_Gfx(App.GetGfxPack()), m_Input(App.GetInputMgr()), m_aDrawer(), m_Camera(App),
 	m_pLoader(), m_Scale(1.0f), m_RotY(0.0f), m_bDrawNormal(false), m_bDrawSurface(false),
 	m_bDrawAnimation(false), m_AnimationID(0), m_AnimFrame(0), m_bAnimPause(false),
-	m_Drawer_Bone(), m_Drawer_BoneLine(), m_bDrawBone(false), m_LightPos()
+	m_Drawer_Bone(), m_Drawer_BoneLine(), m_bDrawBone(false),
+	m_LightPos(-1.0f, 1.0f, -1.0f), m_bUseSpecular(true), m_bUseNormalMap(true)
 {
 	//ÉÇÉfÉãÉçÅ[É_èâä˙âª
 	m_pLoader = std::make_unique<FBX_LOADER>();

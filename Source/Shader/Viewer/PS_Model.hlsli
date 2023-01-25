@@ -10,7 +10,7 @@
 SamplerState Sampler : register(s0);
 
 //テクスチャ
-Texture2D TexMap[3] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal
+Texture2D TexMap[4] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal, 3:Displacement
 
 //定数バッファ（マテリアル）
 cbuffer CB_MATERIAL : register(b0)

@@ -75,10 +75,11 @@ VS_OUT main(VS_IN vsi)
 	vso.vNorV_ToCamera = normalize(-PosWV);
 
 	//光の情報を計算（ビュー空間へ変換）
-	float3 PosL = LightPos.xyz;
-	PosL.x += cbLightOffset.x * 2.0f;
-	PosL.y -= cbLightOffset.y * 2.0f;
-	PosL.z += cbLightOffset.z * 2.0f;
+	float3 PosL = {
+		cbLightPos.x,
+		cbLightPos.y,
+		cbLightPos.z
+	};
 	vso.vDirV_ToLight = mul(PosL, (float3x3) mtxView);	//鏡面反射確認の為、疑似的に位置を設定
 	vso.vNorV_ToLight = normalize(vso.vDirV_ToLight);	//光源への単位ベクトル
 

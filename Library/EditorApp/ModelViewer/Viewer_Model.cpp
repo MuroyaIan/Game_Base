@@ -68,6 +68,15 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 	else
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
 
+	//Displacementマップ
+	if (MeshData.aTex_Displacement.size() > 0) {
+		std::string Path = m_Loader.GetFilePath();
+		Path += MeshData.aTex_Displacement[0];
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = TEX_LOADER::LoadTexture(Path.c_str());
+	}
+	else
+		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = TEX_LOADER::LoadTexture("Asset/Texture/null.png");
+
 	//テクスチャバッファ作成
 	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx, aData));
 	for (auto& d : aData)
@@ -111,6 +120,12 @@ void VIEWER_MODEL::Update() noexcept
 		//ローカル行列リセット
 		dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
 	}
+
+	//マテリアル更新
+	if (m_Viewer.GetSpecularFlag())
+		m_Material.Specular = m_Loader.GetMesh(m_MeshIndex).MaterialData.Specular;
+	else
+		m_Material.Specular = { 0.0f, 0.0f, 0.0f, 1.0f };
 }
 
 //描画処理
@@ -121,7 +136,8 @@ void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 	pcbLight->Update(m_Gfx, Offset);
 
 	//その他のバインド
-	if (bUseNormalMap) {
+	if (bUseNormalMap &&
+		m_Viewer.GetNormalMapFlag()) {
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_NORMAL);
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_NORMAL);
 		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_NORMAL);

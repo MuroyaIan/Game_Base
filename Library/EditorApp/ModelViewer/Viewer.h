@@ -86,6 +86,14 @@ public:
 	{
 		return m_LightPos;
 	}
+	bool& GetSpecularFlag() noexcept				//鏡面反射フラグ参照
+	{
+		return m_bUseSpecular;
+	}
+	bool& GetNormalMapFlag() noexcept				//法線マップフラグ参照
+	{
+		return m_bUseNormalMap;
+	}
 
 private:
 
@@ -111,4 +119,6 @@ private:
 	bool m_bDrawBone;									//骨描画フラグ
 
 	DirectX::XMFLOAT3 m_LightPos;						//ライト座標(変化量)
+	bool m_bUseSpecular;								//鏡面反射を適用
+	bool m_bUseNormalMap;								//法線マップを適用
 };

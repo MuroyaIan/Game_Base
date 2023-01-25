@@ -801,6 +801,9 @@ void FBX_LOADER::GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, 
 		//ノーマルマップ
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sNormalMap, Mesh.aTex_Normal, Mesh.aLayerTex_Normal);
 
+		//視差マップ
+		GetTextureName(pMaterial, FbxSurfaceMaterial::sDisplacementColor, Mesh.aTex_Displacement, Mesh.aLayerTex_Displacement);
+
 		//鏡面反射光
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sSpecular, Mesh.aTex_Specular, Mesh.aLayerTex_Specular);
 
@@ -823,6 +826,9 @@ void FBX_LOADER::GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, 
 
 		//ノーマルマップ
 		GetTextureName(pMaterial, FbxSurfaceMaterial::sNormalMap, Mesh.aTex_Normal, Mesh.aLayerTex_Normal);
+
+		//視差マップ
+		GetTextureName(pMaterial, FbxSurfaceMaterial::sDisplacementColor, Mesh.aTex_Displacement, Mesh.aLayerTex_Displacement);
 	}
 }
 

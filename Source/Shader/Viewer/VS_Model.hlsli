@@ -24,8 +24,5 @@ cbuffer CB_BONE : register(b1)
 //定数バッファ（光源制御）
 cbuffer CB_LIGHT_CTRL : register(b2)
 {
-	float4 cbLightOffset;	//光源の変化量
+	float4 cbLightPos;	//光源の座標
 }
-
-//グローバル定数（仮の平行光源）
-static const float3 LightPos = { -1.0f, 1.0f, -1.0f };	//平行光源の向き

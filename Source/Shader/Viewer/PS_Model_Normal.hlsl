@@ -25,11 +25,73 @@ float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float2x3 ModelColor);
 //エントリーポイント
 float4 main(PS_IN psi) : SV_TARGET
 {
+	//UV座標を計算
+	float height_scale = 0.1f;
+
+	//サンプリング数設定（注視方向に応じてレイヤ層を分割する）
+	const float minLayers = 8;
+	const float maxLayers = 32;
+	float numLayers = lerp(maxLayers, minLayers, abs(dot(float3(0.0f, 0.0f, 1.0f), psi.vNorT_ToCamera)));
+
+
+
+	// calculate the size of each layer
+	float layerDepth = 1.0f / numLayers; //層ごとの深さの割合
+	// depth of current layer
+	float currentLayerDepth = 0.0f;
+	// the amount to shift the texture coordinates per layer (from vector P)
+	//float2 vParallax = psi.vNorT_ToCamera.xy * height_scale;
+	float2 vParallax = psi.vNorT_ToCamera.xy / psi.vNorT_ToCamera.z * height_scale;
+	float2 deltaTexCoords = vParallax / numLayers; //層ごとの視差ベクトル
+
+
+
+	// get initial values
+	float2 currentTexCoords = psi.tex;
+	float currentDepthMapValue = TexMap[3].Sample(Sampler, currentTexCoords).r;
+
+	[loop][fastopt]
+	while (currentLayerDepth < currentDepthMapValue)
+	{
+		// shift texture coordinates along direction of P
+		currentTexCoords += deltaTexCoords;
+		// get depthmap value at current texture coordinates
+		currentDepthMapValue = TexMap[3].SampleLevel(Sampler, currentTexCoords, 0).r;
+		// get depth of next layer
+		currentLayerDepth += layerDepth;
+	}
+
+
+
+	// get texture coordinates before collision (reverse operations)
+	float2 prevTexCoords = currentTexCoords - deltaTexCoords;
+
+	// get depth after and before collision for linear interpolation
+	float afterDepth = currentDepthMapValue - currentLayerDepth;
+	float beforeDepth = TexMap[3].Sample(Sampler, prevTexCoords).r - currentLayerDepth + layerDepth;
+
+	// interpolation of texture coordinates
+	float weight = afterDepth / (afterDepth - beforeDepth);
+	float2 texDisp = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
+
+	//float height = TexMap[3].Sample(Sampler, psi.tex).r;
+	//float2 vParallax = psi.vNorT_ToCamera.xy / psi.vNorT_ToCamera.z * (height * height_scale);
+	//float2 texDisp = psi.tex + vParallax;
+
+	//UV座標確認（超過分のピクセルを破棄する）⇒平面の場合はこれで解決
+	texDisp = texDisp > 1.0f ? -1.0f : texDisp;
+	texDisp = texDisp < 0.0f ? -1.0f : texDisp;
+	clip(texDisp);
+
+
+
+	//float2 texDisp = psi.tex;
+
 	//テクスチャ取得
 	const float3x4 Texture = {
-		TexMap[0].Sample(Sampler, psi.tex),		//Diffuse
-		TexMap[1].Sample(Sampler, psi.tex),		//Specular
-		TexMap[2].Sample(Sampler, psi.tex)		//Normal
+		TexMap[0].Sample(Sampler, texDisp),		//Diffuse
+		TexMap[1].Sample(Sampler, texDisp),		//Specular
+		TexMap[2].Sample(Sampler, texDisp)		//Normal
 	};
 
 	//法線取得

@@ -80,10 +80,11 @@ VS_OUT main(VS_IN vsi)
 	vso.vNorT_ToCamera = normalize(-vso.vNorT_ToCamera);
 
 	//Œõ‚Ìî•ñ‚ğŒvZiÚ‹óŠÔ‚Ö•ÏŠ·j
-	float3 PosL = LightPos.xyz;
-	PosL.x += cbLightOffset.x * 2.0f;
-	PosL.y -= cbLightOffset.y * 2.0f;
-	PosL.z += cbLightOffset.z * 2.0f;
+	float3 PosL = {
+		cbLightPos.x,
+		cbLightPos.y,
+		cbLightPos.z
+	};
 	//vso.vDirT_ToLight = mul(PosL, (float3x3) mtxView);
 	//vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose((float3x3) mtxView));
 	vso.vDirT_ToLight = mul(PosL, transpose((float3x3) mtxWorld));

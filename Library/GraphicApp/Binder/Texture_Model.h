@@ -24,9 +24,10 @@ public:
 	//テクスチャタイプ
 	enum class TEX_TYPE
 	{
-		Diffuse,	//拡散色
-		Specular,	//反射色
-		Normal,		//法線
+		Diffuse,		//拡散色
+		Specular,		//反射色
+		Normal,			//法線マップ
+		Displacement,	//視差マップ
 
 		MaxType
 	};

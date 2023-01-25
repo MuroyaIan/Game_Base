@@ -112,7 +112,7 @@ void EDITOR::Draw()
 
 				//骨表示切替
 				if (PolyNum > 0 && m_pViewer->GetLoader().GetSkeleton().size() > 0) {
-					ImGui::Checkbox(U8(u8"骨表示"), &m_pViewer->GetFlag_DrawBone()); ImGui::SameLine();
+					ImGui::Checkbox(U8(u8"骨表示  "), &m_pViewer->GetFlag_DrawBone()); ImGui::SameLine();
 				}
 
 				//アニメーション再生
@@ -189,6 +189,10 @@ void EDITOR::Draw()
 						ImGui::SliderFloat(U8(u8"Y軸回転"), &RotY, -180.0f, 180.0f, "%.f");
 						m_pViewer->GetModelRotation() = gMath::GetRad(RotY);
 
+						//マテリアル制御
+						ImGui::Checkbox(U8(u8"鏡面反射光"), &m_pViewer->GetSpecularFlag()); ImGui::SameLine();
+						ImGui::Checkbox(U8(u8"法線マップ"), &m_pViewer->GetNormalMapFlag());
+
 						ImGui::TreePop();
 					}
 				}
@@ -212,9 +216,9 @@ void EDITOR::Draw()
 
 						//ライト座標
 						dx::XMFLOAT3& LightPos = m_pViewer->GetLightPos();
-						ImGui::SliderFloat(U8(u8"座標X"), &LightPos.x, 0.0f, 1.0f, "%.1f");
-						ImGui::SliderFloat(U8(u8"座標Y"), &LightPos.y, 0.0f, 1.0f, "%.1f");
-						ImGui::SliderFloat(U8(u8"座標Z"), &LightPos.z, 0.0f, 1.0f, "%.1f");
+						ImGui::SliderFloat(U8(u8"座標X"), &LightPos.x, -1.0f, 1.0f, "%.1f");
+						ImGui::SliderFloat(U8(u8"座標Y"), &LightPos.y, -1.0f, 1.0f, "%.1f");
+						ImGui::SliderFloat(U8(u8"座標Z"), &LightPos.z, -1.0f, 1.0f, "%.1f");
 
 						ImGui::TreePop();
 					}
