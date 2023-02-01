@@ -255,18 +255,18 @@ void FBX_LOADER::Load(const char* FilePath, bool bAnimOnly)
 	//ファイルパス保存
 	m_FilePath = FilePath;
 	char Sep1 = '\\';
-	char Sep2 = 47;     //⇒'/'
+	char Sep2 = 47;		//⇒'/'
 	char Sep3 = '.';
 	std::vector<std::string> aStr1 = gText::Split(m_FilePath, Sep1);
 	std::vector<std::string> aStr2 = gText::Split(aStr1[aStr1.size() - 1], Sep2);
-	std::vector<std::string> aStr3 = gText::Split(aStr2[aStr2.size() - 1], Sep3);   //パス分解⇒ファイル名取得
+	std::vector<std::string> aStr3 = gText::Split(aStr2[aStr2.size() - 1], Sep3);	//パス分解⇒ファイル名取得
 	m_FilePath = "Asset/Model/Input/";
 	m_FilePath += aStr3[0];
-	m_FilePath += "/";                                                              //ファイルパス作成
+	m_FilePath += "/";																//ファイルパス作成
 
 	//インポータ作成
 	m_pImporter = FbxImporter::Create(m_pManager, "");
-	if (!m_pImporter->Initialize(FilePath, -1, m_pManager->GetIOSettings())) {      //モデル読込
+	if (!m_pImporter->Initialize(FilePath, -1, m_pManager->GetIOSettings())) {		//モデル読込
 		m_pImporter->Destroy();
 		throw ERROR_EX2("インポートエラー");
 	}
@@ -277,7 +277,7 @@ void FBX_LOADER::Load(const char* FilePath, bool bAnimOnly)
 		m_pScene->Destroy();
 	}
 	m_pScene = FbxScene::Create(m_pManager, "Scene");
-	if (!m_pImporter->Import(m_pScene)) {   //モデル情報格納
+	if (!m_pImporter->Import(m_pScene)) {	//モデル情報格納
 		m_pScene->Destroy();
 		m_pImporter->Destroy();
 		throw ERROR_EX2("インポートエラー");
@@ -287,11 +287,11 @@ void FBX_LOADER::Load(const char* FilePath, bool bAnimOnly)
 	//全般設定
 	FbxSystemUnit SceneSystemUnit = m_pScene->GetGlobalSettings().GetSystemUnit();
 	if (SceneSystemUnit.GetScaleFactor() != 1.0f)
-		FbxSystemUnit::cm.ConvertScene(m_pScene);       //シーンの単位をcmに設定する
+		FbxSystemUnit::cm.ConvertScene(m_pScene);		//シーンの単位をcmに設定する
 	FbxGeometryConverter Converter(m_pManager);
-	//Converter.Triangulate(m_pScene, true);              //ポリゴン三角化
-	Converter.SplitMeshesPerMaterial(m_pScene, true);   //全Mesh分割（マテリアルごと）
-	GetAnimationData();                                 //アニメーション取得
+	//Converter.Triangulate(m_pScene, true);				//ポリゴン三角化
+	Converter.SplitMeshesPerMaterial(m_pScene, true);	//全Mesh分割（マテリアルごと）
+	GetAnimationData();									//アニメーション取得
 
 	//ノード取得
 	if (!bAnimOnly) {
@@ -321,34 +321,34 @@ void FBX_LOADER::GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone)
 {
 	//属性タイプ名の配列
 	const char* AttrTypeNames[] = {
-		"eUnknown",             //不明
-		"eNull",                //NULL
-		"eMarker",              //マーカ
-		"eSkeleton",            //ボーン
-		"eMesh",                //メッシュ
-		"eNurbs",               //
-		"ePatch",               //
-		"eCamera",              //
-		"eCameraStereo",        //
-		"eCameraSwitcher",      //
-		"eLight",               //
-		"eOpticalReference",    //
-		"eOpticalMarker",       //
-		"eNurbsCurve",          //NURBS曲線
-		"eTrimNurbsSurface",    //NURBSトリム
-		"eBoundary",            //境界ボリューム配列
-		"eNurbsSurface",        //NURBS曲面
-		"eShape",               //
-		"eLODGroup",            //
-		"eSubDiv",              //
-		"eCachedEffect",        //
-		"eLine"                 //
+		"eUnknown",				//不明
+		"eNull",				//NULL
+		"eMarker",				//マーカ
+		"eSkeleton",			//ボーン
+		"eMesh",				//メッシュ
+		"eNurbs",				//
+		"ePatch",				//
+		"eCamera",				//
+		"eCameraStereo",		//
+		"eCameraSwitcher",		//
+		"eLight",				//
+		"eOpticalReference",	//
+		"eOpticalMarker",		//
+		"eNurbsCurve",			//NURBS曲線
+		"eTrimNurbsSurface",	//NURBSトリム
+		"eBoundary",			//境界ボリューム配列
+		"eNurbsSurface",		//NURBS曲面
+		"eShape",				//
+		"eLODGroup",			//
+		"eSubDiv",				//
+		"eCachedEffect",		//
+		"eLine"					//
 	};
 
 	//ノード
 	FBX_DATA Data;
 	Data.Node = Node;
-	BONE_DATA* pBone = nullptr; //ボーンのポインタ
+	BONE_DATA* pBone = nullptr;	//ボーンのポインタ
 
 	//ノード名
 	for (size_t i = 0, Cnt = SpaceCnt; i < Cnt; i++)
@@ -369,13 +369,13 @@ void FBX_LOADER::GetNodes(FbxNode* Node, int SpaceCnt, BONE_DATA* ParentBone)
 
 		//情報読込
 		switch (AttrType) {
-			case FbxNodeAttribute::EType::eMesh:            //メッシュ情報取得
+			case FbxNodeAttribute::EType::eMesh:			//メッシュ情報取得
 				GetMesh(Attr, Node->GetName());
 				break;
-			case FbxNodeAttribute::EType::eSkeleton:        //ボーン情報更新
+			case FbxNodeAttribute::EType::eSkeleton:		//ボーン情報更新
 				for (auto& b : m_aBone) {
 					if (b.BoneName == Node->GetName()) {
-						if (ParentBone == nullptr)          //ルートボーン確認
+						if (ParentBone == nullptr)			//ルートボーン確認
 							b.IsRoot = true;
 						else
 							ParentBone->aChildBone.emplace_back(&b);
@@ -418,10 +418,10 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 
 	//頂点取得
 	std::vector<dx::XMFLOAT3> aPos(0);
-	FbxVector4* Vertices = pMesh->GetControlPoints();           //頂点バッファ取得
-	Mesh.aIndexBuffer.resize(pMesh->GetControlPointsCount());   //頂点バッファ配列作成
-	int* Indices = pMesh->GetPolygonVertices();                 //インデックスバッファ取得
-	size_t vtxCnt = pMesh->GetPolygonVertexCount();             //頂点座標の数取得
+	FbxVector4* Vertices = pMesh->GetControlPoints();			//頂点バッファ取得
+	Mesh.aIndexBuffer.resize(pMesh->GetControlPointsCount());	//頂点バッファ配列作成
+	int* Indices = pMesh->GetPolygonVertices();					//インデックスバッファ取得
+	size_t vtxCnt = pMesh->GetPolygonVertexCount();				//頂点座標の数取得
 	for (size_t i = 0; i < vtxCnt; i++) {
 		int iCnt = static_cast<int>(i);
 
@@ -445,7 +445,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 	//法線取得
 	std::vector<dx::XMFLOAT3> aNormal(0);
 	FbxArray<FbxVector4> Normals;
-	pMesh->GetPolygonVertexNormals(Normals);                        //法線リスト取得
+	pMesh->GetPolygonVertexNormals(Normals);					//法線リスト取得
 	for (size_t i = 0, Cnt = Normals.Size(); i < Cnt; i++) {
 		auto pNor = &Normals[static_cast<int>(i)][0];
 
@@ -462,9 +462,9 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 	//UV座標取得
 	std::vector<dx::XMFLOAT2> aUV;
 	FbxStringList uvSetNames;
-	pMesh->GetUVSetNames(uvSetNames);                               //uvSetの名前リスト取得
+	pMesh->GetUVSetNames(uvSetNames);								//uvSetの名前リスト取得
 	FbxArray<FbxVector2> uvBuff;
-	pMesh->GetPolygonVertexUVs(uvSetNames.GetStringAt(0), uvBuff);  //uvSet取得
+	pMesh->GetPolygonVertexUVs(uvSetNames.GetStringAt(0), uvBuff);	//uvSet取得
 	for (size_t i = 0, Cnt = uvBuff.Size(); i < Cnt; i++) {
 		auto puv = &uvBuff[static_cast<int>(i)][0];
 
@@ -474,7 +474,7 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 		UV.y = 1.0f - static_cast<float>(*puv);
 		aUV.emplace_back(UV);
 	}
-	if (uvBuff.Size() == 0) {                                       //UV情報がない場合
+	if (uvBuff.Size() == 0) {										//UV情報がない場合
 		for (size_t i = 0, Cnt = aNormal.size(); i < Cnt; i++)
 			aUV.emplace_back(dx::XMFLOAT2{ 0.0f, 0.0f });
 	}
@@ -650,30 +650,30 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 	Mesh.vsData.m_Vertices = std::move(aVertex);
 
 	//マテリアル取得
-	int MaterialNum = pMesh->GetElementMaterialCount();     //マテリアル数取得
+	int MaterialNum = pMesh->GetElementMaterialCount();		//マテリアル数取得
 	if (MaterialNum == 0) {
 		m_aMesh.emplace_back(std::move(Mesh));
 		return;
 	}
-	FbxLayerElementMaterial* pMaterial = pMesh->GetElementMaterial(0);  //メッシュ側のマテリアル情報取得
+	FbxLayerElementMaterial* pMaterial = pMesh->GetElementMaterial(0);	//メッシュ側のマテリアル情報取得
 	if (pMaterial == nullptr) {
 		m_aMesh.emplace_back(std::move(Mesh));
 		return;
 	}
-	int MaterialIndex = pMaterial->GetIndexArray().GetAt(0);            //マテリアルのインデックス取得
+	int MaterialIndex = pMaterial->GetIndexArray().GetAt(0);			//マテリアルのインデックス取得
 	FbxSurfaceMaterial* SurfaceMaterial = pMesh->GetNode()->GetSrcObject<FbxSurfaceMaterial>(MaterialIndex);
 	if (SurfaceMaterial == nullptr) {
 		m_aMesh.emplace_back(std::move(Mesh));
 		return;
 	}
-	Mesh.MaterialName += SurfaceMaterial->GetName();        //マテリアル名取得
+	Mesh.MaterialName += SurfaceMaterial->GetName();		//マテリアル名取得
 
 	//LambertとPhongを識別
 	FbxSurfacePhong* Phong{ nullptr };
 	FbxSurfaceLambert* Lambert{ nullptr };
-	if (SurfaceMaterial->GetClassId().Is(FbxSurfacePhong::ClassId))             //Phongにダウンキャスト
+	if (SurfaceMaterial->GetClassId().Is(FbxSurfacePhong::ClassId))				//Phongにダウンキャスト
 		Phong = (FbxSurfacePhong*)SurfaceMaterial;
-	else if (SurfaceMaterial->GetClassId().Is(FbxSurfaceLambert::ClassId)) {    //Lambertにダウンキャスト
+	else if (SurfaceMaterial->GetClassId().Is(FbxSurfaceLambert::ClassId)) {	//Lambertにダウンキャスト
 		Lambert = (FbxSurfaceLambert*)SurfaceMaterial;
 		Mesh.IsPhong = false;
 	}
@@ -836,22 +836,22 @@ void FBX_LOADER::GetTexturePath(MESH_DATA& Mesh, FbxSurfaceMaterial* pMaterial, 
 void FBX_LOADER::GetTextureName(FbxSurfaceMaterial* pMaterial, const char* Type, std::vector<std::string>& Tex, std::vector<LAYER_TEX_DATA>& LayerTex) noexcept
 {
 	FbxProperty Property = pMaterial->FindProperty(Type);
-	size_t LayerNum = Property.GetSrcObjectCount<FbxLayeredTexture>();      //LayeredTextureの枚数取得
-	if (LayerNum == 0) {                                                    //LayeredTexture無し⇒通常テクスチャ
+	size_t LayerNum = Property.GetSrcObjectCount<FbxLayeredTexture>();		//LayeredTextureの枚数取得
+	if (LayerNum == 0) {													//LayeredTexture無し⇒通常テクスチャ
 
 		//各テクスチャの情報を取得
-		size_t TextureNum = Property.GetSrcObjectCount<FbxFileTexture>();   //通常テクスチャの枚数確認
+		size_t TextureNum = Property.GetSrcObjectCount<FbxFileTexture>();	//通常テクスチャの枚数確認
 		for (size_t i = 0; i < TextureNum; ++i) {
-			FbxFileTexture* Texture = Property.GetSrcObject<FbxFileTexture>(static_cast<int>(i));   //テクスチャオブジェクト取得
+			FbxFileTexture* Texture = Property.GetSrcObject<FbxFileTexture>(static_cast<int>(i));	//テクスチャオブジェクト取得
 			std::string FileName = "";
 			if (Texture != nullptr)
-				FileName += Texture->GetRelativeFileName();                 //ファイルパス取得
+				FileName += Texture->GetRelativeFileName();					//ファイルパス取得
 			else
 				FileName += "Texture Not Found!";
 
 			//パス分解⇒ファイル名格納
 			char Sep1 = '\\';
-			char Sep2 = 47;     //⇒'/'
+			char Sep2 = 47;		//⇒'/'
 			std::vector<std::string> aStr1 = gText::Split(FileName, Sep1);
 			std::vector<std::string> aStr2 = gText::Split(aStr1[aStr1.size() - 1], Sep2);
 			Tex.emplace_back(aStr2[aStr2.size() - 1]);
@@ -865,18 +865,18 @@ void FBX_LOADER::GetTextureName(FbxSurfaceMaterial* pMaterial, const char* Type,
 			LayerTex.emplace_back(LAYER_TEX_DATA());
 
 			//レイヤごとのテクスチャ情報を取得
-			size_t TextureNum = LayeredTexture->GetSrcObjectCount<FbxFileTexture>();    //テクスチャの枚数確認
+			size_t TextureNum = LayeredTexture->GetSrcObjectCount<FbxFileTexture>();	//テクスチャの枚数確認
 			for (size_t i = 0; i < TextureNum; ++i) {
-				FbxFileTexture* Texture = Property.GetSrcObject<FbxFileTexture>(static_cast<int>(i));   //テクスチャオブジェクト取得
+				FbxFileTexture* Texture = Property.GetSrcObject<FbxFileTexture>(static_cast<int>(i));	//テクスチャオブジェクト取得
 				std::string FileName = "";
 				if (Texture != nullptr)
-					FileName += Texture->GetRelativeFileName();                         //ファイルパス取得
+					FileName += Texture->GetRelativeFileName();							//ファイルパス取得
 				else
 					FileName += "Texture Not Found!";
 
 				//パス分解⇒ファイル名格納
 				char Sep1 = '\\';
-				char Sep2 = 47;     //⇒'/'
+				char Sep2 = 47;		//⇒'/'
 				std::vector<std::string> aStr1 = gText::Split(FileName, Sep1);
 				std::vector<std::string> aStr2 = gText::Split(aStr1[aStr1.size() - 1], Sep2);
 				LayerTex[j].aTex.emplace_back(aStr2[aStr2.size() - 1]);
@@ -889,7 +889,7 @@ void FBX_LOADER::GetTextureName(FbxSurfaceMaterial* pMaterial, const char* Type,
 void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 {
 	//例外処理
-	if (m_aSkin.size() == 0)    //アニメーション情報がない
+	if (m_aSkin.size() == 0)	//アニメーション情報がない
 		return;
 
 	//前処理
@@ -903,14 +903,14 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 	FbxAMatrix mtxGeometryOffset = FbxAMatrix{ vecT, vecR, vecS };
 
 	//ボーン情報取得
-	size_t SkinCnt = pMesh->GetDeformerCount(FbxDeformer::eSkin);   //スキンの数取得
+	size_t SkinCnt = pMesh->GetDeformerCount(FbxDeformer::eSkin);	//スキンの数取得
 	for (size_t i = 0; i < SkinCnt; ++i) {
-		int AnimID = static_cast<int>(i + AnimLoadBaseIndex);       //アニメーションID
-		size_t MaxFrame = m_aAnimation[AnimID].StopFrame;           //再生フレーム数
+		int AnimID = static_cast<int>(i + AnimLoadBaseIndex);		//アニメーションID
+		size_t MaxFrame = m_aAnimation[AnimID].StopFrame;			//再生フレーム数
 
 		//スキン取得
 		FbxSkin* pSkin = (FbxSkin*)pMesh->GetDeformer(static_cast<int>(i), FbxDeformer::eSkin);
-		size_t ClusterNum = pSkin->GetClusterCount();               //骨の数取得
+		size_t ClusterNum = pSkin->GetClusterCount();				//骨の数取得
 		for (size_t j = 0; j < ClusterNum; ++j) {
 
 			//骨ID取得
@@ -920,7 +920,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 			for (auto& b : m_aBone) {
 				if (b.BoneName == BoneName) {
 					BoneID = b.Index;
-					Mesh.aBoneID.emplace_back(BoneID);  //対応する骨を記憶
+					Mesh.aBoneID.emplace_back(BoneID);	//対応する骨を記憶
 					break;
 				}
 			}
@@ -934,7 +934,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 			FbxMatrix clusterRelativeInitPosition;
 			clusterRelativeInitPosition = clusterGlobalInitPosition.Inverse() * referenceGlobalInitPosition;
 			Mesh.aReferenceGlobalInitPosition.emplace_back(referenceGlobalInitPosition);
-			Mesh.aClusterRelativeInitPosition.emplace_back(clusterRelativeInitPosition);    //初期姿勢行列を記憶
+			Mesh.aClusterRelativeInitPosition.emplace_back(clusterRelativeInitPosition);	//初期姿勢行列を記憶
 			if (!m_aBone[BoneID].bMtxIsLoad) {
 
 				//行列初期化
@@ -951,7 +951,7 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 			}
 
 			//フレーム姿勢
-			if (m_aSkin[AnimID].aFrameData[BoneID].aMatrix.size() < MaxFrame) {     //フレーム姿勢未登録の場合⇒情報格納
+			if (m_aSkin[AnimID].aFrameData[BoneID].aMatrix.size() < MaxFrame) {		//フレーム姿勢未登録の場合⇒情報格納
 				FRAME_DATA FrameData;
 				for (size_t k = 0; k < MaxFrame; ++k) {
 					FbxTime time = m_aAnimation[AnimID].Start + m_Period * static_cast<int>(k);
@@ -994,9 +994,9 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 			}
 
 			//その他情報取得
-			size_t IndexNum = pCluster->GetControlPointIndicesCount();  //骨が影響するインデックスの数
-			int* pIndices = pCluster->GetControlPointIndices();         //頂点インデックス配列
-			double* pWeights = pCluster->GetControlPointWeights();      //比重配列
+			size_t IndexNum = pCluster->GetControlPointIndicesCount();	//骨が影響するインデックスの数
+			int* pIndices = pCluster->GetControlPointIndices();			//頂点インデックス配列
+			double* pWeights = pCluster->GetControlPointWeights();		//比重配列
 			for (size_t k = 0; k < IndexNum; ++k) {
 
 				//頂点インデックス取得
@@ -1012,9 +1012,9 @@ void FBX_LOADER::GetSkinData(MESH_DATA& Mesh, FbxMesh* MeshIn) noexcept
 	//骨なしメッシュの場合
 	if (SkinCnt == 0) {
 		for (size_t i = 0, Cnt = m_aSkin.size() - AnimLoadBaseIndex; i < Cnt; ++i) {
-			Mesh.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});    //行列配列確保
-			int AnimID = static_cast<int>(i + AnimLoadBaseIndex);       //アニメーションID
-			size_t MaxFrame = m_aAnimation[AnimID].StopFrame;           //再生するフレーム数
+			Mesh.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});	//行列配列確保
+			int AnimID = static_cast<int>(i + AnimLoadBaseIndex);		//アニメーションID
+			size_t MaxFrame = m_aAnimation[AnimID].StopFrame;			//再生するフレーム数
 
 			//フレーム姿勢
 			for (size_t k = 0; k < MaxFrame; ++k) {
@@ -1058,14 +1058,14 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 	FbxAMatrix mtxGeometryOffset = FbxAMatrix{ vecT, vecR, vecS };
 
 	//ボーン情報取得
-	size_t SkinCnt = pMesh->GetDeformerCount(FbxDeformer::eSkin);   //スキンの数取得
+	size_t SkinCnt = pMesh->GetDeformerCount(FbxDeformer::eSkin);	//スキンの数取得
 	for (size_t i = 0; i < SkinCnt; ++i) {
-		int AnimID = static_cast<int>(i + AnimLoadBaseIndex);       //アニメーションID
-		size_t MaxFrame = m_aAnimation[AnimID].StopFrame;           //再生フレーム数
+		int AnimID = static_cast<int>(i + AnimLoadBaseIndex);		//アニメーションID
+		size_t MaxFrame = m_aAnimation[AnimID].StopFrame;			//再生フレーム数
 
 		//スキン取得
 		FbxSkin* pSkin = (FbxSkin*)pMesh->GetDeformer(static_cast<int>(i), FbxDeformer::eSkin);
-		size_t ClusterNum = pSkin->GetClusterCount();               //骨の数取得
+		size_t ClusterNum = pSkin->GetClusterCount();				//骨の数取得
 		for (size_t j = 0; j < ClusterNum; ++j) {
 
 			//骨ID取得
@@ -1103,7 +1103,7 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 			}
 
 			//フレーム姿勢
-			if (m_aSkin[AnimID].aFrameData[BoneID].aMatrix.size() < MaxFrame) {     //フレーム姿勢未登録の場合⇒情報格納
+			if (m_aSkin[AnimID].aFrameData[BoneID].aMatrix.size() < MaxFrame) {		//フレーム姿勢未登録の場合⇒情報格納
 				FRAME_DATA FrameData;
 				for (size_t k = 0; k < MaxFrame; ++k) {
 					FbxTime time = m_aAnimation[AnimID].Start + m_Period * static_cast<int>(k);
@@ -1162,9 +1162,9 @@ void FBX_LOADER::GetAnimationFromSkin(FbxMesh* MeshIn) noexcept
 			return;
 
 		for (size_t i = 0, Cnt = m_aSkin.size() - AnimLoadBaseIndex; i < Cnt; ++i) {
-			MeshData->aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});   //行列配列確保
-			int AnimID = static_cast<int>(i + AnimLoadBaseIndex);           //アニメーションID
-			size_t MaxFrame = m_aAnimation[AnimID].StopFrame;               //再生するフレーム数
+			MeshData->aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});	//行列配列確保
+			int AnimID = static_cast<int>(i + AnimLoadBaseIndex);			//アニメーションID
+			size_t MaxFrame = m_aAnimation[AnimID].StopFrame;				//再生するフレーム数
 
 			//フレーム姿勢
 			for (size_t k = 0; k < MaxFrame; ++k) {
@@ -1200,7 +1200,7 @@ void FBX_LOADER::GetBoneData() noexcept
 	for (size_t i = 0; i < BoneCount; ++i) {
 		int iCnt = static_cast<int>(i);
 
-		FbxSkeleton* pBone = m_pScene->GetSrcObject<FbxSkeleton>(iCnt);     //ポインタ取得
+		FbxSkeleton* pBone = m_pScene->GetSrcObject<FbxSkeleton>(iCnt);		//ポインタ取得
 		BONE_DATA Data;
 		Data.Index = iCnt;
 		Data.BoneName = pBone->GetNode()->GetName();
@@ -1218,14 +1218,14 @@ void FBX_LOADER::GetBoneData() noexcept
 //アニメーション取得
 void FBX_LOADER::GetAnimationData() noexcept
 {
-	m_pEvaluator = m_pScene->GetAnimationEvaluator();           //アニメーション評価取得
-	m_TimeMode = m_pScene->GetGlobalSettings().GetTimeMode();   //アニメーション時間設定取得
-	m_Period.SetTime(0, 0, 0, 1, 0, m_TimeMode);                //フレーム時間取得
+	m_pEvaluator = m_pScene->GetAnimationEvaluator();			//アニメーション評価取得
+	m_TimeMode = m_pScene->GetGlobalSettings().GetTimeMode();	//アニメーション時間設定取得
+	m_Period.SetTime(0, 0, 0, 1, 0, m_TimeMode);				//フレーム時間取得
 
 	//テイク情報取得
-	FbxArray<FbxString*> aTakeName;                 //テイク配列
+	FbxArray<FbxString*> aTakeName;					//テイク配列
 	m_pScene->FillAnimStackNameArray(aTakeName);
-	size_t TakeNum = aTakeName.GetCount();          //テイク数取得
+	size_t TakeNum = aTakeName.GetCount();			//テイク数取得
 	for (size_t i = 0; i < TakeNum; ++i) {
 		int iCnt = static_cast<int>(i);
 
@@ -1233,11 +1233,11 @@ void FBX_LOADER::GetAnimationData() noexcept
 		FbxTakeInfo* CurrentTakeInfo = m_pScene->GetTakeInfo(*(aTakeName[iCnt]));
 		if (CurrentTakeInfo != nullptr) {
 			ANIM_DATA Data;
-			Data.Start = CurrentTakeInfo->mLocalTimeSpan.GetStart();        //開始時刻
-			Data.Stop = CurrentTakeInfo->mLocalTimeSpan.GetStop();          //終了時刻
-			Data.StartFrame = (int)(Data.Start.Get() / m_Period.Get());     //開始フレーム
-			Data.StopFrame = (int)(Data.Stop.Get() / m_Period.Get());       //終了フレーム
-			Data.TakeName = CurrentTakeInfo->mName;                         //テイク名
+			Data.Start = CurrentTakeInfo->mLocalTimeSpan.GetStart();		//開始時刻
+			Data.Stop = CurrentTakeInfo->mLocalTimeSpan.GetStop();			//終了時刻
+			Data.StartFrame = (int)(Data.Start.Get() / m_Period.Get());		//開始フレーム
+			Data.StopFrame = (int)(Data.Stop.Get() / m_Period.Get());		//終了フレーム
+			Data.TakeName = CurrentTakeInfo->mName;							//テイク名
 
 			//フレーム数確認
 			if (Data.StartFrame < 0) {
@@ -1253,13 +1253,13 @@ void FBX_LOADER::GetAnimationData() noexcept
 		aTakeName[iCnt]->Clear();
 		SAFE_DELETE(aTakeName[iCnt]);
 	}
-	aTakeName.Clear();  //メモリ解放
+	aTakeName.Clear();	//メモリ解放
 
 	//骨情報配列追加
-	AnimLoadBaseIndex = static_cast<int>(m_aSkin.size());   //読込開始位置更新
+	AnimLoadBaseIndex = static_cast<int>(m_aSkin.size());	//読込開始位置更新
 	size_t BoneNum = m_aAnimation.size() - m_aSkin.size();
 	for (size_t i = 0; i < BoneNum; i++)
-		m_aSkin.emplace_back(SKIN_DATA{});                  //スキン情報用配列確保
+		m_aSkin.emplace_back(SKIN_DATA{});					//スキン情報用配列確保
 }
 
 //アニメーション読込
@@ -1288,7 +1288,7 @@ void FBX_LOADER::LoadAnimation()
 	}
 
 	//メッシュがない場合
-	std::vector<FbxNode*> aBone(0);                                 //骨ノードのポインタ配列
+	std::vector<FbxNode*> aBone(0);									//骨ノードのポインタ配列
 	size_t BoneCount = m_pScene->GetSrcObjectCount<FbxSkeleton>();
 	if (BoneCount == 0)
 		throw ERROR_EX2("アニメーション読込エラー：骨ノードがない。");
@@ -1297,13 +1297,13 @@ void FBX_LOADER::LoadAnimation()
 
 	//アニメーションの数ごと
 	for (size_t i = 0, Cnt = m_aSkin.size() - AnimLoadBaseIndex; i < Cnt; ++i) {
-		int AnimID = static_cast<int>(i + AnimLoadBaseIndex);   //アニメーションID
-		size_t MaxFrame = m_aAnimation[AnimID].StopFrame;       //再生するフレーム数
-		for (auto& m : m_aMesh) {                               //メッシュごと
+		int AnimID = static_cast<int>(i + AnimLoadBaseIndex);	//アニメーションID
+		size_t MaxFrame = m_aAnimation[AnimID].StopFrame;		//再生するフレーム数
+		for (auto& m : m_aMesh) {								//メッシュごと
 
 			//骨なしの場合
 			if (m.aNoSkinData.size() > 0) {
-				m.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});   //行列配列確保
+				m.aNoSkinData.emplace_back(MESH_DATA::NO_SKIN_MTX{});	//行列配列確保
 
 				//メッシュノード確認
 				FbxNode* pNode = nullptr;
@@ -1336,10 +1336,10 @@ void FBX_LOADER::LoadAnimation()
 			}
 
 			//骨ありの場合
-			for (size_t j = 0; j < m.aBoneID.size(); ++j) {     //対応する骨
+			for (size_t j = 0; j < m.aBoneID.size(); ++j) {		//対応する骨
 
 				//フレーム姿勢
-				if (m_aSkin[AnimID].aFrameData[m.aBoneID[j]].aMatrix.size() < MaxFrame) {   //フレーム姿勢未登録の場合⇒情報格納
+				if (m_aSkin[AnimID].aFrameData[m.aBoneID[j]].aMatrix.size() < MaxFrame) {	//フレーム姿勢未登録の場合⇒情報格納
 					FRAME_DATA FrameData;
 					for (size_t k = 0; k < MaxFrame; ++k) {
 						FbxTime time = m_aAnimation[AnimID].Start + m_Period * static_cast<int>(k);
@@ -1423,6 +1423,8 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 			pMeshBin->NameSize_Specular = static_cast<int>(pMeshData->aTex_Specular[0].size());
 		if (m.aTex_Normal.size() > 0)
 			pMeshBin->NameSize_Normal = static_cast<int>(pMeshData->aTex_Normal[0].size());
+		if (m.aTex_Displacement.size() > 0)
+			pMeshBin->NameSize_Displacement = static_cast<int>(pMeshData->aTex_Displacement[0].size());
 		pMeshBin++;
 		pMeshData++;
 	}
@@ -1431,13 +1433,13 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 	oss.str("");
 
 	//メッシュ情報（詳細）書出し
-	for (size_t i = 0; i < ModelBin.MeshNum; i++) {         //メッシュごと
+	for (size_t i = 0; i < ModelBin.MeshNum; i++) {			//メッシュごと
 
 		//VSデータ作成
 		VS_DATA<VERTEX_M>& DataRef = m_aMesh[i].vsData;
 		VS_DATA<VERTEX_MB> vsData;
-		vsData.m_Indices = DataRef.m_Indices;               //インデックス
-		for (auto& v : DataRef.m_Vertices) {                //頂点情報
+		vsData.m_Indices = DataRef.m_Indices;				//インデックス
+		for (auto& v : DataRef.m_Vertices) {				//頂点情報
 
 			//頂点情報
 			VERTEX_MB Vertex;
@@ -1450,10 +1452,10 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 		}
 
 		//骨比重
-		for (auto& idx : m_aMesh[i].aIndexBuffer) {         //頂点バッファインデックス配列
+		for (auto& idx : m_aMesh[i].aIndexBuffer) {			//頂点バッファインデックス配列
 
 			//対応する頂点へ反映
-			size_t BoneNum = idx.aBoneID.size();            //頂点ごとの骨の数
+			size_t BoneNum = idx.aBoneID.size();			//頂点ごとの骨の数
 			for (auto& idxNum : idx.aIndex) {
 
 				//骨が影響しない場合
@@ -1463,8 +1465,8 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 				}
 
 				//骨比重を格納
-				for (size_t k = 0; k < 4; k++) {            //4つ以上の骨を破棄
-					if (k >= BoneNum)                       //例外処理（骨が4つ未満の場合）
+				for (size_t k = 0; k < 4; k++) {			//4つ以上の骨を破棄
+					if (k >= BoneNum)						//例外処理（骨が4つ未満の場合）
 						break;
 					vsData.m_Vertices[idxNum].m_BoneID[k] = idx.aBoneID[k];
 					vsData.m_Vertices[idxNum].m_BoneWeight[k] = idx.aWeight[k];
@@ -1509,11 +1511,17 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 		if (m_aMesh[i].aTex_Normal.size() > 0)
 			FILE_IO::SaveFile(oss.str().c_str(), m_aMesh[i].aTex_Normal[0]);
 		oss.str("");
+
+		//ファイル書出し（テクスチャDisp）
+		oss << Path << "_Mesh" << i << "_TexDisp.bin";
+		if (m_aMesh[i].aTex_Displacement.size() > 0)
+			FILE_IO::SaveFile(oss.str().c_str(), m_aMesh[i].aTex_Displacement[0]);
+		oss.str("");
 	}
 
 	//骨情報（リスト）書出し
 	std::vector<BONE_BIN> aBoneBin(ModelBin.BoneNum);
-	for (size_t i = 0; i < ModelBin.BoneNum; i++)       //骨ごと
+	for (size_t i = 0; i < ModelBin.BoneNum; i++)		//骨ごと
 		aBoneBin[i].NameSize = static_cast<int>(m_aBone[i].BoneName.size());
 	oss << Path << "_Bone.bin";
 	FILE_IO::SaveFile(oss.str().c_str(), aBoneBin);
@@ -1564,7 +1572,7 @@ void FBX_LOADER::SaveAnimData(const char* FileName, int AnimID) noexcept
 	oss.str("");
 
 	//情報書出し（詳細）
-	for (size_t i = 0, Cnt = m_aBone.size(); i < Cnt; i++) {    //骨ごと
+	for (size_t i = 0, Cnt = m_aBone.size(); i < Cnt; i++) {	//骨ごと
 		auto FrameData = &m_aSkin[AnimID].aFrameData[i];
 
 		//骨姿勢
@@ -1579,7 +1587,7 @@ void FBX_LOADER::SaveAnimData(const char* FileName, int AnimID) noexcept
 	}
 
 	//情報書出し（骨なし）
-	for (size_t i = 0, Cnt = m_aMesh.size(); i < Cnt; i++) {    //メッシュごと
+	for (size_t i = 0, Cnt = m_aMesh.size(); i < Cnt; i++) {	//メッシュごと
 
 		//骨なしメッシュ確認
 		if (m_aMesh[i].aNoSkinData.size() > 0) {

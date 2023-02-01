@@ -25,17 +25,18 @@ struct MODEL_BIN			//モデルバイナリ(xxx.bin)
 	~MODEL_BIN() noexcept {}
 };
 
-struct MESH_BIN				//メッシュバイナリ(xxx_Mesh.bin)
+struct MESH_BIN					//メッシュバイナリ(xxx_Mesh.bin)
 {
-	int NameSize;			//名前文字列のサイズ
-	int VertexNum;			//頂点数⇒(xxx_Mesh0_Data.bin)
+	int NameSize;				//名前文字列のサイズ
+	int VertexNum;				//頂点数⇒(xxx_Mesh0_Data.bin)
 	int NameSize_Diffuse;
 	int NameSize_Specular;
-	int NameSize_Normal;	//テクスチャ名のサイズ
+	int NameSize_Normal;
+	int NameSize_Displacement;	//テクスチャ名のサイズ
 
 	MESH_BIN() noexcept :
 		NameSize(0), VertexNum(0),
-		NameSize_Diffuse(0), NameSize_Specular(0), NameSize_Normal(0)
+		NameSize_Diffuse(0), NameSize_Specular(0), NameSize_Normal(0), NameSize_Displacement(0)
 	{}
 	~MESH_BIN() noexcept {}
 };

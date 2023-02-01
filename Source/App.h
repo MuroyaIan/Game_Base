@@ -58,7 +58,7 @@ class APP
 public:
 
 	//プロトタイプ宣言
-	APP();
+	explicit APP();
 	~APP();
 	int Run();											//アプリケーション実行
 	void Update();										//更新処理

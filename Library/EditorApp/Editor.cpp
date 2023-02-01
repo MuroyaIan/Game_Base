@@ -197,6 +197,7 @@ void EDITOR::Draw()
 						else
 							m_pViewer->GetDispMapFlag() = false;
 
+						//視差マッピング用係数の調整
 						if (m_pViewer->GetDispMapFlag()) {
 							if (ImGui::TreeNode(U8(u8"視差マップ調整"))) {
 								ImGui::SliderFloat(U8(u8"最小サンプリング数"), &m_pViewer->GetDispCoef().x, 1.0f, 32.0f, "%.0f");

@@ -68,6 +68,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = NullImage;
 	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = NullImage;
 	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = NullImage;
 	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
 	TEX_LOADER::ReleaseTexture(NullImage.pImageData);
 }

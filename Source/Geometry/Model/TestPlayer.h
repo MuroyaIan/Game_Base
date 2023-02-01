@@ -25,8 +25,8 @@ public:
 	//プロトタイプ宣言
 	PLAYER(APP& App) noexcept;
 	~PLAYER() noexcept;
-	void Update() noexcept;							//更新処理
-	void Draw() const noexcept(!IS_DEBUG);			//書込み処理
+	void Update() noexcept;				//更新処理
+	void Draw() const noexcept;			//書込み処理
 
 private:
 

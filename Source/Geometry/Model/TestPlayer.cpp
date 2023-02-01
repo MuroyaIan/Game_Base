@@ -27,7 +27,7 @@ void PLAYER::Update() noexcept
 }
 
 //‘ž‚Ýˆ—
-void PLAYER::Draw() const noexcept(!IS_DEBUG)
+void PLAYER::Draw() const noexcept
 {
 	m_pModel->Draw();
 }

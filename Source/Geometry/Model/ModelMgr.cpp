@@ -108,6 +108,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		Model.aMesh[i].Tex_D.resize(aMeshBin[i].NameSize_Diffuse);
 		Model.aMesh[i].Tex_S.resize(aMeshBin[i].NameSize_Specular);
 		Model.aMesh[i].Tex_N.resize(aMeshBin[i].NameSize_Normal);
+		Model.aMesh[i].Tex_Disp.resize(aMeshBin[i].NameSize_Displacement);
 	}
 
 	//メッシュ情報（詳細）読込
@@ -162,6 +163,17 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 
 			//テクスチャデータ作成
 			std::string TexName = Model.aMesh[i].Tex_N;
+			LoadTextureName(TexName, Model.m_aTexPack);
+		}
+		oss.str("");
+
+		//ファイル読込（テクスチャDisp）
+		oss << Path << "_Mesh" << i << "_TexDisp.bin";
+		if (Model.aMesh[i].Tex_Disp.size() > 0) {
+			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_Disp);
+
+			//テクスチャデータ作成
+			std::string TexName = Model.aMesh[i].Tex_Disp;
 			LoadTextureName(TexName, Model.m_aTexPack);
 		}
 		oss.str("");

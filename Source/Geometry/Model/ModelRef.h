@@ -36,11 +36,12 @@ namespace ModelRef {
 		std::string Tex_D;					//テクスチャ：拡散反射光
 		std::string Tex_S;					//テクスチャ：鏡面反射光
 		std::string Tex_N;					//テクスチャ：ノーマルマップ
+		std::string Tex_Disp;				//テクスチャ：視差マップ
 		std::vector<ANIM_PACK> aNoSkin;		//骨なしメッシュ用アニメーション配列
 
 		MESH_PACK() noexcept :
 			Name(""), vsData(), MaterialData(),
-			Tex_D(""), Tex_S(""), Tex_N(""), aNoSkin(0)
+			Tex_D(""), Tex_S(""), Tex_N(""), Tex_Disp(""), aNoSkin(0)
 		{}
 		~MESH_PACK() noexcept {}
 	};

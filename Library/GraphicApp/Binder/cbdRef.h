@@ -107,7 +107,7 @@ struct CBD_MATERIAL					//É}ÉeÉäÉAÉãèÓïÒ
 
 	CBD_MATERIAL() noexcept :
 		Ambient(0.0f, 0.0f, 0.0f, 0.0f), Diffuse(0.0f, 0.0f, 0.0f, 0.0f), Emissive(0.0f, 0.0f, 0.0f, 0.0f), Transparent(0.0f, 0.0f, 0.0f, 0.0f),
-		Specular(0.0f, 0.0f, 0.0f, 0.0f), Shininess(2.0f), Disp_MinLayerNum(8.0f), Disp_MaxLayerNum(32.0f), Disp_DepthScale(0.1f)
+		Specular(0.0f, 0.0f, 0.0f, 0.0f), Shininess(2.0f), Disp_MinLayerNum(1.0f), Disp_MaxLayerNum(2.0f), Disp_DepthScale(0.0f)
 	{}
 
 	~CBD_MATERIAL() noexcept {}
