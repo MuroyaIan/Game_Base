@@ -53,7 +53,7 @@ class INPUT_PAD
 public:
 
 	//* プロトタイプ宣言 *
-	INPUT_PAD(APP& App) noexcept;
+	explicit INPUT_PAD(APP& App) noexcept;
 	~INPUT_PAD() noexcept;
 
 	bool CheckPad(eGAMEPAD_ID nPadID) const noexcept;						//コントローラー接続確認
@@ -97,7 +97,7 @@ private:
 	using uShort = unsigned short;
 
 	//* 変数宣言 *
-	APP& m_App;										//App参照
+	APP& m_App;											//App参照
 	XINPUT_STATE m_State[MAX_PAD_NUM];					//PAD情報
 	DWORD m_PadUsed[MAX_PAD_NUM];						//PAD接続状態
 	XINPUT_VIBRATION m_Vibration[MAX_PAD_NUM];			//振動情報

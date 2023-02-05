@@ -5,7 +5,7 @@
 //===== プロトタイプ宣言 =====
 
 //文字列分割
-std::vector<std::string> gText::Split(const std::string& Text, char Sep)
+std::vector<std::string> gText::Split(const std::string& Text, char Sep) noexcept
 {
 	//変数宣言
 	std::vector<std::string> aStr;  //分割後文字列配列

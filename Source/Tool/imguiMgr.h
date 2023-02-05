@@ -23,7 +23,7 @@ class IMGUI_MGR
 public:
 
 	//プロトタイプ宣言
-	IMGUI_MGR() noexcept;
+	explicit IMGUI_MGR() noexcept;
 	~IMGUI_MGR() noexcept;
 	void DrawDemo() const noexcept;		//DEMOウィンドウ描画
 };

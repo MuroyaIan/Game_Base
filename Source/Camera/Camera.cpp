@@ -6,9 +6,9 @@
 namespace dx = DirectX;
 
 //===== グローバル定数宣言 =====
-constexpr dx::XMFLOAT3 START_POS = { 0.0f, 0.0f, -10.0f };	//カメラ位置
-constexpr dx::XMFLOAT3 START_LOOK = { 0.0f, 0.0f, 0.0f };	//注視点位置
-constexpr dx::XMFLOAT3 START_UP = { 0.0f, 1.0f, 0.0f };		//アップベクトル
+constexpr dx::XMFLOAT3 START_POS  = { 0.0f, 0.0f, -10.0f };		//カメラ位置
+constexpr dx::XMFLOAT3 START_LOOK = { 0.0f, 0.0f,   0.0f };		//注視点位置
+constexpr dx::XMFLOAT3 START_UP   = { 0.0f, 1.0f,   0.0f };		//アップベクトル
 
 constexpr short START_FOV = 60;			//視野角
 constexpr float START_NEAR_Z = 0.5f;
@@ -36,7 +36,10 @@ CAMERA::~CAMERA() noexcept
 void CAMERA::InitMatrix() noexcept
 {
 	//ワールド行列
-	dx::XMStoreFloat4x4(&m_mtxWorld, dx::XMMatrixTranslation(m_Pos.x, m_Pos.y, m_Pos.z));
+	dx::XMStoreFloat4x4(&m_mtxWorld,
+		dx::XMMatrixRotationRollPitchYaw(m_Rot.x, m_Rot.y, m_Rot.z)
+		* dx::XMMatrixTranslation(m_Pos.x, m_Pos.y, m_Pos.z)
+	);
 
 	//ビュー行列
 	dx::XMStoreFloat4x4(&m_mtxView, dx::XMMatrixLookAtLH(

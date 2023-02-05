@@ -184,7 +184,7 @@ VS_DATA<VERTEX_MB> VIEWER_MODEL::MakeData_VS() const noexcept
 		Vertex.m_Normal = v.m_Normal;
 		Vertex.m_Binormal = v.m_Binormal;
 		Vertex.m_Tangent = v.m_Tangent;
-		vsData.m_Vertices.emplace_back(Vertex);
+		vsData.m_Vertices.push_back(std::move(Vertex));
 	}
 
 	//çúî‰èd

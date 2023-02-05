@@ -20,16 +20,16 @@ class CAMERA_FP : public CAMERA
 public:
 
 	//プロトタイプ宣言
-	CAMERA_FP(APP& App) noexcept;
+	explicit CAMERA_FP(APP& App) noexcept;
 	~CAMERA_FP() noexcept override;
-	void Update() noexcept override;	//更新処理
+	void Update() noexcept override;		//更新処理
 
 private:
 
 	//変数宣言
-	INPUT_MGR& m_Input;					//入力参照
+	INPUT_MGR& m_Input;						//入力参照
 
 	//プロトタイプ宣言
-	void ResetCamera() noexcept override;	//カメラリセット
 	void UpdateMatrix() noexcept;			//行列更新
+	void ResetCamera() noexcept override;	//カメラリセット
 };

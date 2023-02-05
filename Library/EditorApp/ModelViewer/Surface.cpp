@@ -54,7 +54,7 @@ VS_DATA<VERTEX> SURFACE::MakeData_VS() const
 	for (auto& d : vsData.m_Vertices) {
 		VERTEX vtx = VERTEX{ d.m_Pos };
 		vtx.m_Pos.x *= -1.0f;
-		vsDataOut.m_Vertices.emplace_back(std::move(vtx));
+		vsDataOut.m_Vertices.push_back(std::move(vtx));
 	}
 
 	//インデックス作成

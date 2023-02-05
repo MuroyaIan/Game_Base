@@ -59,7 +59,7 @@ class INPUT_KB
 public:
 
 	//* プロトタイプ宣言 *
-	INPUT_KB(APP& App) noexcept;
+	explicit INPUT_KB(APP& App) noexcept;
 	~INPUT_KB() noexcept;
 	bool GetPress(int nKey) const noexcept;				//プレス判定
 	bool GetTrigger(int nKey) const noexcept;			//トリガー判定
@@ -71,7 +71,7 @@ private:
 	using uShort = unsigned short;
 
 	//* 変数宣言 *
-	APP& m_App;							//App参照
+	APP& m_App;								//App参照
 	uShort m_State;							//入力状態取得用
 	uShort m_Press[MAX_NUM_VK];				//押下状態判定用
 	uShort m_Trigger[MAX_NUM_VK];			//トリガ状態判定用

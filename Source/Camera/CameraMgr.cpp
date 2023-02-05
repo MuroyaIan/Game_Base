@@ -7,16 +7,11 @@
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-CAMERA_MGR::CAMERA_MGR(APP& App) noexcept : m_App(App), m_mtxView(), m_mtxProj(), m_aCamera(static_cast<int>(CAMERA_ID::MAX_CAMERA)), m_CurrentCamera(CAMERA_ID::TEST)
+CAMERA_MGR::CAMERA_MGR(APP& App) noexcept : m_App(App), m_aCamera(static_cast<int>(CAMERA_ID::MAX_CAMERA)), m_CurrentCamera(CAMERA_ID::Test)
 {
-	//行列初期化
-	dx::XMMATRIX mtx = dx::XMMatrixIdentity();
-	dx::XMStoreFloat4x4(&m_mtxView, mtx);
-	dx::XMStoreFloat4x4(&m_mtxProj, mtx);
-
 	//カメラ初期化
-	m_aCamera[static_cast<int>(CAMERA_ID::TEST)] = std::make_unique<CAMERA_TEST>(App);
-	m_aCamera[static_cast<int>(CAMERA_ID::FP)] = std::make_unique<CAMERA_FP>(App);
+	m_aCamera[static_cast<int>(CAMERA_ID::Test)] = std::make_unique<CAMERA_TEST>(App);
+	m_aCamera[static_cast<int>(CAMERA_ID::FirstPerson)] = std::make_unique<CAMERA_FP>(App);
 }
 
 CAMERA_MGR::~CAMERA_MGR() noexcept
@@ -24,19 +19,14 @@ CAMERA_MGR::~CAMERA_MGR() noexcept
 }
 
 //更新処理
-void CAMERA_MGR::Update() noexcept
+void CAMERA_MGR::Update() const noexcept
 {
-	m_aCamera[static_cast<int>(m_CurrentCamera)]->Update();
-	m_mtxView = m_aCamera[static_cast<int>(m_CurrentCamera)]->GetViewMtx();
-	m_mtxProj = m_aCamera[static_cast<int>(m_CurrentCamera)]->GetProjMtx();
-}
+	int CameraID = static_cast<int>(m_CurrentCamera);
+	m_aCamera[CameraID]->Update();
+	m_App.GetGfxPack().m_DX.SetViewMtx(m_aCamera[CameraID]->GetViewMtx());
+	m_App.GetGfxPack().m_DX.SetProjectionMtx(m_aCamera[CameraID]->GetProjMtx());
 
-//描画処理
-void CAMERA_MGR::Draw() const noexcept
-{
-	//行列情報をバインド
-	m_App.GetGfxPack().m_DX.SetViewMtx(m_mtxView);
-	m_App.GetGfxPack().m_DX.SetProjectionMtx(m_mtxProj);
+	//行列情報をバインド(GPU側を更新)
 	m_App.GetGfxPack().m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP);
 }
 
@@ -47,13 +37,13 @@ void CAMERA_MGR::SetCamera(CAMERA_ID id) noexcept
 }
 
 //ワールド行列取得
-DirectX::XMFLOAT4X4 CAMERA_MGR::GetWorldMtx() const noexcept
+dx::XMFLOAT4X4 CAMERA_MGR::GetWorldMtx(CAMERA_ID id) const noexcept
 {
-	return m_aCamera[static_cast<int>(m_CurrentCamera)]->GetWorldMtx();
+	return m_aCamera[static_cast<int>(id)]->GetWorldMtx();
 }
 
 //回転情報取得
-DirectX::XMFLOAT3 CAMERA_MGR::GetRotation() const noexcept
+dx::XMFLOAT3 CAMERA_MGR::GetRotation(CAMERA_ID id) const noexcept
 {
-	return m_aCamera[static_cast<int>(m_CurrentCamera)]->GetRotation();
+	return m_aCamera[static_cast<int>(id)]->GetRotation();
 }

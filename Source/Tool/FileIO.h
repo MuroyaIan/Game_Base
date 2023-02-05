@@ -20,7 +20,7 @@ struct MODEL_BIN			//モデルバイナリ(xxx.bin)
 	int BoneNum;			//骨数⇒(xxxAnim.bin)
 	int NoSkinNum;			//骨なしメッシュ数⇒(xxx_NoSkin.bin)
 
-	MODEL_BIN() noexcept : MeshNum(0), BoneNum(0), NoSkinNum(0)
+	explicit MODEL_BIN() noexcept : MeshNum(0), BoneNum(0), NoSkinNum(0)
 	{}
 	~MODEL_BIN() noexcept {}
 };
@@ -34,27 +34,27 @@ struct MESH_BIN					//メッシュバイナリ(xxx_Mesh.bin)
 	int NameSize_Normal;
 	int NameSize_Displacement;	//テクスチャ名のサイズ
 
-	MESH_BIN() noexcept :
+	explicit MESH_BIN() noexcept :
 		NameSize(0), VertexNum(0),
 		NameSize_Diffuse(0), NameSize_Specular(0), NameSize_Normal(0), NameSize_Displacement(0)
 	{}
 	~MESH_BIN() noexcept {}
 };
 
-struct BONE_BIN				//骨バイナリ(xxx_Bone.bin)
+struct BONE_BIN					//骨バイナリ(xxx_Bone.bin)
 {
-	int NameSize;			//名前文字列のサイズ⇒(xxx_Bone0_Data.bin)
+	int NameSize;				//名前文字列のサイズ⇒(xxx_Bone0_Data.bin)
 
-	BONE_BIN() noexcept : NameSize(0)
+	explicit BONE_BIN() noexcept : NameSize(0)
 	{}
 	~BONE_BIN() noexcept {}
 };
 
-struct ANIM_BIN				//アニメーションバイナリ(Anim_xxx.bin)
+struct ANIM_BIN					//アニメーションバイナリ(Anim_xxx.bin)
 {
-	int FrameNum;			//フレーム数⇒(Anim_xxx_Data.bin)
+	int FrameNum;				//フレーム数⇒(Anim_xxx_Data.bin)
 
-	ANIM_BIN() noexcept : FrameNum(0)
+	explicit ANIM_BIN() noexcept : FrameNum(0)
 	{}
 	~ANIM_BIN() noexcept {}
 };
@@ -180,6 +180,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	FILE_IO() noexcept {}
+	explicit FILE_IO() noexcept {}
 	~FILE_IO() noexcept {}
 };

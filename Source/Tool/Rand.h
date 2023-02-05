@@ -35,6 +35,6 @@ private:
 	static RAND m_Rand;		//乱数生成器
 
 	//プロトタイプ宣言
-	RAND_MAKER() noexcept;
+	explicit RAND_MAKER() noexcept;
 	~RAND_MAKER() noexcept;
 };

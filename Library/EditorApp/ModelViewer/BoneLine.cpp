@@ -86,7 +86,7 @@ VS_DATA<VERTEX_C> BONE_LINE::MakeData_VS() const
 
 	//インデックス作成
 	for (size_t i = 0, Cnt = vsData.m_Vertices.size(); i < Cnt; i++)
-		vsData.m_Indices.emplace_back(static_cast<unsigned short>(i));
+		vsData.m_Indices.push_back(static_cast<UINT>(i));
 
 	return VS_DATA<VERTEX_C>(std::move(vsData));
 }

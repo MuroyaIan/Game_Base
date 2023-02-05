@@ -19,5 +19,5 @@
 namespace gText
 {
 	//•¶Žš—ñ•ªŠ„
-	std::vector<std::string> Split(const std::string& Text, char Sep);
+	std::vector<std::string> Split(const std::string& Text, char Sep) noexcept;
 }

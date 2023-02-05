@@ -60,7 +60,7 @@ VS_DATA<VERTEX_C> NORMAL::MakeData_VS() const
 		vtx.m_Pos = vsData.m_Vertices[d].m_Pos;
 		vtx.m_Pos.x *= -1.0f;
 		vtx.m_Color = VTX_COLOR(255, 127, 127, 255);
-		vsDataOut.m_Vertices.emplace_back(std::move(vtx));
+		vsDataOut.m_Vertices.push_back(std::move(vtx));
 
 		//終点
 		VERTEX_C vtx2;
@@ -68,12 +68,12 @@ VS_DATA<VERTEX_C> NORMAL::MakeData_VS() const
 		vtx2.m_Pos.y = vsData.m_Vertices[d].m_Pos.y + vsData.m_Vertices[d].m_Normal.y;
 		vtx2.m_Pos.z = vsData.m_Vertices[d].m_Pos.z + vsData.m_Vertices[d].m_Normal.z;
 		vtx2.m_Color = VTX_COLOR(255, 255, 127, 255);
-		vsDataOut.m_Vertices.emplace_back(std::move(vtx2));
+		vsDataOut.m_Vertices.push_back(std::move(vtx2));
 	}
 
 	//インデックス作成
 	for (size_t i = 0, Cnt = vsDataOut.m_Vertices.size(); i < Cnt; i++)
-		vsDataOut.m_Indices.push_back(static_cast<unsigned short>(i));
+		vsDataOut.m_Indices.push_back(static_cast<UINT>(i));
 
 	return VS_DATA<VERTEX_C>(std::move(vsDataOut));
 }

@@ -534,29 +534,29 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 			//頂点座標取得
 			dx::XMFLOAT3* pPos = &aPos[i * 3];
 			VECTOR3 Pos[3];
-			Pos[0] = { pPos->x, pPos->y, pPos->z };
+			Pos[0] = VECTOR3{ pPos->x, pPos->y, pPos->z };
 			pPos++;
-			Pos[1] = { pPos->x, pPos->y, pPos->z };
+			Pos[1] = VECTOR3{ pPos->x, pPos->y, pPos->z };
 			pPos++;
-			Pos[2] = { pPos->x, pPos->y, pPos->z };
+			Pos[2] = VECTOR3{ pPos->x, pPos->y, pPos->z };
 
 			//法線取得
 			dx::XMFLOAT3* pNormal = &aNormal[i * 3];
 			VECTOR3 Normal[3];
-			Normal[0] = { pNormal->x, pNormal->y, pNormal->z };
+			Normal[0] = VECTOR3{ pNormal->x, pNormal->y, pNormal->z };
 			pNormal++;
-			Normal[1] = { pNormal->x, pNormal->y, pNormal->z };
+			Normal[1] = VECTOR3{ pNormal->x, pNormal->y, pNormal->z };
 			pNormal++;
-			Normal[2] = { pNormal->x, pNormal->y, pNormal->z };
+			Normal[2] = VECTOR3{ pNormal->x, pNormal->y, pNormal->z };
 
 			//UV座標取得
 			dx::XMFLOAT2* pTex = &aUV[i * 3];
 			VECTOR2 Tex[3];
-			Tex[0] = { pTex->x, 1.0f - pTex->y };
+			Tex[0] = VECTOR2{ pTex->x, 1.0f - pTex->y };
 			pTex++;
-			Tex[1] = { pTex->x, 1.0f - pTex->y };
+			Tex[1] = VECTOR2{ pTex->x, 1.0f - pTex->y };
 			pTex++;
-			Tex[2] = { pTex->x, 1.0f - pTex->y };
+			Tex[2] = VECTOR2{ pTex->x, 1.0f - pTex->y };
 
 			//接線を求める
 			VECTOR3 Tangent[3];

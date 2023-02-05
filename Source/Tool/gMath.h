@@ -44,8 +44,8 @@ public:
 	VECTOR2& operator*=(const float Data);
 
 	//プロトタイプ宣言
-	VECTOR2() noexcept;
-	VECTOR2(float xIn, float yIn) noexcept;
+	explicit VECTOR2() noexcept;
+	explicit VECTOR2(float xIn, float yIn) noexcept;
 	~VECTOR2() noexcept;
 };
 
@@ -68,8 +68,8 @@ public:
 	VECTOR3& operator*=(const float Data);
 
 	//プロトタイプ宣言
-	VECTOR3() noexcept;
-	VECTOR3(float xIn, float yIn, float zIn) noexcept;
+	explicit VECTOR3() noexcept;
+	explicit VECTOR3(float xIn, float yIn, float zIn) noexcept;
 	~VECTOR3() noexcept;
 };
 
@@ -152,21 +152,21 @@ namespace gMath
 	}
 
 	//内積
-	inline float VecDot(VECTOR2 Vector1, VECTOR2 Vector2)
+	inline float VecDot(VECTOR2 Vector1, VECTOR2 Vector2) noexcept
 	{
 		return Vector1.x * Vector2.x + Vector1.y * Vector2.y;
 	}
-	inline float VecDot(VECTOR3 Vector1, VECTOR3 Vector2)
+	inline float VecDot(VECTOR3 Vector1, VECTOR3 Vector2) noexcept
 	{
 		return Vector1.x * Vector2.x + Vector1.y * Vector2.y + Vector1.z * Vector2.z;
 	}
 
 	//外積
-	inline float VecCross(VECTOR2 Vector1, VECTOR2 Vector2)
+	inline float VecCross(VECTOR2 Vector1, VECTOR2 Vector2) noexcept
 	{
 		return Vector1.x * Vector2.y - Vector1.y * Vector2.x;
 	}
-	inline VECTOR3 VecCross(VECTOR3 Vector1, VECTOR3 Vector2)
+	inline VECTOR3 VecCross(VECTOR3 Vector1, VECTOR3 Vector2) noexcept
 	{
 		//変数宣言
 		VECTOR3 Vec{};
@@ -181,7 +181,7 @@ namespace gMath
 	}
 
 	//転置行列
-	inline void MtxTranspose4x4_SSE(float* mtxA, float* mtxB = nullptr)
+	inline void MtxTranspose4x4_SSE(float* mtxA, float* mtxB = nullptr) noexcept
 	{
 		__m128 row1 = _mm_load_ps(mtxA + 0 * 4);
 		__m128 row2 = _mm_load_ps(mtxA + 1 * 4);
@@ -205,7 +205,7 @@ namespace gMath
 	}
 
 	//ベクトル X 行列
-	inline void Vec4Transform_AVX(float* pVec, float* pMtx)
+	inline void Vec4Transform_AVX(float* pVec, float* pMtx) noexcept
 	{
 		//行列セット
 		__m256 row01 = _mm256_load_ps(pMtx + 0 * 8);
@@ -232,7 +232,7 @@ namespace gMath
 		pVecTemp++;
 		*pVecTemp = result.m256_f32[3] + result.m256_f32[7];
 	}
-	inline void Vec3Transform_AVX(float* pVec, float* pMtx)
+	inline void Vec3Transform_AVX(float* pVec, float* pMtx) noexcept
 	{
 		//行列セット
 		__m256 row01 = _mm256_load_ps(pMtx + 0 * 8);
@@ -259,7 +259,7 @@ namespace gMath
 	}
 
 	//行列の掛け算
-	inline void MtxMultiply4x4_AVX(float* mtxA, float* mtxB)
+	inline void MtxMultiply4x4_AVX(float* mtxA, float* mtxB) noexcept
 	{
 		float* mtxATemp = mtxA;
 		Vec4Transform_AVX(mtxATemp, mtxB);
@@ -272,7 +272,7 @@ namespace gMath
 	}
 
 	//行列の足し算
-	inline void mtxAdd4x4_AVX(float* pMtx1, float* pMtx2)
+	inline void mtxAdd4x4_AVX(float* pMtx1, float* pMtx2) noexcept
 	{
 		//行列セット
 		__m256 row01_1 = _mm256_load_ps(pMtx1 + 0 * 8);

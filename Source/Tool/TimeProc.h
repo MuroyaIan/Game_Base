@@ -33,7 +33,7 @@ public:
 	public:
 
 		//プロトタイプ宣言
-		Timer() noexcept;
+		explicit Timer() noexcept;
 		~Timer() noexcept;
 		void Update(int nFPS) noexcept;		//更新処理
 		void Reset() noexcept;				//タイマリセット
@@ -53,8 +53,8 @@ public:
 public:
 
 	//プロトタイプ宣言
-	GAME_TIME() noexcept;
-	GAME_TIME(int FPS) noexcept;
+	explicit GAME_TIME() noexcept;
+	explicit GAME_TIME(int FPS) noexcept;
 	~GAME_TIME() noexcept;
 	bool Update() noexcept;				//更新処理
 

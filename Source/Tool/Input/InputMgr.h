@@ -30,7 +30,7 @@ public:
 	INPUT_PAD m_GamePad;				//コントローラ処理
 
 	//* プロトタイプ宣言 *
-	INPUT_MGR(APP& App) noexcept;
+	explicit INPUT_MGR(APP& App) noexcept;
 	~INPUT_MGR() noexcept;
 	void Update() noexcept;				//更新処理
 };

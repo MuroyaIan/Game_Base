@@ -26,7 +26,7 @@ public:
 		int nWidth;					//画像幅
 		int nHeight;				//画像高さ
 
-		TEX_DATA() noexcept : pImageData(nullptr), nWidth(0), nHeight(0)
+		explicit TEX_DATA() noexcept : pImageData(nullptr), nWidth(0), nHeight(0)
 		{}
 		~TEX_DATA() noexcept {}
 	};
@@ -39,6 +39,6 @@ public:
 private:
 
 	//プロトタイプ宣言
-	TEX_LOADER() noexcept {}
+	explicit TEX_LOADER() noexcept {}
 	~TEX_LOADER() noexcept {}
 };

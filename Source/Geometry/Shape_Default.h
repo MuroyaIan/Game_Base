@@ -22,7 +22,7 @@ class SHAPE_DEFAULT : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	SHAPE_DEFAULT(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type);
+	explicit SHAPE_DEFAULT(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type);
 	~SHAPE_DEFAULT() noexcept override;
 	void Update() noexcept override;													//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理

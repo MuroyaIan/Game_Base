@@ -117,7 +117,7 @@ int BONE::AddInstance()
 	m_InstanceNum++;
 	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixIdentity());
-	m_aMtxBone.emplace_back(mtx);
+	m_aMtxBone.push_back(std::move(mtx));
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxBone);

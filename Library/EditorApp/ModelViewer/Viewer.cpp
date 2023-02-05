@@ -71,7 +71,7 @@ void VIEWER::Update() noexcept
 }
 
 //•`‰æˆ—
-void VIEWER::Draw() const
+void VIEWER::Draw() const noexcept
 {
 	if (m_aDrawer.size() > 1) {
 

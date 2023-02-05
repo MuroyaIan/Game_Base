@@ -33,7 +33,7 @@ class INPUT_CURSOR
 public:
 
 	//* プロトタイプ宣言 *
-	INPUT_CURSOR(APP& App, INPUT_KB& KB) noexcept;
+	explicit INPUT_CURSOR(APP& App, INPUT_KB& KB) noexcept;
 	~INPUT_CURSOR() noexcept;
 	bool GetPress(int nBtn) const noexcept;				//プレス判定
 	bool GetTrigger(int nBtn) const noexcept;			//トリガー判定

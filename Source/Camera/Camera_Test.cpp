@@ -6,9 +6,9 @@
 namespace dx = DirectX;
 
 //===== グローバル定数宣言 =====
-constexpr dx::XMFLOAT3 START_POS = { 0.0f, 0.0f, -20.0f };	//カメラ位置
-constexpr dx::XMFLOAT3 START_LOOK = { 0.0f, 0.0f, 0.0f };	//注視点位置
-constexpr dx::XMFLOAT3 START_UP = { 0.0f, 1.0f, 0.0f };		//アップベクトル
+constexpr dx::XMFLOAT3 START_POS  = { 0.0f, 0.0f, -20.0f };		//カメラ位置
+constexpr dx::XMFLOAT3 START_LOOK = { 0.0f, 0.0f,   0.0f };		//注視点位置
+constexpr dx::XMFLOAT3 START_UP   = { 0.0f, 1.0f,   0.0f };		//アップベクトル
 
 constexpr short START_FOV = 60;			//視野角
 constexpr float START_NEAR_Z = 0.5f;
@@ -62,14 +62,6 @@ void CAMERA_TEST::Update() noexcept
 	UpdateMatrix();
 }
 
-//カメラリセット
-void CAMERA_TEST::ResetCamera() noexcept
-{
-	//データ初期化
-	m_Rot.x = 0.0f;
-	m_Rot.y = 0.0f;
-}
-
 //行列更新
 void CAMERA_TEST::UpdateMatrix() noexcept
 {
@@ -87,4 +79,11 @@ void CAMERA_TEST::UpdateMatrix() noexcept
 		dx::XMVectorSet(m_LookAt.x, m_LookAt.y, m_LookAt.z, 0.0f),
 		dx::XMVectorSet(m_vUp.x, m_vUp.y, m_vUp.z, 0.0f))
 	);
+}
+
+//カメラリセット
+void CAMERA_TEST::ResetCamera() noexcept
+{
+	//データ初期化
+	m_Rot = { 0.0f, 0.0f, 0.0f };
 }

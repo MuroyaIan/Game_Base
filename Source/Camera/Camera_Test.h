@@ -20,16 +20,16 @@ class CAMERA_TEST : public CAMERA
 public:
 
 	//プロトタイプ宣言
-	CAMERA_TEST(APP& App) noexcept;
+	explicit CAMERA_TEST(APP& App) noexcept;
 	~CAMERA_TEST() noexcept override;
-	void Update() noexcept override;	//更新処理
+	void Update() noexcept override;		//更新処理
 
 private:
 
 	//変数宣言
-	INPUT_MGR& m_Input;					//入力参照
+	INPUT_MGR& m_Input;						//入力参照
 
 	//プロトタイプ宣言
-	void ResetCamera() noexcept override;	//カメラリセット
 	void UpdateMatrix() noexcept;			//行列更新
+	void ResetCamera() noexcept override;	//カメラリセット
 };

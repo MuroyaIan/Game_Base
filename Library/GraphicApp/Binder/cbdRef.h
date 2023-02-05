@@ -20,30 +20,32 @@ struct CBD_COLOR						//ポリゴン色用データ
 
 	CBD_COLOR() noexcept
 	{
-		FaceColor[0] = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-		FaceColor[1] = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-		FaceColor[2] = DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
-		FaceColor[3] = DirectX::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
-		FaceColor[4] = DirectX::XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f);
-		FaceColor[5] = DirectX::XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f);
-		FaceColor[6] = DirectX::XMFLOAT4(1.0f, 0.5f, 0.0f, 1.0f);
-		FaceColor[7] = DirectX::XMFLOAT4(0.5f, 1.0f, 0.0f, 1.0f);
-		FaceColor[8] = DirectX::XMFLOAT4(1.0f, 0.0f, 0.5f, 1.0f);
-		FaceColor[9] = DirectX::XMFLOAT4(0.5f, 0.0f, 1.0f, 1.0f);
-		FaceColor[10] = DirectX::XMFLOAT4(0.0f, 1.0f, 0.5f, 1.0f);
-		FaceColor[11] = DirectX::XMFLOAT4(0.0f, 0.5f, 1.0f, 1.0f);
-		FaceColor[12] = DirectX::XMFLOAT4(1.0f, 0.7f, 0.0f, 1.0f);
-		FaceColor[13] = DirectX::XMFLOAT4(0.7f, 1.0f, 0.0f, 1.0f);
-		FaceColor[14] = DirectX::XMFLOAT4(1.0f, 0.0f, 0.7f, 1.0f);
-		FaceColor[15] = DirectX::XMFLOAT4(0.7f, 0.0f, 1.0f, 1.0f);
-		FaceColor[16] = DirectX::XMFLOAT4(0.0f, 1.0f, 0.7f, 1.0f);
-		FaceColor[17] = DirectX::XMFLOAT4(0.0f, 0.7f, 1.0f, 1.0f);
-		FaceColor[18] = DirectX::XMFLOAT4(1.0f, 0.3f, 0.0f, 1.0f);
-		FaceColor[19] = DirectX::XMFLOAT4(0.3f, 1.0f, 0.0f, 1.0f);
-		FaceColor[20] = DirectX::XMFLOAT4(1.0f, 0.0f, 0.3f, 1.0f);
-		FaceColor[21] = DirectX::XMFLOAT4(0.3f, 0.0f, 1.0f, 1.0f);
-		FaceColor[22] = DirectX::XMFLOAT4(0.0f, 1.0f, 0.3f, 1.0f);
-		FaceColor[23] = DirectX::XMFLOAT4(0.0f, 0.3f, 1.0f, 1.0f);
+		namespace dx = DirectX;
+
+		FaceColor[0]  = dx::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+		FaceColor[1]  = dx::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+		FaceColor[2]  = dx::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+		FaceColor[3]  = dx::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
+		FaceColor[4]  = dx::XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f);
+		FaceColor[5]  = dx::XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f);
+		FaceColor[6]  = dx::XMFLOAT4(1.0f, 0.5f, 0.0f, 1.0f);
+		FaceColor[7]  = dx::XMFLOAT4(0.5f, 1.0f, 0.0f, 1.0f);
+		FaceColor[8]  = dx::XMFLOAT4(1.0f, 0.0f, 0.5f, 1.0f);
+		FaceColor[9]  = dx::XMFLOAT4(0.5f, 0.0f, 1.0f, 1.0f);
+		FaceColor[10] = dx::XMFLOAT4(0.0f, 1.0f, 0.5f, 1.0f);
+		FaceColor[11] = dx::XMFLOAT4(0.0f, 0.5f, 1.0f, 1.0f);
+		FaceColor[12] = dx::XMFLOAT4(1.0f, 0.7f, 0.0f, 1.0f);
+		FaceColor[13] = dx::XMFLOAT4(0.7f, 1.0f, 0.0f, 1.0f);
+		FaceColor[14] = dx::XMFLOAT4(1.0f, 0.0f, 0.7f, 1.0f);
+		FaceColor[15] = dx::XMFLOAT4(0.7f, 0.0f, 1.0f, 1.0f);
+		FaceColor[16] = dx::XMFLOAT4(0.0f, 1.0f, 0.7f, 1.0f);
+		FaceColor[17] = dx::XMFLOAT4(0.0f, 0.7f, 1.0f, 1.0f);
+		FaceColor[18] = dx::XMFLOAT4(1.0f, 0.3f, 0.0f, 1.0f);
+		FaceColor[19] = dx::XMFLOAT4(0.3f, 1.0f, 0.0f, 1.0f);
+		FaceColor[20] = dx::XMFLOAT4(1.0f, 0.0f, 0.3f, 1.0f);
+		FaceColor[21] = dx::XMFLOAT4(0.3f, 0.0f, 1.0f, 1.0f);
+		FaceColor[22] = dx::XMFLOAT4(0.0f, 1.0f, 0.3f, 1.0f);
+		FaceColor[23] = dx::XMFLOAT4(0.0f, 0.3f, 1.0f, 1.0f);
 	}
 
 	~CBD_COLOR() noexcept

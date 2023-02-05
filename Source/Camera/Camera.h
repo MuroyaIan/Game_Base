@@ -20,7 +20,7 @@ class CAMERA
 public:
 
 	//プロトタイプ宣言
-	CAMERA(APP& App) noexcept;
+	explicit CAMERA(APP& App) noexcept;
 	virtual ~CAMERA() noexcept;
 	virtual void Update() noexcept = 0;					//更新処理
 
@@ -44,7 +44,7 @@ public:
 protected:
 
 	//変数宣言
-	APP& m_App;						//App参照
+	APP& m_App;							//App参照
 
 	DirectX::XMFLOAT3 m_Pos;			//座標
 	DirectX::XMFLOAT3 m_LookAt;			//注視点

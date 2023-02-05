@@ -160,7 +160,7 @@ APP::APP() :
 
 
 	//カメラ初期化
-	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::TEST);
+	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::FirstPerson);
 
 	//太陽光初期化
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);
@@ -288,9 +288,6 @@ void APP::Draw()
 	if (m_pEditor->IsEnabled())
 		m_pEditor->Draw();			//エディタモード
 	else {
-
-		//カメラマネージャ描画
-		m_pCameraMgr->Draw();
 
 		//ライトマネージャ描画
 		m_pLightMgr->Draw();
@@ -423,13 +420,13 @@ void APP::Draw()
 				if (ImGui::TreeNode(U8(u8"カメラ情報"))) {
 
 					//出力処理
-					DirectX::XMFLOAT4X4 mtxW = m_pCameraMgr->GetWorldMtx();
+					DirectX::XMFLOAT4X4 mtxW = m_pCameraMgr->GetWorldMtx(CAMERA_MGR::CAMERA_ID::Test);
 					ImGui::Text(U8(u8"　位置")); ImGui::SameLine(); ImGui::Text("(cm)");
 					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "X"); ImGui::SameLine(); ImGui::Text(": %.1f ", mtxW._41); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Y"); ImGui::SameLine(); ImGui::Text(": %.1f ", mtxW._42); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Z"); ImGui::SameLine(); ImGui::Text(": %.1f", mtxW._43);
 
-					DirectX::XMFLOAT3 Rot = m_pCameraMgr->GetRotation();
+					DirectX::XMFLOAT3 Rot = m_pCameraMgr->GetRotation(CAMERA_MGR::CAMERA_ID::Test);
 					ImGui::Text(U8(u8"　回転")); ImGui::SameLine(); ImGui::Text("(deg.)");
 					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "X"); ImGui::SameLine(); ImGui::Text(": %d ", gMath::GetDegree(Rot.x)); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Y"); ImGui::SameLine(); ImGui::Text(": %d ", gMath::GetDegree(Rot.y)); ImGui::SameLine();

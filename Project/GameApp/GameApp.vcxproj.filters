@@ -87,9 +87,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Startup.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Geometry\Shape_Default.cpp">
       <Filter>ソース ファイル\02_Geometry</Filter>
     </ClCompile>
@@ -198,17 +195,17 @@
     <ClCompile Include="..\..\Source\Geometry\Model\TestPlayer.cpp">
       <Filter>ソース ファイル\02_Geometry\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\App.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Geometry\Model\TestWave.cpp">
       <Filter>ソース ファイル\02_Geometry\Model</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\App.cpp">
+      <Filter>ソース ファイル\00_Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Startup.cpp">
+      <Filter>ソース ファイル\00_Platform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Startup.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -338,11 +335,14 @@
     <ClInclude Include="..\..\Source\Geometry\Model\TestPlayer.h">
       <Filter>ソース ファイル\02_Geometry\Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\App.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Geometry\Model\TestWave.h">
       <Filter>ソース ファイル\02_Geometry\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Startup.h">
+      <Filter>ヘッダー ファイル\00_Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\App.h">
+      <Filter>ヘッダー ファイル\00_Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
