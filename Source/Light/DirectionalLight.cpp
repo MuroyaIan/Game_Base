@@ -1,6 +1,7 @@
 
 //===== インクルード部 =====
 #include <Light/DirectionalLight.h>
+#include <Light/LightMgr.h>
 
 #ifdef IMGUI
 #
@@ -11,7 +12,7 @@
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-DIRECTIONAL_LIGHT::DIRECTIONAL_LIGHT(APP& App) noexcept : LIGHT(App), m_LightMgr(App.GetLightMgr()), m_LightData()
+DIRECTIONAL_LIGHT::DIRECTIONAL_LIGHT(APP& App) noexcept : LIGHT(App), m_LightData(), m_LightMgr(App.GetLightMgr())
 {
 	m_LightData.Color_D = { 1.0f, 1.0f, 1.0f, 1.0f };
 }

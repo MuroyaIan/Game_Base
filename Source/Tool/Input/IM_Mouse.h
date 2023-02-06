@@ -11,7 +11,7 @@
 
 //===== インクルード部 =====
 #include <WinApp/WinWindow.h>
-#include <GraphicApp/Graphic.h>
+#include <DirectXMath.h>
 
 //===== 定数・マクロ定義 =====
 constexpr int MOUSE_L = static_cast<int>(VK_LBUTTON);		//マウスの左ボタン

@@ -11,7 +11,6 @@
 
 //===== インクルード部 =====
 #include <chrono>					//時間計測
-#include <Tool/gMemory.h>
 
 namespace TimeProc {
 
@@ -53,8 +52,7 @@ public:
 public:
 
 	//プロトタイプ宣言
-	explicit GAME_TIME() noexcept;
-	explicit GAME_TIME(int FPS) noexcept;
+	explicit GAME_TIME(int FPS = -1) noexcept;
 	~GAME_TIME() noexcept;
 	bool Update() noexcept;				//更新処理
 

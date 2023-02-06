@@ -160,14 +160,14 @@ APP::APP() :
 
 
 	//カメラ初期化
-	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::FirstPerson);
+	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::Test);
 
 	//太陽光初期化
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);
 
 	//点光源初期化
 	for(auto& l : m_aLight)
-		l = std::make_unique<POINT_LIGHT>(*this);
+		l = std::make_unique<POINT_LIGHT>(*this, 50.0f);
 	m_aLight[0]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 	m_aLight[1]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	m_aLight[2]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
@@ -225,9 +225,6 @@ void APP::Update()
 		m_pEditor->Update();
 	else {
 
-		//カメラマネージャ更新
-		m_pCameraMgr->Update();
-
 		//太陽光更新
 		m_pSunLight->Update();
 
@@ -241,6 +238,14 @@ void APP::Update()
 		for (auto& m : m_aModel)
 			m->Update();
 		//m_pPlayer->Update();
+
+
+
+		//カメラマネージャ更新
+		m_pCameraMgr->Update();
+
+		//ライトマネージャ更新
+		m_pLightMgr->Update();
 	}
 
 #ifdef IMGUI
@@ -288,9 +293,6 @@ void APP::Draw()
 	if (m_pEditor->IsEnabled())
 		m_pEditor->Draw();			//エディタモード
 	else {
-
-		//ライトマネージャ描画
-		m_pLightMgr->Draw();
 
 		//3D描画
 		for (auto& d : m_aDrawer)

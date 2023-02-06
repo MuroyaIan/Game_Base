@@ -13,7 +13,7 @@
 #include <iostream>					//標準入出力
 #include <string>					//文字列クラス
 #include <sstream>					//文字列ストリームクラス
-#include <Tool/gMemory.h>
+#include <vector>
 
 //===== プロトタイプ宣言 =====
 namespace gText

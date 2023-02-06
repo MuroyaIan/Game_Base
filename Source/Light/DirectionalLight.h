@@ -10,7 +10,10 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <Light/LightMgr.h>
+#include <Light/Light.h>
+
+//===== 前方宣言 =====
+class LIGHT_MGR;
 
 //===== クラス定義 =====
 
@@ -20,7 +23,7 @@ class DIRECTIONAL_LIGHT : public LIGHT
 public:
 
 	//プロトタイプ宣言
-	DIRECTIONAL_LIGHT(APP& App) noexcept;
+	explicit DIRECTIONAL_LIGHT(APP& App) noexcept;
 	~DIRECTIONAL_LIGHT() noexcept override;
 	void Update() const noexcept override;		//更新処理
 
@@ -32,6 +35,6 @@ public:
 private:
 
 	//変数宣言
-	LIGHT_MGR& m_LightMgr;						//ライトマネージャ参照
 	LIGHT_DIRECTIONAL m_LightData;				//ライト情報
+	LIGHT_MGR& m_LightMgr;						//ライトマネージャ参照
 };

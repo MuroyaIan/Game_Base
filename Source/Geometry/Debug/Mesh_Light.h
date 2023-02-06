@@ -21,7 +21,7 @@ class MESH_LIGHT : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	MESH_LIGHT(GFX_PACK& Gfx);
+	explicit MESH_LIGHT(GFX_PACK& Gfx);
 	~MESH_LIGHT() noexcept override;
 	void Update() noexcept override;													//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理

@@ -12,24 +12,6 @@ constexpr int DEFAULT_FPS = 60;		//デフォルトFPS
 //===== クラス実装 =====
 
 //***** 時間計測クラス *****
-GAME_TIME::GAME_TIME() noexcept
-{
-	//時間計測用
-	m_CurrentTime = GetTime::now();		//初期化時刻取得
-	m_PrevExecTime = m_CurrentTime;		//初期化時刻のバックアップ
-	m_ExecInterval = 0;
-
-	//FPS計算用
-	m_PrevMeasTime = m_CurrentTime;		//初期化時刻のバックアップ
-	m_MeasInterval = 0;
-	m_MeasCnt = 0;
-	m_MeasFPS = 0;
-
-	//FPS設定
-	m_FPS = DEFAULT_FPS;
-	m_Limiter = static_cast<int>(1000.0f * SECOND / m_FPS);
-}
-
 GAME_TIME::GAME_TIME(int FPS) noexcept
 {
 	//時間計測用
@@ -44,7 +26,10 @@ GAME_TIME::GAME_TIME(int FPS) noexcept
 	m_MeasFPS = 0;
 
 	//FPS設定
-	m_FPS = FPS;
+	if (FPS < 0)
+		m_FPS = DEFAULT_FPS;
+	else
+		m_FPS = FPS;
 	m_Limiter = static_cast<int>(1000.0f * SECOND / m_FPS);
 }
 

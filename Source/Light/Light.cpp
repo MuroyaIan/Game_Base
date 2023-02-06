@@ -22,7 +22,7 @@ LIGHT::LIGHT(APP& App) noexcept
 
 #ifdef IMGUI
 
-	//インスタンス作成
+	//インスタンス割り当て
 	m_MeshIndex = m_Mesh.AddInstance();
 
 #endif // IMGUI
@@ -30,10 +30,5 @@ LIGHT::LIGHT(APP& App) noexcept
 }
 
 LIGHT::~LIGHT() noexcept
-{
-}
-
-//更新処理
-void LIGHT::Update() const noexcept
 {
 }

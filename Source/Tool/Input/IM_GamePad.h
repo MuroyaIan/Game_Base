@@ -10,8 +10,9 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <GraphicApp/Graphic.h>
+#include <WinApp/WinEO.h>			//エラー出力
 #include <Xinput.h>					//XBOXコントローラー処理
+#include <DirectXMath.h>
 
 //===== 定数・マクロ定義 =====
 constexpr int DS4_UP		= 0;

@@ -10,10 +10,7 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <App.h>
-
-//===== 前方宣言 =====
-class CAMERA;
+#include <Camera/Camera.h>
 
 //===== クラス定義 =====
 

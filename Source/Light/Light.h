@@ -33,7 +33,7 @@ public:
 		DirectX::XMFLOAT4 Pos;		//ワールド座標
 		DirectX::XMFLOAT4 Color_D;	//光の色（拡散色, wは強度）
 
-		LIGHT_DIRECTIONAL() noexcept :
+		explicit LIGHT_DIRECTIONAL() noexcept :
 			Pos(0.0f, 1.0f, 0.0f, 1.0f), Color_D(0.0f, 0.0f, 0.0f, 0.0f)
 		{}
 		~LIGHT_DIRECTIONAL() noexcept
@@ -50,7 +50,7 @@ public:
 		float AttQuadratic;			//光の減衰
 		float Pad;					//仮置き
 
-		LIGHT_POINT() noexcept :
+		explicit LIGHT_POINT() noexcept :
 			Pos(0.0f, 0.0f, 0.0f, 1.0f), Color_D(0.0f, 0.0f, 0.0f, 0.0f),
 			AttConst(1.0f), AttLinear(0.045f), AttQuadratic(0.0075f), Pad(1.0f)
 		{}
@@ -59,9 +59,9 @@ public:
 	};
 
 	//プロトタイプ宣言
-	LIGHT(APP& App) noexcept;
+	explicit LIGHT(APP& App) noexcept;
 	virtual ~LIGHT() noexcept;
-	virtual void Update() const noexcept;	//更新処理
+	virtual void Update() const noexcept = 0;	//更新処理
 
 protected:
 
@@ -69,9 +69,9 @@ protected:
 
 #ifdef IMGUI
 
-	MESH_LIGHT& m_Mesh;				//描画メッシュ参照
-	int m_MeshIndex;				//メッシュインデックス
-	DirectX::XMFLOAT3 m_Scale;		//サイズ
+	MESH_LIGHT& m_Mesh;			//描画メッシュ参照
+	int m_MeshIndex;			//メッシュインデックス
+	DirectX::XMFLOAT3 m_Scale;	//サイズ
 
 #endif // IMGUI
 

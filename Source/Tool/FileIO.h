@@ -10,8 +10,9 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <WinApp/WinWindow.h>
 #include <fstream>					//ファイル入出力
+#include <sstream>
+#include <WinApp/WinEO.h>
 
 //===== 構造体宣言 =====
 struct MODEL_BIN			//モデルバイナリ(xxx.bin)

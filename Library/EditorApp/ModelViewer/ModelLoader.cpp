@@ -2,9 +2,10 @@
 //===== インクルード部 =====
 #include <EditorApp/ModelViewer/ModelLoader.h>
 #include <Tool/imguiMgr.h>
-#include <Tool/FileIO.h>
 #include <Tool/TextIO.h>
 #include <Tool/gMath.h>
+#include <Tool/gMemory.h>
+#include <Tool/FileIO.h>
 
 //===== 追加ライブラリ =====
 #pragma comment(lib, "libfbxsdk-mt.lib")

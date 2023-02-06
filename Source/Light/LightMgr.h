@@ -13,7 +13,7 @@
 #include <Light/Light.h>
 
 //===== 定数・マクロ定義 =====
-constexpr int LIGHT_NUM = 16;		//点光源の最大描画数
+constexpr int LIGHT_NUM = 16;	//点光源の最大描画数
 
 //===== 前方宣言 =====
 template<typename C>
@@ -33,16 +33,16 @@ public:
 		LIGHT::LIGHT_POINT PointLight[LIGHT_NUM];	//点光源
 		DirectX::XMFLOAT4 AmbientLight;				//環境光
 
-		LIGHT_PACK() noexcept : DirectionalLight(), PointLight(), AmbientLight(1.0f, 1.0f, 1.0f, 0.2f)
+		explicit LIGHT_PACK() noexcept : DirectionalLight(), PointLight(), AmbientLight(1.0f, 1.0f, 1.0f, 0.2f)
 		{}
 		~LIGHT_PACK() noexcept
 		{}
 	};
 
 	//プロトタイプ宣言
-	LIGHT_MGR(APP& App) noexcept;
+	explicit LIGHT_MGR(APP& App) noexcept;
 	~LIGHT_MGR() noexcept;
-	void Draw() noexcept;									//描画処理
+	void Update();											//更新処理
 	void AddPointLight(LIGHT::LIGHT_POINT Data) noexcept;	//ポイントライト登録
 
 	LIGHT_PACK& GetData() noexcept							//ライト情報参照
@@ -50,7 +50,7 @@ public:
 		return m_LightData;
 	}
 
-	int GetLightNum() noexcept								//ポイントライト使用数取得
+	int GetLightNum() const noexcept						//ポイントライト使用数取得
 	{
 		return m_UsedData_backup;
 	}
@@ -59,8 +59,8 @@ private:
 
 	//変数宣言
 	GFX_PACK& m_Gfx;										//描画データ参照
+	CONSTANT_BUFFER<LIGHT_PACK>& m_cBuffRef;				//定数バッファ参照
 	LIGHT_PACK m_LightData;									//ライト情報
 	int m_UsedData;											//ポイントライト使用数
 	int m_UsedData_backup;									//外部取得用
-	CONSTANT_BUFFER<LIGHT_PACK>& m_cBuffRef;				//定数バッファ参照
 };

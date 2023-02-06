@@ -10,7 +10,10 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <Light/LightMgr.h>
+#include <Light/Light.h>
+
+//===== 前方宣言 =====
+class LIGHT_MGR;
 
 //===== クラス定義 =====
 
@@ -20,11 +23,12 @@ class POINT_LIGHT : public LIGHT
 public:
 
 	//プロトタイプ宣言
-	POINT_LIGHT(APP& App) noexcept;
+	explicit POINT_LIGHT(APP& App, float Range = 100.0f) noexcept;
 	~POINT_LIGHT() noexcept override;
-	void Update() const noexcept override;	//更新処理
+	void Update() const noexcept override;			//更新処理
+	void ClacAttenuation(float Range) noexcept;		//減衰計算
 
-	LIGHT_POINT& GetData() noexcept			//ライト情報参照
+	LIGHT_POINT& GetData() noexcept					//ライト情報参照
 	{
 		return m_LightData;
 	}
@@ -32,6 +36,7 @@ public:
 private:
 
 	//変数宣言
-	LIGHT_MGR& m_LightMgr;					//ライトマネージャ参照
-	LIGHT_POINT m_LightData;				//ライト情報
+	LIGHT_POINT m_LightData;	//ライト情報
+	float m_Range;				//ライトが光る範囲
+	LIGHT_MGR& m_LightMgr;		//ライトマネージャ参照
 };

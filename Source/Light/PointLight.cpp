@@ -1,6 +1,8 @@
 
 //===== インクルード部 =====
 #include <Light/PointLight.h>
+#include <Light/LightMgr.h>
+#include <Tool/gMath.h>
 
 #ifdef IMGUI
 #
@@ -11,9 +13,13 @@
 namespace dx = DirectX;
 
 //===== クラス実装 =====
-POINT_LIGHT::POINT_LIGHT(APP& App) noexcept : LIGHT(App), m_LightMgr(App.GetLightMgr()), m_LightData()
+POINT_LIGHT::POINT_LIGHT(APP& App, float Range) noexcept :
+	LIGHT(App), m_LightData(), m_Range(100.0f), m_LightMgr(App.GetLightMgr())
 {
 	m_LightData.Color_D = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	//減衰係数初期化
+	ClacAttenuation(Range);
 }
 
 POINT_LIGHT::~POINT_LIGHT() noexcept
@@ -35,4 +41,17 @@ void POINT_LIGHT::Update() const noexcept
 
 #endif // IMGUI
 
+}
+
+//減衰計算
+void POINT_LIGHT::ClacAttenuation(float Range) noexcept
+{
+	//例外処理
+	if (m_Range == Range)
+		return;
+
+	//計算処理
+	float Coef = Range / m_Range;
+	m_LightData.AttLinear = m_LightData.AttLinear / Coef;
+	m_LightData.AttQuadratic = m_LightData.AttQuadratic / std::powf(Coef, 2.0f);;
 }

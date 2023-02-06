@@ -13,7 +13,8 @@
 //===== インクルード部 =====
 #include <cmath>
 #include <numbers>
-#include <GraphicApp/Graphic.h>
+#include <DirectXMath.h>
+#include <WinApp/WinEO.h>
 
 //===== 定数・マクロ定義 =====
 constexpr float fPI = std::numbers::pi_v<float>;

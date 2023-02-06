@@ -1,7 +1,7 @@
 
 //===== インクルード部 =====
 #include <Tool/Rand.h>
-#include <WinApp/WinWindow.h>	//エラー出力
+#include <WinApp/WinEO.h>		//エラー出力
 
 //===== 静的メンバ変数 =====
 RAND RAND_MAKER::m_Rand{};		//乱数生成器
