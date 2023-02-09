@@ -85,6 +85,9 @@
     <Filter Include="Shader\Base">
       <UniqueIdentifier>{9f8f5076-2b04-4dc9-a30f-f06fbda8f31b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\02_Geometry\Base">
+      <UniqueIdentifier>{094f67bd-7b4c-4e9c-9325-beccdab84504}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Geometry\Shape_Default.cpp">

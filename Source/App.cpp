@@ -10,15 +10,14 @@
 
 #include <Tool/Rand.h>
 #include <EditorApp/Editor.h>
+#include <Camera/CameraMgr.h>
+#include <Light/LightMgr.h>
 
 #ifdef IMGUI
 #
 #	include <Geometry/Debug/DebugMgr.h>
 #
 #endif // IMGUI
-
-#include <Camera/CameraMgr.h>
-#include <Light/LightMgr.h>
 
 
 
@@ -78,18 +77,18 @@ APP::APP() :
 	//エディタ初期化
 	m_pEditor = std::make_unique<EDITOR>(*this);
 
+	//カメラマネージャ初期化
+	m_pCameraMgr = std::make_unique<CAMERA_MGR>(*this);
+
+	//ライトマネージャ初期化
+	m_pLightMgr = std::make_unique<LIGHT_MGR>(*this);
+
 #ifdef IMGUI
 
 	//デバッグマネージャ初期化
 	m_pDebugMgr = std::make_unique<DEBUG_MGR>(*this);
 
 #endif // IMGUI
-
-	//カメラマネージャ初期化
-	m_pCameraMgr = std::make_unique<CAMERA_MGR>(*this);
-
-	//ライトマネージャ初期化
-	m_pLightMgr = std::make_unique<LIGHT_MGR>(*this);
 
 
 
@@ -138,7 +137,7 @@ APP::APP() :
 			MAX_NUM
 		};
 
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(6, 9));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(9, 9));
 		//SHAPE shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, static_cast<int>(SHAPE::MAX_NUM) - 1));
 		aDrawer[static_cast<int>(Shape)]->AddInstance();
 		return;
@@ -160,7 +159,7 @@ APP::APP() :
 
 
 	//カメラ初期化
-	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::Test);
+	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::FirstPerson);
 
 	//太陽光初期化
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);
@@ -422,13 +421,13 @@ void APP::Draw()
 				if (ImGui::TreeNode(U8(u8"カメラ情報"))) {
 
 					//出力処理
-					DirectX::XMFLOAT4X4 mtxW = m_pCameraMgr->GetWorldMtx(CAMERA_MGR::CAMERA_ID::Test);
+					DirectX::XMFLOAT4X4 mtxW = m_pCameraMgr->GetWorldMtx();
 					ImGui::Text(U8(u8"　位置")); ImGui::SameLine(); ImGui::Text("(cm)");
 					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "X"); ImGui::SameLine(); ImGui::Text(": %.1f ", mtxW._41); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Y"); ImGui::SameLine(); ImGui::Text(": %.1f ", mtxW._42); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Z"); ImGui::SameLine(); ImGui::Text(": %.1f", mtxW._43);
 
-					DirectX::XMFLOAT3 Rot = m_pCameraMgr->GetRotation(CAMERA_MGR::CAMERA_ID::Test);
+					DirectX::XMFLOAT3 Rot = m_pCameraMgr->GetRotation();
 					ImGui::Text(U8(u8"　回転")); ImGui::SameLine(); ImGui::Text("(deg.)");
 					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "X"); ImGui::SameLine(); ImGui::Text(": %d ", gMath::GetDegree(Rot.x)); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Y"); ImGui::SameLine(); ImGui::Text(": %d ", gMath::GetDegree(Rot.y)); ImGui::SameLine();

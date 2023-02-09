@@ -2,11 +2,8 @@
 //===== インクルード部 =====
 #include <Geometry/Debug/DebugMgr.h>
 
-namespace dx = DirectX;
-
 //===== クラス実装 =====
-DEBUG_MGR::DEBUG_MGR(APP& App) noexcept :
-	m_Gfx(App.GetGfxPack()), m_Light(App.GetGfxPack())
+DEBUG_MGR::DEBUG_MGR(APP& App) noexcept : m_Light(App.GetGfxPack(), App.GetCameraMgr())
 {
 }
 
@@ -21,7 +18,7 @@ void DEBUG_MGR::Update() noexcept
 }
 
 //描画処理
-void DEBUG_MGR::Draw() const
+void DEBUG_MGR::Draw() const noexcept
 {
 	m_Light.Draw();
 }

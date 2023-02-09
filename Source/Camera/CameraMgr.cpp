@@ -39,11 +39,17 @@ void CAMERA_MGR::SetCamera(CAMERA_ID id) noexcept
 //ƒ[ƒ‹ƒhs—ñæ“¾
 dx::XMFLOAT4X4 CAMERA_MGR::GetWorldMtx(CAMERA_ID id) const noexcept
 {
-	return m_aCamera[static_cast<int>(id)]->GetWorldMtx();
+	if (id == CAMERA_ID::MAX_CAMERA)
+		return m_aCamera[static_cast<int>(m_CurrentCamera)]->GetWorldMtx();
+	else
+		return m_aCamera[static_cast<int>(id)]->GetWorldMtx();
 }
 
 //‰ñ“]î•ñæ“¾
 dx::XMFLOAT3 CAMERA_MGR::GetRotation(CAMERA_ID id) const noexcept
 {
-	return m_aCamera[static_cast<int>(id)]->GetRotation();
+	if (id == CAMERA_ID::MAX_CAMERA)
+		return m_aCamera[static_cast<int>(m_CurrentCamera)]->GetRotation();
+	else
+		return m_aCamera[static_cast<int>(id)]->GetRotation();
 }

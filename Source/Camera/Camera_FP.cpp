@@ -41,7 +41,7 @@ CAMERA_FP::~CAMERA_FP() noexcept
 void CAMERA_FP::Update() noexcept
 {
 	//âÒì]êßå‰
-	DirectX::XMINT2 MouseMove = m_Input.m_Mouse.GetMoveVal();
+	dx::XMINT2 MouseMove = m_Input.m_Mouse.GetMoveVal();
 	m_Rot.x += gMath::GetRad(MouseMove.y * m_Sensitivity);
 	m_Rot.y += gMath::GetRad(MouseMove.x * m_Sensitivity);
 
