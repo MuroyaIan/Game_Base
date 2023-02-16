@@ -26,16 +26,21 @@ public:
 	//プロトタイプ宣言
 	MESH(MODEL& ModelRef, int MeshIdx);
 	~MESH() noexcept override;
-	void Update() noexcept override;													//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
-	int AddInstance() override;															//インスタンス追加
+	void Update() noexcept override;														//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	int AddInstance() override;																//インスタンス追加
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{
 		return m_aInstanceData[InstanceIndex].MtxWorld;
 	}
 
-	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	{
+		m_aInstanceData[InstanceIndex].MtxWorld = mtxW;
+	}
+
+	UINT GetPolygonNum() const noexcept override											//ポリゴン数取得
 	{
 		return GetIndexNum() / 3 * m_InstanceNum;
 	}

@@ -371,6 +371,12 @@
     <None Include="..\..\Source\Shader\Viewer\VS_Model.hlsli">
       <Filter>Shader\Viewer</Filter>
     </None>
+    <None Include="..\..\Source\Shader\Light.hlsli">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\Phong.hlsli">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Source\Shader\PS_Phong.hlsl">

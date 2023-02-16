@@ -50,20 +50,19 @@ VS_OUT main(VS_IN vsi)
 		mtxL += mtxBone[vsi.boneID[i]] * vsi.boneWeight[i];		//影響する骨行列の加算
 
 	//座標計算
-	float3 PosWV;
 	vso.pos = mul(float4(vsi.pos, 1.0f), mtxL);
 	vso.pos = mul(vso.pos, mtxLocal);
-	vso.pos.x *= -1.0f;
+	vso.pos.x *= -1.0f;					//左手系ヘ
 	vso.pos = mul(vso.pos, mtxWorld);
 	vso.pos = mul(vso.pos, mtxView);
-	PosWV = vso.pos.xyz;				//頂点座標（ビュー空間）⇒光計算用
+	const float3 PosWV = vso.pos.xyz;	//頂点座標（ビュー空間）⇒光計算用
 	vso.pos = mul(vso.pos, mtxProj);
 
 	//テクスチャ
 	vso.tex = vsi.tex;
 
-	//BTN行列を取得（左手系）
-	float3x3 mtxT = {
+	//BTN行列を取得（右手系）
+	const float3x3 mtxT = {
 		vsi.tangent,
 		vsi.binormal,
 		vsi.normal
@@ -72,27 +71,27 @@ VS_OUT main(VS_IN vsi)
 	//カメラへの単位ベクトル（接空間へ変換）
 	vso.vNorT_ToCamera = mul(PosWV, transpose((float3x3) mtxView));
 	vso.vNorT_ToCamera = mul(vso.vNorT_ToCamera, transpose((float3x3) mtxWorld));
-	vso.vNorT_ToCamera.x *= -1.0f;
+	vso.vNorT_ToCamera.x *= -1.0f;													//右手系ヘ
 	vso.vNorT_ToCamera = mul(vso.vNorT_ToCamera, transpose((float3x3) mtxLocal));
 	vso.vNorT_ToCamera = mul(vso.vNorT_ToCamera, transpose((float3x3) mtxL));
 	vso.vNorT_ToCamera = mul(vso.vNorT_ToCamera, transpose(mtxT));
-	vso.vNorT_ToCamera.x *= -1.0f;
+	vso.vNorT_ToCamera.x *= -1.0f;													//左手系ヘ
 	vso.vNorT_ToCamera = normalize(-vso.vNorT_ToCamera);
 
 	//光の情報を計算（接空間へ変換）
-	float3 PosL = {
-		cbLightPos.x,
-		cbLightPos.y,
-		cbLightPos.z
+	const float3 PosL = {
+		DirectionalLight.Pos.x,
+		DirectionalLight.Pos.y,
+		DirectionalLight.Pos.z
 	};
 	//vso.vDirT_ToLight = mul(PosL, (float3x3) mtxView);
 	//vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose((float3x3) mtxView));
 	vso.vDirT_ToLight = mul(PosL, transpose((float3x3) mtxWorld));
-	vso.vDirT_ToLight.x *= -1.0f;
+	vso.vDirT_ToLight.x *= -1.0f;													//右手系ヘ
 	vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose((float3x3) mtxLocal));
 	vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose((float3x3) mtxL));
 	vso.vDirT_ToLight = mul(vso.vDirT_ToLight, transpose(mtxT));
-	vso.vDirT_ToLight.x *= -1.0f;									//鏡面反射確認の為、疑似的に位置を設定
+	vso.vDirT_ToLight.x *= -1.0f;									//左手系ヘ（鏡面反射確認の為、疑似的に位置を設定）
 	vso.vNorT_ToLight = normalize(vso.vDirT_ToLight);				//光源への単位ベクトル
 
 	//戻り値

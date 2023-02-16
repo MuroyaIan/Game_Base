@@ -23,16 +23,22 @@ public:
 	//プロトタイプ宣言
 	explicit GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr);
 	~GRID() noexcept override;
-	void Update() noexcept override;													//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
+	void Update() noexcept override;														//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{
 		(void)InstanceIndex;
 		return m_mtxWorld;
 	}
 
-	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	{
+		(void)InstanceIndex;
+		m_mtxWorld = mtxW;
+	}
+
+	UINT GetPolygonNum() const noexcept override											//ポリゴン数取得
 	{
 		return GetIndexNum() / 2;
 	}

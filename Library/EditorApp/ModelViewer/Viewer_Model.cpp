@@ -3,14 +3,15 @@
 #include <EditorApp/ModelViewer/Viewer_Model.h>
 #include <GraphicApp/Binder/BinderRef.h>
 #include <EditorApp/ModelViewer/Viewer.h>
+#include <Light/LightMgr.h>
 
 namespace dx = DirectX;
 
 //===== クラス実装 =====
 VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, int MeshIndex) :
-	DRAWER(Gfx.m_DX), m_Gfx(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_MtxLocal(), m_MtxWorld(), m_Material(), m_bNoBone(false),
+	DRAWER(Gfx.m_DX), m_Gfx(Gfx.m_DX), m_ShaderMgr(Gfx.m_ShaderMgr), m_Viewer(Viewer), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxLocal(), m_mtxWorld(), m_Material(), m_bNoBone(false),
 	m_pMtxBone(), m_bDrawAnimation(m_Viewer.GetFlag_DrawAnimation()), m_AnimationID(m_Viewer.GetAnimationID()), m_AnimFrame(0), m_FrameCnt(0), m_AnimPause(m_Viewer.GetFlag_AnimPause()),
-	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), pcbLight(), m_LightPos(Viewer.GetLightPos()), bUseNormalMap(false), bUseDispMap(false)
+	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), m_LightPos(Viewer.GetLightPos()), bUseNormalMap(false), bUseDispMap(false)
 {
 	//頂点情報作成
 	VS_DATA<VERTEX_MB> Model = MakeData_VS();
@@ -21,17 +22,17 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 
 	//VS定数バッファ作成（変換行列）
 	CB_PTR cbData;
-	AddBind(std::make_unique<CB_MTX_LWVP>(m_Gfx, &cbData, *this, m_MtxLocal));
+	AddBind(std::make_unique<CB_MTX_LWVP>(m_Gfx, &cbData, *this, m_mtxLocal));
 
 	//VS定数バッファ作成（骨情報）
 	m_pMtxBone = std::make_unique<CBD_BONE>();
 	AddBind(std::make_unique<CB_BONE>(m_Gfx, &cbData, *m_pMtxBone, true));
 
-	//VS定数バッファ作成（光源制御）
-	pcbLight = std::make_unique<CONSTANT_BUFFER<dx::XMFLOAT4>>(m_Gfx, &cbData, true);
-
 	//PS定数バッファ作成（マテリアル）
 	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx, &cbData, m_Material));
+
+	//VS・PS定数バッファ作成（ライト）
+	m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_LIGHT, &cbData);
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
@@ -84,10 +85,10 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 		TEX_LOADER::ReleaseTexture(d.pImageData);	//データ解放
 
 	//ローカル行列初期化
-	dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
+	dx::XMStoreFloat4x4(&m_mtxLocal, dx::XMMatrixIdentity());
 
 	//ワールド行列初期化
-	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixIdentity());
+	dx::XMStoreFloat4x4(&m_mtxWorld, dx::XMMatrixIdentity());
 
 	//マテリアル情報初期化
 	m_Material = MeshData.MaterialData;
@@ -95,10 +96,17 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 	//骨の影響を受けるか確認
 	if (MeshData.aNoSkinData.size() > 0)
 		m_bNoBone = true;
+
+	//ライト初期化
+	m_Viewer.GetLightMgr().GetData().DirectionalLight.Color_D = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_Viewer.GetLightMgr().GetData().DirectionalLight.Pos = { 1.0f, 1.0f, 1.0f, 0.0f };
 }
 
 VIEWER_MODEL::~VIEWER_MODEL() noexcept
 {
+	//ライトリセット
+	m_Viewer.GetLightMgr().GetData().DirectionalLight.Color_D = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_Viewer.GetLightMgr().GetData().DirectionalLight.Pos = { 0.0f, 1.0f, 0.0f, 1.0f };
 }
 
 //更新処理
@@ -107,7 +115,7 @@ void VIEWER_MODEL::Update() noexcept
 	//ワールド行列更新
 	dx::XMMATRIX mtx = dx::XMMatrixScaling(m_Scale, m_Scale, m_Scale)
 		* dx::XMMatrixRotationRollPitchYaw(0.0f, m_RotY, 0.0f);
-	dx::XMStoreFloat4x4(&m_MtxWorld, mtx);
+	dx::XMStoreFloat4x4(&m_mtxWorld, mtx);
 
 	//骨情報更新
 	if (m_bDrawAnimation)
@@ -119,7 +127,7 @@ void VIEWER_MODEL::Update() noexcept
 			dx::XMStoreFloat4x4(&m, dx::XMMatrixIdentity());
 
 		//ローカル行列リセット
-		dx::XMStoreFloat4x4(&m_MtxLocal, dx::XMMatrixIdentity());
+		dx::XMStoreFloat4x4(&m_mtxLocal, dx::XMMatrixIdentity());
 	}
 
 	//マテリアル更新
@@ -133,15 +141,14 @@ void VIEWER_MODEL::Update() noexcept
 	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_MinLayerNum = m_Material.Disp_MinLayerNum;
 	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_MaxLayerNum = m_Material.Disp_MaxLayerNum;
 	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_DepthScale = m_Material.Disp_DepthScale;	//データをモデル側にも更新
+
+	//ライト制御
+	m_Viewer.GetLightMgr().GetData().DirectionalLight.Pos = { m_LightPos.x, m_LightPos.y, m_LightPos.z, 0.0f };
 }
 
 //描画処理
 void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 {
-	//PS定数バッファ作成（光源制御）
-	dx::XMFLOAT4 Offset = { m_LightPos.x, m_LightPos.y, m_LightPos.z, 0.0f };
-	pcbLight->Update(m_Gfx, Offset);
-
 	//その他のバインド
 	if (bUseNormalMap &&
 		m_Viewer.GetNormalMapFlag()) {
@@ -261,5 +268,5 @@ void VIEWER_MODEL::UpdateBoneData(int AnimID) noexcept
 
 	//ローカル行列更新（骨なしメッシュ）
 	if (m_bNoBone)
-		m_MtxLocal = m_Loader.GetMesh(m_MeshIndex).aNoSkinData[AnimID].aMatrix[m_AnimFrame];
+		m_mtxLocal = m_Loader.GetMesh(m_MeshIndex).aNoSkinData[AnimID].aMatrix[m_AnimFrame];
 }

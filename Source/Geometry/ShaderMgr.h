@@ -78,7 +78,7 @@ public:
 		//定数バッファ
 		CB_VS_MTX_VP,
 		CB_PS_DEFAULT,
-		CB_PS_LIGHT,
+		CB_LIGHT,
 
 		ID_MAX
 	};

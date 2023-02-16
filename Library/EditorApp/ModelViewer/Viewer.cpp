@@ -1,6 +1,7 @@
 
 //===== インクルード部 =====
 #include <EditorApp/ModelViewer/Viewer.h>
+#include <Light/LightMgr.h>
 #include <EditorApp/ModelViewer/Grid.h>
 #include <filesystem>
 #include <EditorApp/ModelViewer/Viewer_Model.h>
@@ -11,7 +12,7 @@
 
 //===== クラス実装 =====
 VIEWER::VIEWER(APP& App) :
-	m_Gfx(App.GetGfxPack()), m_Input(App.GetInputMgr()), m_aDrawer(), m_Camera(App),
+	m_Gfx(App.GetGfxPack()), m_Input(App.GetInputMgr()), m_aDrawer(), m_Camera(App), m_LightMgr(App.GetLightMgr()),
 	m_pLoader(), m_Scale(1.0f), m_RotY(0.0f), m_bDrawNormal(false), m_bDrawSurface(false),
 	m_bDrawAnimation(false), m_AnimationID(0), m_AnimFrame(0), m_bAnimPause(false),
 	m_Drawer_Bone(), m_Drawer_BoneLine(), m_bDrawBone(false),
@@ -68,6 +69,9 @@ void VIEWER::Update() noexcept
 	m_Drawer_Bone->Update();
 	if (m_Drawer_BoneLine != nullptr)
 		m_Drawer_BoneLine->Update();
+
+	//ライトマネージャ更新
+	m_LightMgr.Update();
 }
 
 //描画処理

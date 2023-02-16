@@ -113,7 +113,7 @@ APP::APP() :
 
 	//形状生成用ラムダ式
 	std::vector<std::unique_ptr<DRAWER>>& aDrawer = m_aDrawer;
-	auto MakeGeom = [&aDrawer]()
+	auto MakeGeom = [&aDrawer](int Idx)
 	{
 		enum class SHAPE
 		{
@@ -137,15 +137,24 @@ APP::APP() :
 			MAX_NUM
 		};
 
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(9, 9));
-		//SHAPE shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(0, static_cast<int>(SHAPE::MAX_NUM) - 1));
-		aDrawer[static_cast<int>(Shape)]->AddInstance();
+		//インスタンス作成
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(7, 8));
+		int InstIdx = aDrawer[static_cast<int>(Shape)]->AddInstance();
+
+		//ワールド行列設定
+		dx::XMFLOAT4X4 mtxW{};
+		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
+			(Idx % 20) * 2.0f - (20.0f - 1.0f),
+			0.0f,
+			static_cast<float>(Idx / 20) * 2.0f - (20.0f - 1.0f))
+		);
+		aDrawer[static_cast<int>(Shape)]->SetWorldMatrix(mtxW, InstIdx);
 		return;
 	};
 
 	//生成処理
 	for (int i = 0; i < nDrawNum; i++)
-		MakeGeom();
+		MakeGeom(i);
 
 	//【モデルテスト】
 	//m_aModel.reserve(1);
@@ -167,14 +176,14 @@ APP::APP() :
 	//点光源初期化
 	for(auto& l : m_aLight)
 		l = std::make_unique<POINT_LIGHT>(*this, 50.0f);
-	m_aLight[0]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-	m_aLight[1]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	m_aLight[2]->GetData().Color_D = DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
-	m_aLight[3]->GetData().Color_D = DirectX::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
-	m_aLight[0]->GetData().Pos = DirectX::XMFLOAT4( 8.0f, 2.0f,  8.0f, 1.0f);
-	m_aLight[1]->GetData().Pos = DirectX::XMFLOAT4(-8.0f, 2.0f,  8.0f, 1.0f);
-	m_aLight[2]->GetData().Pos = DirectX::XMFLOAT4( 8.0f, 2.0f, -8.0f, 1.0f);
-	m_aLight[3]->GetData().Pos = DirectX::XMFLOAT4(-8.0f, 2.0f, -8.0f, 1.0f);
+	m_aLight[0]->GetData().Color_D = dx::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	m_aLight[1]->GetData().Color_D = dx::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	m_aLight[2]->GetData().Color_D = dx::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+	m_aLight[3]->GetData().Color_D = dx::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
+	m_aLight[0]->GetData().Pos = dx::XMFLOAT4(8.0f, 2.0f, 8.0f, 1.0f);
+	m_aLight[1]->GetData().Pos = dx::XMFLOAT4(-8.0f, 2.0f, 8.0f, 1.0f);
+	m_aLight[2]->GetData().Pos = dx::XMFLOAT4(8.0f, 2.0f, -8.0f, 1.0f);
+	m_aLight[3]->GetData().Pos = dx::XMFLOAT4(-8.0f, 2.0f, -8.0f, 1.0f);
 
 
 
@@ -421,13 +430,13 @@ void APP::Draw()
 				if (ImGui::TreeNode(U8(u8"カメラ情報"))) {
 
 					//出力処理
-					DirectX::XMFLOAT4X4 mtxW = m_pCameraMgr->GetWorldMtx();
+					dx::XMFLOAT4X4 mtxW = m_pCameraMgr->GetWorldMtx();
 					ImGui::Text(U8(u8"　位置")); ImGui::SameLine(); ImGui::Text("(cm)");
 					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "X"); ImGui::SameLine(); ImGui::Text(": %.1f ", mtxW._41); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Y"); ImGui::SameLine(); ImGui::Text(": %.1f ", mtxW._42); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 0.5f, 1.0f, 1.0f), "Z"); ImGui::SameLine(); ImGui::Text(": %.1f", mtxW._43);
 
-					DirectX::XMFLOAT3 Rot = m_pCameraMgr->GetRotation();
+					dx::XMFLOAT3 Rot = m_pCameraMgr->GetRotation();
 					ImGui::Text(U8(u8"　回転")); ImGui::SameLine(); ImGui::Text("(deg.)");
 					ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "X"); ImGui::SameLine(); ImGui::Text(": %d ", gMath::GetDegree(Rot.x)); ImGui::SameLine();
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Y"); ImGui::SameLine(); ImGui::Text(": %d ", gMath::GetDegree(Rot.y)); ImGui::SameLine();

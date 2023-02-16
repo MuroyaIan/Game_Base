@@ -127,7 +127,7 @@ private:
 
 
 	std::vector<std::unique_ptr<DRAWER>> m_aDrawer;		//y•`‰æƒeƒXƒgz
-	static constexpr int nDrawNum = 120;				//•`‰æ”
+	static constexpr int nDrawNum = 400;				//•`‰æ”
 	std::vector<std::unique_ptr<MODEL>> m_aModel;		//ƒ‚ƒfƒ‹
 	std::unique_ptr<DIRECTIONAL_LIGHT> m_pSunLight;		//‘¾—zŒõ
 	std::vector<std::unique_ptr<POINT_LIGHT>> m_aLight;	//“_ŒõŒ¹”z—ñ

@@ -274,6 +274,8 @@
   <ItemGroup>
     <None Include="..\..\Asset\dog.cur" />
     <None Include="..\..\Source\Shader\Base\VS_Base.hlsli" />
+    <None Include="..\..\Source\Shader\Light.hlsli" />
+    <None Include="..\..\Source\Shader\Phong.hlsli" />
     <None Include="..\..\Source\Shader\Viewer\PS_Model.hlsli" />
     <None Include="..\..\Source\Shader\Viewer\VS_Model.hlsli" />
   </ItemGroup>

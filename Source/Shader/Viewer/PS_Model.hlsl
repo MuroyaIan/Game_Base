@@ -20,13 +20,10 @@ struct PS_IN
 	float3 vNorV_ToLight : LIGHT_NOR;	//光への単位ベクトル（ビュー空間）
 };
 
-//プロトタイプ宣言
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor);	//平行光源の計算
-
 //エントリーポイント
 float4 main(PS_IN psi) : SV_TARGET
 {
-	//テクスチャ取得
+	//テクスチャ取得（左手系）
 	const float2x4 Texture = {
 		TexMap[0].Sample(Sampler, psi.tex),		//Diffuse
 		TexMap[1].Sample(Sampler, psi.tex),		//Specular
@@ -34,38 +31,26 @@ float4 main(PS_IN psi) : SV_TARGET
 
 	//モデル色計算
 	const float3x3 ModelColor = {
-		cbDiffuse.rgb * cbDiffuse.w * Texture._11_12_13,	//Diffuse
-		cbSpecular.rgb * Texture._21_22_23,					//Specular
-		cbAmbient.rgb										//Ambient
+		matData.Diffuse.rgb * matData.Diffuse.w * Texture._11_12_13,	//Diffuse
+		matData.Specular.rgb * Texture._21_22_23,						//Specular
+		matData.Ambient.rgb												//Ambient
+	};
+
+	//光源計算用ベクトル
+	const LIGHT_VECTOR LightVec = {
+		psi.vNorV_Model,
+		psi.vNorV_ToCamera,
+		psi.vDirV_ToLight,
+		psi.vNorV_ToLight
 	};
 
 	//平行光源の計算
-	const float3 Directional = CalcDirectionalLight(psi, psi.vNorV_Model, ModelColor);
+	const float3 LightColor = DirectionalLight.Color_D.rgb * DirectionalLight.Color_D.a;
+	const float3 Directional = CalcDirectionalLight(LightVec, ModelColor, LightColor, matData.Shininess);
 
 	//グローバル環境光の計算
-	const float3 g_Ambient = GlobalAmbient.rgb * GlobalAmbient.a * ModelColor._11_12_13;
+	const float3 g_Ambient = AmbientLight.rgb * AmbientLight.a * ModelColor._11_12_13;
 
 	//最終の出力色計算
 	return float4(saturate(Directional + g_Ambient), 1.0f);
-}
-
-//平行光源の計算
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor)
-{
-	//平行光源の色
-	const float3 LightRGB = LightColor.rgb * LightColor.a;
-
-	//拡散色算出
-	const float3 Diffuse = LightRGB * max(0.0f, dot(psi.vNorV_ToLight, ModelNormal)) * ModelColor._11_12_13;
-
-	//鏡面反射色算出
-	const float3 vRef = ModelNormal * dot(psi.vDirV_ToLight, ModelNormal) * 2.0f - psi.vDirV_ToLight;	//鏡面反射ベクトル
-	//const float PowerS = pow(2.0f, Texture._24 * 13.0f);												//αチャンネル付きスペキュラマップ?
-	const float3 Specular = LightRGB * pow(max(0.0f, dot(normalize(vRef), psi.vNorV_ToCamera)), cbShininess) * ModelColor._21_22_23;
-
-	//環境光の計算
-	const float3 Ambient = LightRGB * ModelColor._31_32_33;
-
-	//最終の出力色計算
-	return Diffuse + Specular + Ambient;
 }

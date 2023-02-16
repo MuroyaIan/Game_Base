@@ -17,6 +17,7 @@
 //===== 前方宣言 =====
 class DRAWER;
 class BONE;
+class LIGHT_MGR;
 
 //===== クラス定義 =====
 
@@ -40,6 +41,10 @@ public:
 	VIEWER_CAM& GetCamera() noexcept				//カメラ参照
 	{
 		return m_Camera;
+	}
+	LIGHT_MGR& GetLightMgr() noexcept				//ライトマネージャ参照
+	{
+		return m_LightMgr;
 	}
 	FBX_LOADER& GetLoader() const noexcept			//FBXローダ参照
 	{
@@ -110,6 +115,7 @@ private:
 	INPUT_MGR& m_Input;									//入力参照
 	std::vector<std::unique_ptr<DRAWER>> m_aDrawer;		//描画配列
 	VIEWER_CAM m_Camera;								//カメラ
+	LIGHT_MGR& m_LightMgr;								//ライトマネージャ
 
 	std::unique_ptr<FBX_LOADER> m_pLoader;				//FBXローダ
 	float m_Scale;										//モデルスケール

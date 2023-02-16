@@ -20,8 +20,7 @@ struct PS_IN
 };
 
 //プロトタイプ宣言
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor);	//平行光源の計算
-float2 CalcDisplacementMapUV(PS_IN psi);											//視差マップのUVを計算
+float2 CalcDisplacementMapUV(PS_IN psi);	//視差マップのUVを計算
 
 //エントリーポイント
 float4 main(PS_IN psi) : SV_TARGET
@@ -35,67 +34,57 @@ float4 main(PS_IN psi) : SV_TARGET
 
 #endif // DISP_MAP
 
-	//テクスチャ取得
+	//テクスチャ取得（左手系）
 	const float3x4 Texture = {
 		TexMap[0].Sample(Sampler, TexDisp),		//Diffuse
 		TexMap[1].Sample(Sampler, TexDisp),		//Specular
 		TexMap[2].Sample(Sampler, TexDisp)		//Normal
 	};
 
-	//法線取得
-	float3 vNorT_Model = Texture._31_32_33 * 2.0f - 1.0f;	//（左手系）
-	vNorT_Model.x *= -1.0f;
-	vNorT_Model = normalize(vNorT_Model);
-
 	//モデル色計算
 	const float3x3 ModelColor = {
-		cbDiffuse.rgb * cbDiffuse.w * Texture._11_12_13,	//Diffuse
-		cbSpecular.rgb * Texture._21_22_23,					//Specular
-		cbAmbient.rgb										//Ambient
+		matData.Diffuse.rgb * matData.Diffuse.w * Texture._11_12_13,	//Diffuse
+		matData.Specular.rgb * Texture._21_22_23,						//Specular
+		matData.Ambient.rgb												//Ambient
+	};
+
+	//法線取得
+	float3 vNorT_Model = Texture._31_32_33 * 2.0f - 1.0f;
+	vNorT_Model.x *= -1.0f;									//左手系ヘ
+	vNorT_Model = normalize(vNorT_Model);
+
+	//光源計算用ベクトル
+	const LIGHT_VECTOR LightVec =
+	{
+		vNorT_Model,
+		psi.vNorT_ToCamera,
+		psi.vDirT_ToLight,
+		psi.vNorT_ToLight
 	};
 
 	//平行光源の計算
-	const float3 Directional = CalcDirectionalLight(psi, vNorT_Model, ModelColor);
+	const float3 LightColor = DirectionalLight.Color_D.rgb * DirectionalLight.Color_D.a;
+	const float3 Directional = CalcDirectionalLight(LightVec, ModelColor, LightColor, matData.Shininess);
 
 	//グローバル環境光の計算
-	const float3 g_Ambient = GlobalAmbient.rgb * GlobalAmbient.a * ModelColor._11_12_13;
+	const float3 g_Ambient = AmbientLight.rgb * AmbientLight.a * ModelColor._11_12_13;
 
 	//最終の出力色計算
 	return float4(saturate(Directional + g_Ambient), 1.0f);
-}
-
-//平行光源の計算
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal, float3x3 ModelColor)
-{
-	//平行光源の色
-	const float3 LightRGB = LightColor.rgb * LightColor.a;
-
-	//拡散色算出
-	const float3 Diffuse = LightRGB * max(0.0f, dot(psi.vNorT_ToLight, ModelNormal)) * ModelColor._11_12_13;
-
-	//鏡面反射色算出
-	const float3 vRef = ModelNormal * dot(psi.vDirT_ToLight, ModelNormal) * 2.0f - psi.vDirT_ToLight;	//鏡面反射ベクトル
-	const float3 Specular = LightRGB * pow(max(0.0f, dot(normalize(vRef), psi.vNorT_ToCamera)), cbShininess) * ModelColor._21_22_23;
-
-	//環境光の計算
-	const float3 Ambient = LightRGB * ModelColor._31_32_33;
-
-	//最終の出力色計算
-	return Diffuse + Specular + Ambient;
 }
 
 //視差マップのUVを計算
 float2 CalcDisplacementMapUV(PS_IN psi)
 {
 	//サンプリング数設定（注視方向に応じて深さ計算用レイヤの分割数を設定）
-	const float MinLayerNum = cbDisp_MinLayerNum;
-	const float MaxLayerNum = cbDisp_MaxLayerNum;
+	const float MinLayerNum = matData.Disp_MinLayerNum;
+	const float MaxLayerNum = matData.Disp_MaxLayerNum;
 	const float LayerNum = lerp(MinLayerNum, MaxLayerNum, abs(dot(float3(0.0f, 0.0f, 1.0f), psi.vNorT_ToCamera)));
 
 	//ループ計算用のデータを設定
 	float Depth_Layer = 0.0f;																//レイヤ深さ
 	const float DepthPerLayer = 1.0f / LayerNum;											//レイヤごとの深さ
-	const float DepthScale = cbDisp_DepthScale;												//視差マップ用深さ係数
+	const float DepthScale = matData.Disp_DepthScale;										//視差マップ用深さ係数
 	//float2 vParallax = psi.vNorT_ToCamera.xy * DepthScale;
 	const float2 vParallax = psi.vNorT_ToCamera.xy / psi.vNorT_ToCamera.z * DepthScale;		//視差ベクトル（UV座標の総変化量）
 	const float2 vParallaxPerLayer = vParallax / LayerNum;									//レイヤごとの視差ベクトル

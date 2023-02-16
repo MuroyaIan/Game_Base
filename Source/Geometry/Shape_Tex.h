@@ -22,18 +22,23 @@ class SHAPE_TEX : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	SHAPE_TEX(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type, TEXTURE_MGR::TEX_ID Tex);
+	explicit SHAPE_TEX(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type, TEXTURE_MGR::TEX_ID Tex);
 	~SHAPE_TEX() noexcept override;
-	void Update() noexcept override;													//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
-	int AddInstance() override;															//インスタンス追加
+	void Update() noexcept override;														//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	int AddInstance() override;																//インスタンス追加
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{
 		return m_aMtxWorld[InstanceIndex];
 	}
 
-	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	{
+		m_aMtxWorld[InstanceIndex] = mtxW;
+	}
+
+	UINT GetPolygonNum() const noexcept override											//ポリゴン数取得
 	{
 		return GetIndexNum() / 3 * m_InstanceNum;
 	}
@@ -46,15 +51,4 @@ private:
 	int m_InstanceNum;								//インスタンス数
 	std::vector<DirectX::XMFLOAT4X4> m_aMtxWorld;	//ワールド行列
 	TEXTURE_MGR::TEX_ID m_Tex;						//テクスチャ情報
-
-	struct MTX_DATA
-	{
-		float m_r, dt;
-		float m_roll, m_pitch, m_yaw;
-		float m_theta, m_phi, m_chi;				//位置情報
-
-		float m_droll, m_dpitch, m_dyaw;
-		float m_dtheta, m_dphi, m_dchi;				//回転速度(デルタ/sec)
-	};
-	std::vector<MTX_DATA> m_aMtxData;				//行列計算用情報
 };

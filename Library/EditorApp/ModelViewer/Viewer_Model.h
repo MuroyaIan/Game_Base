@@ -39,7 +39,13 @@ public:
 	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
 	{
 		(void)InstanceIndex;
-		return m_MtxWorld;
+		return m_mtxWorld;
+	}
+
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	{
+		(void)InstanceIndex;
+		m_mtxWorld = mtxW;
 	}
 
 	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
@@ -55,8 +61,8 @@ private:
 	VIEWER& m_Viewer;						//ビューワ参照
 	FBX_LOADER& m_Loader;					//ローダ参照
 	int m_MeshIndex;						//メッシュ番号
-	DirectX::XMFLOAT4X4 m_MtxLocal;			//ローカル行列
-	DirectX::XMFLOAT4X4 m_MtxWorld;			//ワールド行列
+	DirectX::XMFLOAT4X4 m_mtxLocal;			//ローカル行列
+	DirectX::XMFLOAT4X4 m_mtxWorld;			//ワールド行列
 	CBD_MATERIAL m_Material;				//マテリアル情報
 	bool m_bNoBone;							//骨なしメッシュ
 
@@ -70,8 +76,7 @@ private:
 	float& m_Scale;							//モデルスケール
 	float& m_RotY;							//回転(Y軸)
 
-	std::unique_ptr<CONSTANT_BUFFER<DirectX::XMFLOAT4>> pcbLight;	//ライト座標用定数バッファのポインタ
-	DirectX::XMFLOAT3& m_LightPos;									//ライト座標(変化量)
+	DirectX::XMFLOAT3& m_LightPos;			//ライト座標
 
 	bool bUseNormalMap;						//ノーマルマップ使用
 	bool bUseDispMap;						//視差マップ使用

@@ -10,7 +10,7 @@ namespace dx = DirectX;
 BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) :
 	DRAWER(Gfx.m_DX), m_Gfx(Gfx), m_InstanceNum(0), m_Loader(Loader),
 	m_aMtxBone(m_InstanceNum), m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame()), m_Scale(1.0f),
-	m_MtxWorld(), m_ModelScale(Viewer.GetModelScale()),
+	m_mtxWorld(), m_ModelScale(Viewer.GetModelScale()),
 	m_Input(Input), m_RotY(Viewer.GetModelRotation())
 {
 	//頂点情報作成
@@ -47,7 +47,7 @@ BONE::BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input) 
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//ワールド行列初期化
-	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixIdentity());
+	dx::XMStoreFloat4x4(&m_mtxWorld, dx::XMMatrixIdentity());
 }
 
 BONE::~BONE() noexcept
@@ -58,7 +58,7 @@ BONE::~BONE() noexcept
 void BONE::Update() noexcept
 {
 	//ワールド行列更新
-	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixScaling(m_ModelScale, m_ModelScale, m_ModelScale)
+	dx::XMStoreFloat4x4(&m_mtxWorld, dx::XMMatrixScaling(m_ModelScale, m_ModelScale, m_ModelScale)
 		* dx::XMMatrixRotationRollPitchYaw(0.0f, m_RotY, 0.0f));
 
 	//ローカル行列更新
@@ -135,7 +135,7 @@ void BONE::ClearInstance()
 	m_InstanceNum = 0;
 	m_aMtxBone.clear();
 	m_Scale = 1.0f;
-	dx::XMStoreFloat4x4(&m_MtxWorld, dx::XMMatrixIdentity());
+	dx::XMStoreFloat4x4(&m_mtxWorld, dx::XMMatrixIdentity());
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxBone);

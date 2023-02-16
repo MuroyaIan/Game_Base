@@ -269,7 +269,7 @@ SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
 	}
 
 	//定数バッファ作成（ライト情報）
-	m_aBinder[static_cast<int>(BINDER_ID::CB_PS_LIGHT)] = std::make_unique<CONSTANT_BUFFER<LIGHT_MGR::LIGHT_PACK>>(m_DX, nullptr, false, true);
+	m_aBinder[static_cast<int>(BINDER_ID::CB_LIGHT)] = std::make_unique<CONSTANT_BUFFER<LIGHT_MGR::LIGHT_PACK>>(m_DX, nullptr, true, true);
 }
 
 SHADER_MGR::~SHADER_MGR() noexcept
@@ -371,7 +371,7 @@ void SHADER_MGR::SetConstBufferPtr(BINDER_ID id, CB_PTR* cbPtr) const
 		case SHADER_MGR::BINDER_ID::CB_PS_DEFAULT:
 			dynamic_cast<CONSTANT_BUFFER<CBD_COLOR>*>(m_aBinder[static_cast<int>(id)].get())->SetBuffPtr(cbPtr);
 			break;
-		case SHADER_MGR::BINDER_ID::CB_PS_LIGHT:
+		case SHADER_MGR::BINDER_ID::CB_LIGHT:
 			dynamic_cast<CONSTANT_BUFFER<LIGHT_MGR::LIGHT_PACK>*>(m_aBinder[static_cast<int>(id)].get())->SetBuffPtr(cbPtr);
 			break;
 		default:

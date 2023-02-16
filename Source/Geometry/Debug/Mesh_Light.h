@@ -23,26 +23,31 @@ public:
 	//プロトタイプ宣言
 	explicit MESH_LIGHT(GFX_PACK& Gfx, CAMERA_MGR& CameraMgr);
 	~MESH_LIGHT() noexcept override;
-	void Update() noexcept override;													//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
-	int AddInstance() override;															//インスタンス追加
+	void Update() noexcept override;														//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	int AddInstance() override;																//インスタンス追加
 
-	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
+	UINT GetPolygonNum() const noexcept override											//ポリゴン数取得
 	{
 		return GetIndexNum() / 3 * m_InstanceNum;
 	}
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{
 		return m_aMtxWorld[InstanceIndex];
 	}
 
-	void SetPos(DirectX::XMFLOAT3 Pos, int InstanceIndex = 0) noexcept					//座標設定
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	{
+		m_aMtxWorld[InstanceIndex] = mtxW;
+	}
+
+	void SetPos(DirectX::XMFLOAT3 Pos, int InstanceIndex = 0) noexcept						//座標設定
 	{
 		m_aMtxData[InstanceIndex].m_Pos = Pos;
 	}
 
-	void SetScale(DirectX::XMFLOAT3 Scale, int InstanceIndex = 0) noexcept				//サイズ設定
+	void SetScale(DirectX::XMFLOAT3 Scale, int InstanceIndex = 0) noexcept					//サイズ設定
 	{
 		m_aMtxData[InstanceIndex].m_Scale = Scale;
 	}

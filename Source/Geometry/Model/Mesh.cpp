@@ -43,7 +43,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	}
 
 	//PS定数バッファ作成（ライト）
-	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_PS_LIGHT, &cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_LIGHT, &cbData);
 
 	//PS定数バッファ作成（マテリアル）
 	m_Material = Mesh.MaterialData;

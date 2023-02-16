@@ -31,9 +31,9 @@ VS_OUT main(VS_IN vsi)
 
 	//座標
 	vso.pos = float4(vsi.pos, 1.0f);
-	vso.pos.x *= -1.0f;						//右手系ヘ変換（ピラミッド型はメモリ生成の為）
+	vso.pos.x *= -1.0f;						//右手系ヘ（ピラミッド型はメモリ生成の為）
 	vso.pos = mul(vso.pos, vsi.mtxBone);	//骨変換
-	vso.pos.x *= -1.0f;						//左手系に戻る
+	vso.pos.x *= -1.0f;						//左手系ヘ
 	vso.pos = mul(vso.pos, mtxWVP);
 
 	//カラー

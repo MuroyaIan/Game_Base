@@ -51,13 +51,12 @@ VS_OUT main(VS_IN vsi)
 		mtxL += mtxBone[vsi.boneID[i]] * vsi.boneWeight[i];		//影響する骨行列の加算
 
 	//座標計算
-	float3 PosWV;
 	vso.pos = mul(float4(vsi.pos, 1.0f), mtxL);
 	vso.pos = mul(vso.pos, mtxLocal);
-	vso.pos.x *= -1.0f;
+	vso.pos.x *= -1.0f;					//左手系ヘ
 	vso.pos = mul(vso.pos, mtxWorld);
 	vso.pos = mul(vso.pos, mtxView);
-	PosWV = vso.pos.xyz;				//頂点座標（ビュー空間）⇒光計算用
+	const float3 PosWV = vso.pos.xyz;	//頂点座標（ビュー空間）⇒光計算用
 	vso.pos = mul(vso.pos, mtxProj);
 
 	//テクスチャ
@@ -66,7 +65,7 @@ VS_OUT main(VS_IN vsi)
 	//法線計算（ビュー空間へ変換）
 	vso.vNorV_Model = mul(vsi.normal, (float3x3) mtxL);
 	vso.vNorV_Model = mul(vso.vNorV_Model, (float3x3) mtxLocal);
-	vso.vNorV_Model.x *= -1.0f;
+	vso.vNorV_Model.x *= -1.0f;										//左手系ヘ
 	vso.vNorV_Model = mul(vso.vNorV_Model, (float3x3) mtxWorld);
 	vso.vNorV_Model = mul(vso.vNorV_Model, (float3x3) mtxView);
 	vso.vNorV_Model = normalize(vso.vNorV_Model);
@@ -75,10 +74,10 @@ VS_OUT main(VS_IN vsi)
 	vso.vNorV_ToCamera = normalize(-PosWV);
 
 	//光の情報を計算（ビュー空間へ変換）
-	float3 PosL = {
-		cbLightPos.x,
-		cbLightPos.y,
-		cbLightPos.z
+	const float3 PosL = {
+		DirectionalLight.Pos.x,
+		DirectionalLight.Pos.y,
+		DirectionalLight.Pos.z
 	};
 	vso.vDirV_ToLight = mul(PosL, (float3x3) mtxView);	//鏡面反射確認の為、疑似的に位置を設定
 	vso.vNorV_ToLight = normalize(vso.vDirV_ToLight);	//光源への単位ベクトル

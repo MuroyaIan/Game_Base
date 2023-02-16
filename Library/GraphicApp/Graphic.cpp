@@ -79,6 +79,20 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 		&FeatureLevel,
 		&m_pContext
 	);
+	//hr = D3D11CreateDeviceAndSwapChain(
+	//	nullptr,
+	//	D3D_DRIVER_TYPE_HARDWARE,
+	//	nullptr,
+	//	CreateDeviceFlag,
+	//	FeatureLevels,
+	//	NumFeatureLevels,
+	//	D3D11_SDK_VERSION,
+	//	&scd,
+	//	&m_pSwapChain,
+	//	&m_pDevice,
+	//	&FeatureLevel,
+	//	&m_pContext
+	//);
 	if (hr == E_INVALIDARG) {
 
 		//dx11_1”ñ‘Î‰‚Ìê‡idx11_0ˆÈ‰º‚ğ‚·j

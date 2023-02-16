@@ -28,23 +28,29 @@ public:
 	//プロトタイプ宣言
 	explicit BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input);
 	~BONE() noexcept override;
-	void Update() noexcept override;													//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;								//書込み処理
-	int AddInstance() override;															//インスタンス追加
-	void ClearInstance() override;														//インスタンスクリア
+	void Update() noexcept override;														//更新処理
+	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	int AddInstance() override;																//インスタンス追加
+	void ClearInstance() override;															//インスタンスクリア
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override	//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{
 		(void)InstanceIndex;
-		return m_MtxWorld;
+		return m_mtxWorld;
 	}
 
-	UINT GetPolygonNum() const noexcept override										//ポリゴン数取得
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	{
+		(void)InstanceIndex;
+		m_mtxWorld = mtxW;
+	}
+
+	UINT GetPolygonNum() const noexcept override											//ポリゴン数取得
 	{
 		return GetIndexNum() / 3 * m_InstanceNum;
 	}
 
-	float& GetScale() noexcept															//メッシュスケール参照
+	float& GetScale() noexcept																//メッシュスケール参照
 	{
 		return m_Scale;
 	}
@@ -62,7 +68,7 @@ private:
 	int& m_AnimFrame;								//再生するフレーム数
 	float m_Scale;									//メッシュスケール
 
-	DirectX::XMFLOAT4X4 m_MtxWorld;					//ワールド行列
+	DirectX::XMFLOAT4X4 m_mtxWorld;					//ワールド行列
 	float& m_ModelScale;							//モデルスケール
 
 	INPUT_MGR& m_Input;								//入力参照
