@@ -103,10 +103,10 @@ void BONE::Draw(int InstanceNum) const noexcept
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxLocal, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_BONE);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_BONE);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_TRI);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_VTX_BLEND);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Model_Bone);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Model_Bone);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Tri);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_VtxBlend);
 	DRAWER::Draw(m_InstanceNum);
 }
 

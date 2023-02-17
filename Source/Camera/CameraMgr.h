@@ -25,16 +25,16 @@ public:
 		Test,
 		FirstPerson,
 
-		MAX_CAMERA
+		ID_Max
 	};
 
 	//プロトタイプ宣言
 	explicit CAMERA_MGR(APP& App) noexcept;
 	~CAMERA_MGR() noexcept;
-	void Update() const noexcept;															//更新処理
-	void SetCamera(CAMERA_ID id) noexcept;													//カメラセット
-	DirectX::XMFLOAT4X4 GetWorldMtx(CAMERA_ID id = CAMERA_ID::MAX_CAMERA) const noexcept;	//ワールド行列取得
-	DirectX::XMFLOAT3 GetRotation(CAMERA_ID id = CAMERA_ID::MAX_CAMERA) const noexcept;		//回転情報取得
+	void Update() const noexcept;														//更新処理
+	void SetCamera(CAMERA_ID id) noexcept;												//カメラセット
+	DirectX::XMFLOAT4X4 GetWorldMtx(CAMERA_ID id = CAMERA_ID::ID_Max) const noexcept;	//ワールド行列取得
+	DirectX::XMFLOAT3 GetRotation(CAMERA_ID id = CAMERA_ID::ID_Max) const noexcept;		//回転情報取得
 
 private:
 

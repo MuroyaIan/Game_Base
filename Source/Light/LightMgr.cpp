@@ -5,7 +5,7 @@
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 LIGHT_MGR::LIGHT_MGR(APP& App) noexcept :
-	m_Gfx(App.GetGfxPack()), m_cBuffRef(dynamic_cast<CONSTANT_BUFFER<LIGHT_PACK>&>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_LIGHT))),
+	m_Gfx(App.GetGfxPack()), m_cBuffRef(dynamic_cast<CONSTANT_BUFFER<LIGHT_PACK>&>(m_Gfx.m_ShaderMgr.GetBinder(SHADER_MGR::BINDER_ID::CB_Light))),
 	m_LightData(), m_UsedData(0), m_UsedData_backup(m_UsedData)
 {
 }

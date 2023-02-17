@@ -117,24 +117,24 @@ APP::APP() :
 	{
 		enum class SHAPE
 		{
-			BOX,
-			PYRAMID,
-			CONE,
-			PRISM,
-			CYLINDER,
-			SPHERE,
-			PLANE,
-			BOX_TEX,
-			PLANE_TEX,
-			MODEL_BOX,
-			MODEL_PYRAMID,
-			MODEL_CONE,
-			MODEL_PRISM,
-			MODEL_CYLINDER,
-			MODEL_SPHERE,
-			MODEL_PLANE,
+			Box,
+			Pyramid,
+			Cone,
+			Prism,
+			Cylinder,
+			Sphere,
+			Plane,
+			Box_Tex,
+			Plane_Tex,
+			Model_Box,
+			Model_Pyramid,
+			Model_Cone,
+			Model_Prism,
+			Model_Cylinder,
+			Model_Sphere,
+			Model_Plane,
 
-			MAX_NUM
+			MaxNum
 		};
 
 		//インスタンス作成
@@ -168,7 +168,7 @@ APP::APP() :
 
 
 	//カメラ初期化
-	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::FirstPerson);
+	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::Test);
 
 	//太陽光初期化
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);

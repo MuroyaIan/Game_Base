@@ -27,60 +27,60 @@ public:
 	enum class BINDER_ID
 	{
 		//頂点シェーダ
-		VS_DEFAULT,
-		VS_VTX_BLEND,
-		VS_TEXTURE,
+		VS_Default,
+		VS_VtxBlend,
+		VS_Texture,
 
-		VS_MODEL,
-		VS_MODEL_NORMAL,
-		VS_MODEL_BONE,
+		VS_Model,
+		VS_Model_Normal,
+		VS_Model_Bone,
 
-		VS_INSTANCE,
-		VS_INSTANCE_VTX_BLEND,
-		VS_INSTANCE_TEXTURE,
-		VS_INSTANCE_PHONG,
-		VS_INSTANCE_PHONG_ANIM,
+		VS_Instance,
+		VS_Instance_VtxBlend,
+		VS_Instance_Texture,
+		VS_Instance_Phong,
+		VS_Instance_Phong_Anim,
 
 		//入力レイアウト
-		IL_DEFAULT,
-		IL_VTX_BLEND,
-		IL_TEXTURE,
+		IL_Default,
+		IL_VtxBlend,
+		IL_Texture,
 
-		IL_MODEL,
-		IL_MODEL_NORMAL,
-		IL_MODEL_BONE,
+		IL_Model,
+		IL_Model_Normal,
+		IL_Model_Bone,
 
-		IL_INSTANCE,
-		IL_INSTANCE_VTX_BLEND,
-		IL_INSTANCE_TEXTURE,
-		IL_INSTANCE_PHONG,
-		IL_INSTANCE_PHONG_ANIM,
+		IL_Instance,
+		IL_Instance_VtxBlend,
+		IL_Instance_Texture,
+		IL_Instance_Phong,
+		IL_Instance_Phong_Anim,
 
 		//プリミティブトポロジー
-		PT_LINE,
-		PT_TRI,
+		PT_Line,
+		PT_Tri,
 
 		//サンプラー
-		SAMPLER,
+		Sampler,
 
 		//ピクセルシェーダ
-		PS_DEFAULT,
-		PS_ONE_COLOR,
-		PS_VTX_BLEND,
-		PS_TEXTURE,
+		PS_Default,
+		PS_OneColor,
+		PS_VtxBlend,
+		PS_Texture,
 
-		PS_MODEL,
-		PS_MODEL_NORMAL,
-		PS_MODEL_DISP,
+		PS_Model,
+		PS_Model_Normal,
+		PS_Model_Disp,
 
-		PS_PHONG,
+		PS_Phong,
 
 		//定数バッファ
-		CB_VS_MTX_VP,
-		CB_PS_DEFAULT,
-		CB_LIGHT,
+		CB_VS_MtxVP,
+		CB_PS_Default,
+		CB_Light,
 
-		ID_MAX
+		ID_Max
 	};
 
 	//プロトタイプ宣言

@@ -31,7 +31,7 @@ public:
 		Tarantella,
 		Unity,
 
-		MAX_MODEL
+		ID_Max
 	};
 
 	//プロトタイプ宣言
@@ -46,11 +46,11 @@ public:
 private:
 
 	//変数宣言
-	std::vector<std::unique_ptr<ModelRef::MODEL_PACK>> m_aModelPackPtr;					//モデルパック配列
+	std::vector<std::unique_ptr<ModelRef::MODEL_PACK>> m_aModelPackPtr;				//モデルパック配列
 
-	static std::string aModelName[static_cast<int>(MODEL_ID::MAX_MODEL)];				//モデル名配列
-	static std::vector<std::string> aAnimName[static_cast<int>(MODEL_ID::MAX_MODEL)];	//アニメーション名配列
-	static std::vector<bool> aAnimFPS_30[static_cast<int>(MODEL_ID::MAX_MODEL)];		//アニメーションFPSフラグ
+	static std::string aModelName[static_cast<int>(MODEL_ID::ID_Max)];				//モデル名配列
+	static std::vector<std::string> aAnimName[static_cast<int>(MODEL_ID::ID_Max)];	//アニメーション名配列
+	static std::vector<bool> aAnimFPS_30[static_cast<int>(MODEL_ID::ID_Max)];		//アニメーションFPSフラグ
 
 	//プロトタイプ宣言
 	void LoadModel(MODEL_ID id);															//モデル読込

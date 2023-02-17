@@ -38,10 +38,10 @@ void NORMAL::Update() noexcept
 
 void NORMAL::Draw(int InstanceNum) const noexcept
 {
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_VTX_BLEND);
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_VTX_BLEND);
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_LINE);
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_VTX_BLEND);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_VtxBlend);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_VtxBlend);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Line);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_VtxBlend);
 	DRAWER::Draw(InstanceNum);
 }
 

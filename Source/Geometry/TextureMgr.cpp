@@ -4,7 +4,7 @@
 #include <GraphicApp/Binder/BinderRef.h>
 
 //===== 静的メンバ =====
-std::string TEXTURE_MGR::aFilePath[static_cast<int>(TEX_ID::ID_MAX)] = {
+std::string TEXTURE_MGR::aFilePath[static_cast<int>(TEX_ID::ID_Max)] = {
 	"test.png",
 	"test2.png"
 };
@@ -19,7 +19,7 @@ TEXTURE_MGR::TEX_PACK::~TEX_PACK() noexcept
 }
 
 //===== クラス実装 =====
-TEXTURE_MGR::TEXTURE_MGR(GRAPHIC& Gfx) noexcept : m_aTexPack(static_cast<int>(TEX_ID::ID_MAX)), m_DX(Gfx)
+TEXTURE_MGR::TEXTURE_MGR(GRAPHIC& Gfx) noexcept : m_aTexPack(static_cast<int>(TEX_ID::ID_Max)), m_DX(Gfx)
 {
 	//テクスチャ読込
 	std::string FilePath = "Asset/Texture/";

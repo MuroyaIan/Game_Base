@@ -30,7 +30,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
-	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP, &cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MtxVP, &cbData);
 
 	//VS定数バッファ作成(骨情報)
 	if (!m_bStatic)
@@ -43,7 +43,7 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	}
 
 	//PS定数バッファ作成（ライト）
-	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_LIGHT, &cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_Light, &cbData);
 
 	//PS定数バッファ作成（マテリアル）
 	m_Material = Mesh.MaterialData;

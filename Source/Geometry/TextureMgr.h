@@ -29,7 +29,7 @@ public:
 		TEX_TestPlane,
 		TEX_TestBox,
 
-		ID_MAX
+		ID_Max
 	};
 
 	//テクスチャパック
@@ -56,5 +56,5 @@ private:
 	std::vector<TEX_PACK> m_aTexPack;			//テクスチャパック配列
 	GRAPHIC& m_DX;								//DX参照
 
-	static std::string aFilePath[static_cast<int>(TEX_ID::ID_MAX)];
+	static std::string aFilePath[static_cast<int>(TEX_ID::ID_Max)];
 };

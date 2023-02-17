@@ -7,30 +7,30 @@
 namespace dx = DirectX;
 
 //===== 静的メンバ =====
-std::string MODEL_MGR::aModelName[static_cast<int>(MODEL_ID::MAX_MODEL)] = {
+std::string MODEL_MGR::aModelName[static_cast<int>(MODEL_ID::ID_Max)] = {
 	"Tarantella",
 	"UnityChan"
 };
 
-std::vector<std::string> MODEL_MGR::aAnimName[static_cast<int>(MODEL_ID::MAX_MODEL)] = {
+std::vector<std::string> MODEL_MGR::aAnimName[static_cast<int>(MODEL_ID::ID_Max)] = {
 	{"Idle", "Walk", "Run"},
 	{"Jump", "Run"}
 };
 
-std::vector<bool> MODEL_MGR::aAnimFPS_30[static_cast<int>(MODEL_ID::MAX_MODEL)] = {
+std::vector<bool> MODEL_MGR::aAnimFPS_30[static_cast<int>(MODEL_ID::ID_Max)] = {
 	{true, false, false},
 	{true, true}
 };
 
 //===== クラス実装 =====
-MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::MAX_MODEL))
+MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max))
 {
 	//モデルパック配列初期化
 	for (auto& m : m_aModelPackPtr)
 		m = std::make_unique<ModelRef::MODEL_PACK>();
 
 	//ファイル読込
-	for (size_t i = 0, iCnt = static_cast<size_t>(MODEL_ID::MAX_MODEL); i < iCnt; i++) {
+	for (size_t i = 0, iCnt = static_cast<size_t>(MODEL_ID::ID_Max); i < iCnt; i++) {
 
 		//モデル読込
 		LoadModel(static_cast<MODEL_ID>(i));
@@ -66,7 +66,7 @@ MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::MAX_MODEL))
 MODEL_MGR::~MODEL_MGR() noexcept
 {
 	//テクスチャ解放
-	for (size_t i = 0, iCnt = static_cast<size_t>(MODEL_ID::MAX_MODEL); i < iCnt; i++) {
+	for (size_t i = 0, iCnt = static_cast<size_t>(MODEL_ID::ID_Max); i < iCnt; i++) {
 		std::vector<ModelRef::TEX_PACK>& TexPack = m_aModelPackPtr[i]->m_aTexPack;
 		for (size_t j = 0, jCnt = TexPack.size(); j < jCnt; j++)
 			TEX_LOADER::ReleaseTexture(TexPack[j].TexData.pImageData);

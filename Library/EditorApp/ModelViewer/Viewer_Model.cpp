@@ -32,7 +32,7 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx, &cbData, m_Material));
 
 	//VS・PS定数バッファ作成（ライト）
-	m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_LIGHT, &cbData);
+	m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_Light, &cbData);
 
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
@@ -152,25 +152,25 @@ void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 	//その他のバインド
 	if (bUseNormalMap &&
 		m_Viewer.GetNormalMapFlag()) {
-		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL_NORMAL);
-		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL_NORMAL);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Model_Normal);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Model_Normal);
 
 		//視差マップあり・なし
 		if (bUseDispMap &&
 			m_Viewer.GetDispMapFlag())
-			m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_DISP);
+			m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_Model_Disp);
 		else
-			m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL_NORMAL);
+			m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_Model_Normal);
 	}
 	else {
 
 		//ノーマルマップなし
-		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_MODEL);
-		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_MODEL);
-		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_MODEL);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Model);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Model);
+		m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_Model);
 	}
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_TRI);
-	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::SAMPLER);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Tri);
+	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::Sampler);
 
 	//描画
 	DRAWER::Draw(InstanceNum);

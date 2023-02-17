@@ -21,7 +21,7 @@ MESH_LIGHT::MESH_LIGHT(GFX_PACK& Gfx, CAMERA_MGR& CameraMgr) :
 
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
-	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MTX_VP, &cbData);
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MtxVP, &cbData);
 
 	//PS定数バッファ作成（ポリゴン色）
 	const dx::XMFLOAT4 cbColor(1.0f, 1.0f, 0.0f, 0.0f);
@@ -74,10 +74,10 @@ void MESH_LIGHT::Draw(int InstanceNum) const noexcept
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_INSTANCE);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_INSTANCE);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_TRI);
-	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_ONE_COLOR);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Instance);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Instance);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Tri);
+	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_OneColor);
 	DRAWER::Draw(m_InstanceNum);
 }
 
