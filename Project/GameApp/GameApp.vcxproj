@@ -188,6 +188,9 @@
     <ClCompile Include="..\..\Source\Camera\Camera.cpp" />
     <ClCompile Include="..\..\Source\Camera\Camera_FP.cpp" />
     <ClCompile Include="..\..\Source\Camera\Camera_Test.cpp" />
+    <ClCompile Include="..\..\Source\Geometry\Base\Shape_Default.cpp" />
+    <ClCompile Include="..\..\Source\Geometry\Base\Shape_Model.cpp" />
+    <ClCompile Include="..\..\Source\Geometry\Base\Shape_Tex.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Debug\DebugMgr.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Debug\Mesh_Light.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Model\Mesh.cpp" />
@@ -196,10 +199,7 @@
     <ClCompile Include="..\..\Source\Geometry\Model\TestPlayer.cpp" />
     <ClCompile Include="..\..\Source\Geometry\Model\TestWave.cpp" />
     <ClCompile Include="..\..\Source\Geometry\ShaderMgr.cpp" />
-    <ClCompile Include="..\..\Source\Geometry\Shape_Default.cpp" />
-    <ClCompile Include="..\..\Source\Geometry\Shape_Model.cpp" />
     <ClCompile Include="..\..\Source\App.cpp" />
-    <ClCompile Include="..\..\Source\Geometry\Shape_Tex.cpp" />
     <ClCompile Include="..\..\Source\Geometry\TextureMgr.cpp" />
     <ClCompile Include="..\..\Source\Light\DirectionalLight.cpp" />
     <ClCompile Include="..\..\Source\Light\Light.cpp" />
@@ -232,6 +232,9 @@
     <ClInclude Include="..\..\Source\Camera\Camera.h" />
     <ClInclude Include="..\..\Source\Camera\Camera_FP.h" />
     <ClInclude Include="..\..\Source\Camera\Camera_Test.h" />
+    <ClInclude Include="..\..\Source\Geometry\Base\Shape_Default.h" />
+    <ClInclude Include="..\..\Source\Geometry\Base\Shape_Model.h" />
+    <ClInclude Include="..\..\Source\Geometry\Base\Shape_Tex.h" />
     <ClInclude Include="..\..\Source\Geometry\Debug\DebugMgr.h" />
     <ClInclude Include="..\..\Source\Geometry\Debug\Mesh_Light.h" />
     <ClInclude Include="..\..\Source\Geometry\Model\Mesh.h" />
@@ -241,10 +244,7 @@
     <ClInclude Include="..\..\Source\Geometry\Model\TestPlayer.h" />
     <ClInclude Include="..\..\Source\Geometry\Model\TestWave.h" />
     <ClInclude Include="..\..\Source\Geometry\ShaderMgr.h" />
-    <ClInclude Include="..\..\Source\Geometry\Shape_Default.h" />
-    <ClInclude Include="..\..\Source\Geometry\Shape_Model.h" />
     <ClInclude Include="..\..\Source\App.h" />
-    <ClInclude Include="..\..\Source\Geometry\Shape_Tex.h" />
     <ClInclude Include="..\..\Source\Geometry\TextureMgr.h" />
     <ClInclude Include="..\..\Source\Light\DirectionalLight.h" />
     <ClInclude Include="..\..\Source\Light\Light.h" />
@@ -274,6 +274,7 @@
   <ItemGroup>
     <None Include="..\..\Asset\dog.cur" />
     <None Include="..\..\Source\Shader\Base\VS_Base.hlsli" />
+    <None Include="..\..\Source\Shader\Instance\VS_Instance.hlsli" />
     <None Include="..\..\Source\Shader\Light.hlsli" />
     <None Include="..\..\Source\Shader\Phong.hlsli" />
     <None Include="..\..\Source\Shader\Viewer\PS_Model.hlsli" />
@@ -319,6 +320,26 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_Phong.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_Phong_Anim.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_Texture.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_VertexBlend.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\..\Source\Shader\PS_Phong.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -344,26 +365,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="..\..\Source\Shader\Viewer\VS_Model_Normal.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_Phong_Anim.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_Texture.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_VertexBlend.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_Phong.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>

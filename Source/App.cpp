@@ -21,9 +21,9 @@
 
 
 
-#include <Geometry/Shape_Default.h>			//【描画テスト】
-#include <Geometry/Shape_Tex.h>
-#include <Geometry/Shape_Model.h>
+#include <Geometry/Base/Shape_Default.h>		//【描画テスト】
+#include <Geometry/Base/Shape_Tex.h>
+#include <Geometry/Base/Shape_Model.h>
 #include <Geometry/Model/Model.h>
 #include <Light/DirectionalLight.h>
 #include <Light/PointLight.h>
@@ -138,7 +138,7 @@ APP::APP() :
 		};
 
 		//インスタンス作成
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(7, 8));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(9, 15));
 		int InstIdx = aDrawer[static_cast<int>(Shape)]->AddInstance();
 
 		//ワールド行列設定
@@ -168,7 +168,7 @@ APP::APP() :
 
 
 	//カメラ初期化
-	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::Test);
+	m_pCameraMgr->SetCamera(CAMERA_MGR::CAMERA_ID::FirstPerson);
 
 	//太陽光初期化
 	m_pSunLight = std::make_unique<DIRECTIONAL_LIGHT>(*this);

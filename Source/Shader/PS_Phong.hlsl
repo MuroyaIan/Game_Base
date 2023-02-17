@@ -1,146 +1,116 @@
+/**
+ * @file PS_Phong.hlsl
+ * @brief 頂点シェーダ（Phongモデル）
+ * @author 室谷イアン
+ * @date 2023/02/17
+ * @履歴 2023/02/17：ファイル作成
+ */
+
+//インクルード部
+#include <Light.hlsli>
+#include <Phong.hlsli>
 
 //入力用構造体
 struct PS_IN
 {
-	float3 posWV : POSITION;    //座標（変換後）
-	float2 tex : TEXCOORD;      //UV座標
-	float3 normalWV : NORMAL;   //法線（変換後）
+	float3 posWV : POSITION;			//座標（ビュー空間）
+	float2 tex : TEXCOORD;				//UV座標
 
-	matrix mtxView : MTX_V;     //ビュー行列
-};
-
-//構造体宣言
-struct LIGHT_DIRECTIONAL    //平行光源
-{
-	float4 Pos;             //ワールド座標
-	float4 Color_D;         //光の色（拡散色, aは強度）
-};
-
-struct LIGHT_POINT			//点光源
-{
-	float4 Pos;             //ワールド座標
-	float4 Color_D;         //光の色（拡散色, aは強度）
-
-	float AttConst;
-	float AttLinear;
-	float AttQuadratic;     //光の減衰
-	float Pad;              //仮置き
+	float3 vNorV_Model : NORMAL;		//法線（ビュー空間）
+	float3 vNorV_ToCamera : CAM_NOR;	//カメラへの単位ベクトル（ビュー空間）
+	matrix mtxView : MTX_V;				//ビュー行列
 };
 
 //サンプラー
 SamplerState Sampler : register(s0);
 
 //テクスチャ
-Texture2D TexMap[3] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal
-
-//定数バッファ（ライト情報）
-cbuffer CB_LIGHT : register(b0)
-{
-	LIGHT_DIRECTIONAL DirectionalLight;     //平行光源
-	LIGHT_POINT PointLight[16];             //点光源
-	float4 AmbientLight;                    //環境光
-}
+Texture2D TexMap[4] : register(t0);		//0:Diffuse, 1:Specular, 2:Normal, 3:Displacement
 
 //定数バッファ（マテリアル）
-cbuffer CB_MATERIAL : register(b1)
+cbuffer CB_MATERIAL : register(b0)
 {
-	float4 mAmbient;        //環境光
-	float4 mDiffuse;        //拡散反射光
-	float4 mEmissive;       //発射光
-	float4 mTransparent;    //透過度
-	float4 mSpecular;       //鏡面反射光
-	float mShininess;       //光沢
-	float mPad1;
-	float mPad2;
-	float mPad3;            //仮置き
-};
+	MATERIAL_DATA matData;
+}
+
+//定数バッファ（ライト情報）
+cbuffer CB_LIGHT : register(b1)
+{
+	LIGHT_DIRECTIONAL DirectionalLight;		//平行光源
+	LIGHT_POINT PointLight[16];				//点光源
+	float4 AmbientLight;					//環境光
+}
 
 //プロトタイプ宣言
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal);     //平行光源の計算
-float3 CalcPointLight(PS_IN psi, float3 ModelNormal);           //点光源の計算
+float3 CalcPointLightLoop(LIGHT_VECTOR_PT LightVec, float3x3 ModelColor, float Shininess, float3 PosWV, float4x4 mtxView); //点光源の計算
 
 //エントリーポイント
 float4 main(PS_IN psi) : SV_Target
 {
-	//法線計算
-	const float3 vNor_Model = normalize(psi.normalWV);
+	//テクスチャ取得（左手系）
+	const float2x4 Texture = {
+		TexMap[0].Sample(Sampler, psi.tex),		//Diffuse
+		TexMap[1].Sample(Sampler, psi.tex),		//Specular
+	};
+
+	//モデル色計算
+	const float3x3 ModelColor = {
+		matData.Diffuse.rgb * matData.Diffuse.w * Texture._11_12_13,	//Diffuse
+		matData.Specular.rgb * Texture._21_22_23,						//Specular
+		matData.Ambient.rgb												//Ambient
+	};
 
 	//平行光源の計算
-	const float3 Directional = CalcDirectionalLight(psi, vNor_Model);
+	const float3 PosL = {
+		DirectionalLight.Pos.x,
+		DirectionalLight.Pos.y,
+		DirectionalLight.Pos.z
+	};
+	const float3 vDirV_ToLight = mul(PosL, (float3x3) psi.mtxView);		//鏡面反射用、疑似的に位置を設定
+	const float3 vNorV_ToLight = normalize(vDirV_ToLight);				//平行光源への単位ベクトル
+	const LIGHT_VECTOR LightVec = {
+		psi.vNorV_Model,
+		psi.vNorV_ToCamera,
+		vDirV_ToLight,
+		vNorV_ToLight
+	};
+	const float3 LightColor = DirectionalLight.Color_D.rgb * DirectionalLight.Color_D.a;
+	const float3 Directional = CalcDirectionalLight(LightVec, ModelColor, LightColor, matData.Shininess);
 
 	//点光源の計算
-	const float3 Point = CalcPointLight(psi, vNor_Model);
+	const LIGHT_VECTOR_PT LightVecPt = {
+		psi.vNorV_Model,
+		psi.vNorV_ToCamera,
+	};
+	const float3 Point = CalcPointLightLoop(LightVecPt, ModelColor, matData.Shininess, psi.posWV, psi.mtxView);
 
 	//グローバル環境光の計算
-	const float3 gAmbient = AmbientLight.rgb * AmbientLight.a;
+	const float3 g_Ambient = AmbientLight.rgb * AmbientLight.a * ModelColor._11_12_13;
 
 	//最終の出力色計算
-	//return float4(saturate((Directional + Point + Ambient) * (float3) psi.material), 1.0f);
-	return float4(saturate(Directional + Point + gAmbient), 1.0f) * TexMap[0].Sample(Sampler, psi.tex);
-}
-
-//平行光源の計算
-float3 CalcDirectionalLight(PS_IN psi, float3 ModelNormal)
-{
-	//光への単位ベクトル
-	const float3 vToLight = mul(DirectionalLight.Pos.xyz, (float3x3) psi.mtxView);
-	const float3 vNor_ToLight = normalize(vToLight);
-
-	//平行光源の色
-	const float3 Light = DirectionalLight.Color_D.rgb * DirectionalLight.Color_D.a;
-
-	//拡散色算出
-	const float3 Diffuse = Light * max(0.0f, dot(vNor_ToLight, ModelNormal)) * mDiffuse.rgb;
-
-	//鏡面反射色算出
-	const float3 vRef = ModelNormal * dot(vToLight, ModelNormal) * 2.0f - vToLight;     //鏡面反射ベクトル
-	const float3 Specular = Light * pow(max(0.0f, dot(normalize(vRef), normalize(-psi.posWV))), mShininess) * mSpecular.rgb;
-
-	//環境光の計算
-	const float3 Ambient = Light * mAmbient.rgb;
-
-	//最終の出力色計算
-	return Diffuse + Specular + Ambient;
+	return float4(saturate(Directional + Point + g_Ambient), 1.0f);
 }
 
 //点光源の計算
-float3 CalcPointLight(PS_IN psi, float3 ModelNormal)
+float3 CalcPointLightLoop(LIGHT_VECTOR_PT LightVec, float3x3 ModelColor, float Shininess, float3 PosWV, float4x4 mtxView)
 {
 	//出力用変数
 	float3 Color = float3(0.0f, 0.0f, 0.0f);
 
 	//計算ループ
 	[unroll]
-	for (int i = 0; i < 16; i++)
-	{
-		//ライト座標のビュー変換
-		const float4 LightPosWV = mul(PointLight[i].Pos, psi.mtxView);
+	for (int i = 0; i < 16; i++) {
 
-		//光への単位ベクトル
-		const float3 vToLight = LightPosWV.xyz - psi.posWV;
-		const float dLight = length(vToLight);
-		const float3 vNor_ToLight = vToLight / dLight;
-
-		//光の減衰計算
-		const float Att = 1.0f / (PointLight[i].AttConst + PointLight[i].AttLinear * dLight + PointLight[i].AttQuadratic * (dLight * dLight));
-
-		//点光源の色
-		const float3 Light = PointLight[i].Color_D.rgb * PointLight[i].Color_D.a * Att;
-
-		//拡散色算出
-		const float3 Diffuse = Light * max(0.0f, dot(vNor_ToLight, ModelNormal)) * mDiffuse.rgb;
-
-		//鏡面反射色算出
-		const float3 vRef = ModelNormal * dot(vToLight, ModelNormal) * 2.0f - vToLight;     //鏡面反射ベクトル
-		const float3 Specular = Light * pow(max(0.0f, dot(normalize(vRef), normalize(-psi.posWV))), mShininess) * mSpecular.rgb;
-
-		//環境光の計算
-		const float3 Ambient = Light * mAmbient.rgb;
-
-		//色を加算
-		Color += Diffuse;
-		Color += Specular;
-		Color += Ambient;
+		//点光源の色を加算
+		LIGHT_POINT LightPt = {
+			PointLight[i].Pos,
+			PointLight[i].Color_D,
+			PointLight[i].AttConst,
+			PointLight[i].AttLinear,
+			PointLight[i].AttQuadratic,
+			PointLight[i].Pad
+		};
+		Color += CalcPointLight(LightVec, ModelColor, LightPt, Shininess, PosWV, mtxView);
 	}
 
 	//最終の出力色計算

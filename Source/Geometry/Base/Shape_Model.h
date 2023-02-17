@@ -23,7 +23,7 @@ class SHAPE_MODEL : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type);
+	explicit SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type);
 	~SHAPE_MODEL() noexcept override;
 	void Update() noexcept override;														//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
@@ -52,15 +52,4 @@ private:
 	int m_InstanceNum;								//インスタンス数
 	std::vector<VSD_INSTANCE> m_aInstanceData;		//インスタンス情報
 	CBD_MATERIAL m_Material;						//マテリアル情報
-
-	struct MTX_DATA
-	{
-		float m_r, dt;
-		float m_roll, m_pitch, m_yaw;
-		float m_theta, m_phi, m_chi;				//位置情報
-
-		float m_droll, m_dpitch, m_dyaw;
-		float m_dtheta, m_dphi, m_dchi;				//回転速度(デルタ/sec)
-	};
-	std::vector<MTX_DATA> m_aMtxData;				//行列計算用情報
 };

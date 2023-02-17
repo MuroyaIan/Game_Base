@@ -1,8 +1,7 @@
 
 //===== インクルード部 =====
-#include <Geometry/Shape_Tex.h>
+#include <Geometry/Base/Shape_Tex.h>
 #include <GraphicApp/Binder/BinderRef.h>
-
 #include <Tool/Rand.h>
 
 namespace dx = DirectX;
@@ -49,7 +48,7 @@ void SHAPE_TEX::Draw(int InstanceNum) const noexcept
 		return;
 
 	//インスタンス更新
-	std::vector<DirectX::XMFLOAT4X4> aMtxWorld = m_aMtxWorld;
+	std::vector<dx::XMFLOAT4X4> aMtxWorld = m_aMtxWorld;
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
@@ -65,9 +64,9 @@ int SHAPE_TEX::AddInstance()
 {
 	//配列追加
 	m_InstanceNum++;
-	DirectX::XMFLOAT4X4 mtx{};
+	dx::XMFLOAT4X4 mtx{};
 	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixIdentity());
-	m_aMtxWorld.push_back(mtx);
+	m_aMtxWorld.push_back(std::move(mtx));
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxWorld);

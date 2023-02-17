@@ -1,7 +1,8 @@
 
 //===== インクルード部 =====
-#include <Geometry/Shape_Default.h>
+#include <Geometry/Base/Shape_Default.h>
 #include <GraphicApp/Binder/BinderRef.h>
+#include <Tool/Rand.h>
 
 namespace dx = DirectX;
 

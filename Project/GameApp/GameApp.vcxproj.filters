@@ -88,11 +88,11 @@
     <Filter Include="ソース ファイル\02_Geometry\Base">
       <UniqueIdentifier>{094f67bd-7b4c-4e9c-9325-beccdab84504}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\02_Geometry\Base">
+      <UniqueIdentifier>{a2bfa968-35ee-474a-8be3-054f3e385391}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Geometry\Shape_Default.cpp">
-      <Filter>ソース ファイル\02_Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Library\3rd_Party\ImGui\backends\imgui_impl_dx11.cpp">
       <Filter>3rdParty\ImGui\backends</Filter>
     </ClCompile>
@@ -159,12 +159,6 @@
     <ClCompile Include="..\..\Source\Light\PointLight.cpp">
       <Filter>ソース ファイル\04_Light</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Geometry\Shape_Tex.cpp">
-      <Filter>ソース ファイル\02_Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Geometry\Shape_Model.cpp">
-      <Filter>ソース ファイル\02_Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Light\LightMgr.cpp">
       <Filter>ソース ファイル\04_Light</Filter>
     </ClCompile>
@@ -207,13 +201,19 @@
     <ClCompile Include="..\..\Source\Startup.cpp">
       <Filter>ソース ファイル\00_Platform</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Base\Shape_Model.cpp">
+      <Filter>ソース ファイル\02_Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Base\Shape_Tex.cpp">
+      <Filter>ソース ファイル\02_Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Geometry\Base\Shape_Default.cpp">
+      <Filter>ソース ファイル\02_Geometry\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\resource.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Geometry\Shape_Default.h">
-      <Filter>ヘッダー ファイル\02_Geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\3rd_Party\stb_image.h">
       <Filter>3rdParty</Filter>
@@ -293,12 +293,6 @@
     <ClInclude Include="..\..\Source\Light\PointLight.h">
       <Filter>ヘッダー ファイル\04_Light</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Geometry\Shape_Tex.h">
-      <Filter>ヘッダー ファイル\02_Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Geometry\Shape_Model.h">
-      <Filter>ヘッダー ファイル\02_Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Light\Light.h">
       <Filter>ヘッダー ファイル\04_Light</Filter>
     </ClInclude>
@@ -347,6 +341,15 @@
     <ClInclude Include="..\..\Source\App.h">
       <Filter>ヘッダー ファイル\00_Platform</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Base\Shape_Tex.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Base\Shape_Default.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Geometry\Base\Shape_Model.h">
+      <Filter>ヘッダー ファイル\02_Geometry\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameApp.rc">
@@ -377,25 +380,13 @@
     <None Include="..\..\Source\Shader\Phong.hlsli">
       <Filter>Shader</Filter>
     </None>
+    <None Include="..\..\Source\Shader\Instance\VS_Instance.hlsli">
+      <Filter>Shader\Instance</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Source\Shader\PS_Phong.hlsl">
       <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance.hlsl">
-      <Filter>Shader\Instance</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_VertexBlend.hlsl">
-      <Filter>Shader\Instance</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_Texture.hlsl">
-      <Filter>Shader\Instance</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_Phong.hlsl">
-      <Filter>Shader\Instance</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Source\Shader\VS_Instance_Phong_Anim.hlsl">
-      <Filter>Shader\Instance</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Source\Shader\Base\PS_Default.hlsl">
       <Filter>Shader\Base</Filter>
@@ -435,6 +426,21 @@
     </FxCompile>
     <FxCompile Include="..\..\Source\Shader\Viewer\PS_Model_Displacement.hlsl">
       <Filter>Shader\Viewer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_Phong.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_Phong_Anim.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_Texture.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_VertexBlend.hlsl">
+      <Filter>Shader\Instance</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
