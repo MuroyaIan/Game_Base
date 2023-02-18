@@ -27,7 +27,7 @@ class MODEL
 public:
 
 	//プロトタイプ宣言
-	MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept;
+	explicit MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept;
 	~MODEL() noexcept;
 	void Update() noexcept;								//更新処理
 	void Draw() const noexcept;							//書込み処理

@@ -5,21 +5,20 @@
 
 //===== 静的メンバ =====
 std::string TEXTURE_MGR::aFilePath[static_cast<int>(TEX_ID::ID_Max)] = {
+	"null.png",
 	"test.png",
 	"test2.png"
 };
 
 //===== 構造体実装 =====
 TEXTURE_MGR::TEX_PACK::TEX_PACK() noexcept : TexData(), pBinder(), nUsedCount(0)
-{
-}
+{}
 
 TEXTURE_MGR::TEX_PACK::~TEX_PACK() noexcept
-{
-}
+{}
 
 //===== クラス実装 =====
-TEXTURE_MGR::TEXTURE_MGR(GRAPHIC& Gfx) noexcept : m_aTexPack(static_cast<int>(TEX_ID::ID_Max)), m_DX(Gfx)
+TEXTURE_MGR::TEXTURE_MGR(GRAPHIC& Gfx) : m_aTexPack(static_cast<int>(TEX_ID::ID_Max)), m_DX(Gfx)
 {
 	//テクスチャ読込
 	std::string FilePath = "Asset/Texture/";
@@ -60,7 +59,8 @@ void TEXTURE_MGR::SetTextureOff(TEX_ID id) noexcept
 		m_aTexPack[static_cast<int>(id)].nUsedCount = 0;
 
 	//参照数無し⇒バッファ解放
-	if (m_aTexPack[static_cast<int>(id)].nUsedCount == 0)
+	if (m_aTexPack[static_cast<int>(id)].nUsedCount == 0 &&
+		m_aTexPack[static_cast<int>(id)].pBinder != nullptr)
 		m_aTexPack[static_cast<int>(id)].pBinder.reset();
 }
 

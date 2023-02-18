@@ -11,8 +11,8 @@
 
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/vsdRef.h>
-#include <Tool/TextureLoader.h>
 #include <GraphicApp/Binder/cbdRef.h>
+#include <Tool/TextureLoader.h>
 
 //===== 構造体宣言 =====
 namespace ModelRef {
@@ -31,7 +31,7 @@ namespace ModelRef {
 	struct MESH_PACK
 	{
 		std::string Name;					//メッシュ名
-		VS_DATA<VERTEX_MB> vsData;			//頂点情報
+		VS_DATA<VERTEX_MNB> vsData;			//頂点情報
 		CBD_MATERIAL MaterialData;			//マテリアル情報
 		std::string Tex_D;					//テクスチャ：拡散反射光
 		std::string Tex_S;					//テクスチャ：鏡面反射光
@@ -84,7 +84,7 @@ namespace ModelRef {
 		std::vector<TEX_PACK> m_aTexPack;		//テクスチャパック配列
 		DirectX::XMFLOAT4X4 InitMtxWorld;		//初期ワールド行列
 
-		MODEL_PACK() noexcept : aMesh(0), aBone(0), aNoSkinIndex(0), aAnimName(0), aAnimFrame(0), aIsFPS_30(false), m_aTexPack(0)
+		MODEL_PACK() noexcept : aMesh(0), aBone(0), aNoSkinIndex(0), aAnimName(0), aAnimFrame(0), aIsFPS_30(0), m_aTexPack(0)
 		{
 			DirectX::XMStoreFloat4x4(&InitMtxWorld, DirectX::XMMatrixIdentity());
 		}

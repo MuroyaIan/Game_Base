@@ -42,7 +42,8 @@ cbuffer CB_LIGHT : register(b1)
 }
 
 //プロトタイプ宣言
-float3 CalcPointLightLoop(LIGHT_VECTOR_PT LightVec, float3x3 ModelColor, float Shininess, float3 PosWV, float4x4 mtxView); //点光源の計算
+float3 CalcDirectionalLightLoop(LIGHT_VECTOR_PT LightVecPt, float3x3 ModelColor, float Shininess, float3x3 mtxView);		//平行光源の計算ループ
+float3 CalcPointLightLoop(LIGHT_VECTOR_PT LightVec, float3x3 ModelColor, float Shininess, float3 PosWV, float4x4 mtxView);	//点光源の計算ループ
 
 //エントリーポイント
 float4 main(PS_IN psi) : SV_Target
@@ -61,27 +62,14 @@ float4 main(PS_IN psi) : SV_Target
 	};
 
 	//平行光源の計算
-	const float3 PosL = {
-		DirectionalLight.Pos.x,
-		DirectionalLight.Pos.y,
-		DirectionalLight.Pos.z
-	};
-	const float3 vDirV_ToLight = mul(PosL, (float3x3) psi.mtxView);		//鏡面反射用、疑似的に位置を設定
-	const float3 vNorV_ToLight = normalize(vDirV_ToLight);				//平行光源への単位ベクトル
-	const LIGHT_VECTOR LightVec = {
+	const LIGHT_VECTOR_PT LightVecPt =
+	{
 		psi.vNorV_Model,
 		psi.vNorV_ToCamera,
-		vDirV_ToLight,
-		vNorV_ToLight
 	};
-	const float3 LightColor = DirectionalLight.Color_D.rgb * DirectionalLight.Color_D.a;
-	const float3 Directional = CalcDirectionalLight(LightVec, ModelColor, LightColor, matData.Shininess);
+	const float3 Directional = CalcDirectionalLightLoop(LightVecPt, ModelColor, matData.Shininess, (float3x3) psi.mtxView);
 
 	//点光源の計算
-	const LIGHT_VECTOR_PT LightVecPt = {
-		psi.vNorV_Model,
-		psi.vNorV_ToCamera,
-	};
 	const float3 Point = CalcPointLightLoop(LightVecPt, ModelColor, matData.Shininess, psi.posWV, psi.mtxView);
 
 	//グローバル環境光の計算
@@ -91,7 +79,29 @@ float4 main(PS_IN psi) : SV_Target
 	return float4(saturate(Directional + Point + g_Ambient), 1.0f);
 }
 
-//点光源の計算
+//平行光源の計算ループ
+float3 CalcDirectionalLightLoop(LIGHT_VECTOR_PT LightVecPt, float3x3 ModelColor, float Shininess, float3x3 mtxView)
+{
+	//出力用変数
+	float3 Color = float3(0.0f, 0.0f, 0.0f);
+
+	//計算ループ
+	const float3 vDirV_ToLight = mul(DirectionalLight.Pos.xyz, mtxView);	//鏡面反射用、疑似的に位置を設定
+	const float3 vNorV_ToLight = normalize(vDirV_ToLight);					//平行光源への単位ベクトル
+	const LIGHT_VECTOR LightVec = {
+		LightVecPt.vNor_Model,
+		LightVecPt.vNor_ToCamera,
+		vDirV_ToLight,
+		vNorV_ToLight
+	};
+	const float3 LightColor = DirectionalLight.Color_D.rgb * DirectionalLight.Color_D.a;
+	Color = CalcDirectionalLight(LightVec, ModelColor, LightColor, Shininess);
+
+	//最終の出力色計算
+	return Color;
+}
+
+//点光源の計算ループ
 float3 CalcPointLightLoop(LIGHT_VECTOR_PT LightVec, float3x3 ModelColor, float Shininess, float3 PosWV, float4x4 mtxView)
 {
 	//出力用変数
@@ -102,7 +112,7 @@ float3 CalcPointLightLoop(LIGHT_VECTOR_PT LightVec, float3x3 ModelColor, float S
 	for (int i = 0; i < 16; i++) {
 
 		//点光源の色を加算
-		LIGHT_POINT LightPt = {
+		const LIGHT_POINT LightPt = {
 			PointLight[i].Pos,
 			PointLight[i].Color_D,
 			PointLight[i].AttConst,

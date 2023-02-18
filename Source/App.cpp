@@ -153,14 +153,14 @@ APP::APP() :
 	};
 
 	//生成処理
-	for (int i = 0; i < nDrawNum; i++)
-		MakeGeom(i);
+	//for (int i = 0; i < nDrawNum; i++)
+	//	MakeGeom(i);
 
 	//【モデルテスト】
-	//m_aModel.reserve(1);
-	//m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
-	//for (size_t i = 0; i < 1600; i++)
-	//	m_aModel[0]->AddInstance();
+	m_aModel.reserve(1);
+	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
+	for (size_t i = 0; i < 1600; i++)
+		m_aModel[0]->AddInstance();
 
 	//水面テスト
 	//m_aDrawer.push_back(std::make_unique<WAVE>(*this));

@@ -14,7 +14,7 @@ VIEWER_MODEL::VIEWER_MODEL(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, in
 	m_Scale(Viewer.GetModelScale()), m_RotY(Viewer.GetModelRotation()), m_LightPos(Viewer.GetLightPos()), bUseNormalMap(false), bUseDispMap(false)
 {
 	//頂点情報作成
-	VS_DATA<VERTEX_MB> Model = MakeData_VS();
+	VS_DATA<VERTEX_MNB> Model = MakeData_VS();
 	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx, Model.m_Vertices));
 
 	//インデックス情報作成
@@ -177,15 +177,15 @@ void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
 }
 
 //頂点情報作成
-VS_DATA<VERTEX_MB> VIEWER_MODEL::MakeData_VS() const noexcept
+VS_DATA<VERTEX_MNB> VIEWER_MODEL::MakeData_VS() const noexcept
 {
-	VS_DATA<VERTEX_M>& DataRef = m_Loader.GetMesh(m_MeshIndex).vsData;
-	VS_DATA<VERTEX_MB> vsData;
+	VS_DATA<VERTEX_MN>& DataRef = m_Loader.GetMesh(m_MeshIndex).vsData;
+	VS_DATA<VERTEX_MNB> vsData;
 	vsData.m_Indices = DataRef.m_Indices;		//インデックス
 	for (auto& v : DataRef.m_Vertices) {		//頂点情報
 
 		//頂点情報
-		VERTEX_MB Vertex;
+		VERTEX_MNB Vertex;
 		Vertex.m_Pos = v.m_Pos;
 		Vertex.m_UV = v.m_UV;
 		Vertex.m_Normal = v.m_Normal;
@@ -216,7 +216,7 @@ VS_DATA<VERTEX_MB> VIEWER_MODEL::MakeData_VS() const noexcept
 			}
 		}
 	}
-	return VS_DATA<VERTEX_MB>(std::move(vsData));
+	return VS_DATA<VERTEX_MNB>(std::move(vsData));
 }
 
 //骨情報更新

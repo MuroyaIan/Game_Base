@@ -40,6 +40,7 @@ public:
 		VS_Instance_Texture,
 		VS_Instance_Phong,
 		VS_Instance_Phong_Anim,
+		VS_Instance_PhongN,
 
 		//入力レイアウト
 		IL_Default,
@@ -55,6 +56,7 @@ public:
 		IL_Instance_Texture,
 		IL_Instance_Phong,
 		IL_Instance_Phong_Anim,
+		IL_Instance_PhongN,
 
 		//プリミティブトポロジー
 		PT_Line,
@@ -84,7 +86,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	SHADER_MGR(GRAPHIC& Gfx);
+	explicit SHADER_MGR(GRAPHIC& Gfx);
 	~SHADER_MGR() noexcept;
 	void Bind(BINDER_ID id) const noexcept;				//バインド処理
 	void Bind_Default() const noexcept;					//バインド処理（デフォルト）

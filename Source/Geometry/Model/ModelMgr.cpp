@@ -30,7 +30,7 @@ MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max))
 		m = std::make_unique<ModelRef::MODEL_PACK>();
 
 	//ファイル読込
-	for (size_t i = 0, iCnt = static_cast<size_t>(MODEL_ID::ID_Max); i < iCnt; i++) {
+	for (int i = 0, iCnt = static_cast<int>(MODEL_ID::ID_Max); i < iCnt; i++) {
 
 		//モデル読込
 		LoadModel(static_cast<MODEL_ID>(i));
@@ -66,7 +66,7 @@ MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max))
 MODEL_MGR::~MODEL_MGR() noexcept
 {
 	//テクスチャ解放
-	for (size_t i = 0, iCnt = static_cast<size_t>(MODEL_ID::ID_Max); i < iCnt; i++) {
+	for (int i = 0, iCnt = static_cast<int>(MODEL_ID::ID_Max); i < iCnt; i++) {
 		std::vector<ModelRef::TEX_PACK>& TexPack = m_aModelPackPtr[i]->m_aTexPack;
 		for (size_t j = 0, jCnt = TexPack.size(); j < jCnt; j++)
 			TEX_LOADER::ReleaseTexture(TexPack[j].TexData.pImageData);
@@ -74,7 +74,7 @@ MODEL_MGR::~MODEL_MGR() noexcept
 }
 
 //モデル読込
-void MODEL_MGR::LoadModel(MODEL_ID id)
+void MODEL_MGR::LoadModel(MODEL_ID id) const
 {
 	int ModelID = static_cast<int>(id);
 	ModelRef::MODEL_PACK& Model = *m_aModelPackPtr[ModelID];
@@ -101,7 +101,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 	oss << Path << "_Mesh.bin";
 	FILE_IO::LoadFile(oss.str().c_str(), aMeshBin);
 	oss.str("");
-	for (size_t i = 0; i < ModelBin.MeshNum; i++) {
+	for (int i = 0; i < ModelBin.MeshNum; i++) {
 		Model.aMesh[i].Name.resize(aMeshBin[i].NameSize);
 		Model.aMesh[i].vsData.m_Indices.resize(aMeshBin[i].VertexNum);
 		Model.aMesh[i].vsData.m_Vertices.resize(aMeshBin[i].VertexNum);
@@ -112,7 +112,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 	}
 
 	//メッシュ情報（詳細）読込
-	for (size_t i = 0; i < ModelBin.MeshNum; i++) {         //メッシュごと
+	for (int i = 0; i < ModelBin.MeshNum; i++) {	//メッシュごと
 
 		//ファイル読込（メッシュ名）
 		oss << Path << "_Mesh" << i << "_Name.bin";
@@ -138,10 +138,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		oss << Path << "_Mesh" << i << "_TexD.bin";
 		if (Model.aMesh[i].Tex_D.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_D);
-
-			//テクスチャデータ作成
-			std::string TexName = Model.aMesh[i].Tex_D;
-			LoadTextureName(TexName, Model.m_aTexPack);
+			LoadTextureName(Model.aMesh[i].Tex_D, Model.m_aTexPack);		//テクスチャ登録
 		}
 		oss.str("");
 
@@ -149,10 +146,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		oss << Path << "_Mesh" << i << "_TexS.bin";
 		if (Model.aMesh[i].Tex_S.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_S);
-
-			//テクスチャデータ作成
-			std::string TexName = Model.aMesh[i].Tex_S;
-			LoadTextureName(TexName, Model.m_aTexPack);
+			LoadTextureName(Model.aMesh[i].Tex_S, Model.m_aTexPack);		//テクスチャ登録
 		}
 		oss.str("");
 
@@ -160,10 +154,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		oss << Path << "_Mesh" << i << "_TexN.bin";
 		if (Model.aMesh[i].Tex_N.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_N);
-
-			//テクスチャデータ作成
-			std::string TexName = Model.aMesh[i].Tex_N;
-			LoadTextureName(TexName, Model.m_aTexPack);
+			LoadTextureName(Model.aMesh[i].Tex_N, Model.m_aTexPack);		//テクスチャ登録
 		}
 		oss.str("");
 
@@ -171,10 +162,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		oss << Path << "_Mesh" << i << "_TexDisp.bin";
 		if (Model.aMesh[i].Tex_Disp.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_Disp);
-
-			//テクスチャデータ作成
-			std::string TexName = Model.aMesh[i].Tex_Disp;
-			LoadTextureName(TexName, Model.m_aTexPack);
+			LoadTextureName(Model.aMesh[i].Tex_Disp, Model.m_aTexPack);		//テクスチャ登録
 		}
 		oss.str("");
 	}
@@ -184,11 +172,11 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 	oss << Path << "_Bone.bin";
 	FILE_IO::LoadFile(oss.str().c_str(), aBoneBin);
 	oss.str("");
-	for (size_t i = 0; i < ModelBin.BoneNum; i++)   //骨ごと
+	for (int i = 0; i < ModelBin.BoneNum; i++)   //骨ごと
 		Model.aBone[i].BoneName.resize(aBoneBin[i].NameSize);
 
 	//骨情報（詳細）読込
-	for (size_t i = 0; i < ModelBin.BoneNum; i++) {
+	for (int i = 0; i < ModelBin.BoneNum; i++) {
 
 		//ファイル読込（骨名）
 		oss << Path << "_Bone" << i << "_Name.bin";
@@ -233,7 +221,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		}
 
 		//情報読込（詳細）
-		for (size_t j = 0; j < ModelBin.BoneNum; j++) {     //骨ごと
+		for (int j = 0; j < ModelBin.BoneNum; j++) {     //骨ごと
 			auto pBonePack = &Model.aBone[j];
 
 			//骨姿勢
@@ -252,7 +240,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 		}
 
 		//情報読込（骨なしメッシュ）
-		for (size_t j = 0; j < Model.aNoSkinIndex.size(); j++) {
+		for (size_t j = 0, jCnt = Model.aNoSkinIndex.size(); j < jCnt; j++) {
 			auto pMeshPack = &Model.aMesh[Model.aNoSkinIndex[j]];
 			pMeshPack->aNoSkin.emplace_back(AnimPack);
 
@@ -269,7 +257,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id)
 }
 
 //テクスチャ名読込
-void MODEL_MGR::LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef)
+void MODEL_MGR::LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef) const noexcept
 {
 	//そもそもテクスチャ配列にデータがない
 	if (DataRef.size() < 1) {

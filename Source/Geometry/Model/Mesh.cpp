@@ -19,10 +19,19 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	ModelRef::MESH_PACK& Mesh = m_FileData.aMesh[m_MeshIdx];
 
 	//頂点情報作成
-	VS_DATA<VERTEX_MB> Model = Mesh.vsData;
-	dx::XMFLOAT4X4 mtx{};
-	dx::XMStoreFloat4x4(&mtx, dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
-	Model.SetVertexPos(mtx);
+	VS_DATA<VERTEX_MNB> vsdModel = Mesh.vsData;
+	VS_DATA<VERTEX_MB> Model;
+	Model.m_Indices = vsdModel.m_Indices;
+	Model.m_Vertices.resize(Model.m_Indices.size());
+	for (size_t i = 0, Cnt = Model.m_Vertices.size(); i < Cnt; i++) {
+		Model.m_Vertices[i].m_Pos = vsdModel.m_Vertices[i].m_Pos;
+		Model.m_Vertices[i].m_UV = vsdModel.m_Vertices[i].m_UV;
+		Model.m_Vertices[i].m_Normal = vsdModel.m_Vertices[i].m_Normal;
+		for (int j = 0; j < 4; j++) {
+			Model.m_Vertices[i].m_BoneID[j] = vsdModel.m_Vertices[i].m_BoneID[j];
+			Model.m_Vertices[i].m_BoneWeight[j] = vsdModel.m_Vertices[i].m_BoneWeight[j];
+		}
+	}
 	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aInstanceData));
 
 	//インデックス情報作成
@@ -31,6 +40,13 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
 	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_VS_MtxVP, &cbData);
+
+	//PS定数バッファ作成（マテリアル）
+	m_Material = Mesh.MaterialData;
+	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, &cbData, m_Material));
+
+	//VS・PS定数バッファ作成（ライト）
+	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_Light, &cbData);
 
 	//VS定数バッファ作成(骨情報)
 	if (!m_bStatic)
@@ -42,35 +58,28 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 		AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, &cbData, *m_pLocalData));
 	}
 
-	//PS定数バッファ作成（ライト）
-	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_Light, &cbData);
-
-	//PS定数バッファ作成（マテリアル）
-	m_Material = Mesh.MaterialData;
-	AddBind(std::make_unique<CB_MATERIAL>(m_Gfx.m_DX, &cbData, m_Material));
-
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//テクスチャバッファ作成
-	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));	//バッファ用配列
-	TEX_LOADER::TEX_DATA NullImage = TEX_LOADER::LoadTexture("Asset/Texture/null.png");				//空画像
-	std::string Tex_D = Mesh.Tex_D;																	//Diffuseテクスチャ名
-	if (Tex_D.size() > 0) {
+	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));				//バッファ用配列
+	TEX_LOADER::TEX_DATA& NullImage = m_Gfx.m_TextureMgr.GetTexPack(TEXTURE_MGR::TEX_ID::TEX_Null).TexData;		//空画像
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = NullImage;
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = NullImage;
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
+	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = NullImage;
+	std::string TexName = Mesh.Tex_D;																			//Diffuseテクスチャ名
+	if (TexName.size() > 0) {
 		for (auto& t : m_FileData.m_aTexPack) {
-			if (t.Name == Tex_D) {
+			if (t.Name == TexName) {
 				aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = t.TexData;
 				break;
 			}
 		}
 	}
-	else
-		aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = NullImage;
 	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
-	TEX_LOADER::ReleaseTexture(NullImage.pImageData);
+	for (auto& d : aData)
+		d.pImageData = nullptr;
 }
 
 MESH::~MESH() noexcept

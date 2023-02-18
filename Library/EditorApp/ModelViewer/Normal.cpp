@@ -49,7 +49,7 @@ void NORMAL::Draw(int InstanceNum) const noexcept
 VS_DATA<VERTEX_C> NORMAL::MakeData_VS() const
 {
 	//データ取得
-	VS_DATA<VERTEX_M> vsData = m_Loader.GetMesh(m_MeshIndex).vsData;
+	VS_DATA<VERTEX_MN> vsData = m_Loader.GetMesh(m_MeshIndex).vsData;
 
 	//頂点作成
 	VS_DATA<VERTEX_C> vsDataOut;

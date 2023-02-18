@@ -61,7 +61,7 @@ public:
 	{
 		std::string NodeName;									//ノード名
 		std::vector<VERTEX_INDEX> aIndexBuffer;					//頂点バッファインデックス
-		VS_DATA<VERTEX_M> vsData;								//頂点情報
+		VS_DATA<VERTEX_MN> vsData;								//頂点情報
 		std::string MaterialName;								//マテリアル名
 		CBD_MATERIAL MaterialData;								//マテリアル情報
 		bool IsPhong;											//Phongモデルフラグ

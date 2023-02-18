@@ -442,5 +442,8 @@
     <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_VertexBlend.hlsl">
       <Filter>Shader\Instance</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Source\Shader\Instance\VS_Instance_PhongN.hlsl">
+      <Filter>Shader\Instance</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -32,7 +32,7 @@ struct LIGHT_VECTOR						//光源計算用ベクトル（平行光源）
 	float3 vNor_ToLight : LIGHT_NOR;	//光への単位ベクトル
 };
 
-struct LIGHT_VECTOR_PT					//光源計算用ベクトル（点光源）
+struct LIGHT_VECTOR_PT					//光源計算用ベクトル（点光源、複数の平行光源）
 {
 	float3 vNor_Model : NORMAL;			//モデルの法線ベクトル
 	float3 vNor_ToCamera : CAM_NOR;		//カメラへの単位ベクトル

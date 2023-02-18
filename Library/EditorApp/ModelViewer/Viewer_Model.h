@@ -82,6 +82,6 @@ private:
 	bool bUseDispMap;						//視差マップ使用
 
 	//プロトタイプ宣言
-	VS_DATA<VERTEX_MB> MakeData_VS() const noexcept;	//頂点情報作成
+	VS_DATA<VERTEX_MNB> MakeData_VS() const noexcept;	//頂点情報作成
 	void UpdateBoneData(int AnimID = 0) noexcept;		//骨情報更新
 };

@@ -48,7 +48,12 @@ void MODEL::Update() noexcept
 	for (size_t i = 0, Cnt = m_aInstanceData.size(); i < Cnt; i++) {
 		m_aInstanceData[i].MtxWorld = m_FileData.InitMtxWorld;
 		dx::XMFLOAT4X4 mtxW{};
-		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation((i % 10) * 10.0f, 0.0f, (i / 10) * 10.0f));
+		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
+				(i % 10) * 10.0f - (50.0f - 5.0f),
+				0.0f,
+				static_cast<float>(i / 10) * 10.0f - (50.0f - 5.0f)
+			)
+		);
 		gMath::MtxMultiply4x4_AVX(&m_aInstanceData[i].MtxWorld._11, &mtxW._11);
 	}
 

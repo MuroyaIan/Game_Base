@@ -25,12 +25,15 @@ struct VTX_COLOR
 	unsigned char a;
 
 	//プロトタイプ宣言
-	VTX_COLOR() noexcept : r(0), g(0), b(0), a(0) {}
+	VTX_COLOR() noexcept : r(0), g(0), b(0), a(0)
+	{}
 
 	VTX_COLOR(unsigned char rIn, unsigned char gIn, unsigned char bIn, unsigned char aIn) noexcept :
-		r(rIn), g(gIn), b(bIn), a(aIn) {}
+		r(rIn), g(gIn), b(bIn), a(aIn)
+	{}
 
-	~VTX_COLOR() noexcept {}
+	~VTX_COLOR() noexcept
+	{}
 };
 
 //===== クラス定義 =====
@@ -42,11 +45,14 @@ public:
 	DirectX::XMFLOAT3 m_Pos;	//位置
 
 	//プロトタイプ宣言
-	explicit VERTEX() noexcept : m_Pos() {}
+	explicit VERTEX() noexcept : m_Pos()
+	{}
 
-	explicit VERTEX(DirectX::XMFLOAT3 Pos) noexcept : m_Pos(Pos) {}
+	explicit VERTEX(DirectX::XMFLOAT3 Pos) noexcept : m_Pos(Pos)
+	{}
 
-	~VERTEX() noexcept {}
+	~VERTEX() noexcept
+	{}
 };
 
 class VERTEX_C					//色付き
@@ -58,12 +64,15 @@ public:
 	VTX_COLOR m_Color;			//色
 
 	//プロトタイプ宣言
-	explicit VERTEX_C() noexcept : m_Pos(), m_Color() {}
+	explicit VERTEX_C() noexcept : m_Pos(), m_Color()
+	{}
 
 	explicit VERTEX_C(DirectX::XMFLOAT3 Pos, VTX_COLOR Color) noexcept :
-		m_Pos(Pos), m_Color(Color) {}
+		m_Pos(Pos), m_Color(Color)
+	{}
 
-	~VERTEX_C() noexcept {}
+	~VERTEX_C() noexcept
+	{}
 };
 
 class VERTEX_T					//UV情報付き
@@ -75,15 +84,61 @@ public:
 	DirectX::XMFLOAT2 m_UV;		//UV座標
 
 	//プロトタイプ宣言
-	explicit VERTEX_T() noexcept : m_Pos(), m_UV() {}
+	explicit VERTEX_T() noexcept : m_Pos(), m_UV()
+	{}
 
 	explicit VERTEX_T(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT2 uv) noexcept :
-		m_Pos(Pos), m_UV(uv) {}
+		m_Pos(Pos), m_UV(uv)
+	{}
 
-	~VERTEX_T() noexcept {}
+	~VERTEX_T() noexcept
+	{}
 };
 
 class VERTEX_M						//モデル用
+{
+public:
+
+	//変数宣言
+	DirectX::XMFLOAT3 m_Pos;		//位置
+	DirectX::XMFLOAT2 m_UV;			//UV座標
+	DirectX::XMFLOAT3 m_Normal;		//法線
+
+	//プロトタイプ宣言
+	explicit VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal()
+	{}
+
+	~VERTEX_M() noexcept
+	{}
+};
+
+class VERTEX_MB						//モデル用（アニメーション付き）
+{
+public:
+
+	//変数宣言
+	DirectX::XMFLOAT3 m_Pos;		//位置
+	DirectX::XMFLOAT2 m_UV;			//UV座標
+	DirectX::XMFLOAT3 m_Normal;		//法線
+	int m_BoneID[4];				//骨番号(最大の骨番号は使用しない)
+	float m_BoneWeight[4];			//骨比重
+
+	//プロトタイプ宣言
+	explicit VERTEX_MB() noexcept :
+		m_Pos(), m_UV(), m_Normal(), m_BoneID(), m_BoneWeight()
+	{
+		//骨情報初期化
+		for (auto& b : m_BoneID)
+			b = MAX_BONE - 1;
+		for (auto& w : m_BoneWeight)
+			w = 0.0f;
+	}
+
+	~VERTEX_MB() noexcept
+	{}
+};
+
+class VERTEX_MN						//モデル用（法線マッピング）
 {
 public:
 
@@ -95,18 +150,19 @@ public:
 	DirectX::XMFLOAT3 m_Tangent;	//接線
 
 	//プロトタイプ宣言
-	explicit VERTEX_M() noexcept : m_Pos(), m_UV(), m_Normal(), m_Binormal(), m_Tangent()
+	explicit VERTEX_MN() noexcept : m_Pos(), m_UV(), m_Normal(), m_Binormal(), m_Tangent()
 	{
 		//UV情報初期化
-		m_Tangent	= { 1.0f, 0.0f, 0.0f };
-		m_Binormal	= { 0.0f, 1.0f, 0.0f };
-		m_Normal	= { 0.0f, 0.0f, 1.0f };
+		m_Tangent  = { 1.0f, 0.0f, 0.0f };
+		m_Binormal = { 0.0f, 1.0f, 0.0f };
+		m_Normal   = { 0.0f, 0.0f, 1.0f };
 	}
 
-	~VERTEX_M() noexcept {}
+	~VERTEX_MN() noexcept
+	{}
 };
 
-class VERTEX_MB						//モデル用（骨付き）
+class VERTEX_MNB					//モデル用（法線マッピング+アニメーション付き）
 {
 public:
 
@@ -120,14 +176,14 @@ public:
 	float m_BoneWeight[4];			//骨比重
 
 	//プロトタイプ宣言
-	explicit VERTEX_MB() noexcept :
+	explicit VERTEX_MNB() noexcept :
 		m_Pos(), m_UV(), m_Normal(), m_Binormal(), m_Tangent(),
 		m_BoneID(), m_BoneWeight()
 	{
 		//UV情報初期化
-		m_Tangent	= { 1.0f, 0.0f, 0.0f };
-		m_Binormal	= { 0.0f, 1.0f, 0.0f };
-		m_Normal	= { 0.0f, 0.0f, 1.0f };
+		m_Tangent  = { 1.0f, 0.0f, 0.0f };
+		m_Binormal = { 0.0f, 1.0f, 0.0f };
+		m_Normal   = { 0.0f, 0.0f, 1.0f };
 
 		//骨情報初期化
 		for (auto& b : m_BoneID)
@@ -136,7 +192,8 @@ public:
 			w = 0.0f;
 	}
 
-	~VERTEX_MB() noexcept {}
+	~VERTEX_MNB() noexcept
+	{}
 };
 
 //***** 頂点シェーダ用データ *****

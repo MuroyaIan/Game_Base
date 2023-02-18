@@ -35,10 +35,10 @@ public:
 	};
 
 	//プロトタイプ宣言
-	MODEL_MGR();
+	explicit MODEL_MGR();
 	~MODEL_MGR() noexcept;
 
-	ModelRef::MODEL_PACK& GetModelPack(MODEL_ID id) const	//モデルパック参照
+	ModelRef::MODEL_PACK& GetModelPack(MODEL_ID id) const noexcept	//モデルパック参照
 	{
 		return *m_aModelPackPtr[static_cast<int>(id)];
 	}
@@ -53,6 +53,6 @@ private:
 	static std::vector<bool> aAnimFPS_30[static_cast<int>(MODEL_ID::ID_Max)];		//アニメーションFPSフラグ
 
 	//プロトタイプ宣言
-	void LoadModel(MODEL_ID id);															//モデル読込
-	void LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef);	//テクスチャ名読込
+	void LoadModel(MODEL_ID id) const;																		//モデル読込
+	void LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef) const noexcept;		//テクスチャ名読込
 };

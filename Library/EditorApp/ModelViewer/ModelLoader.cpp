@@ -628,14 +628,14 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 	}
 
 	//頂点情報まとめ
-	std::vector<VERTEX_M> aVertex;
+	std::vector<VERTEX_MN> aVertex;
 	auto pPos = &aPos[0];
 	auto pNormal = &aNormal[0];
 	auto pUV = &aUV[0];
 	auto pBinormal = &aBinormal[0];
 	auto pTangent = &aTangent[0];
 	for (size_t i = 0, Cnt = aPos.size(); i < Cnt; i++) {
-		VERTEX_M vtx;
+		VERTEX_MN vtx;
 		vtx.m_Pos = *pPos;
 		vtx.m_Normal = *pNormal;
 		vtx.m_UV = *pUV;
@@ -1437,13 +1437,13 @@ void FBX_LOADER::SaveModelData(const char* FileName) noexcept
 	for (size_t i = 0; i < ModelBin.MeshNum; i++) {			//メッシュごと
 
 		//VSデータ作成
-		VS_DATA<VERTEX_M>& DataRef = m_aMesh[i].vsData;
-		VS_DATA<VERTEX_MB> vsData;
+		VS_DATA<VERTEX_MN>& DataRef = m_aMesh[i].vsData;
+		VS_DATA<VERTEX_MNB> vsData;
 		vsData.m_Indices = DataRef.m_Indices;				//インデックス
 		for (auto& v : DataRef.m_Vertices) {				//頂点情報
 
 			//頂点情報
-			VERTEX_MB Vertex;
+			VERTEX_MNB Vertex;
 			Vertex.m_Pos = v.m_Pos;
 			Vertex.m_UV = v.m_UV;
 			Vertex.m_Normal = v.m_Normal;
