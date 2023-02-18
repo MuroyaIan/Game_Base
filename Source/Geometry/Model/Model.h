@@ -15,9 +15,8 @@
 #include <Geometry/Model/ModelMgr.h>
 
 //===== 前方宣言 =====
-class BINDER;
 class DRAWER;
-struct CBD_BONE;
+class BINDER;
 
 //===== クラス定義 =====
 
@@ -29,14 +28,25 @@ public:
 	//プロトタイプ宣言
 	explicit MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept;
 	~MODEL() noexcept;
-	void Update() noexcept;								//更新処理
-	void Draw() const noexcept;							//書込み処理
-	int AddInstance();									//インスタンス追加
-	UINT GetPolygonNum() const noexcept;				//ポリゴン数取得
+	void Update() noexcept;															//更新処理
+	void Draw() const noexcept;														//書込み処理
+	int AddInstance();																//インスタンス追加
+	UINT GetPolygonNum() const noexcept;											//ポリゴン数取得
 
-	void ChangeAnimID(int id) noexcept					//アニメーション変更
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept		//ワールド行列取得
 	{
-		if (m_AnimID != id && m_bBlendAnim == false) {	//アニメーション切替＆ブレンド中ではない
+		return m_aMtxWorld[InstanceIndex];
+	}
+
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept	//ワールド行列設定
+	{
+		m_aMtxWorld[InstanceIndex] = mtxW;
+	}
+
+	void ChangeAnimID(int id) noexcept												//アニメーション変更
+	{
+		//アニメーション切替＆ブレンド中ではない
+		if (m_AnimID != id && m_bBlendAnim == false) {
 
 			//アニメーション番号のバックアップ更新
 			if (m_AnimID_Backup != m_AnimID)
@@ -63,10 +73,11 @@ private:
 
 	int m_InstanceNum;								//インスタンス数
 	std::vector<VSD_INSTANCE> m_aInstanceData;		//インスタンス情報
+	std::vector<DirectX::XMFLOAT4X4> m_aMtxWorld;	//ワールド行列
 
 	bool m_bStatic;									//静的メッシュかどうか
 	std::unique_ptr<BINDER> m_pBoneBuffer;			//骨情報用バインダ
-	std::unique_ptr<CBD_BONE> m_pMtxBone;		//骨情報（定数バッファ用）
+	CBD_BONE m_BoneData;							//骨情報（定数バッファ用）
 	int m_AnimID;									//アニメーション番号
 	int m_AnimID_Backup;							//アニメーション番号（バックアップ）
 	int m_AnimFrame;								//アニメーション再生フレーム

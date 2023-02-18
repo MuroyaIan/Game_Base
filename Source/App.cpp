@@ -159,8 +159,19 @@ APP::APP() :
 	//【モデルテスト】
 	m_aModel.reserve(1);
 	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
-	for (size_t i = 0; i < 1600; i++)
+	for (int i = 0; i < 1600; i++) {
 		m_aModel[0]->AddInstance();
+
+		//ワールド行列設定
+		dx::XMFLOAT4X4 mtxW{};
+		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
+			(i % 10) * 10.0f - (50.0f - 5.0f),
+			0.0f,
+			static_cast<float>(i / 10) * 10.0f - (50.0f - 5.0f)
+		)
+		);
+		m_aModel[0]->SetWorldMatrix(mtxW, i);
+	}
 
 	//水面テスト
 	//m_aDrawer.push_back(std::make_unique<WAVE>(*this));

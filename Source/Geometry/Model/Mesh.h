@@ -30,12 +30,12 @@ public:
 	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
 	int AddInstance() override;																//インスタンス追加
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//ワールド行列取得
 	{
 		return m_aInstanceData[InstanceIndex].MtxWorld;
 	}
 
-	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//ワールド行列設定
 	{
 		m_aInstanceData[InstanceIndex].MtxWorld = mtxW;
 	}
@@ -48,19 +48,16 @@ public:
 private:
 
 	//変数宣言
-	ModelRef::MODEL_PACK& m_FileData;				//ファイル情報
-	int m_MeshIdx;									//メッシュ番号
 	GFX_PACK& m_Gfx;								//描画データ参照
 	int& m_InstanceNum;								//インスタンス数参照
-	std::vector<VSD_INSTANCE>& m_aInstanceData;	//インスタンス情報参照
+	std::vector<VSD_INSTANCE>& m_aInstanceData;		//インスタンス情報参照
 	CBD_MATERIAL m_Material;						//マテリアル情報
 
+	ModelRef::MODEL_PACK& m_FileData;				//ファイル情報
+	int m_MeshIdx;									//メッシュ番号
+
 	bool& m_bStatic;								//静的メッシュかどうか
-	std::unique_ptr<CBD_MTX_LOCAL> m_pLocalData;		//ローカル情報
+	std::unique_ptr<CBD_MTX_LOCAL> m_pLocalData;	//ローカル情報
 	int& m_AnimID;									//アニメーション番号
-	int& m_AnimID_Backup;							//アニメーション番号（バックアップ）
 	int& m_AnimFrame;								//アニメーション再生フレーム
-	int& m_AnimFrame_Backup;						//アニメーション再生フレーム（バックアップ）
-	bool& m_bBlendAnim;								//ブレンドモード
-	int& m_BlendTimer;								//ブレンド用タイマ
 };

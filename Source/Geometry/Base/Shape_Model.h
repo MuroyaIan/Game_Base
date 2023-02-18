@@ -29,12 +29,12 @@ public:
 	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
 	int AddInstance() override;																//インスタンス追加
 
-	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
+	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//ワールド行列取得
 	{
 		return m_aInstanceData[InstanceIndex].MtxWorld;
 	}
 
-	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//変形行列設定
+	void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept override	//ワールド行列設定
 	{
 		m_aInstanceData[InstanceIndex].MtxWorld = mtxW;
 	}

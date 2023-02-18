@@ -9,8 +9,8 @@ namespace dx = DirectX;
 //===== クラス実装 =====
 MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
 	m_Gfx(App.GetGfxPack()), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_aMesh(m_FileData.aMesh.size()),
-	m_InstanceNum(0), m_aInstanceData(m_InstanceNum),
-	m_bStatic(true), m_pBoneBuffer(), m_pMtxBone(), m_AnimID(1), m_AnimID_Backup(m_AnimID), m_AnimFrame(0), m_AnimFrame_Backup(m_AnimFrame), m_FrameCnt(0), m_FrameCnt_Backup(m_FrameCnt),
+	m_InstanceNum(0), m_aInstanceData(m_InstanceNum), m_aMtxWorld(m_InstanceNum),
+	m_bStatic(true), m_pBoneBuffer(), m_BoneData(), m_AnimID(1), m_AnimID_Backup(m_AnimID), m_AnimFrame(0), m_AnimFrame_Backup(m_AnimFrame), m_FrameCnt(0), m_FrameCnt_Backup(m_FrameCnt),
 	m_bBlendAnim(false), m_BlendTimer(0)
 {
 	//アニメーション確認
@@ -18,10 +18,8 @@ MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
 		m_bStatic = false;
 
 	//VS定数バッファ作成（骨情報）
-	if (!m_bStatic) {
-		m_pMtxBone = std::make_unique<CBD_BONE>();
-		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, nullptr, *m_pMtxBone);
-	}
+	if (!m_bStatic)
+		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, nullptr, m_BoneData);
 
 	//メッシュ初期化
 	for (size_t i = 0, Cnt = m_FileData.aMesh.size(); i < Cnt; i++)
@@ -35,6 +33,10 @@ MODEL::~MODEL() noexcept
 //更新処理
 void MODEL::Update() noexcept
 {
+	//例外処理
+	if (m_InstanceNum < 1)
+		return;
+
 	//アニメーション更新
 	if (!m_bStatic) {
 
@@ -42,19 +44,16 @@ void MODEL::Update() noexcept
 			UpdateAnimation();
 		else
 			UpdateAnimationBlending();	//ブレンド処理（0.2s秒間）
+
+		//骨情報を更新
+		if (!m_bStatic)
+			m_pBoneBuffer->Bind(m_Gfx.m_DX);
 	}
 
 	//ワールド行列更新
 	for (size_t i = 0, Cnt = m_aInstanceData.size(); i < Cnt; i++) {
 		m_aInstanceData[i].MtxWorld = m_FileData.InitMtxWorld;
-		dx::XMFLOAT4X4 mtxW{};
-		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
-				(i % 10) * 10.0f - (50.0f - 5.0f),
-				0.0f,
-				static_cast<float>(i / 10) * 10.0f - (50.0f - 5.0f)
-			)
-		);
-		gMath::MtxMultiply4x4_AVX(&m_aInstanceData[i].MtxWorld._11, &mtxW._11);
+		gMath::MtxMultiply4x4_AVX(&m_aInstanceData[i].MtxWorld._11, &m_aMtxWorld[i]._11);
 	}
 
 	//メッシュ更新
@@ -65,9 +64,9 @@ void MODEL::Update() noexcept
 //書込み処理
 void MODEL::Draw() const noexcept
 {
-	//骨情報をバインド
-	if (!m_bStatic)
-		m_pBoneBuffer->Bind(m_Gfx.m_DX);
+	//例外処理
+	if (m_InstanceNum < 1)
+		return;
 
 	//メッシュ描画
 	for (auto& m : m_aMesh)
@@ -80,9 +79,10 @@ int MODEL::AddInstance()
 	m_InstanceNum++;
 
 	//配列追加
-	VSD_INSTANCE InstData{};
-	InstData.MtxWorld = m_FileData.InitMtxWorld;
-	m_aInstanceData.push_back(InstData);
+	m_aInstanceData.push_back(VSD_INSTANCE());
+	dx::XMFLOAT4X4 mtxW{};
+	dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixIdentity());
+	m_aMtxWorld.push_back(std::move(mtxW));
 
 	//メッシュのインスタンスを追加
 	for (auto& m : m_aMesh)
@@ -131,7 +131,7 @@ void MODEL::UpdateAnimation() noexcept
 		m_AnimFrame = 0;
 
 	//骨情報更新
-	auto pMtxBone = &m_pMtxBone->mtxBone[0];
+	auto pMtxBone = &m_BoneData.mtxBone[0];
 	auto pMtxBoneRef = &m_FileData.aBone[0];
 	for (size_t i = 0, Cnt = m_FileData.aBone.size(); i < Cnt; i++) {
 		if (pMtxBoneRef->aSkin[m_AnimID].aMatrix.size() > 0)
@@ -177,7 +177,7 @@ void MODEL::UpdateAnimationBlending() noexcept
 	m_AnimFrame_Backup = static_cast<int>(m_FileData.aAnimFrame[m_AnimID_Backup] * ratio - 1);	//ブレンド前アニメーションのフレーム算出
 
 	//骨情報更新
-	auto pMtxBone = &m_pMtxBone->mtxBone[0];
+	auto pMtxBone = &m_BoneData.mtxBone[0];
 	auto pMtxBoneRef = &m_FileData.aBone[0];
 	for (size_t i = 0, Cnt = m_FileData.aBone.size(); i < Cnt; i++) {
 		if (pMtxBoneRef->aSkin[m_AnimID].aMatrix.size() > 0) {

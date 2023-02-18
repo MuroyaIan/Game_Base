@@ -9,11 +9,10 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 MESH::MESH(MODEL& ModelRef, int MeshIdx) :
-	DRAWER(ModelRef.m_Gfx.m_DX), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx),
-	m_Gfx(ModelRef.m_Gfx), m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
-	m_bStatic(ModelRef.m_bStatic), m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimID_Backup(ModelRef.m_AnimID_Backup),
-	m_AnimFrame(ModelRef.m_AnimFrame), m_AnimFrame_Backup(ModelRef.m_AnimFrame_Backup),
-	m_bBlendAnim(ModelRef.m_bBlendAnim), m_BlendTimer(ModelRef.m_BlendTimer)
+	DRAWER(ModelRef.m_Gfx.m_DX), m_Gfx(ModelRef.m_Gfx),
+	m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
+	m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx), m_bStatic(ModelRef.m_bStatic),
+	m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimFrame(ModelRef.m_AnimFrame)
 {
 	//メッシュ情報確認
 	ModelRef::MESH_PACK& Mesh = m_FileData.aMesh[m_MeshIdx];
@@ -127,7 +126,6 @@ int MESH::AddInstance()
 {
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aInstanceData);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);
