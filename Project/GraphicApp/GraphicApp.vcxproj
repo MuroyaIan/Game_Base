@@ -168,6 +168,7 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\PixelShader.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Sampler.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Anim.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Model.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Topology.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="..\..\Library\GraphicApp\Binder\PixelShader.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Sampler.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Anim.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Model.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Topology.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp" />

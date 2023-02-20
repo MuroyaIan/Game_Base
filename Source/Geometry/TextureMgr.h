@@ -14,7 +14,7 @@
 #include <GraphicApp/Graphic.h>
 
 //===== 前方宣言 =====
-class BINDER;
+class TEXTURE;
 
 //===== クラス定義 =====
 
@@ -37,7 +37,7 @@ public:
 	struct TEX_PACK
 	{
 		TEX_LOADER::TEX_DATA TexData;		//テクスチャ情報
-		std::unique_ptr<BINDER> pBinder;	//バインダのポインタ
+		std::unique_ptr<TEXTURE> pTexBuff;	//テクスチャバッファのポインタ
 		int nUsedCount;						//使用数
 
 		TEX_PACK() noexcept;

@@ -12,7 +12,6 @@
 //===== インクルード部 =====
 #include <GraphicApp/Drawer/vsdRef.h>
 #include <GraphicApp/Binder/cbdRef.h>
-#include <Tool/TextureLoader.h>
 
 //===== 構造体宣言 =====
 namespace ModelRef {
@@ -61,17 +60,6 @@ namespace ModelRef {
 		~BONE_PACK() noexcept {}
 	};
 
-	//テクスチャパック
-	struct TEX_PACK
-	{
-		std::string Name;				//テクスチャ名
-		TEX_LOADER::TEX_DATA TexData;	//テクスチャ情報
-
-		TEX_PACK() noexcept : Name(""), TexData()
-		{}
-		~TEX_PACK() noexcept {}
-	};
-
 	//モデルパック
 	struct MODEL_PACK
 	{
@@ -81,10 +69,9 @@ namespace ModelRef {
 		std::vector<std::string> aAnimName;		//アニメーション名
 		std::vector<int> aAnimFrame;			//アニメーションフレーム数
 		std::vector<bool> aIsFPS_30;			//アニメーションFPS数
-		std::vector<TEX_PACK> m_aTexPack;		//テクスチャパック配列
 		DirectX::XMFLOAT4X4 InitMtxWorld;		//初期ワールド行列
 
-		MODEL_PACK() noexcept : aMesh(0), aBone(0), aNoSkinIndex(0), aAnimName(0), aAnimFrame(0), aIsFPS_30(0), m_aTexPack(0)
+		MODEL_PACK() noexcept : aMesh(0), aBone(0), aNoSkinIndex(0), aAnimName(0), aAnimFrame(0), aIsFPS_30(0)
 		{
 			DirectX::XMStoreFloat4x4(&InitMtxWorld, DirectX::XMMatrixIdentity());
 		}

@@ -8,7 +8,7 @@ namespace dx = DirectX;
 
 //===== クラス実装 =====
 MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
-	m_Gfx(App.GetGfxPack()), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_aMesh(m_FileData.aMesh.size()),
+	m_Gfx(App.GetGfxPack()), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_TexData(m_Gfx.m_ModelMgr.GetTexPack(id)), m_aMesh(m_FileData.aMesh.size()),
 	m_InstanceNum(0), m_aInstanceData(m_InstanceNum), m_aMtxWorld(m_InstanceNum),
 	m_bStatic(true), m_pBoneBuffer(), m_BoneData(), m_AnimID(1), m_AnimID_Backup(m_AnimID), m_AnimFrame(0), m_AnimFrame_Backup(m_AnimFrame), m_FrameCnt(0), m_FrameCnt_Backup(m_FrameCnt),
 	m_bBlendAnim(false), m_BlendTimer(0)
@@ -46,8 +46,7 @@ void MODEL::Update() noexcept
 			UpdateAnimationBlending();	//ブレンド処理（0.2s秒間）
 
 		//骨情報を更新
-		if (!m_bStatic)
-			m_pBoneBuffer->Bind(m_Gfx.m_DX);
+		m_pBoneBuffer->Bind(m_Gfx.m_DX);
 	}
 
 	//ワールド行列更新
@@ -79,7 +78,7 @@ int MODEL::AddInstance()
 	m_InstanceNum++;
 
 	//配列追加
-	m_aInstanceData.push_back(VSD_INSTANCE());
+	m_aInstanceData.push_back(VSD_INSTANCE{});
 	dx::XMFLOAT4X4 mtxW{};
 	dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixIdentity());
 	m_aMtxWorld.push_back(std::move(mtxW));

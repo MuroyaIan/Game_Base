@@ -69,9 +69,9 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = NullImage;
 	std::string TexName = Mesh.Tex_D;																			//Diffuseテクスチャ名
 	if (TexName.size() > 0) {
-		for (auto& t : m_FileData.m_aTexPack) {
-			if (t.Name == TexName) {
-				aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = t.TexData;
+		for (size_t i = 0, Cnt = ModelRef.m_TexData.aName.size(); i < Cnt; i++) {
+			if (ModelRef.m_TexData.aName[i] == TexName) {
+				aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = ModelRef.m_TexData.aTexData[i];
 				break;
 			}
 		}

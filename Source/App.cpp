@@ -63,7 +63,7 @@ APP::APP() :
 	m_pTextureMgr = std::make_unique<TEXTURE_MGR>(*m_pDX);
 
 	//モデルMgr初期化
-	m_pModelMgr = std::make_unique<MODEL_MGR>();
+	m_pModelMgr = std::make_unique<MODEL_MGR>(*m_pDX);
 
 	//描画データ初期化
 	m_pGfx = std::make_unique<GFX_PACK>(*m_pDX, *m_pShaderMgr, *m_pTextureMgr, *m_pModelMgr);

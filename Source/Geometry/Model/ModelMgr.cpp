@@ -3,6 +3,7 @@
 #include <Geometry/Model/ModelMgr.h>
 #include <Geometry/Model/ModelRef.h>
 #include <Tool/FileIO.h>
+#include <GraphicApp/Binder/BinderRef.h>
 
 namespace dx = DirectX;
 
@@ -22,8 +23,15 @@ std::vector<bool> MODEL_MGR::aAnimFPS_30[static_cast<int>(MODEL_ID::ID_Max)] = {
 	{true, true}
 };
 
+//===== 構造体実装 =====
+MODEL_MGR::TEX_PACK::TEX_PACK() noexcept : aName(0), aTexData(0), aTexBuffPtr(0), aUsedCount(0)
+{}
+
+MODEL_MGR::TEX_PACK::~TEX_PACK() noexcept
+{}
+
 //===== クラス実装 =====
-MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max))
+MODEL_MGR::MODEL_MGR(GRAPHIC& Gfx) : m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max)), m_aTexPack(), m_DX(Gfx)
 {
 	//モデルパック配列初期化
 	for (auto& m : m_aModelPackPtr)
@@ -36,15 +44,15 @@ MODEL_MGR::MODEL_MGR() : m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max))
 		LoadModel(static_cast<MODEL_ID>(i));
 
 		//テクスチャ読込
-		std::vector<ModelRef::TEX_PACK>& TexPack = m_aModelPackPtr[i]->m_aTexPack;
+		TEX_PACK& TexPack = m_aTexPack[i];
 		std::string Path = "Asset/Model/";
 		Path += aModelName[i];
 		Path += "/Tex/";
 		std::ostringstream oss;
-		if (TexPack.size() > 0) {
-			for (size_t j = 0, jCnt = TexPack.size(); j < jCnt; j++) {
-				oss << Path << TexPack[j].Name;
-				TexPack[j].TexData = TEX_LOADER::LoadTexture(oss.str().c_str());
+		if (TexPack.aName.size() > 0) {
+			for (size_t j = 0, jCnt = TexPack.aName.size(); j < jCnt; j++) {
+				oss << Path << TexPack.aName[j];
+				TexPack.aTexData.push_back(TEX_LOADER::LoadTexture(oss.str().c_str()));
 				oss.str("");
 			}
 		}
@@ -67,14 +75,65 @@ MODEL_MGR::~MODEL_MGR() noexcept
 {
 	//テクスチャ解放
 	for (int i = 0, iCnt = static_cast<int>(MODEL_ID::ID_Max); i < iCnt; i++) {
-		std::vector<ModelRef::TEX_PACK>& TexPack = m_aModelPackPtr[i]->m_aTexPack;
-		for (size_t j = 0, jCnt = TexPack.size(); j < jCnt; j++)
-			TEX_LOADER::ReleaseTexture(TexPack[j].TexData.pImageData);
+		TEX_PACK& TexPack = m_aTexPack[i];
+		for (size_t j = 0, jCnt = TexPack.aTexData.size(); j < jCnt; j++)
+			TEX_LOADER::ReleaseTexture(TexPack.aTexData[j].pImageData);
+	}
+}
+
+//バッファ利用開始・終了
+void MODEL_MGR::SetTextureOn(MODEL_ID id, std::string TexName)
+{
+	TEX_PACK& TexPack = m_aTexPack[static_cast<int>(id)];
+	for (size_t i = 0, Cnt = TexPack.aName.size(); i < Cnt; i++) {
+		if (TexPack.aName[i] == TexName) {
+
+			//参照数更新
+			TexPack.aUsedCount[i]++;
+
+			//バッファ未作成の場合⇒作成
+			if (TexPack.aTexBuffPtr[i] == nullptr)
+				TexPack.aTexBuffPtr[i] = std::make_unique<TEXTURE>(m_DX, TexPack.aTexData[i]);
+			break;
+		}
+
+		//例外処理
+		if (i == Cnt - 1) {
+			std::ostringstream oss;
+			oss << "該当するテクスチャがありません : " << aModelName[static_cast<int>(id)] << "->" << TexName;
+			throw ERROR_EX2(oss.str().c_str());
+		}
+	}
+}
+
+void MODEL_MGR::SetTextureOff(MODEL_ID id, std::string TexName)
+{
+	TEX_PACK& TexPack = m_aTexPack[static_cast<int>(id)];
+	for (size_t i = 0, Cnt = TexPack.aName.size(); i < Cnt; i++) {
+		if (TexPack.aName[i] == TexName) {
+
+			//参照数更新
+			TexPack.aUsedCount[i]--;
+			if (TexPack.aUsedCount[i] < 0)
+				TexPack.aUsedCount[i] = 0;
+
+			//参照数無し⇒バッファ解放
+			if (TexPack.aUsedCount[i] == 0 &&
+				TexPack.aTexBuffPtr[i] != nullptr)
+				TexPack.aTexBuffPtr[i].reset();
+		}
+
+		//例外処理
+		if (i == Cnt - 1) {
+			std::ostringstream oss;
+			oss << "該当するテクスチャがありません : " << aModelName[static_cast<int>(id)] << "->" << TexName;
+			throw ERROR_EX2(oss.str().c_str());
+		}
 	}
 }
 
 //モデル読込
-void MODEL_MGR::LoadModel(MODEL_ID id) const
+void MODEL_MGR::LoadModel(MODEL_ID id)
 {
 	int ModelID = static_cast<int>(id);
 	ModelRef::MODEL_PACK& Model = *m_aModelPackPtr[ModelID];
@@ -138,7 +197,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id) const
 		oss << Path << "_Mesh" << i << "_TexD.bin";
 		if (Model.aMesh[i].Tex_D.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_D);
-			LoadTextureName(Model.aMesh[i].Tex_D, Model.m_aTexPack);		//テクスチャ登録
+			LoadTextureName(Model.aMesh[i].Tex_D, m_aTexPack[ModelID]);		//テクスチャ登録
 		}
 		oss.str("");
 
@@ -146,7 +205,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id) const
 		oss << Path << "_Mesh" << i << "_TexS.bin";
 		if (Model.aMesh[i].Tex_S.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_S);
-			LoadTextureName(Model.aMesh[i].Tex_S, Model.m_aTexPack);		//テクスチャ登録
+			LoadTextureName(Model.aMesh[i].Tex_S, m_aTexPack[ModelID]);		//テクスチャ登録
 		}
 		oss.str("");
 
@@ -154,7 +213,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id) const
 		oss << Path << "_Mesh" << i << "_TexN.bin";
 		if (Model.aMesh[i].Tex_N.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_N);
-			LoadTextureName(Model.aMesh[i].Tex_N, Model.m_aTexPack);		//テクスチャ登録
+			LoadTextureName(Model.aMesh[i].Tex_N, m_aTexPack[ModelID]);		//テクスチャ登録
 		}
 		oss.str("");
 
@@ -162,7 +221,7 @@ void MODEL_MGR::LoadModel(MODEL_ID id) const
 		oss << Path << "_Mesh" << i << "_TexDisp.bin";
 		if (Model.aMesh[i].Tex_Disp.size() > 0) {
 			FILE_IO::LoadFile(oss.str().c_str(), Model.aMesh[i].Tex_Disp);
-			LoadTextureName(Model.aMesh[i].Tex_Disp, Model.m_aTexPack);		//テクスチャ登録
+			LoadTextureName(Model.aMesh[i].Tex_Disp, m_aTexPack[ModelID]);	//テクスチャ登録
 		}
 		oss.str("");
 	}
@@ -257,27 +316,21 @@ void MODEL_MGR::LoadModel(MODEL_ID id) const
 }
 
 //テクスチャ名読込
-void MODEL_MGR::LoadTextureName(std::string TexName, std::vector<ModelRef::TEX_PACK>& DataRef) const noexcept
+void MODEL_MGR::LoadTextureName(std::string TexName, TEX_PACK& DataRef) const noexcept
 {
 	//そもそもテクスチャ配列にデータがない
-	if (DataRef.size() < 1) {
-		ModelRef::TEX_PACK Data;
-		Data.Name = TexName;
-		DataRef.emplace_back(Data);
-	}
+	if (DataRef.aName.size() < 1)
+		DataRef.aName.push_back(TexName);
 	else {
-		for (size_t j = 0, Cnt = DataRef.size(); j < Cnt; j++) {
+		for (size_t j = 0, Cnt = DataRef.aName.size(); j < Cnt; j++) {
 
 			//同じテクスチャが存在する場合
-			if (DataRef[j].Name == TexName)
+			if (DataRef.aName[j] == TexName)
 				break;
 
 			//テクスチャが存在しない場合
-			if (j == Cnt - 1) {
-				ModelRef::TEX_PACK Data;
-				Data.Name = TexName;
-				DataRef.emplace_back(Data);
-			}
+			if (j == Cnt - 1)
+				DataRef.aName.push_back(TexName);
 		}
 	}
 }

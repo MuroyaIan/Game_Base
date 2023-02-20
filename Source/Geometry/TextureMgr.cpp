@@ -11,7 +11,7 @@ std::string TEXTURE_MGR::aFilePath[static_cast<int>(TEX_ID::ID_Max)] = {
 };
 
 //===== 構造体実装 =====
-TEXTURE_MGR::TEX_PACK::TEX_PACK() noexcept : TexData(), pBinder(), nUsedCount(0)
+TEXTURE_MGR::TEX_PACK::TEX_PACK() noexcept : TexData(), pTexBuff(), nUsedCount(0)
 {}
 
 TEXTURE_MGR::TEX_PACK::~TEX_PACK() noexcept
@@ -34,8 +34,8 @@ TEXTURE_MGR::~TEXTURE_MGR() noexcept
 {
 	//メモリ解放
 	for (auto& d : m_aTexPack) {
-		if (d.pBinder != nullptr)
-			d.pBinder.reset();								//バッファ解放
+		if (d.pTexBuff != nullptr)
+			d.pTexBuff.reset();								//バッファ解放
 		TEX_LOADER::ReleaseTexture(d.TexData.pImageData);	//テクスチャ解放
 	}
 }
@@ -47,8 +47,8 @@ void TEXTURE_MGR::SetTextureOn(TEX_ID id)
 	m_aTexPack[static_cast<int>(id)].nUsedCount++;
 
 	//バッファ未作成の場合⇒作成
-	if (m_aTexPack[static_cast<int>(id)].pBinder == nullptr)
-		m_aTexPack[static_cast<int>(id)].pBinder = std::make_unique<TEXTURE>(m_DX, m_aTexPack[static_cast<int>(id)].TexData);
+	if (m_aTexPack[static_cast<int>(id)].pTexBuff == nullptr)
+		m_aTexPack[static_cast<int>(id)].pTexBuff = std::make_unique<TEXTURE>(m_DX, m_aTexPack[static_cast<int>(id)].TexData);
 }
 
 void TEXTURE_MGR::SetTextureOff(TEX_ID id) noexcept
@@ -60,16 +60,16 @@ void TEXTURE_MGR::SetTextureOff(TEX_ID id) noexcept
 
 	//参照数無し⇒バッファ解放
 	if (m_aTexPack[static_cast<int>(id)].nUsedCount == 0 &&
-		m_aTexPack[static_cast<int>(id)].pBinder != nullptr)
-		m_aTexPack[static_cast<int>(id)].pBinder.reset();
+		m_aTexPack[static_cast<int>(id)].pTexBuff != nullptr)
+		m_aTexPack[static_cast<int>(id)].pTexBuff.reset();
 }
 
 //バインド処理
 void TEXTURE_MGR::Bind(TEX_ID id) const
 {
 	//例外処理
-	if (m_aTexPack[static_cast<int>(id)].pBinder == nullptr)
+	if (m_aTexPack[static_cast<int>(id)].pTexBuff == nullptr)
 		throw ERROR_EX2("テクスチャはnullです。");
 
-	m_aTexPack[static_cast<int>(id)].pBinder->Bind(m_DX);
+	m_aTexPack[static_cast<int>(id)].pTexBuff->Bind(m_DX);
 }

@@ -85,14 +85,7 @@ int SHAPE_MODEL::AddInstance()
 {
 	//配列追加
 	m_InstanceNum++;
-	VSD_INSTANCE InstData{};
-	//InstData.MaterialColor = {
-	//	RAND_MAKER::MakeRand_Float(0.0f, 1.0f),
-	//	RAND_MAKER::MakeRand_Float(0.0f, 1.0f),
-	//	RAND_MAKER::MakeRand_Float(0.0f, 1.0f),
-	//	1.0f
-	//};
-	m_aInstanceData.push_back(std::move(InstData));
+	m_aInstanceData.push_back(VSD_INSTANCE{});
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aInstanceData);
