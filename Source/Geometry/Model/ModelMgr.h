@@ -50,17 +50,12 @@ public:
 	//プロトタイプ宣言
 	explicit MODEL_MGR(GRAPHIC& Gfx);
 	~MODEL_MGR() noexcept;
-	void SetTextureOn(MODEL_ID id, std::string TexName);
-	void SetTextureOff(MODEL_ID id, std::string TexName);			//バッファ利用開始・終了
+	ID3D11ShaderResourceView* SetTextureOn(MODEL_ID id, std::string TexName);
+	void SetTextureOff(MODEL_ID id, std::string TexName);						//バッファ利用開始・終了
 
-	ModelRef::MODEL_PACK& GetModelPack(MODEL_ID id) const noexcept	//モデルパック参照
+	ModelRef::MODEL_PACK& GetModelPack(MODEL_ID id) const noexcept				//モデルパック参照
 	{
 		return *m_aModelPackPtr[static_cast<int>(id)];
-	}
-
-	TEX_PACK& GetTexPack(MODEL_ID id) noexcept						//テクスチャパック参照
-	{
-		return m_aTexPack[static_cast<int>(id)];
 	}
 
 private:

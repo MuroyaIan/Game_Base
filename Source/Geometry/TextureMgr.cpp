@@ -41,7 +41,7 @@ TEXTURE_MGR::~TEXTURE_MGR() noexcept
 }
 
 //バッファ利用開始・終了
-void TEXTURE_MGR::SetTextureOn(TEX_ID id)
+ID3D11ShaderResourceView* TEXTURE_MGR::SetTextureOn(TEX_ID id)
 {
 	//参照数更新
 	m_aTexPack[static_cast<int>(id)].nUsedCount++;
@@ -49,6 +49,8 @@ void TEXTURE_MGR::SetTextureOn(TEX_ID id)
 	//バッファ未作成の場合⇒作成
 	if (m_aTexPack[static_cast<int>(id)].pTexBuff == nullptr)
 		m_aTexPack[static_cast<int>(id)].pTexBuff = std::make_unique<TEXTURE>(m_DX, m_aTexPack[static_cast<int>(id)].TexData);
+
+	return m_aTexPack[static_cast<int>(id)].pTexBuff->GetSrvPtr();
 }
 
 void TEXTURE_MGR::SetTextureOff(TEX_ID id) noexcept

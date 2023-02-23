@@ -8,7 +8,7 @@ namespace dx = DirectX;
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
-	m_Gfx(App.GetGfxPack()), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_TexData(m_Gfx.m_ModelMgr.GetTexPack(id)), m_aMesh(m_FileData.aMesh.size()),
+	m_Gfx(App.GetGfxPack()), m_ID(id), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_aMesh(m_FileData.aMesh.size()),
 	m_InstanceNum(0), m_aInstanceData(m_InstanceNum), m_aMtxWorld(m_InstanceNum),
 	m_bStatic(true), m_pBoneBuffer(), m_BoneData(), m_AnimID(1), m_AnimID_Backup(m_AnimID), m_AnimFrame(0), m_AnimFrame_Backup(m_AnimFrame), m_FrameCnt(0), m_FrameCnt_Backup(m_FrameCnt),
 	m_bBlendAnim(false), m_BlendTimer(0)

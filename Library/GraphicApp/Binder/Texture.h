@@ -26,6 +26,15 @@ public:
 	~TEXTURE() noexcept override;
 	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理
 
+	ID3D11ShaderResourceView* GetSrvPtr() const							//ポインタ参照
+	{
+		//例外処理
+		if (m_pTextureView == nullptr)
+			throw ERROR_EX2("ポインタはNULLです。");
+
+		return m_pTextureView.Get();
+	}
+
 private:
 
 	//変数宣言

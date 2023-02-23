@@ -25,8 +25,12 @@ public:
 	~VERTEX_SHADER() noexcept override;
 	void Bind(const GRAPHIC& Gfx) const noexcept override;			//バインド処理
 
-	ID3DBlob* GetBytecode() const noexcept							//シェーダファイル取得
+	ID3DBlob* GetBytecode() const									//シェーダファイル取得
 	{
+		//例外処理
+		if (m_pBlob == nullptr)
+			throw ERROR_EX2("ポインタはNULLです。");
+
 		return m_pBlob.Get();
 	}
 

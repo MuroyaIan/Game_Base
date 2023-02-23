@@ -11,7 +11,7 @@ namespace dx = DirectX;
 MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	DRAWER(ModelRef.m_Gfx.m_DX), m_Gfx(ModelRef.m_Gfx),
 	m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
-	m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx), m_bStatic(ModelRef.m_bStatic),
+	m_ModelRef(ModelRef), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx), m_bStatic(ModelRef.m_bStatic),
 	m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimFrame(ModelRef.m_AnimFrame)
 {
 	//メッシュ情報確認
@@ -61,28 +61,28 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//テクスチャバッファ作成
-	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));				//バッファ用配列
-	TEX_LOADER::TEX_DATA& NullImage = m_Gfx.m_TextureMgr.GetTexPack(TEXTURE_MGR::TEX_ID::TEX_Null).TexData;		//空画像
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = NullImage;
-	std::string TexName = Mesh.Tex_D;																			//Diffuseテクスチャ名
-	if (TexName.size() > 0) {
-		for (size_t i = 0, Cnt = ModelRef.m_TexData.aName.size(); i < Cnt; i++) {
-			if (ModelRef.m_TexData.aName[i] == TexName) {
-				aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = ModelRef.m_TexData.aTexData[i];
-				break;
-			}
-		}
-	}
-	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
-	for (auto& d : aData)
-		d.pImageData = nullptr;
+	SRV_PTR SrvData;
+	if (Mesh.Tex_D.size() > 0)
+		SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_ModelMgr.SetTextureOn(m_ModelRef.m_ID, Mesh.Tex_D));		//Diffuseテクスチャ
+	else
+		SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_TextureMgr.SetTextureOn(TEXTURE_MGR::TEX_ID::TEX_Null));	//空画像
+	SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_TextureMgr.SetTextureOn(TEXTURE_MGR::TEX_ID::TEX_Null));
+	SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_TextureMgr.SetTextureOn(TEXTURE_MGR::TEX_ID::TEX_Null));
+	SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_TextureMgr.SetTextureOn(TEXTURE_MGR::TEX_ID::TEX_Null));
+	AddBind(std::make_unique<SRV_MGR>(SrvData));
 }
 
 MESH::~MESH() noexcept
 {
+	//テクスチャバッファ解放
+	ModelRef::MESH_PACK& Mesh = m_FileData.aMesh[m_MeshIdx];
+	if (Mesh.Tex_D.size() > 0)
+		m_Gfx.m_ModelMgr.SetTextureOff(m_ModelRef.m_ID, Mesh.Tex_D);
+	else
+		m_Gfx.m_TextureMgr.SetTextureOff(TEXTURE_MGR::TEX_ID::TEX_Null);
+	m_Gfx.m_TextureMgr.SetTextureOff(TEXTURE_MGR::TEX_ID::TEX_Null);
+	m_Gfx.m_TextureMgr.SetTextureOff(TEXTURE_MGR::TEX_ID::TEX_Null);
+	m_Gfx.m_TextureMgr.SetTextureOff(TEXTURE_MGR::TEX_ID::TEX_Null);
 }
 
 //更新処理

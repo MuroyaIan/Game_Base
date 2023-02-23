@@ -7,8 +7,8 @@
 namespace dx = DirectX;
 
 //===== プロトタイプ宣言 =====
-void SetVertex(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone);															//頂点設定
-void SetVertexAnimation(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone, FBX_LOADER::SKIN_DATA& Skin, int& AnimFrame);	//頂点設定（アニメーション再生時）
+void SetVertex(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone) noexcept;														//頂点設定
+void SetVertexAnimation(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone, FBX_LOADER::SKIN_DATA& Skin, int& AnimFrame) noexcept;	//頂点設定（アニメーション再生時）
 
 //===== クラス実装 =====
 BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn) :
@@ -92,7 +92,7 @@ VS_DATA<VERTEX_C> BONE_LINE::MakeData_VS() const
 }
 
 //頂点設定
-void SetVertex(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone)
+void SetVertex(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone) noexcept
 {
 	for (auto& b : Bone.aChildBone) {
 
@@ -110,7 +110,7 @@ void SetVertex(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone)
 }
 
 //頂点設定（アニメーション再生時）
-void SetVertexAnimation(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone, FBX_LOADER::SKIN_DATA& Skin, int& AnimFrame)
+void SetVertexAnimation(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone, FBX_LOADER::SKIN_DATA& Skin, int& AnimFrame) noexcept
 {
 	for (auto& b : Bone.aChildBone) {
 

@@ -31,6 +31,10 @@ protected:
 	template <typename D>
 	void MapBuffer(const GRAPHIC& Gfx, const D& Data, ID3D11Resource* pBuffer) const	//バッファ更新
 	{
+		//例外処理
+		if (pBuffer == nullptr)
+			throw ERROR_EX2("ポインタはNULLです。");
+
 		//エラーハンドル
 		HRESULT hr{};
 
@@ -48,6 +52,10 @@ protected:
 	template <typename D>
 	void MapBuffer(const GRAPHIC& Gfx, const std::vector<D>& aData, ID3D11Resource* pBuffer) const	//バッファ更新(配列)
 	{
+		//例外処理
+		if (pBuffer == nullptr)
+			throw ERROR_EX2("ポインタはNULLです。");
+
 		//エラーハンドル
 		HRESULT hr{};
 
@@ -62,13 +70,21 @@ protected:
 		GetContext(Gfx)->Unmap(pBuffer, 0u);						//GPUのアクセスを解放
 	}
 
-	static ID3D11Device* GetDevice(const GRAPHIC& Gfx) noexcept				//デバイス取得
+	static ID3D11Device* GetDevice(const GRAPHIC& Gfx)				//デバイス取得
 	{
+		//例外処理
+		if (Gfx.m_pDevice == nullptr)
+			throw ERROR_EX2("ポインタはNULLです。");
+
 		return Gfx.m_pDevice.Get();
 	}
 
-	static ID3D11DeviceContext* GetContext(const GRAPHIC& Gfx) noexcept		//コンテキスト取得
+	static ID3D11DeviceContext* GetContext(const GRAPHIC& Gfx)		//コンテキスト取得
 	{
+		//例外処理
+		if (Gfx.m_pContext == nullptr)
+			throw ERROR_EX2("ポインタはNULLです。");
+
 		return Gfx.m_pContext.Get();
 	}
 };

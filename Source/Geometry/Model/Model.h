@@ -68,8 +68,8 @@ private:
 
 	//変数宣言
 	GFX_PACK& m_Gfx;								//描画データ参照
+	MODEL_MGR::MODEL_ID m_ID;						//モデルID
 	ModelRef::MODEL_PACK& m_FileData;				//モデル情報
-	MODEL_MGR::TEX_PACK& m_TexData;					//テクスチャ情報
 	std::vector<std::unique_ptr<DRAWER>> m_aMesh;	//メッシュ配列
 
 	int m_InstanceNum;								//インスタンス数

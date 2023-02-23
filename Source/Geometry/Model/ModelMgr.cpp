@@ -53,6 +53,8 @@ MODEL_MGR::MODEL_MGR(GRAPHIC& Gfx) : m_aModelPackPtr(static_cast<int>(MODEL_ID::
 			for (size_t j = 0, jCnt = TexPack.aName.size(); j < jCnt; j++) {
 				oss << Path << TexPack.aName[j];
 				TexPack.aTexData.push_back(TEX_LOADER::LoadTexture(oss.str().c_str()));
+				TexPack.aTexBuffPtr.push_back(nullptr);
+				TexPack.aUsedCount.push_back(0);
 				oss.str("");
 			}
 		}
@@ -76,13 +78,16 @@ MODEL_MGR::~MODEL_MGR() noexcept
 	//テクスチャ解放
 	for (int i = 0, iCnt = static_cast<int>(MODEL_ID::ID_Max); i < iCnt; i++) {
 		TEX_PACK& TexPack = m_aTexPack[i];
-		for (size_t j = 0, jCnt = TexPack.aTexData.size(); j < jCnt; j++)
-			TEX_LOADER::ReleaseTexture(TexPack.aTexData[j].pImageData);
+		for (size_t j = 0, jCnt = TexPack.aTexData.size(); j < jCnt; j++) {
+			if (TexPack.aTexBuffPtr[j] != nullptr)
+				TexPack.aTexBuffPtr[j].reset();								//バッファ解放
+			TEX_LOADER::ReleaseTexture(TexPack.aTexData[j].pImageData);		//メモリ解放
+		}
 	}
 }
 
 //バッファ利用開始・終了
-void MODEL_MGR::SetTextureOn(MODEL_ID id, std::string TexName)
+ID3D11ShaderResourceView* MODEL_MGR::SetTextureOn(MODEL_ID id, std::string TexName)
 {
 	TEX_PACK& TexPack = m_aTexPack[static_cast<int>(id)];
 	for (size_t i = 0, Cnt = TexPack.aName.size(); i < Cnt; i++) {
@@ -94,16 +99,16 @@ void MODEL_MGR::SetTextureOn(MODEL_ID id, std::string TexName)
 			//バッファ未作成の場合⇒作成
 			if (TexPack.aTexBuffPtr[i] == nullptr)
 				TexPack.aTexBuffPtr[i] = std::make_unique<TEXTURE>(m_DX, TexPack.aTexData[i]);
-			break;
-		}
 
-		//例外処理
-		if (i == Cnt - 1) {
-			std::ostringstream oss;
-			oss << "該当するテクスチャがありません : " << aModelName[static_cast<int>(id)] << "->" << TexName;
-			throw ERROR_EX2(oss.str().c_str());
+			//該当するSRVポインタを返す
+			return TexPack.aTexBuffPtr[i]->GetSrvPtr();
 		}
 	}
+
+	//例外処理
+	std::ostringstream oss;
+	oss << "該当するテクスチャがありません : " << aModelName[static_cast<int>(id)] << "->" << TexName;
+	throw ERROR_EX2(oss.str().c_str());
 }
 
 void MODEL_MGR::SetTextureOff(MODEL_ID id, std::string TexName)
@@ -121,15 +126,15 @@ void MODEL_MGR::SetTextureOff(MODEL_ID id, std::string TexName)
 			if (TexPack.aUsedCount[i] == 0 &&
 				TexPack.aTexBuffPtr[i] != nullptr)
 				TexPack.aTexBuffPtr[i].reset();
-		}
 
-		//例外処理
-		if (i == Cnt - 1) {
-			std::ostringstream oss;
-			oss << "該当するテクスチャがありません : " << aModelName[static_cast<int>(id)] << "->" << TexName;
-			throw ERROR_EX2(oss.str().c_str());
+			return;
 		}
 	}
+
+	//例外処理
+	std::ostringstream oss;
+	oss << "該当するテクスチャがありません : " << aModelName[static_cast<int>(id)] << "->" << TexName;
+	throw ERROR_EX2(oss.str().c_str());
 }
 
 //モデル読込

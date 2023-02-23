@@ -167,6 +167,7 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\InputLayout.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\PixelShader.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Sampler.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\Binder\srvMgr.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Anim.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Binder\Texture_Model.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="..\..\Library\GraphicApp\Binder\InputLayout.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\PixelShader.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Sampler.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\Binder\srvMgr.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Anim.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Texture_Model.cpp" />

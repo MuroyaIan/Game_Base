@@ -24,7 +24,7 @@ class MESH : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	explicit MESH(MODEL& ModelRef, int MeshIdx);
+	explicit MESH(MODEL& Model, int MeshIdx);
 	~MESH() noexcept override;
 	void Update() noexcept override;														//更新処理
 	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
@@ -49,10 +49,12 @@ private:
 
 	//変数宣言
 	GFX_PACK& m_Gfx;								//描画データ参照
+
 	int& m_InstanceNum;								//インスタンス数参照
 	std::vector<VSD_INSTANCE>& m_aInstanceData;		//インスタンス情報参照
 	CBD_MATERIAL m_Material;						//マテリアル情報
 
+	MODEL& m_ModelRef;								//モデル参照
 	ModelRef::MODEL_PACK& m_FileData;				//ファイル情報
 	int m_MeshIdx;									//メッシュ番号
 

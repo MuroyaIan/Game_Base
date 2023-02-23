@@ -36,15 +36,10 @@ SHAPE_MODEL::SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
 	//テクスチャバッファ作成
-	std::vector<TEX_LOADER::TEX_DATA> aData(static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType));
-	TEX_LOADER::TEX_DATA& NullImage = m_Gfx.m_TextureMgr.GetTexPack(TEXTURE_MGR::TEX_ID::TEX_Null).TexData;		//空画像
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Diffuse)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Specular)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Normal)] = NullImage;
-	aData[static_cast<int>(TEXTURE_MODEL::TEX_TYPE::Displacement)] = NullImage;
-	AddBind(std::make_unique<TEXTURE_MODEL>(m_Gfx.m_DX, aData));
-	for (auto& d : aData)
-		d.pImageData = nullptr;
+	SRV_PTR SrvData;
+	for (int i = 0, Cnt = static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType); i < Cnt; i++)
+		SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_TextureMgr.SetTextureOn(TEXTURE_MGR::TEX_ID::TEX_Null));	//空画像
+	AddBind(std::make_unique<SRV_MGR>(SrvData));
 
 	//マテリアル情報初期化
 	m_Material.Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -54,6 +49,9 @@ SHAPE_MODEL::SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 
 SHAPE_MODEL::~SHAPE_MODEL() noexcept
 {
+	//テクスチャバッファ解放
+	for (int i = 0, Cnt = static_cast<int>(TEXTURE_MODEL::TEX_TYPE::MaxType); i < Cnt; i++)
+		m_Gfx.m_TextureMgr.SetTextureOff(TEXTURE_MGR::TEX_ID::TEX_Null);
 }
 
 //更新処理

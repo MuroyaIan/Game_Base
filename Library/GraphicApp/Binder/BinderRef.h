@@ -19,8 +19,10 @@
 #include <GraphicApp/Binder/PixelShader.h>
 
 #include <GraphicApp/Binder/Sampler.h>
+#include <GraphicApp/Binder/srvMgr.h>
 #include <GraphicApp/Binder/Texture.h>
 #include <GraphicApp/Binder/Texture_Model.h>
+#include <GraphicApp/Binder/Texture_Anim.h>
 
 #include <GraphicApp/Binder/ConstantBuffer.h>
 #include <GraphicApp/Binder/cbMgr.h>

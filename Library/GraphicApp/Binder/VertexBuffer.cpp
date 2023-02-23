@@ -28,7 +28,7 @@ void VERTEX_BUFFER::Bind(const GRAPHIC& Gfx) const noexcept
 }
 
 //バッファ設定取得
-D3D11_BUFFER_DESC VERTEX_BUFFER::GetBufferDesc(UINT ArraySize, UINT TypeSize, bool bDynamic)
+D3D11_BUFFER_DESC VERTEX_BUFFER::GetBufferDesc(UINT ArraySize, UINT TypeSize, bool bDynamic) const noexcept
 {
 	D3D11_BUFFER_DESC bd{};
 	bd.ByteWidth = ArraySize;

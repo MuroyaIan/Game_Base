@@ -47,20 +47,15 @@ public:
 	//プロトタイプ宣言
 	explicit TEXTURE_MGR(GRAPHIC& Gfx);
 	~TEXTURE_MGR() noexcept;
-	void SetTextureOn(TEX_ID id);
-	void SetTextureOff(TEX_ID id) noexcept;		//バッファ利用開始・終了
-	void Bind(TEX_ID id) const;					//バインド処理
-
-	TEX_PACK& GetTexPack(TEX_ID id) noexcept	//テクスチャパック参照
-	{
-		return m_aTexPack[static_cast<int>(id)];
-	}
+	ID3D11ShaderResourceView* SetTextureOn(TEX_ID id);
+	void SetTextureOff(TEX_ID id) noexcept;				//バッファ利用開始・終了
+	void Bind(TEX_ID id) const;							//バインド処理
 
 private:
 
 	//変数宣言
-	std::vector<TEX_PACK> m_aTexPack;			//テクスチャパック配列
-	GRAPHIC& m_DX;								//DX参照
+	std::vector<TEX_PACK> m_aTexPack;	//テクスチャパック配列
+	GRAPHIC& m_DX;						//DX参照
 
 	static std::string aFilePath[static_cast<int>(TEX_ID::ID_Max)];
 };
