@@ -30,13 +30,13 @@ CB_MTX_VP::~CB_MTX_VP() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MTX_VP::Bind(const GRAPHIC& Gfx) const noexcept
+void CB_MTX_VP::Bind(const GRAPHIC& Gfx) const
 {
 	//バッファ更新
-	dx::XMFLOAT4X4 View = Gfx.GetViewMtx();
-	dx::XMFLOAT4X4 Proj = Gfx.GetProjectionMtx();
-	gMath::MtxTranspose4x4_SSE(&View._11);
-	gMath::MtxTranspose4x4_SSE(&Proj._11);
-	CBD_MTX_VP aMtx = { View, Proj };
+	CBD_MTX_VP aMtx;
+	aMtx.mtxView = Gfx.GetViewMtx();
+	aMtx.mtxProj = Gfx.GetProjectionMtx();
+	gMath::MtxTranspose4x4_SSE(&aMtx.mtxView._11);
+	gMath::MtxTranspose4x4_SSE(&aMtx.mtxProj._11);
 	m_pCBuff->Update(Gfx, aMtx);
 }

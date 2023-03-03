@@ -32,7 +32,7 @@ CB_MTX_WVP::~CB_MTX_WVP() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MTX_WVP::Bind(const GRAPHIC& Gfx) const noexcept
+void CB_MTX_WVP::Bind(const GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 World = m_Parent.GetWorldMatrix();

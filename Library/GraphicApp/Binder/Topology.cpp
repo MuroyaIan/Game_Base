@@ -13,7 +13,7 @@ TOPOLOGY::~TOPOLOGY() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void TOPOLOGY::Bind(const GRAPHIC& Gfx) const noexcept
+void TOPOLOGY::Bind(const GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->IASetPrimitiveTopology(m_Type);
 }

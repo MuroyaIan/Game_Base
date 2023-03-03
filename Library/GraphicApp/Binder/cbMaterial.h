@@ -26,9 +26,9 @@ public:
 	//プロトタイプ宣言
 	explicit CB_MATERIAL(const GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_MATERIAL& Material);
 	~CB_MATERIAL() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理(データ更新)
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理(データ更新)
 
-	void SetBuffPtr(CB_PTR* cbPtr) const noexcept						//バッファポインタ設定
+	void SetBuffPtr(CB_PTR* cbPtr) const noexcept	//バッファポインタ設定
 	{
 		m_pCBuff->SetBuffPtr(cbPtr);
 	}

@@ -23,7 +23,7 @@ public:
 	//プロトタイプ宣言
 	explicit BINDER() noexcept;
 	virtual ~BINDER() noexcept;
-	virtual void Bind(const GRAPHIC& Gfx) const noexcept = 0;	//バインド処理
+	virtual void Bind(const GRAPHIC& Gfx) const = 0;	//バインド処理
 
 protected:
 

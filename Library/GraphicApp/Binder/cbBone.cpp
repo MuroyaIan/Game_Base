@@ -30,7 +30,7 @@ CB_BONE::~CB_BONE() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_BONE::Bind(const GRAPHIC& Gfx) const noexcept
+void CB_BONE::Bind(const GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	if (m_bTransposeMatrix) {

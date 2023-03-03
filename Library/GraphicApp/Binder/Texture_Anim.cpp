@@ -50,7 +50,7 @@ TEXTURE_ANIM::~TEXTURE_ANIM() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void TEXTURE_ANIM::Bind(const GRAPHIC& Gfx) const noexcept
+void TEXTURE_ANIM::Bind(const GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->PSSetShaderResources(m_StartSlot, 1u, m_pTextureView.GetAddressOf());
 }

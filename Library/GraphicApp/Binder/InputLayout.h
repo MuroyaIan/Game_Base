@@ -23,7 +23,7 @@ public:
 	//プロトタイプ宣言
 	explicit INPUT_LAYOUT(const GRAPHIC& Gfx, const std::vector<D3D11_INPUT_ELEMENT_DESC>& aLayout, ID3DBlob* pCodeVS);
 	~INPUT_LAYOUT() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;		//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 

@@ -27,7 +27,7 @@ SAMPLER::~SAMPLER() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void SAMPLER::Bind(const GRAPHIC& Gfx) const noexcept
+void SAMPLER::Bind(const GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->PSSetSamplers(m_StartSlot, 1u, m_pSampler.GetAddressOf());
 }

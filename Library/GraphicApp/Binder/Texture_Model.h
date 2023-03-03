@@ -35,14 +35,14 @@ public:
 	//プロトタイプ宣言
 	explicit TEXTURE_MODEL(const GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot = 0u);
 	~TEXTURE_MODEL() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 
 	using com_pSRV = Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>;
 
 	//変数宣言
-	std::vector<com_pSRV> m_pTextureViews;					//ポインタ配列
+	std::vector<com_pSRV> m_pTextureViews;	//ポインタ配列
 
 	//プロトタイプ宣言
 	void MakeBuffer(const GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, TEX_TYPE Type);	//バッファ作成

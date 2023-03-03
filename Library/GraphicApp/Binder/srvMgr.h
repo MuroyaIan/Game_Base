@@ -35,7 +35,7 @@ public:
 	explicit SRV_MGR(SRV_PTR& srvPtrRef) noexcept;
 	~SRV_MGR() noexcept override;
 
-	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 

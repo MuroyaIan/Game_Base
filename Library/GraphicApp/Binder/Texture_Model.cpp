@@ -16,13 +16,13 @@ TEXTURE_MODEL::~TEXTURE_MODEL() noexcept
 }
 
 //バインド処理
-void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) const noexcept
+void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) const
 {
 	std::vector<ID3D11ShaderResourceView*> pBuffers(0);
-	for (size_t i = 0, Cnt = m_pTextureViews.size(); i < Cnt; i++)
-		pBuffers.emplace_back(m_pTextureViews[i].Get());
+	for (auto& p : m_pTextureViews)
+		pBuffers.emplace_back(p.Get());
 
-	GetContext(Gfx)->PSSetShaderResources(m_StartSlot, static_cast<UINT>(m_pTextureViews.size()), pBuffers.data());
+	GetContext(Gfx)->PSSetShaderResources(m_StartSlot, static_cast<UINT>(pBuffers.size()), pBuffers.data());
 }
 
 //バッファ作成

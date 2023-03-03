@@ -23,9 +23,9 @@ public:
 	//プロトタイプ宣言
 	explicit VERTEX_SHADER(const GRAPHIC& Gfx, const std::wstring& Path);
 	~VERTEX_SHADER() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;			//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
-	ID3DBlob* GetBytecode() const									//シェーダファイル取得
+	ID3DBlob* GetBytecode() const					//シェーダファイル取得
 	{
 		//例外処理
 		if (m_pBlob == nullptr)

@@ -53,7 +53,19 @@ void MODEL::Update() noexcept
 		}
 	}
 
-	//インスタンス情報更新
+	//メッシュ更新
+	for (auto& m : m_aMesh)
+		m->Update();
+}
+
+//書込み処理
+void MODEL::Draw() noexcept
+{
+	//例外処理
+	if (m_InstanceNum < 1)
+		return;
+
+	//インスタンス更新
 	auto pInst = &m_aInstanceData[0];
 	auto pMtxW = &m_aMtxWorld[0];
 	for (size_t i = 0, Cnt = m_aInstanceData.size(); i < Cnt; i++) {
@@ -77,18 +89,6 @@ void MODEL::Update() noexcept
 		pInst++;
 		pMtxW++;
 	}
-
-	//メッシュ更新
-	for (auto& m : m_aMesh)
-		m->Update();
-}
-
-//書込み処理
-void MODEL::Draw() const noexcept
-{
-	//例外処理
-	if (m_InstanceNum < 1)
-		return;
 
 	//メッシュ描画
 	for (auto& m : m_aMesh)

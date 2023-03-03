@@ -25,7 +25,7 @@ VERTEX_SHADER::~VERTEX_SHADER() noexcept
 }
 
 //ƒoƒCƒ“ƒhˆ—
-void VERTEX_SHADER::Bind(const GRAPHIC& Gfx) const noexcept
+void VERTEX_SHADER::Bind(const GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->VSSetShader(m_pVertexShader.Get(), nullptr, 0u);
 }

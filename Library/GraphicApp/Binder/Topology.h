@@ -23,10 +23,10 @@ public:
 	//プロトタイプ宣言
 	explicit TOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY Type) noexcept;
 	~TOPOLOGY() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 
 	//変数宣言
-	D3D11_PRIMITIVE_TOPOLOGY m_Type;						//トポロジータイプ
+	D3D11_PRIMITIVE_TOPOLOGY m_Type;	//トポロジータイプ
 };

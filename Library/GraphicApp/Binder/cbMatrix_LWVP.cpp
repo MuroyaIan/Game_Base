@@ -32,17 +32,17 @@ CB_MTX_LWVP::~CB_MTX_LWVP() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const noexcept
+void CB_MTX_LWVP::Bind(const GRAPHIC& Gfx) const
 {
 	//バッファ更新
-	dx::XMFLOAT4X4 Local = m_mtxL;
-	dx::XMFLOAT4X4 World = m_Parent.GetWorldMatrix();
-	dx::XMFLOAT4X4 View = Gfx.GetViewMtx();
-	dx::XMFLOAT4X4 Proj = Gfx.GetProjectionMtx();
-	gMath::MtxTranspose4x4_SSE(&Local._11);
-	gMath::MtxTranspose4x4_SSE(&World._11);
-	gMath::MtxTranspose4x4_SSE(&View._11);
-	gMath::MtxTranspose4x4_SSE(&Proj._11);
-	CBD_MTX_LWVP aMtx = { Local, World, View, Proj };
+	CBD_MTX_LWVP aMtx;
+	aMtx.mtxLocal = m_mtxL;
+	aMtx.mtxWorld = m_Parent.GetWorldMatrix();
+	aMtx.mtxView = Gfx.GetViewMtx();
+	aMtx.mtxProj = Gfx.GetProjectionMtx();
+	gMath::MtxTranspose4x4_SSE(&aMtx.mtxLocal._11);
+	gMath::MtxTranspose4x4_SSE(&aMtx.mtxWorld._11);
+	gMath::MtxTranspose4x4_SSE(&aMtx.mtxView._11);
+	gMath::MtxTranspose4x4_SSE(&aMtx.mtxProj._11);
 	m_pCBuff->Update(Gfx, aMtx);
 }

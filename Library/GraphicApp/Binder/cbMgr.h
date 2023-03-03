@@ -21,7 +21,7 @@ public:
 	explicit CBUFF_MGR(CB_PTR& cbPtrRef) noexcept;
 	~CBUFF_MGR() noexcept override;
 
-	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 

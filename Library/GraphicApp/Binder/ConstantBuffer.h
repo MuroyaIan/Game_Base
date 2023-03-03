@@ -53,7 +53,7 @@ public:
 	}
 
 	explicit CONSTANT_BUFFER(const GRAPHIC& Gfx, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
-		BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)				//バッファ初期化なし
+		BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)		//バッファ初期化なし
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -74,7 +74,7 @@ public:
 		MapBuffer(Gfx, Consts, m_pConstantBuffer.Get());
 	}
 
-	void SetBuffPtr(CB_PTR* cbPtr) const noexcept			//バッファポインタ登録
+	void SetBuffPtr(CB_PTR* cbPtr) const noexcept	//バッファポインタ登録
 	{
 		//初期化時にポインタ登録しない場合
 		if (cbPtr == nullptr)
@@ -87,7 +87,7 @@ public:
 			cbPtr->m_aBuffPtrPS.push_back(m_pConstantBuffer.Get());
 	}
 
-	void Bind(const GRAPHIC& Gfx) const noexcept override	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override	//バインド処理
 	{
 		(void)Gfx;
 	}

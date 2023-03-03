@@ -33,9 +33,9 @@ public:
 	//プロトタイプ宣言
 	explicit TEXTURE_ANIM(const GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT StartSlot = 0u);
 	~TEXTURE_ANIM() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const noexcept override;				//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
-	ID3D11ShaderResourceView* GetSrvPtr() const							//ポインタ参照
+	ID3D11ShaderResourceView* GetSrvPtr() const		//ポインタ参照
 	{
 		//例外処理
 		if (m_pTextureView == nullptr)

@@ -30,7 +30,7 @@ CB_MATERIAL::~CB_MATERIAL() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MATERIAL::Bind(const GRAPHIC& Gfx) const noexcept
+void CB_MATERIAL::Bind(const GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	m_pCBuff->Update(Gfx, m_Material);

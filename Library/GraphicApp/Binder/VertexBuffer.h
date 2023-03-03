@@ -127,7 +127,7 @@ public:
 		m_aStride[static_cast<int>(VB_TYPE::Instance)] = static_cast<UINT>(sizeof(I));
 	}
 
-	void Bind(const GRAPHIC& Gfx) const noexcept override;	//バインド処理
+	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 
