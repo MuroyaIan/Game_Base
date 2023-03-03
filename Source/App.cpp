@@ -158,17 +158,20 @@ APP::APP() :
 
 	//【モデルテスト】
 	m_aModel.reserve(1);
-	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
-	for (int i = 0; i < 1600; i++) {
+	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Unity));
+	int InstNum = 1000;
+	int Root = static_cast<int>(std::sqrtf(static_cast<float>(InstNum)));
+	float Interval = 10.0f;
+	for (int i = 0; i < InstNum; i++) {
 		m_aModel[0]->AddInstance();
 
 		//ワールド行列設定
 		dx::XMFLOAT4X4 mtxW{};
 		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
-			(i % 10) * 10.0f - (50.0f - 5.0f),
-			0.0f,
-			static_cast<float>(i / 10) * 10.0f - (50.0f - 5.0f)
-		)
+				(i % Root) * Interval - (Root * Interval - Interval) * 0.5f,
+				0.0f,
+				static_cast<float>(i / Root) * Interval - (Root * Interval - Interval) * 0.5f
+			)
 		);
 		m_aModel[0]->SetWorldMatrix(mtxW, i);
 	}

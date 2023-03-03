@@ -21,22 +21,31 @@ TEXTURE_MGR::TEX_PACK::~TEX_PACK() noexcept
 TEXTURE_MGR::TEXTURE_MGR(GRAPHIC& Gfx) : m_aTexPack(static_cast<int>(TEX_ID::ID_Max)), m_DX(Gfx)
 {
 	//テクスチャ読込
-	std::string FilePath = "Asset/Texture/";
-	std::ostringstream oss;
-	for (size_t i = 0, Cnt = m_aTexPack.size(); i < Cnt; i++) {
-		oss << FilePath << aFilePath[i];
-		m_aTexPack[i].TexData = TEX_LOADER::LoadTexture(oss.str().c_str());
-		oss.str("");
+	if (m_aTexPack.size() > 0) {
+		std::string FilePath = "Asset/Texture/";
+		std::ostringstream oss;
+		std::string* pTexName = &aFilePath[0];
+
+		//読込ループ
+		for (auto& d : m_aTexPack) {
+			oss << FilePath << *pTexName;
+			d.TexData = TEX_LOADER::LoadTexture(oss.str().c_str());
+			oss.str("");
+
+			//ポインタ加算
+			pTexName++;
+		}
 	}
 }
 
 TEXTURE_MGR::~TEXTURE_MGR() noexcept
 {
-	//メモリ解放
+	//テクスチャ解放
 	for (auto& d : m_aTexPack) {
 		if (d.pTexBuff != nullptr)
 			d.pTexBuff.reset();								//バッファ解放
-		TEX_LOADER::ReleaseTexture(d.TexData.pImageData);	//テクスチャ解放
+		TEX_LOADER::ReleaseTexture(d.TexData.pImageData);	//メモリ解放
+		d.TexData.pImageData = nullptr;
 	}
 }
 

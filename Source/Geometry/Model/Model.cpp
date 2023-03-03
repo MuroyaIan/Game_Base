@@ -10,16 +10,16 @@ namespace dx = DirectX;
 MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
 	m_Gfx(App.GetGfxPack()), m_ID(id), m_FileData(m_Gfx.m_ModelMgr.GetModelPack(id)), m_aMesh(m_FileData.aMesh.size()),
 	m_InstanceNum(0), m_aInstanceData(m_InstanceNum), m_aMtxWorld(m_InstanceNum),
-	m_bStatic(true), m_pBoneBuffer(), m_BoneData(), m_AnimID(1), m_AnimID_Backup(m_AnimID), m_AnimFrame(0), m_AnimFrame_Backup(m_AnimFrame), m_FrameCnt(0), m_FrameCnt_Backup(m_FrameCnt),
+	m_bStatic(true), m_aAnimData(0), m_AnimID_Backup(0), m_AnimFrame_Backup(0), m_FrameCnt_Backup(0),
 	m_bBlendAnim(false), m_BlendTimer(0)
 {
 	//アニメーション確認
 	if (m_FileData.aAnimFrame.size() > 0)
 		m_bStatic = false;
 
-	//VS定数バッファ作成（骨情報）
+	//アニメーションバッファ作成
 	if (!m_bStatic)
-		m_pBoneBuffer = std::make_unique<CB_BONE>(m_Gfx.m_DX, nullptr, m_BoneData);
+		m_Gfx.m_ModelMgr.SetAnimTexOn(m_ID);
 
 	//メッシュ初期化
 	for (size_t i = 0, Cnt = m_FileData.aMesh.size(); i < Cnt; i++)
@@ -28,6 +28,9 @@ MODEL::MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept :
 
 MODEL::~MODEL() noexcept
 {
+	//アニメーションバッファ解放
+	if (!m_bStatic)
+		m_Gfx.m_ModelMgr.SetAnimTexOff(m_ID);
 }
 
 //更新処理
@@ -40,19 +43,39 @@ void MODEL::Update() noexcept
 	//アニメーション更新
 	if (!m_bStatic) {
 
-		if (!m_bBlendAnim)
-			UpdateAnimation();
-		else
-			UpdateAnimationBlending();	//ブレンド処理（0.2s秒間）
-
-		//骨情報を更新
-		m_pBoneBuffer->Bind(m_Gfx.m_DX);
+		if (!m_bBlendAnim) {
+			for (auto& a : m_aAnimData)
+				UpdateAnimation(a);
+		}
+		else {
+			for (auto& a : m_aAnimData)
+				UpdateAnimationBlending(a);		//ブレンド処理（0.2s秒間）
+		}
 	}
 
-	//ワールド行列更新
+	//インスタンス情報更新
+	auto pInst = &m_aInstanceData[0];
+	auto pMtxW = &m_aMtxWorld[0];
 	for (size_t i = 0, Cnt = m_aInstanceData.size(); i < Cnt; i++) {
-		m_aInstanceData[i].MtxWorld = m_FileData.InitMtxWorld;
-		gMath::MtxMultiply4x4_AVX(&m_aInstanceData[i].MtxWorld._11, &m_aMtxWorld[i]._11);
+		pInst->MtxWorld = m_FileData.InitMtxWorld;						//初期行列
+		gMath::MtxMultiply4x4_AVX(&pInst->MtxWorld._11, &pMtxW->_11);	//ワールド行列
+		gMath::MtxTranspose4x4_SSE(&pInst->MtxWorld._11);				//転置処理
+
+		//アニメーションフレーム更新
+		if (!m_bStatic) {
+			pInst->m_AnimFrame = 0;								//フレームリセット
+			auto pAnim = &m_aAnimData[i];
+			auto pFrame = &m_FileData.aAnimFrame[0];
+			for (int j = 0, jCnt = pAnim->ID; j < jCnt; j++) {	//IDに至るまでのフレーム数を加算
+				pInst->m_AnimFrame += *pFrame;
+				pFrame++;
+			}
+			pInst->m_AnimFrame += pAnim->CurrentFrame;			//現在のフレーム数を加算
+		}
+
+		//ポインタ加算
+		pInst++;
+		pMtxW++;
 	}
 
 	//メッシュ更新
@@ -82,6 +105,12 @@ int MODEL::AddInstance()
 	dx::XMFLOAT4X4 mtxW{};
 	dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixIdentity());
 	m_aMtxWorld.push_back(std::move(mtxW));
+	if (!m_bStatic) {
+		ANIM_PACK AnimData;
+		AnimData.ID = rand() % 2;
+		AnimData.CurrentFrame = rand() % 60;
+		m_aAnimData.push_back(std::move(AnimData));
+	}
 
 	//メッシュのインスタンスを追加
 	for (auto& m : m_aMesh)
@@ -101,94 +130,84 @@ UINT MODEL::GetPolygonNum() const noexcept
 }
 
 //アニメーション更新
-void MODEL::UpdateAnimation() noexcept
+void MODEL::UpdateAnimation(ANIM_PACK& AnimData) noexcept
 {
 	//フレーム更新
-	if (!m_FileData.aIsFPS_30[m_AnimID]) {
+	if (!m_FileData.aIsFPS_30[AnimData.ID]) {
 
 		//60FPS
-		m_AnimFrame++;
+		AnimData.CurrentFrame++;
 
 		//フレームカウントリセット
-		if (m_FrameCnt > 0)
-			m_FrameCnt = 0;
+		if (AnimData.FrameCnt > 0)
+			AnimData.FrameCnt = 0;
 	}
 	else {
 
 		//30FPS
-		m_FrameCnt++;
-		if (m_FrameCnt > 1) {
-			m_FrameCnt = 0;
+		AnimData.FrameCnt++;
+		if (AnimData.FrameCnt > 1) {
+			AnimData.FrameCnt = 0;
 
 			//60FPSと同じ処理
-			m_AnimFrame++;
+			AnimData.CurrentFrame++;
 		}
 	}
 
 	//フレーム制御
-	if (m_AnimFrame > m_FileData.aAnimFrame[m_AnimID] - 1)
-		m_AnimFrame = 0;
-
-	//骨情報更新
-	auto pMtxBone = &m_BoneData.mtxBone[0];
-	auto pMtxBoneRef = &m_FileData.aBone[0];
-	for (size_t i = 0, Cnt = m_FileData.aBone.size(); i < Cnt; i++) {
-		if (pMtxBoneRef->aSkin[m_AnimID].aMatrix.size() > 0)
-			*pMtxBone = pMtxBoneRef->aSkin[m_AnimID].aMatrix[m_AnimFrame];
-		pMtxBone++;
-		pMtxBoneRef++;
-	}
+	if (AnimData.CurrentFrame > m_FileData.aAnimFrame[AnimData.ID] - 1)
+		AnimData.CurrentFrame = 0;
 }
 
 //アニメーションブレンド更新
-void MODEL::UpdateAnimationBlending() noexcept
+void MODEL::UpdateAnimationBlending(ANIM_PACK& AnimData) noexcept
 {
 	m_BlendTimer++;
 
 	//フレーム更新
-	if (!m_FileData.aIsFPS_30[m_AnimID]) {
+	if (!m_FileData.aIsFPS_30[AnimData.ID]) {
 
 		//60FPS
-		m_AnimFrame++;
+		AnimData.CurrentFrame++;
 
 		//フレームカウントリセット
-		if (m_FrameCnt > 0)
-			m_FrameCnt = 0;
+		if (AnimData.FrameCnt > 0)
+			AnimData.FrameCnt = 0;
 	}
 	else {
 
 		//30FPS
-		m_FrameCnt++;
-		if (m_FrameCnt > 1) {
-			m_FrameCnt = 0;
+		AnimData.FrameCnt++;
+		if (AnimData.FrameCnt > 1) {
+			AnimData.FrameCnt = 0;
 
 			//60FPSと同じ処理
-			m_AnimFrame++;
+			AnimData.CurrentFrame++;
 		}
 	}
 
 	//フレーム制御
-	if (m_AnimFrame > m_FileData.aAnimFrame[m_AnimID] - 1)
-		m_AnimFrame = 0;
+	if (AnimData.CurrentFrame > m_FileData.aAnimFrame[AnimData.ID] - 1)
+		AnimData.CurrentFrame = 0;
 
 	//ブレンド前アニメーションの更新
-	float ratio = static_cast<float>(m_AnimFrame + 1) / m_FileData.aAnimFrame[m_AnimID];		//ブレンド後アニメーションのフレーム割合取得
+	float ratio = static_cast<float>(AnimData.CurrentFrame + 1) / m_FileData.aAnimFrame[AnimData.ID];		//ブレンド後アニメーションのフレーム割合取得
 	m_AnimFrame_Backup = static_cast<int>(m_FileData.aAnimFrame[m_AnimID_Backup] * ratio - 1);	//ブレンド前アニメーションのフレーム算出
 
 	//骨情報更新
-	auto pMtxBone = &m_BoneData.mtxBone[0];
-	auto pMtxBoneRef = &m_FileData.aBone[0];
-	for (size_t i = 0, Cnt = m_FileData.aBone.size(); i < Cnt; i++) {
-		if (pMtxBoneRef->aSkin[m_AnimID].aMatrix.size() > 0) {
-			//*pMtxBone = pMtxBoneRef->aSkin[m_AnimID].aMatrix[m_AnimFrame];
-			dx::XMMATRIX mtx1 = dx::XMLoadFloat4x4(&pMtxBoneRef->aSkin[m_AnimID].aMatrix[m_AnimFrame]);
-			dx::XMMATRIX mtx2 = dx::XMLoadFloat4x4(&pMtxBoneRef->aSkin[m_AnimID_Backup].aMatrix[m_AnimFrame_Backup]);
-			float ratioTime = (m_BlendTimer + 1.0f) / 60.0f;
-			dx::XMStoreFloat4x4(pMtxBone, mtx1 * ratioTime + mtx2 * (1.0f - ratioTime));
-		}
-		pMtxBone++;
-		pMtxBoneRef++;
-	}
+	//auto pMtxBone = &m_BoneData.mtxBone[0];
+	//auto pMtxBoneRef = &m_FileData.aBone[0];
+	//for (size_t i = 0, Cnt = m_FileData.aBone.size(); i < Cnt; i++) {
+	//	if (pMtxBoneRef->aSkin[AnimData.ID].aMatrix.size() > 0) {
+	//		//*pMtxBone = pMtxBoneRef->aSkin[AnimData.ID].aMatrix[AnimData.CurrentFrame];
+	//		dx::XMMATRIX mtx1 = dx::XMLoadFloat4x4(&pMtxBoneRef->aSkin[AnimData.ID].aMatrix[AnimData.CurrentFrame]);
+	//		dx::XMMATRIX mtx2 = dx::XMLoadFloat4x4(&pMtxBoneRef->aSkin[m_AnimID_Backup].aMatrix[m_AnimFrame_Backup]);
+	//		float ratioTime = (m_BlendTimer + 1.0f) / 60.0f;
+	//		dx::XMStoreFloat4x4(pMtxBone, mtx1 * ratioTime + mtx2 * (1.0f - ratioTime));
+	//	}
+	//	pMtxBone++;
+	//	pMtxBoneRef++;
+	//}
 
 	//ブレンド終了制御
 	if (m_BlendTimer > 59) {

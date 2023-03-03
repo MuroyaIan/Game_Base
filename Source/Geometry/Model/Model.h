@@ -25,6 +25,19 @@ class MODEL
 {
 public:
 
+	//テクスチャパック
+	struct ANIM_PACK
+	{
+		int ID;				//アニメーション番号
+		int CurrentFrame;	//アニメーション再生フレーム
+		int FrameCnt;		//再生フレーム計算用
+
+		ANIM_PACK() noexcept : ID(0), CurrentFrame(0), FrameCnt(0)
+		{}
+		~ANIM_PACK() noexcept
+		{}
+	};
+
 	//プロトタイプ宣言
 	explicit MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept;
 	~MODEL() noexcept;
@@ -43,23 +56,25 @@ public:
 		m_aMtxWorld[InstanceIndex] = mtxW;
 	}
 
-	void ChangeAnimID(int id) noexcept												//アニメーション変更
+	void ChangeAnimID(int id, int InstNum) noexcept									//アニメーション変更
 	{
+		ANIM_PACK& AnimData = m_aAnimData[InstNum];
+
 		//アニメーション切替＆ブレンド中ではない
-		if (m_AnimID != id && m_bBlendAnim == false) {
+		if (AnimData.ID != id && m_bBlendAnim == false) {
 
 			//アニメーション番号のバックアップ更新
-			if (m_AnimID_Backup != m_AnimID)
-				m_AnimID_Backup = m_AnimID;
-			if (m_AnimFrame_Backup != m_AnimFrame)
-				m_AnimFrame_Backup = m_AnimFrame;
-			if (m_FrameCnt_Backup != m_FrameCnt)
-				m_FrameCnt_Backup = m_FrameCnt;
+			if (m_AnimID_Backup != AnimData.ID)
+				m_AnimID_Backup = AnimData.ID;
+			if (m_AnimFrame_Backup != AnimData.CurrentFrame)
+				m_AnimFrame_Backup = AnimData.CurrentFrame;
+			if (m_FrameCnt_Backup != AnimData.FrameCnt)
+				m_FrameCnt_Backup = AnimData.FrameCnt;
 
 			//アニメーション番号更新
-			float ratio = static_cast<float>(m_AnimFrame + 1) / m_FileData.aAnimFrame[m_AnimID];	//ブレンド前アニメーションのフレーム割合取得
-			m_AnimID = id;
-			m_AnimFrame = static_cast<int>(m_FileData.aAnimFrame[m_AnimID] * ratio - 1);			//ブレンド後アニメーションのフレーム算出
+			float ratio = static_cast<float>(AnimData.CurrentFrame + 1) / m_FileData.aAnimFrame[AnimData.ID];	//ブレンド前アニメーションのフレーム割合取得
+			AnimData.ID = id;
+			AnimData.CurrentFrame = static_cast<int>(m_FileData.aAnimFrame[AnimData.ID] * ratio - 1);			//ブレンド後アニメーションのフレーム算出
 			m_bBlendAnim = true;
 		}
 	}
@@ -77,20 +92,17 @@ private:
 	std::vector<DirectX::XMFLOAT4X4> m_aMtxWorld;	//ワールド行列
 
 	bool m_bStatic;									//静的メッシュかどうか
-	std::unique_ptr<BINDER> m_pBoneBuffer;			//骨情報用バインダ
-	CBD_BONE m_BoneData;							//骨情報（定数バッファ用）
-	int m_AnimID;									//アニメーション番号
+	std::vector<ANIM_PACK> m_aAnimData;				//アニメーション情報
 	int m_AnimID_Backup;							//アニメーション番号（バックアップ）
-	int m_AnimFrame;								//アニメーション再生フレーム
 	int m_AnimFrame_Backup;							//アニメーション再生フレーム（バックアップ）
-	int m_FrameCnt;									//再生フレーム計算用
 	int m_FrameCnt_Backup;							//再生フレーム計算用（バックアップ）
+
 	bool m_bBlendAnim;								//ブレンドモード
 	int m_BlendTimer;								//ブレンド用タイマ
 
 	//プロトタイプ宣言
-	void UpdateAnimation() noexcept;				//アニメーション更新
-	void UpdateAnimationBlending() noexcept;		//アニメーションブレンド更新
+	void UpdateAnimation(ANIM_PACK& AnimData) noexcept;				//アニメーション更新
+	void UpdateAnimationBlending(ANIM_PACK& AnimData) noexcept;		//アニメーションブレンド更新
 
 	//権限指定
 	friend class MESH;

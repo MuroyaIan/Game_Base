@@ -20,6 +20,7 @@ struct VS_IN
 	float boneWeight[4] : WEIGHT;	//骨比重
 
 	matrix mtxWorld : WORLD_MTX;	//ワールド行列
+	int animFrame : ANIM_FRAME;		//アニメーション再生フレーム
 };
 
 //出力用構造体
@@ -48,16 +49,24 @@ VS_OUT main(VS_IN vsi)
 		0.0f, 0.0f, 0.0f, 0.0f
 	};
 	[unroll]
-	for (int i = 0; i < 4; i++)
-		mtxL += mtxBone[vsi.boneID[i]] * vsi.boneWeight[i];		//影響する骨行列の加算
+	for (int i = 0; i < 4; i++){
+
+		//骨行列の読込
+		matrix mtxBone = {
+			AnimMap.Load(int3(vsi.animFrame * 4,	 vsi.boneID[i], 0)),
+			AnimMap.Load(int3(vsi.animFrame * 4 + 1, vsi.boneID[i], 0)),
+			AnimMap.Load(int3(vsi.animFrame * 4 + 2, vsi.boneID[i], 0)),
+			AnimMap.Load(int3(vsi.animFrame * 4 + 3, vsi.boneID[i], 0))
+		};
+		mtxL += mtxBone * vsi.boneWeight[i];	//影響する骨行列の加算
+	}
 
 	//座標計算
 	vso.pos = mul(float4(vsi.pos, 1.0f), mtxL);
-	vso.pos = mul(vso.pos, mtxSkin);
-	vso.pos.x *= -1.0f;						//左手系へ
+	vso.pos.x *= -1.0f;							//左手系へ
 	vso.pos = mul(vso.pos, vsi.mtxWorld);
 	vso.pos = mul(vso.pos, mtxView);
-	vso.posWV = vso.pos.xyz;				//頂点座標（ビュー空間）⇒光計算用
+	vso.posWV = vso.pos.xyz;					//頂点座標（ビュー空間）⇒光計算用
 	vso.pos = mul(vso.pos, mtxProj);
 
 	//UV座標
@@ -65,8 +74,7 @@ VS_OUT main(VS_IN vsi)
 
 	//法線
 	vso.vNorV_Model = mul(vsi.normal, (float3x3) mtxL);
-	vso.vNorV_Model = mul(vso.vNorV_Model, (float3x3) mtxSkin);
-	vso.vNorV_Model.x *= -1.0f;									//左手系へ
+	vso.vNorV_Model.x *= -1.0f;											//左手系へ
 	vso.vNorV_Model = mul(vso.vNorV_Model, (float3x3) vsi.mtxWorld);
 	vso.vNorV_Model = mul(vso.vNorV_Model, (float3x3) mtxView);
 	vso.vNorV_Model = normalize(vso.vNorV_Model);

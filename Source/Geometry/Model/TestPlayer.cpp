@@ -19,9 +19,9 @@ PLAYER::~PLAYER() noexcept
 void PLAYER::Update() noexcept
 {
 	if (m_Input.m_KB.GetPress(VK_E))
-		m_pModel->ChangeAnimID(2);
+		m_pModel->ChangeAnimID(2, 0);
 	else
-		m_pModel->ChangeAnimID(1);
+		m_pModel->ChangeAnimID(1, 0);
 
 	m_pModel->Update();
 }

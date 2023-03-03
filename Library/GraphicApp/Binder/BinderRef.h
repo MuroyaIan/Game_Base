@@ -30,5 +30,4 @@
 #include <GraphicApp/Binder/cbMatrix_VP.h>
 #include <GraphicApp/Binder/cbMatrix_LWVP.h>
 #include <GraphicApp/Binder/cbBone.h>
-#include <GraphicApp/Binder/cbLocal.h>
 #include <GraphicApp/Binder/cbMaterial.h>

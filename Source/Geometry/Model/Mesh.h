@@ -59,7 +59,5 @@ private:
 	int m_MeshIdx;									//メッシュ番号
 
 	bool& m_bStatic;								//静的メッシュかどうか
-	std::unique_ptr<CBD_MTX_LOCAL> m_pLocalData;	//ローカル情報
-	int& m_AnimID;									//アニメーション番号
-	int& m_AnimFrame;								//アニメーション再生フレーム
+	std::unique_ptr<TEXTURE_ANIM> m_NoSkinBuffPtr;	//アニメーションバッファのポインタ
 };

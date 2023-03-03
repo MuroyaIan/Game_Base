@@ -12,7 +12,8 @@ constexpr dx::XMFLOAT3 START_UP   = { 0.0f, 1.0f,   0.0f };		//アップベクトル
 
 constexpr short START_FOV = 60;							//視野角
 constexpr float START_NEAR_Z = 0.5f;
-constexpr float START_FAR_Z = 100.0f;					//クリップ距離
+//constexpr float START_FAR_Z = 100.0f;					//クリップ距離
+constexpr float START_FAR_Z = 1000.0f;					//クリップ距離
 
 constexpr float AXIS_X_LIMIT = fPI * 0.5f - 0.001f;		//垂直回転角度制限
 constexpr float CAM_SPEED = 0.25f;						//カメラ移動速度

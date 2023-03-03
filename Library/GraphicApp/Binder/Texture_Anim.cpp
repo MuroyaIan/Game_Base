@@ -14,7 +14,7 @@ TEXTURE_ANIM::TEXTURE_ANIM(const GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT S
 
 		//テクスチャリソース作成
 		D3D11_TEXTURE2D_DESC td{};
-		td.Width = static_cast<UINT>(Data.nWidth);
+		td.Width = static_cast<UINT>(Data.nWidth) * 4u;		//アニメーション数 * 個々のフレーム数 * float4（1テクセル）
 		td.Height = static_cast<UINT>(Data.nHeight);
 		td.MipLevels = 1u;
 		td.ArraySize = 1u;
@@ -27,7 +27,7 @@ TEXTURE_ANIM::TEXTURE_ANIM(const GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT S
 		td.MiscFlags = 0u;
 		D3D11_SUBRESOURCE_DATA sd{};
 		sd.pSysMem = Data.pAnimData;
-		sd.SysMemPitch = Data.nWidth * sizeof(uint32_t) * 16;
+		sd.SysMemPitch = Data.nWidth * sizeof(float) * 16u;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
 		hr = GetDevice(Gfx)->CreateTexture2D(&td, &sd, &pTexture);
 		ERROR_DX(hr);

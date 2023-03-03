@@ -18,6 +18,7 @@ namespace ModelRef {
 	struct MODEL_PACK;
 }
 class TEXTURE;
+class TEXTURE_ANIM;
 
 //===== クラス定義 =====
 
@@ -31,6 +32,7 @@ public:
 	{
 		Tarantella,
 		Unity,
+		Cube,
 
 		ID_Max
 	};
@@ -41,6 +43,7 @@ public:
 		std::vector<std::string> aName;						//テクスチャ名
 		std::vector<TEX_LOADER::TEX_DATA> aTexData;			//テクスチャ情報
 		std::vector<std::unique_ptr<TEXTURE>> aTexBuffPtr;	//テクスチャバッファのポインタ
+		std::unique_ptr<TEXTURE_ANIM> AnimBuffPtr;			//アニメーションバッファのポインタ
 		std::vector<int> aUsedCount;						//使用数
 
 		TEX_PACK() noexcept;
@@ -51,7 +54,9 @@ public:
 	explicit MODEL_MGR(GRAPHIC& Gfx);
 	~MODEL_MGR() noexcept;
 	ID3D11ShaderResourceView* SetTextureOn(MODEL_ID id, std::string TexName);
-	void SetTextureOff(MODEL_ID id, std::string TexName);						//バッファ利用開始・終了
+	void SetTextureOff(MODEL_ID id, std::string TexName);						//テクスチャバッファ利用開始・終了
+	ID3D11ShaderResourceView* SetAnimTexOn(MODEL_ID id);
+	void SetAnimTexOff(MODEL_ID id) noexcept;									//アニメーションバッファ利用開始・終了
 
 	ModelRef::MODEL_PACK& GetModelPack(MODEL_ID id) const noexcept				//モデルパック参照
 	{
@@ -62,7 +67,7 @@ private:
 
 	//変数宣言
 	std::vector<std::unique_ptr<ModelRef::MODEL_PACK>> m_aModelPackPtr;				//モデルパック配列
-	TEX_PACK m_aTexPack[static_cast<int>(MODEL_ID::ID_Max)];						//テクスチャパック配列
+	std::vector<TEX_PACK> m_aTexPack;												//テクスチャパック配列
 	GRAPHIC& m_DX;																	//DX参照
 
 	static std::string aModelName[static_cast<int>(MODEL_ID::ID_Max)];				//モデル名配列

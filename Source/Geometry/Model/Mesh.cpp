@@ -11,8 +11,8 @@ namespace dx = DirectX;
 MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	DRAWER(ModelRef.m_Gfx.m_DX), m_Gfx(ModelRef.m_Gfx),
 	m_InstanceNum(ModelRef.m_InstanceNum), m_aInstanceData(ModelRef.m_aInstanceData), m_Material(),
-	m_ModelRef(ModelRef), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx), m_bStatic(ModelRef.m_bStatic),
-	m_pLocalData(), m_AnimID(ModelRef.m_AnimID), m_AnimFrame(ModelRef.m_AnimFrame)
+	m_ModelRef(ModelRef), m_FileData(ModelRef.m_FileData), m_MeshIdx(MeshIdx),
+	m_bStatic(ModelRef.m_bStatic), m_NoSkinBuffPtr()
 {
 	//メッシュ情報確認
 	ModelRef::MESH_PACK& Mesh = m_FileData.aMesh[m_MeshIdx];
@@ -47,21 +47,40 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	//VS・PS定数バッファ作成（ライト）
 	m_Gfx.m_ShaderMgr.SetConstBufferPtr(SHADER_MGR::BINDER_ID::CB_Light, &cbData);
 
-	//VS定数バッファ作成(骨情報)
-	if (!m_bStatic)
-		dynamic_cast<CB_BONE*>(ModelRef.m_pBoneBuffer.get())->SetBuffPtr(&cbData);
-
-	//VS定数バッファ作成(ローカル情報)
-	if (!m_bStatic) {
-		m_pLocalData = std::make_unique<CBD_MTX_LOCAL>();
-		AddBind(std::make_unique<CB_LOCAL>(m_Gfx.m_DX, &cbData, *m_pLocalData));
-	}
-
 	//定数バッファMgr作成
 	AddBind(std::make_unique<CBUFF_MGR>(cbData));
 
-	//テクスチャバッファ作成
+	//VSテクスチャバッファ作成
 	SRV_PTR SrvData;
+	if (!m_bStatic) {
+
+		//アニメーション行列
+		if (m_FileData.aMesh[m_MeshIdx].aNoSkin.size() > 0) {
+
+			//骨情報を読込
+			std::vector<dx::XMFLOAT4X4> aMtxBone(0);
+			for (auto& ad : m_FileData.aMesh[m_MeshIdx].aNoSkin) {
+				for (auto& md : ad.aMatrix) {
+					aMtxBone.push_back(md);
+				}
+			}
+
+			//テクスチャ作成用データ
+			TEX_DATA_ANIM AnimData;
+			AnimData.pAnimData = &aMtxBone.data()->_11;
+			for (auto& f : m_FileData.aAnimFrame)
+				AnimData.nWidth += f;
+			AnimData.nHeight = 1;
+
+			//バッファ作成
+			m_NoSkinBuffPtr = std::make_unique<TEXTURE_ANIM>(m_Gfx.m_DX, AnimData);
+			SrvData.m_aSrvPtrVS.push_back(m_NoSkinBuffPtr->GetSrvPtr());					//骨なし
+		}
+		else
+			SrvData.m_aSrvPtrVS.push_back(m_Gfx.m_ModelMgr.SetAnimTexOn(m_ModelRef.m_ID));	//骨あり
+	}
+
+	//PSテクスチャバッファ作成
 	if (Mesh.Tex_D.size() > 0)
 		SrvData.m_aSrvPtrPS.push_back(m_Gfx.m_ModelMgr.SetTextureOn(m_ModelRef.m_ID, Mesh.Tex_D));		//Diffuseテクスチャ
 	else
@@ -88,15 +107,6 @@ MESH::~MESH() noexcept
 //更新処理
 void MESH::Update() noexcept
 {
-	//例外処理
-	if (m_InstanceNum < 1)
-		return;
-
-	//ローカル情報更新
-	if (!m_bStatic) {
-		if (m_FileData.aMesh[m_MeshIdx].aNoSkin.size() > 0)
-			m_pLocalData->mtxSkin = m_FileData.aMesh[m_MeshIdx].aNoSkin[m_AnimID].aMatrix[m_AnimFrame];
-	}
 }
 
 //書込み処理
@@ -104,20 +114,24 @@ void MESH::Draw(int InstanceNum) const noexcept
 {
 	//例外処理
 	(void)InstanceNum;
-	if (m_InstanceNum < 1)
-		return;
 
 	//インスタンス更新
-	std::vector<VSD_INSTANCE> aInstData = m_aInstanceData;
-	for (auto& i : aInstData)
-		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::Instance);
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
 	if (m_bStatic)
 		m_Gfx.m_ShaderMgr.Bind_Instance_Phong();
-	else
-		m_Gfx.m_ShaderMgr.Bind_Instance_Phong_Anim();
+	else {
+		if (m_NoSkinBuffPtr == nullptr)
+			m_Gfx.m_ShaderMgr.Bind_Instance_Phong_Anim();
+		else {
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Instance_Phong_Anim_NoSkin);
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Instance_Phong_Anim_NoSkin);
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Tri);
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::Sampler);
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_Phong);
+		}
+	}
 	DRAWER::Draw(m_InstanceNum);
 }
 

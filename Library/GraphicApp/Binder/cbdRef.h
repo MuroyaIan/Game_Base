@@ -115,20 +115,6 @@ struct CBD_MATERIAL					//マテリアル情報
 	~CBD_MATERIAL() noexcept {}
 };
 
-struct CBD_MTX_LOCAL				//変換行列（ローカル）
-{
-	//変数宣言
-	DirectX::XMFLOAT4X4 mtxSkin;	//骨なしメッシュ用ローカル行列
-
-	CBD_MTX_LOCAL() noexcept : mtxSkin()
-	{
-		DirectX::XMStoreFloat4x4(&mtxSkin, DirectX::XMMatrixIdentity());
-	}
-
-	~CBD_MTX_LOCAL() noexcept
-	{}
-};
-
 struct CBD_BONE								//骨データ
 {
 	//変数宣言

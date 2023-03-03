@@ -40,6 +40,7 @@ public:
 		VS_Instance_Texture,
 		VS_Instance_Phong,
 		VS_Instance_Phong_Anim,
+		VS_Instance_Phong_Anim_NoSkin,
 		VS_Instance_PhongN,
 
 		//入力レイアウト
@@ -56,6 +57,7 @@ public:
 		IL_Instance_Texture,
 		IL_Instance_Phong,
 		IL_Instance_Phong_Anim,
+		IL_Instance_Phong_Anim_NoSkin,
 		IL_Instance_PhongN,
 
 		//プリミティブトポロジー

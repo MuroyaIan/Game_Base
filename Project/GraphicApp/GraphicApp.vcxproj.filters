@@ -108,9 +108,6 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\cbBone.h">
       <Filter>ヘッダー ファイル\Binder\cb</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\GraphicApp\Binder\cbLocal.h">
-      <Filter>ヘッダー ファイル\Binder\cb</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\GraphicApp\Binder\VertexBuffer.h">
       <Filter>ヘッダー ファイル\Binder\IA</Filter>
     </ClInclude>
@@ -174,9 +171,6 @@
       <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\cbBone.cpp">
-      <Filter>ソース ファイル\Binder\cb</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\GraphicApp\Binder\cbLocal.cpp">
       <Filter>ソース ファイル\Binder\cb</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp">
