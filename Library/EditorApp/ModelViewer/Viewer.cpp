@@ -42,7 +42,7 @@ VIEWER::~VIEWER() noexcept
 }
 
 //更新処理
-void VIEWER::Update() noexcept
+void VIEWER::Update()
 {
 	//カメラ更新
 	m_Camera.Update();

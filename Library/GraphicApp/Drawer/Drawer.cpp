@@ -16,17 +16,9 @@ DRAWER::~DRAWER() noexcept
 }
 
 //描画処理
-void DRAWER::Draw(int InstanceNum) const noexcept
+void DRAWER::Draw(int InstanceNum)
 {
-	//バインド処理
-	for (auto& b : m_aBinder)
-		b->Bind(m_Gfx);
-
-	//描画処理
-	if (InstanceNum < 1)
-		m_Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());
-	else
-		m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), static_cast<UINT>(InstanceNum));
+	DrawProc(InstanceNum);
 }
 
 //バインダ登録
@@ -58,4 +50,18 @@ void DRAWER::AddBind(std::unique_ptr<BINDER> pBinder)
 UINT DRAWER::GetIndexNum() const noexcept
 {
 	return m_pIndexBuffer->GetIndexNum();
+}
+
+//描画処理（最終処理）
+void DRAWER::DrawProc(int InstanceNum) const noexcept
+{
+	//バインド処理
+	for (auto& b : m_aBinder)
+		b->Bind(m_Gfx);
+
+	//描画処理
+	if (InstanceNum < 1)
+		m_Gfx.DrawIndexed(m_pIndexBuffer->GetIndexNum());
+	else
+		m_Gfx.DrawInstanced(m_pIndexBuffer->GetIndexNum(), static_cast<UINT>(InstanceNum));
 }

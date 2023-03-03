@@ -36,15 +36,9 @@ SHAPE_DEFAULT::~SHAPE_DEFAULT() noexcept
 }
 
 //更新処理
-void SHAPE_DEFAULT::Update() noexcept
-{
-}
-
-//書込み処理
-void SHAPE_DEFAULT::Draw(int InstanceNum) const noexcept
+void SHAPE_DEFAULT::Update()
 {
 	//例外処理
-	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -53,6 +47,15 @@ void SHAPE_DEFAULT::Draw(int InstanceNum) const noexcept
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
+}
+
+//描画処理
+void SHAPE_DEFAULT::Draw(int InstanceNum) noexcept
+{
+	//例外処理
+	(void)InstanceNum;
+	if (m_InstanceNum < 1)
+		return;
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind_Instance();

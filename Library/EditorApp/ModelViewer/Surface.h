@@ -28,7 +28,7 @@ public:
 	explicit SURFACE(GRAPHIC& Gfx, SHADER_MGR&ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn);
 	~SURFACE() noexcept override;
 	void Update() noexcept override;														//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	void Draw(int InstanceNum = 0) noexcept override;										//描画処理
 
 	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{

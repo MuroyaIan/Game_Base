@@ -36,7 +36,8 @@ void NORMAL::Update() noexcept
 	m_mtxWorld = m_Model.GetWorldMatrix();
 }
 
-void NORMAL::Draw(int InstanceNum) const noexcept
+//ï`âÊèàóù
+void NORMAL::Draw(int InstanceNum) noexcept
 {
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_VtxBlend);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_VtxBlend);

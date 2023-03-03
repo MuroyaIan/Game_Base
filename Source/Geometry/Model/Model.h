@@ -41,8 +41,8 @@ public:
 	//プロトタイプ宣言
 	explicit MODEL(APP& App, MODEL_MGR::MODEL_ID id) noexcept;
 	~MODEL() noexcept;
-	void Update() noexcept;															//更新処理
-	void Draw() noexcept;														//書込み処理
+	void Update();																	//更新処理
+	void Draw() noexcept;															//書込み処理
 	int AddInstance();																//インスタンス追加
 	UINT GetPolygonNum() const noexcept;											//ポリゴン数取得
 
@@ -101,7 +101,7 @@ private:
 	int m_BlendTimer;								//ブレンド用タイマ
 
 	//プロトタイプ宣言
-	void UpdateAnimation(ANIM_PACK& AnimData) noexcept;				//アニメーション更新
+	void UpdateAnimation(ANIM_PACK& AnimData) const noexcept;				//アニメーション更新
 	void UpdateAnimationBlending(ANIM_PACK& AnimData) noexcept;		//アニメーションブレンド更新
 
 	//権限指定

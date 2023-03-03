@@ -37,7 +37,8 @@ void SURFACE::Update() noexcept
 	m_mtxWorld = m_Model.GetWorldMatrix();
 }
 
-void SURFACE::Draw(int InstanceNum) const noexcept
+//•`‰æˆ—
+void SURFACE::Draw(int InstanceNum) noexcept
 {
 	m_ShaderMgr.Bind_Default();
 	DRAWER::Draw(InstanceNum);

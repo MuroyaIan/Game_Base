@@ -55,15 +55,17 @@ BONE::~BONE() noexcept
 }
 
 //更新処理
-void BONE::Update() noexcept
+void BONE::Update()
 {
+	//例外処理
+	if (m_InstanceNum < 1)
+		return;
+
 	//ワールド行列更新
 	dx::XMStoreFloat4x4(&m_mtxWorld, dx::XMMatrixScaling(m_ModelScale, m_ModelScale, m_ModelScale)
 		* dx::XMMatrixRotationRollPitchYaw(0.0f, m_RotY, 0.0f));
 
 	//ローカル行列更新
-	if (m_InstanceNum == 0)
-		return;
 	auto pMtxLocal = &m_aMtxBone[0];
 	auto pMtxInit = &m_Loader.GetSkeleton()[0];
 	for (size_t i = 0, Cnt = m_InstanceNum; i < Cnt; i++) {
@@ -86,21 +88,21 @@ void BONE::Update() noexcept
 		pMtxLocal++;
 		pMtxInit++;
 	}
-}
-
-//書込み処理
-void BONE::Draw(int InstanceNum) const noexcept
-{
-	//例外処理
-	(void)InstanceNum;
-	if (m_InstanceNum < 1)
-		return;
 
 	//インスタンス更新
 	std::vector<dx::XMFLOAT4X4> aMtxLocal = m_aMtxBone;
 	for (auto& i : aMtxLocal)
 		gMath::MtxTranspose4x4_SSE(&i._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxLocal, VERTEX_BUFFER::VB_TYPE::Instance);
+}
+
+//描画処理
+void BONE::Draw(int InstanceNum) noexcept
+{
+	//例外処理
+	(void)InstanceNum;
+	if (m_InstanceNum < 1)
+		return;
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Model_Bone);
@@ -121,7 +123,6 @@ int BONE::AddInstance()
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxBone);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxBone, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);

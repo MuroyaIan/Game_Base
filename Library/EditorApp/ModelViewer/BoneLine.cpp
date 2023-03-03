@@ -36,7 +36,7 @@ BONE_LINE::~BONE_LINE() noexcept
 }
 
 //更新処理
-void BONE_LINE::Update() noexcept
+void BONE_LINE::Update()
 {
 	//頂点更新
 	VS_DATA<VERTEX_C> vsData;
@@ -64,7 +64,8 @@ void BONE_LINE::Update() noexcept
 	m_mtxWorld = m_Bone.GetWorldMatrix();
 }
 
-void BONE_LINE::Draw(int InstanceNum) const noexcept
+//描画処理
+void BONE_LINE::Draw(int InstanceNum) noexcept
 {
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_VtxBlend);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_VtxBlend);

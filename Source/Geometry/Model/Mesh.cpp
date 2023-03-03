@@ -105,18 +105,17 @@ MESH::~MESH() noexcept
 }
 
 //更新処理
-void MESH::Update() noexcept
+void MESH::Update()
 {
+	//インスタンス更新
+	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::Instance);
 }
 
-//書込み処理
-void MESH::Draw(int InstanceNum) const noexcept
+//描画処理
+void MESH::Draw(int InstanceNum) noexcept
 {
 	//例外処理
 	(void)InstanceNum;
-
-	//インスタンス更新
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aInstanceData, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス描画
 	if (m_bStatic)

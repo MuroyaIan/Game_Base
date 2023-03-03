@@ -28,8 +28,8 @@ public:
 	//プロトタイプ宣言
 	explicit BONE(GFX_PACK& Gfx, VIEWER& Viewer, FBX_LOADER& Loader, INPUT_MGR& Input);
 	~BONE() noexcept override;
-	void Update() noexcept override;														//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	void Update() override;																	//更新処理
+	void Draw(int InstanceNum = 0) noexcept override;										//描画処理
 	int AddInstance() override;																//インスタンス追加
 	void ClearInstance() override;															//インスタンスクリア
 

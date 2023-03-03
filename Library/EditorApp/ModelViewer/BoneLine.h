@@ -28,8 +28,8 @@ public:
 	//プロトタイプ宣言
 	explicit BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn);
 	~BONE_LINE() noexcept override;
-	void Update() noexcept override;														//更新処理
-	void Draw(int InstanceNum = 0) const noexcept override;									//書込み処理
+	void Update() override;																	//更新処理
+	void Draw(int InstanceNum = 0) noexcept override;										//描画処理
 
 	DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept override		//変形行列取得
 	{

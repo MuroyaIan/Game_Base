@@ -29,7 +29,7 @@ public:
 	//プロトタイプ宣言
 	explicit VIEWER(APP& App);
 	~VIEWER() noexcept;
-	void Update() noexcept;							//更新処理
+	void Update();									//更新処理
 	void Draw() const noexcept;						//描画処理
 	int GetPolygonNum() const noexcept;				//ポリゴン数取得
 	void LoadModel(bool bAnimOnly = false);			//モデル読込

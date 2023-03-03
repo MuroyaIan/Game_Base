@@ -22,8 +22,8 @@ public:
 	//プロトタイプ宣言
 	explicit DEBUG_MGR(APP& App) noexcept;
 	~DEBUG_MGR() noexcept;
-	void Update() noexcept;					//更新処理
-	void Draw() const noexcept;				//描画処理
+	void Update();							//更新処理
+	void Draw() noexcept;					//描画処理
 	UINT GetPolygonNum() const noexcept;	//ポリゴン数取得
 
 	MESH_LIGHT& GetLightMesh() noexcept		//ライトメッシュ取得

@@ -55,15 +55,9 @@ SHAPE_MODEL::~SHAPE_MODEL() noexcept
 }
 
 //更新処理
-void SHAPE_MODEL::Update() noexcept
-{
-}
-
-//書込み処理
-void SHAPE_MODEL::Draw(int InstanceNum) const noexcept
+void SHAPE_MODEL::Update()
 {
 	//例外処理
-	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -72,6 +66,15 @@ void SHAPE_MODEL::Draw(int InstanceNum) const noexcept
 	for (auto& i : aInstData)
 		gMath::MtxTranspose4x4_SSE(&i.MtxWorld._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aInstData, VERTEX_BUFFER::VB_TYPE::Instance);
+}
+
+//描画処理
+void SHAPE_MODEL::Draw(int InstanceNum) noexcept
+{
+	//例外処理
+	(void)InstanceNum;
+	if (m_InstanceNum < 1)
+		return;
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind_Instance_Phong();

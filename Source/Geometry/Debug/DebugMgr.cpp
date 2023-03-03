@@ -12,13 +12,13 @@ DEBUG_MGR::~DEBUG_MGR() noexcept
 }
 
 //XVˆ—
-void DEBUG_MGR::Update() noexcept
+void DEBUG_MGR::Update()
 {
 	m_Light.Update();
 }
 
 //•`‰æˆ—
-void DEBUG_MGR::Draw() const noexcept
+void DEBUG_MGR::Draw() noexcept
 {
 	m_Light.Draw();
 }

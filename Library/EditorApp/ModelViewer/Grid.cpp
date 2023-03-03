@@ -45,8 +45,8 @@ void GRID::Update() noexcept
 {
 }
 
-//‘‚İˆ—
-void GRID::Draw(int InstanceNum) const noexcept
+//•`‰æˆ—
+void GRID::Draw(int InstanceNum) noexcept
 {
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Default);
 	m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Default);

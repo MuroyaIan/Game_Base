@@ -147,7 +147,7 @@ void VIEWER_MODEL::Update() noexcept
 }
 
 //•`‰æˆ—
-void VIEWER_MODEL::Draw(int InstanceNum) const noexcept
+void VIEWER_MODEL::Draw(int InstanceNum) noexcept
 {
 	//‚»‚Ì‘¼‚ÌƒoƒCƒ“ƒh
 	if (bUseNormalMap &&

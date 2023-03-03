@@ -34,7 +34,7 @@ MODEL::~MODEL() noexcept
 }
 
 //更新処理
-void MODEL::Update() noexcept
+void MODEL::Update()
 {
 	//例外処理
 	if (m_InstanceNum < 1)
@@ -52,18 +52,6 @@ void MODEL::Update() noexcept
 				UpdateAnimationBlending(a);		//ブレンド処理（0.2s秒間）
 		}
 	}
-
-	//メッシュ更新
-	for (auto& m : m_aMesh)
-		m->Update();
-}
-
-//書込み処理
-void MODEL::Draw() noexcept
-{
-	//例外処理
-	if (m_InstanceNum < 1)
-		return;
 
 	//インスタンス更新
 	auto pInst = &m_aInstanceData[0];
@@ -89,6 +77,18 @@ void MODEL::Draw() noexcept
 		pInst++;
 		pMtxW++;
 	}
+
+	//メッシュ更新
+	for (auto& m : m_aMesh)
+		m->Update();
+}
+
+//書込み処理
+void MODEL::Draw() noexcept
+{
+	//例外処理
+	if (m_InstanceNum < 1)
+		return;
 
 	//メッシュ描画
 	for (auto& m : m_aMesh)
@@ -130,7 +130,7 @@ UINT MODEL::GetPolygonNum() const noexcept
 }
 
 //アニメーション更新
-void MODEL::UpdateAnimation(ANIM_PACK& AnimData) noexcept
+void MODEL::UpdateAnimation(ANIM_PACK& AnimData) const noexcept
 {
 	//フレーム更新
 	if (!m_FileData.aIsFPS_30[AnimData.ID]) {

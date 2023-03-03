@@ -106,8 +106,8 @@ void WAVE::Update() noexcept
 	}
 }
 
-//‘‚İˆ—
-void WAVE::Draw(int InstanceNum) const noexcept
+//•`‰æˆ—
+void WAVE::Draw(int InstanceNum)
 {
 	//—áŠOˆ—
 	(void)InstanceNum;

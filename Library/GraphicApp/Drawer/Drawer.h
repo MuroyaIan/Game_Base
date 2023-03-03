@@ -32,8 +32,8 @@ public:
 	explicit DRAWER(const GRAPHIC& Gfx) noexcept;
 	virtual ~DRAWER() noexcept;
 
-	virtual void Update() noexcept = 0;															//更新処理
-	virtual void Draw(int InstanceNum = 0) const noexcept;										//描画処理
+	virtual void Update() = 0;																	//更新処理
+	virtual void Draw(int InstanceNum = 0);														//描画処理
 	virtual UINT GetPolygonNum() const noexcept = 0;											//ポリゴン数取得
 	virtual DirectX::XMFLOAT4X4 GetWorldMatrix(int InstanceIndex = 0) const noexcept = 0;		//ワールド行列取得
 	virtual void SetWorldMatrix(DirectX::XMFLOAT4X4 mtxW, int InstanceIndex = 0) noexcept = 0;	//ワールド行列設定
@@ -76,4 +76,7 @@ private:
 	const INDEX_BUFFER* m_pIndexBuffer;					//インデックスバッファのポインタ（所有権なし）
 	VERTEX_BUFFER* m_pVertexBuffer;						//頂点バッファのポインタ（インスタンス更新用）
 	int m_MaxInstanceNum;								//最大インスタンス数
+
+	//プロトタイプ宣言
+	void DrawProc(int InstanceNum) const noexcept;		//描画処理（最終処理）
 };

@@ -27,7 +27,7 @@ void PLAYER::Update() noexcept
 }
 
 //‘ž‚Ýˆ—
-void PLAYER::Draw() const noexcept
+void PLAYER::Draw()
 {
 	m_pModel->Draw();
 }

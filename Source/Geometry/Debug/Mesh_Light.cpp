@@ -36,8 +36,12 @@ MESH_LIGHT::~MESH_LIGHT() noexcept
 }
 
 //更新処理
-void MESH_LIGHT::Update() noexcept
+void MESH_LIGHT::Update()
 {
+	//例外処理
+	if (m_InstanceNum < 1)
+		return;
+
 	//ビルボード変換
 	dx::XMFLOAT4X4 mtxCam = m_CameraMgr.GetWorldMtx();
 	dx::XMFLOAT4X4 mtxR{
@@ -57,21 +61,21 @@ void MESH_LIGHT::Update() noexcept
 			* dx::XMMatrixTranslation(m_aMtxData[i].m_Pos.x, m_aMtxData[i].m_Pos.y, m_aMtxData[i].m_Pos.z);
 		dx::XMStoreFloat4x4(&m_aMtxWorld[i], mtx);
 	}
-}
-
-//書込み処理
-void MESH_LIGHT::Draw(int InstanceNum) const noexcept
-{
-	//例外処理
-	(void)InstanceNum;
-	if (m_InstanceNum < 1)
-		return;
 
 	//インスタンス更新
 	std::vector<dx::XMFLOAT4X4> aMtxWorld = m_aMtxWorld;
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
+}
+
+//描画処理
+void MESH_LIGHT::Draw(int InstanceNum) noexcept
+{
+	//例外処理
+	(void)InstanceNum;
+	if (m_InstanceNum < 1)
+		return;
 
 	//インスタンス描画
 	m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Instance);
@@ -93,7 +97,6 @@ int MESH_LIGHT::AddInstance()
 
 	//インスタンスバッファ再設定
 	GetVertexBuffer().ResetInstanceBuffer(m_Gfx.m_DX, m_aMtxWorld);
-	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, m_aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
 
 	//インスタンス数更新
 	SetInstanceNum(m_InstanceNum);

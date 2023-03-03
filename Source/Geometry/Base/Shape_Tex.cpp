@@ -35,15 +35,9 @@ SHAPE_TEX::~SHAPE_TEX() noexcept
 }
 
 //更新処理
-void SHAPE_TEX::Update() noexcept
-{
-}
-
-//書込み処理
-void SHAPE_TEX::Draw(int InstanceNum) const noexcept
+void SHAPE_TEX::Update()
 {
 	//例外処理
-	(void)InstanceNum;
 	if (m_InstanceNum < 1)
 		return;
 
@@ -52,6 +46,15 @@ void SHAPE_TEX::Draw(int InstanceNum) const noexcept
 	for (auto& i : aMtxWorld)
 		gMath::MtxTranspose4x4_SSE(&i._11);
 	GetVertexBuffer().UpdateBuffer(m_Gfx.m_DX, aMtxWorld, VERTEX_BUFFER::VB_TYPE::Instance);
+}
+
+//描画処理
+void SHAPE_TEX::Draw(int InstanceNum)
+{
+	//例外処理
+	(void)InstanceNum;
+	if (m_InstanceNum < 1)
+		return;
 
 	//インスタンス描画
 	m_Gfx.m_TextureMgr.Bind(m_Tex);
