@@ -21,6 +21,8 @@ struct VS_IN
 
 	matrix mtxWorld : WORLD_MTX;	//ワールド行列
 	int animFrame : ANIM_FRAME;		//アニメーション再生フレーム
+	int blendFrame : BLEND_FRAME;	//アニメーション再生フレーム（ブレンド用）
+	float animLerp : ANIM_LERP;		//アニメーションの線形補間（ブレンド用）
 };
 
 //出力用構造体
@@ -52,12 +54,19 @@ VS_OUT main(VS_IN vsi)
 	for (int i = 0; i < 4; i++){
 
 		//骨行列の読込
-		matrix mtxBone = {
+		matrix mtxBone1 = {
 			AnimMap.Load(int3(vsi.animFrame * 4,	 vsi.boneID[i], 0)),
 			AnimMap.Load(int3(vsi.animFrame * 4 + 1, vsi.boneID[i], 0)),
 			AnimMap.Load(int3(vsi.animFrame * 4 + 2, vsi.boneID[i], 0)),
 			AnimMap.Load(int3(vsi.animFrame * 4 + 3, vsi.boneID[i], 0))
 		};
+		matrix mtxBone2 = {
+			AnimMap.Load(int3(vsi.blendFrame * 4,	  vsi.boneID[i], 0)),
+			AnimMap.Load(int3(vsi.blendFrame * 4 + 1, vsi.boneID[i], 0)),
+			AnimMap.Load(int3(vsi.blendFrame * 4 + 2, vsi.boneID[i], 0)),
+			AnimMap.Load(int3(vsi.blendFrame * 4 + 3, vsi.boneID[i], 0))
+		};
+		matrix mtxBone = (1.0f - vsi.animLerp) * mtxBone1 + vsi.animLerp * mtxBone2;
 		mtxL += mtxBone * vsi.boneWeight[i];	//影響する骨行列の加算
 	}
 

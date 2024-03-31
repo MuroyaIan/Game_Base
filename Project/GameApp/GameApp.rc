@@ -25,18 +25,18 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON_BASE           ICON                    "D:\\HAL\\vs2022\\Game_Base\\Asset\\dx11.ico"
+IDI_ICON_BASE           ICON                    "E:\\HAL\\vs2022\\Game_Base\\Asset\\dx11.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ IDI_ICON_BASE           ICON                    "D:\\HAL\\vs2022\\Game_Base\\Ass
 // Cursor
 //
 
-IDC_CURSOR_BASE         CURSOR                  "D:\\HAL\\vs2022\\Game_Base\\Asset\\dog.cur"
+IDC_CURSOR_BASE         CURSOR                  "E:\\HAL\\vs2022\\Game_Base\\Asset\\dog.cur"
 
 #endif    // “ú–{Œê (“ú–{) resources
 /////////////////////////////////////////////////////////////////////////////

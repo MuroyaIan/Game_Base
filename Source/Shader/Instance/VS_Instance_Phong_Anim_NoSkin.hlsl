@@ -16,8 +16,6 @@ struct VS_IN
 	float3 pos : POSITION;			//座標
 	float2 tex : TEXCOORD;			//UV座標
 	float3 normal : NORMAL;			//法線
-	int boneID[4] : BONE;			//骨番号
-	float boneWeight[4] : WEIGHT;	//骨比重
 
 	matrix mtxWorld : WORLD_MTX;	//ワールド行列
 	int animFrame : ANIM_FRAME;		//アニメーション再生フレーム

@@ -28,11 +28,22 @@ public:
 	//テクスチャパック
 	struct ANIM_PACK
 	{
-		int ID;				//アニメーション番号
-		int CurrentFrame;	//アニメーション再生フレーム
-		int FrameCnt;		//再生フレーム計算用
+		int ID;					//アニメーション番号
+		int CurrentFrame;		//アニメーション再生フレーム
+		int FrameCnt;			//再生フレーム計算用
+		int BlendID;			//アニメーション番号（ブレンド用）
+		int BlendCurrentFrame;	//アニメーション再生フレーム（ブレンド用）
+		int BlendFrameCnt;		//再生フレーム計算用（ブレンド用）
+		float AnimLerp;			//アニメーションの線形補間（ブレンド用）
+		bool bBlendAnim;		//ブレンドモード
+		int BlendTimer;			//ブレンド用タイマ
+		int BlendTime;			//ブレンド期間
+		bool bBlendSync;		//ブレンド同期モード
 
-		ANIM_PACK() noexcept : ID(0), CurrentFrame(0), FrameCnt(0)
+		ANIM_PACK() noexcept :
+			ID(0), CurrentFrame(0), FrameCnt(0),
+			BlendID(0), BlendCurrentFrame(0), BlendFrameCnt(0), AnimLerp(0.0f),
+			bBlendAnim(false), BlendTimer(0), BlendTime(0), bBlendSync(false)
 		{}
 		~ANIM_PACK() noexcept
 		{}
@@ -56,26 +67,28 @@ public:
 		m_aMtxWorld[InstanceIndex] = mtxW;
 	}
 
-	void ChangeAnimID(int id, int InstNum) noexcept									//アニメーション変更
+	void ChangeAnimID(int id, int InstNum, float BlendTime = 1.0f, bool Sync = false) noexcept	//アニメーション変更
 	{
 		ANIM_PACK& AnimData = m_aAnimData[InstNum];
 
 		//アニメーション切替＆ブレンド中ではない
-		if (AnimData.ID != id && m_bBlendAnim == false) {
+		if (AnimData.ID != id && !AnimData.bBlendAnim) {
 
-			//アニメーション番号のバックアップ更新
-			if (m_AnimID_Backup != AnimData.ID)
-				m_AnimID_Backup = AnimData.ID;
-			if (m_AnimFrame_Backup != AnimData.CurrentFrame)
-				m_AnimFrame_Backup = AnimData.CurrentFrame;
-			if (m_FrameCnt_Backup != AnimData.FrameCnt)
-				m_FrameCnt_Backup = AnimData.FrameCnt;
+			//ブレンド情報更新
+			AnimData.bBlendAnim = true;
+			AnimData.BlendTimer = 0;
+			AnimData.BlendTime = static_cast<int>(BlendTime * 60) - 1;
+			AnimData.bBlendSync = Sync;
+			AnimData.BlendID = id;
+			AnimData.BlendCurrentFrame = 0;
+			AnimData.BlendFrameCnt = 0;
+			AnimData.AnimLerp = 0.0f;
 
-			//アニメーション番号更新
-			float ratio = static_cast<float>(AnimData.CurrentFrame + 1) / m_FileData.aAnimFrame[AnimData.ID];	//ブレンド前アニメーションのフレーム割合取得
-			AnimData.ID = id;
-			AnimData.CurrentFrame = static_cast<int>(m_FileData.aAnimFrame[AnimData.ID] * ratio - 1);			//ブレンド後アニメーションのフレーム算出
-			m_bBlendAnim = true;
+			//フレームの同期処理
+			if (AnimData.bBlendSync) {
+				float FrameRatio = AnimData.CurrentFrame / (m_FileData.aAnimFrame[AnimData.ID] - 1.0f);						//フレーム同期用の割合取得
+				AnimData.BlendCurrentFrame = static_cast<int>((m_FileData.aAnimFrame[AnimData.BlendID] - 1) * FrameRatio);	//ブレンド後のフレーム算出
+			}
 		}
 	}
 
@@ -93,15 +106,9 @@ private:
 
 	bool m_bStatic;									//静的メッシュかどうか
 	std::vector<ANIM_PACK> m_aAnimData;				//アニメーション情報
-	int m_AnimID_Backup;							//アニメーション番号（バックアップ）
-	int m_AnimFrame_Backup;							//アニメーション再生フレーム（バックアップ）
-	int m_FrameCnt_Backup;							//再生フレーム計算用（バックアップ）
-
-	bool m_bBlendAnim;								//ブレンドモード
-	int m_BlendTimer;								//ブレンド用タイマ
 
 	//プロトタイプ宣言
-	void UpdateAnimation(ANIM_PACK& AnimData) const noexcept;				//アニメーション更新
+	void UpdateAnimation(ANIM_PACK& AnimData) const noexcept;		//アニメーション更新
 	void UpdateAnimationBlending(ANIM_PACK& AnimData) noexcept;		//アニメーションブレンド更新
 
 	//権限指定

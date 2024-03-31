@@ -20,9 +20,11 @@
 struct VSD_INSTANCE					//インスタンス情報
 {
 	DirectX::XMFLOAT4X4 MtxWorld;	//ワールド行列
-	int m_AnimFrame;				//アニメーション再生フレーム
+	int AnimFrame;					//アニメーション再生フレーム
+	int AnimBlendFrame;				//アニメーション再生フレーム（ブレンド用）
+	float AnimLerp;					//アニメーションの線形補間（ブレンド用）
 
-	VSD_INSTANCE() noexcept : MtxWorld(), m_AnimFrame(0)
+	VSD_INSTANCE() noexcept : MtxWorld(), AnimFrame(0), AnimBlendFrame(0), AnimLerp(0.0f)
 	{
 		//ワールド行列初期化
 		DirectX::XMStoreFloat4x4(&MtxWorld, DirectX::XMMatrixIdentity());

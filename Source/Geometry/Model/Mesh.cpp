@@ -19,22 +19,37 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 
 	//頂点情報作成
 	VS_DATA<VERTEX_MNB> vsdModel = Mesh.vsData;
-	VS_DATA<VERTEX_MB> Model;
-	Model.m_Indices = vsdModel.m_Indices;
-	Model.m_Vertices.resize(Model.m_Indices.size());
-	for (size_t i = 0, Cnt = Model.m_Vertices.size(); i < Cnt; i++) {
-		Model.m_Vertices[i].m_Pos = vsdModel.m_Vertices[i].m_Pos;
-		Model.m_Vertices[i].m_UV = vsdModel.m_Vertices[i].m_UV;
-		Model.m_Vertices[i].m_Normal = vsdModel.m_Vertices[i].m_Normal;
-		for (int j = 0; j < 4; j++) {
-			Model.m_Vertices[i].m_BoneID[j] = vsdModel.m_Vertices[i].m_BoneID[j];
-			Model.m_Vertices[i].m_BoneWeight[j] = vsdModel.m_Vertices[i].m_BoneWeight[j];
+	if (!m_bStatic && Mesh.aNoSkin.size() == 0) {
+
+		//骨あり
+		VS_DATA<VERTEX_MB> Model;
+		Model.m_Vertices.resize(vsdModel.m_Indices.size());
+		for (size_t i = 0, Cnt = Model.m_Vertices.size(); i < Cnt; i++) {
+			Model.m_Vertices[i].m_Pos = vsdModel.m_Vertices[i].m_Pos;
+			Model.m_Vertices[i].m_UV = vsdModel.m_Vertices[i].m_UV;
+			Model.m_Vertices[i].m_Normal = vsdModel.m_Vertices[i].m_Normal;
+			for (int j = 0; j < 4; j++) {
+				Model.m_Vertices[i].m_BoneID[j] = vsdModel.m_Vertices[i].m_BoneID[j];
+				Model.m_Vertices[i].m_BoneWeight[j] = vsdModel.m_Vertices[i].m_BoneWeight[j];
+			}
 		}
+		AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aInstanceData));
 	}
-	AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aInstanceData));
+	else {
+
+		//骨なし
+		VS_DATA<VERTEX_M> Model;
+		Model.m_Vertices.resize(vsdModel.m_Indices.size());
+		for (size_t i = 0, Cnt = Model.m_Vertices.size(); i < Cnt; i++) {
+			Model.m_Vertices[i].m_Pos = vsdModel.m_Vertices[i].m_Pos;
+			Model.m_Vertices[i].m_UV = vsdModel.m_Vertices[i].m_UV;
+			Model.m_Vertices[i].m_Normal = vsdModel.m_Vertices[i].m_Normal;
+		}
+		AddBind(std::make_unique<VERTEX_BUFFER>(m_Gfx.m_DX, Model.m_Vertices, m_aInstanceData));
+	}
 
 	//インデックス情報作成
-	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, Model.m_Indices));
+	AddBind(std::make_unique<INDEX_BUFFER>(m_Gfx.m_DX, vsdModel.m_Indices));
 
 	//VS定数バッファ作成（カメラ）
 	CB_PTR cbData;
@@ -55,14 +70,14 @@ MESH::MESH(MODEL& ModelRef, int MeshIdx) :
 	if (!m_bStatic) {
 
 		//アニメーション行列
-		if (m_FileData.aMesh[m_MeshIdx].aNoSkin.size() > 0) {
+		auto& NoSkinRef = Mesh.aNoSkin;
+		if (NoSkinRef.size() > 0) {
 
 			//骨情報を読込
 			std::vector<dx::XMFLOAT4X4> aMtxBone(0);
-			for (auto& ad : m_FileData.aMesh[m_MeshIdx].aNoSkin) {
-				for (auto& md : ad.aMatrix) {
+			for (auto& ad : NoSkinRef) {
+				for (auto& md : ad.aMatrix)
 					aMtxBone.push_back(md);
-				}
 			}
 
 			//テクスチャ作成用データ
@@ -119,17 +134,25 @@ void MESH::Draw(int InstanceNum) noexcept
 
 	//インスタンス描画
 	if (m_bStatic)
-		m_Gfx.m_ShaderMgr.Bind_Instance_Phong();
+		m_Gfx.m_ShaderMgr.Bind_Instance_Phong();	//アニメーションなし
 	else {
-		if (m_NoSkinBuffPtr == nullptr)
-			m_Gfx.m_ShaderMgr.Bind_Instance_Phong_Anim();
+
+		//アニメーションあり
+		if (m_NoSkinBuffPtr == nullptr) {
+
+			//骨あり
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Instance_Phong_Anim);
+			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Instance_Phong_Anim);
+		}
 		else {
+
+			//骨なし
 			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::VS_Instance_Phong_Anim_NoSkin);
 			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::IL_Instance_Phong_Anim_NoSkin);
-			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Tri);
-			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::Sampler);
-			m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_Phong);
 		}
+		m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PT_Tri);
+		m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::Sampler);
+		m_Gfx.m_ShaderMgr.Bind(SHADER_MGR::BINDER_ID::PS_Phong);
 	}
 	DRAWER::Draw(m_InstanceNum);
 }

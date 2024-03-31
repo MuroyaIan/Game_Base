@@ -158,8 +158,8 @@ APP::APP() :
 
 	//【モデルテスト】
 	m_aModel.reserve(1);
-	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Unity));
-	int InstNum = 1000;
+	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
+	int InstNum = 1600;
 	int Root = static_cast<int>(std::sqrtf(static_cast<float>(InstNum)));
 	float Interval = 10.0f;
 	for (int i = 0; i < InstNum; i++) {
@@ -257,6 +257,23 @@ void APP::Update()
 		//3D更新
 		for (auto& d : m_aDrawer)
 			d->Update();
+
+		static int Timer = 0;
+		static int AminID = 1;
+		Timer++;
+		if (Timer > 179) {
+			Timer = 0;
+			if (AminID > 1)
+				AminID--;
+			else
+				AminID++;
+			//AminID = 1 - AminID;
+			for (auto& m : m_aModel) {
+				for (int i = 0; i < 1600; i++)
+					m->ChangeAnimID(rand() % 3, i);
+					//m->ChangeAnimID(AminID, i);
+			}
+		}
 		for (auto& m : m_aModel)
 			m->Update();
 		//m_pPlayer->Update();
