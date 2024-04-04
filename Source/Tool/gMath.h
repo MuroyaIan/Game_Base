@@ -14,7 +14,7 @@
 #include <cmath>
 #include <numbers>
 #include <DirectXMath.h>
-#include <WinApp/WinEO.h>
+#include <WinApp/ErrorOutput_Win.h>
 
 //===== 定数・マクロ定義 =====
 constexpr float fPI = std::numbers::pi_v<float>;

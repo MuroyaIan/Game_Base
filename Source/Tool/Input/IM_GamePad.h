@@ -10,8 +10,8 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <WinApp/WinEO.h>			//エラー出力
-#include <Xinput.h>					//XBOXコントローラー処理
+#include <WinApp/ErrorOutput_Win.h>		//エラー出力
+#include <Xinput.h>						//XBOXコントローラー処理
 #include <DirectXMath.h>
 
 //===== 定数・マクロ定義 =====

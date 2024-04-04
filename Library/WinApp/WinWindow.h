@@ -11,9 +11,9 @@
 #pragma once
 
 //===== インクルード部 =====
-#include <WinApp/BaseWindow.h>	//インターフェース
-#include <WinApp/WinEO.h>		//エラー出力
-#include <vector>				//動的配列
+#include <WinApp/BaseWindow.h>			//インターフェース
+#include <WinApp/ErrorOutput_Win.h>		//エラー出力
+#include <vector>						//動的配列
 
 //===== クラス定義 =====
 class WIN_WINDOW : public IF_WINDOW

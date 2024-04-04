@@ -1,34 +1,38 @@
-
 //===== インクルード部 =====
 #include <WinApp/ErrorOutput.h>
 
 //===== クラス実装 =====
+CT_ERROR_OUTPUT::CT_ERROR_OUTPUT(const int nLine, const char* chFile) noexcept
+	: m_Line(nLine)
+	, m_File(chFile) {}
 
-//***** エラー出力 *****
-ERROR_OUTPUT::ERROR_OUTPUT(int nLine, const char* chFile) noexcept :
-	std::exception(), m_Line(nLine), m_File(chFile), m_InfoBuffer()
-{
-}
+CT_ERROR_OUTPUT::~CT_ERROR_OUTPUT() noexcept = default;
 
-ERROR_OUTPUT::~ERROR_OUTPUT() noexcept
+/**
+ * エラー情報取得
+ *
+ * \param
+ * \return std::string
+ */
+std::string CT_ERROR_OUTPUT::GetErrorInfo() const noexcept
 {
-}
-
-//エラー情報取得
-std::string ERROR_OUTPUT::GetErrorInfo() const noexcept
-{
-	std::ostringstream oss;
-	oss << "[File] " << m_File << std::endl
+	std::ostringstream l_Oss;
+	l_Oss << "[File] " << m_File << '\n'
 		<< "[Line] " << m_Line;
-	return std::move(oss.str());
+	return l_Oss.str();
 }
 
-//エラー情報出力
-const char* ERROR_OUTPUT::what() const noexcept
+/**
+ * エラー情報出力
+ *
+ * \param
+ * \return const char*
+ */
+const char* CT_ERROR_OUTPUT::what() const noexcept
 {
-	std::ostringstream oss;
-	oss << GetType() << std::endl
+	std::ostringstream l_Oss;
+	l_Oss << GetType() << '\n'
 		<< GetErrorInfo();
-	m_InfoBuffer = std::move(oss.str());
+	m_InfoBuffer = l_Oss.str();
 	return m_InfoBuffer.c_str();
 }

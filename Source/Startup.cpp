@@ -43,7 +43,7 @@ int CALLBACK WinMain(
 		//I—¹ˆ—
 		return wParam;
 	}
-	catch (const WIN_EO& e)
+	catch (const CT_EO_WIN& e)
 	{
 		//WindowƒGƒ‰[
 		MessageBoxA(nullptr, e.what(), e.GetType().c_str(), MB_OK | MB_ICONEXCLAMATION);

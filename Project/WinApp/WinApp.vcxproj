@@ -156,7 +156,7 @@
     <ClCompile Include="..\..\Library\WinApp\WinWindow.cpp" />
     <ClCompile Include="..\..\Library\WinApp\Keyboard.cpp" />
     <ClCompile Include="..\..\Library\WinApp\Mouse.cpp" />
-    <ClCompile Include="..\..\Library\WinApp\WinEO.cpp" />
+    <ClCompile Include="..\..\Library\WinApp\ErrorOutput_Win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\WinApp\BaseWindow.h" />
@@ -165,7 +165,7 @@
     <ClInclude Include="..\..\Library\WinApp\WinWindow.h" />
     <ClInclude Include="..\..\Library\WinApp\Keyboard.h" />
     <ClInclude Include="..\..\Library\WinApp\Mouse.h" />
-    <ClInclude Include="..\..\Library\WinApp\WinEO.h" />
+    <ClInclude Include="..\..\Library\WinApp\ErrorOutput_Win.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -30,7 +30,7 @@
     <ClCompile Include="..\..\Library\WinApp\Mouse.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Library\WinApp\WinEO.cpp">
+    <ClCompile Include="..\..\Library\WinApp\ErrorOutput_Win.cpp">
       <Filter>ソース ファイル\Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\WinApp\WinWindow.cpp">
@@ -44,7 +44,7 @@
     <ClInclude Include="..\..\Library\WinApp\WinWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\WinApp\WinEO.h">
+    <ClInclude Include="..\..\Library\WinApp\ErrorOutput_Win.h">
       <Filter>ヘッダー ファイル\Debug</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\WinApp\BaseWindow.h">

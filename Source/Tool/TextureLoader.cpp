@@ -2,7 +2,7 @@
 //===== インクルード部 =====
 #include <Tool/TextureLoader.h>
 #include <sstream>
-#include <WinApp/WinEO.h>
+#include <WinApp/ErrorOutput_Win.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_WINDOWS_UTF8
