@@ -57,6 +57,6 @@
 #include <debugapi.h>	//デバッグ表示
 #include <crtdbg.h>		//メモリリーク検出
 
-#define PrintD(wstr) OutputDebugString(wstr)	//デバッグ出力用
+#define PRINT_D(wStr) OutputDebugString(wStr)	//デバッグ出力用
 
 #endif // _DEBUG

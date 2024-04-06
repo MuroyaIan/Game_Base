@@ -342,7 +342,7 @@ void GRAPHIC::InitDXGI()
 		ERROR_DX(hr);
 		std::wostringstream oss;
 		oss << "Info : GPU(" << i << ") " << dad.Description << std::endl;
-		PrintD(oss.str().c_str());
+		PRINT_D(oss.str().c_str());
 
 		//ƒƒ‚ƒŠ‰ð•ú
 		pTempAdapter->Release();

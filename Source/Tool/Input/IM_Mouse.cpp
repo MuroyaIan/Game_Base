@@ -93,11 +93,11 @@ void INPUT_CURSOR::Update() noexcept
 		const auto d = m_Mouse.ReadRawDelta();
 
 		//脱出処理(移動量をすべて取得)
-		if (d.bClear)
+		if (d.ms_bClear)
 			break;
 
 		//デルタ分の移動量を全部加算
-		MoveVal.x += d.x;
-		MoveVal.y += d.y;
+		MoveVal.x += d.ms_X;
+		MoveVal.y += d.ms_Y;
 	}
 }

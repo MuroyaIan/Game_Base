@@ -15,6 +15,8 @@
 #include <WinApp/WinConfig.h>
 
 //===== クラス定義 =====
+
+//***** エラー出力（Windows用） *****
 class CT_EO_WIN final : public CT_ERROR_OUTPUT
 {
 public:
@@ -22,15 +24,15 @@ public:
 	//コピー＆ムーブ
 	CT_EO_WIN(const CT_EO_WIN&) = default;
 	CT_EO_WIN& operator =(const CT_EO_WIN&) = default;
-	CT_EO_WIN(CT_EO_WIN&&) = default;
-	CT_EO_WIN& operator=(CT_EO_WIN&&) = default;
+	CT_EO_WIN(CT_EO_WIN&&) noexcept = default;
+	CT_EO_WIN& operator=(CT_EO_WIN&&) noexcept = default;
 
 	//プロトタイプ宣言
-	explicit CT_EO_WIN(int nLine, const char* chFile, HRESULT hr, const char* str = nullptr) noexcept;
+	explicit CT_EO_WIN(const int& nLine, const char* chFile, const HRESULT& hr, const char* str = nullptr) noexcept;
 	~CT_EO_WIN() noexcept override;
-	std::string GetType() const noexcept override;           //エラータイプ取得
-	std::string GetErrorCodeInfo(HRESULT hr) const noexcept; //エラーコード情報取得
-	const char* what() const noexcept override;              //エラー情報出力
+	std::string GetType() const noexcept override;                  //エラータイプ取得
+	std::string GetErrorCodeInfo(const HRESULT& hr) const noexcept; //エラーコード情報取得
+	const char* what() const noexcept override;                     //エラー情報出力
 
 private:
 

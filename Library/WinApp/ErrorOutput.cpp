@@ -2,7 +2,7 @@
 #include <WinApp/ErrorOutput.h>
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-CT_ERROR_OUTPUT::CT_ERROR_OUTPUT(const int nLine, const char* chFile) noexcept
+CT_ERROR_OUTPUT::CT_ERROR_OUTPUT(const int& nLine, const char* chFile) noexcept
 	: m_Line(nLine)
 	, m_File(chFile) {}
 

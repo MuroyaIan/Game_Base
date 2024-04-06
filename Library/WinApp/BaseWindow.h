@@ -20,8 +20,8 @@ class IF_WINDOW
 public:
 
 	//変数宣言
-	KEYBOARD m_Keyboard;	//キーボード処理
-	MOUSE m_Mouse;			//マウス処理
+	CT_KEYBOARD m_Keyboard;	//キーボード処理
+	CT_MOUSE m_Mouse;			//マウス処理
 
 	//プロトタイプ宣言
 	explicit IF_WINDOW() noexcept : m_Keyboard(), m_Mouse() {}

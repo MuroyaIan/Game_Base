@@ -4,6 +4,7 @@
  * @author 室谷イアン
  * @date 2022/05/02
  * @履歴 2022/05/02：クラス作成
+ *		 2024/04/04：書式改善
  */
 
 //===== インクルードガード =====
@@ -16,39 +17,45 @@
 //===== クラス定義 =====
 
 //***** キー状態 *****
-enum class KEY_STATUS
+enum class ET_KEY_STATUS
 {
-	Press,
-	Release,
-	Invalid
+	me_Press,
+	me_Release,
+	me_Invalid
 };
 
 //***** キーイベント *****
-class KEY_EVENTS
+class CT_KEY_EVENTS
 {
 public:
 
+	//コピー＆ムーブ
+	CT_KEY_EVENTS(const CT_KEY_EVENTS&) = default;
+	CT_KEY_EVENTS& operator =(const CT_KEY_EVENTS&) = default;
+	CT_KEY_EVENTS(CT_KEY_EVENTS&&) noexcept = default;
+	CT_KEY_EVENTS& operator=(CT_KEY_EVENTS&&) noexcept = default;
+
 	//プロトタイプ宣言
-	explicit KEY_EVENTS() noexcept;
-	KEY_EVENTS(KEY_STATUS Type, unsigned char Code) noexcept;
-	~KEY_EVENTS() noexcept;
+	explicit CT_KEY_EVENTS() noexcept;
+	CT_KEY_EVENTS(const ET_KEY_STATUS& type, const unsigned char& code) noexcept;
+	~CT_KEY_EVENTS() noexcept;
 
-	bool IsPress() const noexcept								//キー押し確認
+	[[nodiscard]] bool IsPress() const noexcept //キー押し確認
 	{
-		return (m_Type == KEY_STATUS::Press) ? true : false;
+		return m_Type == ET_KEY_STATUS::me_Press;
 	}
 
-	bool IsRelease() const noexcept								//キー離し確認
+	[[nodiscard]] bool IsRelease() const noexcept //キー離し確認
 	{
-		return (m_Type == KEY_STATUS::Release) ? true : false;
+		return m_Type == ET_KEY_STATUS::me_Release;
 	}
 
-	bool IsValid() const noexcept								//キーイベント有効確認
+	[[nodiscard]] bool IsValid() const noexcept //キーイベント有効確認
 	{
-		return (m_Type == KEY_STATUS::Invalid) ? true : false;
+		return m_Type == ET_KEY_STATUS::me_Invalid;
 	}
 
-	unsigned char GetCode() const noexcept						//キーコード取得
+	[[nodiscard]] unsigned char GetCode() const noexcept //キーコード取得
 	{
 		return m_Code;
 	}
@@ -56,48 +63,54 @@ public:
 private:
 
 	//変数宣言
-	KEY_STATUS m_Type;		//キーの状態
-	unsigned char m_Code;	//仮想キーコードの値
+	ET_KEY_STATUS m_Type; //キーの状態
+	unsigned char m_Code; //仮想キーコードの値
 };
 
 //***** キーボード処理 *****
-class KEYBOARD
+class CT_KEYBOARD
 {
 public:
 
+	//コピー＆ムーブ
+	CT_KEYBOARD(const CT_KEYBOARD&) = default;
+	CT_KEYBOARD& operator =(const CT_KEYBOARD&) = default;
+	CT_KEYBOARD(CT_KEYBOARD&&) noexcept = default;
+	CT_KEYBOARD& operator=(CT_KEYBOARD&&) noexcept = default;
+
 	//プロトタイプ宣言
-	explicit KEYBOARD() noexcept;
-	~KEYBOARD() noexcept;
-	bool KeyIsPressed(unsigned char KeyCode) const noexcept;	//キー押し確認
-	KEY_EVENTS ReadKey() noexcept;								//キー読込み
-	unsigned char ReadChar() noexcept;							//テキスト読込み
-	bool KeyIsEmpty() const noexcept;							//キーバッファの空き確認
-	bool CharIsEmpty() const noexcept;							//テキストバッファの空き確認
-	void ClearKeyBuffer() noexcept;								//キーバッファクリア
-	void ClearCharBuffer() noexcept;							//テキストバッファクリア
-	void ClearBuffer() noexcept;								//全バッファクリア
+	explicit CT_KEYBOARD() noexcept;
+	~CT_KEYBOARD() noexcept;
+	[[nodiscard]] bool KeyIsPressed(const unsigned char& keyCode) const noexcept; //キー押し確認
+	CT_KEY_EVENTS ReadKey() noexcept;                                             //キー読込み
+	unsigned char ReadChar() noexcept;                                            //テキスト読込み
+	[[nodiscard]] bool KeyIsEmpty() const noexcept;                               //キーバッファの空き確認
+	[[nodiscard]] bool CharIsEmpty() const noexcept;                              //テキストバッファの空き確認
+	void ClearKeyBuffer() noexcept;                                               //キーバッファクリア
+	void ClearCharBuffer() noexcept;                                              //テキストバッファクリア
+	void ClearBuffer() noexcept;                                                  //全バッファクリア
 
 private:
 
 	//変数宣言
-	static constexpr unsigned int nKeys = 256u;			//キー数
-	static constexpr unsigned int nBufferSize = 16u;	//キューのサイズ（フレームごとの最大受付数）
-	std::bitset<nKeys> m_KeyStates;						//256個のキーに対応するビット集合
-	std::queue<KEY_EVENTS> m_KeyBuffer;					//キーイベント用キュー
-	std::queue<unsigned char> m_CharBuffer;				//テキスト入力用キュー
+	static constexpr unsigned int c_Keys = 256u;      //キー数
+	static constexpr unsigned int c_BufferSize = 16u; //キューのサイズ（フレームごとの最大受付数）
+	std::bitset<c_Keys> m_KeyStates;                  //256個のキーに対応するビット集合
+	std::queue<CT_KEY_EVENTS> m_KeyBuffer;            //キーイベント用キュー
+	std::queue<unsigned char> m_CharBuffer;           //テキスト入力用キュー
 
 	//プロトタイプ宣言
-	template<typename T>
-	static void TruncateBuffer(std::queue<T>& Buffer) noexcept		//バッファ切り捨て
+	template<typename t_Buffer>
+	static void TruncateBuffer(std::queue<t_Buffer>& buffer) noexcept	//バッファ切り捨て
 	{
-		while (Buffer.size() > nBufferSize)							//上限サイズに収まるまで
-			Buffer.pop();											//キューポップ
+		while (buffer.size() > c_BufferSize)							//上限サイズに収まるまで
+			buffer.pop();												//キューポップ
 	}
 
-	void KeyPressed(unsigned char KeyCode) noexcept;				//キー押し
-	void KeyReleased(unsigned char KeyCode) noexcept;				//キー離し
-	void CharInput(unsigned char Character) noexcept;				//テキスト入力
-	void ClearState() noexcept;										//キー状態リセット
+	void KeyPressed(const unsigned char& keyCode) noexcept;  //キー押し
+	void KeyReleased(const unsigned char& keyCode) noexcept; //キー離し
+	void CharInput(const unsigned char& character) noexcept; //テキスト入力
+	void ClearState() noexcept;                              //キー状態リセット
 
 	//権限指定
 	friend class WIN_WINDOW;

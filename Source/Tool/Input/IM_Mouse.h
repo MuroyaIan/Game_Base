@@ -22,7 +22,7 @@ constexpr int MOUSE_X2 = static_cast<int>(VK_XBUTTON2);		//マウスの第2拡張ボタン
 
 //===== 前方宣言 =====
 class APP;
-class MOUSE;
+class CT_MOUSE;
 class INPUT_KB;
 
 //===== クラス定義 =====
@@ -57,7 +57,7 @@ private:
 
 	//* 変数宣言 *
 	IF_WINDOW& m_Window;		//Windows参照
-	MOUSE& m_Mouse;				//マウス参照
+	CT_MOUSE& m_Mouse;				//マウス参照
 	INPUT_KB& m_KB;				//キーボード参照
 	DirectX::XMINT2 MoveVal;	//移動量（毎フレーム）
 

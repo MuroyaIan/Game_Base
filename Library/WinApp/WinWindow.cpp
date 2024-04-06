@@ -157,18 +157,18 @@ void WIN_WINDOW::TitlePrint_WheelVal()
 	while (!m_Mouse.IsEmpty()) {
 
 		//変数宣言
-		const MOUSE_EVENTS Event = m_Mouse.ReadBuffer();
+		const CT_MOUSE_EVENTS Event = m_Mouse.ReadBuffer();
 		static int nCnt = 0;
 		std::ostringstream oss;
 
 		//更新処理
 		switch (Event.GetType()) {
-			case MOUSE_STATUS::WheelUp:
+			case ET_MOUSE_STATUS::me_WheelUp:
 				nCnt++;
 				oss << "ホイール値：" << nCnt;
 				TitlePrint(oss.str());
 				break;
-			case MOUSE_STATUS::WheelDown:
+			case ET_MOUSE_STATUS::me_WheelDown:
 				nCnt--;
 				oss << "ホイール値：" << nCnt;
 				TitlePrint(oss.str());
@@ -348,7 +348,7 @@ LRESULT WIN_WINDOW::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			if (!m_bDrawCursor) {
 				if (!m_Mouse.IsInWindow()) {	//ウィンドウに入った初回ループ⇒マウスがウィンドウ外判定の場合
 					SetCapture(hWnd);
-					m_Mouse.Enterwindow();		//キャプチャーオン、マウスメッセージ更新
+					m_Mouse.EnterWindow();		//キャプチャーオン、マウスメッセージ更新
 					HideCursor();				//マウス非表示
 				}
 				break;							//マウス座標処理をスキップ
@@ -370,7 +370,7 @@ LRESULT WIN_WINDOW::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					m_Mouse.MouseMove(pt.x, pt.y);									//座標記録
 					if (!m_Mouse.IsInWindow()) {									//マウスキャプチャーオン
 						SetCapture(hWnd);
-						m_Mouse.Enterwindow();
+						m_Mouse.EnterWindow();
 					}
 				}
 				else {																//ウィンドウ外の場合

@@ -15,159 +15,195 @@
 #include <queue>				//FIFOコンテナ
 
 //===== 構造体定義 =====
-struct MOUSE_INFO				//マウス情報
+
+//***** マウス情報 *****
+struct ST_MOUSE_INFO
 {
+	//コピー＆ムーブ
+	ST_MOUSE_INFO(const ST_MOUSE_INFO&) = default;
+	ST_MOUSE_INFO& operator =(const ST_MOUSE_INFO&) = default;
+	ST_MOUSE_INFO(ST_MOUSE_INFO&&) noexcept = default;
+	ST_MOUSE_INFO& operator=(ST_MOUSE_INFO&&) noexcept = default;
+
 	//変数宣言
-	bool bLeftIsPressed;		//左クリック
-	bool bRightIsPressed;		//右クリック
-	int nPosX;
-	int nPosY;					//マウス座標
-	bool bIsInWindow;			//ウィンドウ内にいる
+	bool ms_bLeftIsPressed;		//左クリック
+	bool ms_bRightIsPressed;	//右クリック
+	int ms_PosX;
+	int ms_PosY;				//マウス座標
+	bool ms_bIsInWindow;		//ウィンドウ内にいる
 
 	//コンストラクタ
-	MOUSE_INFO() noexcept :
-		bLeftIsPressed(false), bRightIsPressed(false),
-		nPosX(0), nPosY(0), bIsInWindow(false)
-	{}
-	MOUSE_INFO(const MOUSE_INFO& Parent) noexcept :
-		bLeftIsPressed(Parent.bLeftIsPressed),
-		bRightIsPressed(Parent.bRightIsPressed),
-		nPosX(Parent.nPosX), nPosY(Parent.nPosY),
-		bIsInWindow(Parent.bIsInWindow)
-	{}
-	~MOUSE_INFO() noexcept {}
+	explicit ST_MOUSE_INFO() noexcept
+		: ms_bLeftIsPressed(false)
+		, ms_bRightIsPressed(false)
+		, ms_PosX(0)
+		, ms_PosY(0)
+		, ms_bIsInWindow(false) {}
+
+	~ST_MOUSE_INFO() noexcept = default;
 };
 
 //===== クラス定義 =====
 
 //***** マウス状態 ****
-enum class MOUSE_STATUS
+enum class ET_MOUSE_STATUS
 {
-	L_Press,
-	L_Release,
-	R_Press,
-	R_Release,
-	WheelUp,
-	WheelDown,
-	Move,
-	EnterWindow,
-	LeaveWindow,
-	Invalid
+	me_L_Press,
+	me_L_Release,
+	me_R_Press,
+	me_R_Release,
+	me_WheelUp,
+	me_WheelDown,
+	me_Move,
+	me_EnterWindow,
+	me_LeaveWindow,
+	me_Invalid
 };
 
 //***** マウスイベント ****
-class MOUSE_EVENTS
+class CT_MOUSE_EVENTS
 {
 public:
 
-	//プロトタイプ宣言
-	explicit MOUSE_EVENTS() noexcept;
-	MOUSE_EVENTS(MOUSE_STATUS Type, const MOUSE_INFO& Parent) noexcept;
-	~MOUSE_EVENTS() noexcept;
+	//コピー＆ムーブ
+	CT_MOUSE_EVENTS(const CT_MOUSE_EVENTS&) = default;
+	CT_MOUSE_EVENTS& operator =(const CT_MOUSE_EVENTS&) = default;
+	CT_MOUSE_EVENTS(CT_MOUSE_EVENTS&&) noexcept = default;
+	CT_MOUSE_EVENTS& operator=(CT_MOUSE_EVENTS&&) noexcept = default;
 
-	bool IsValid() const noexcept					//マウスイベント有効確認
+	//プロトタイプ宣言
+	explicit CT_MOUSE_EVENTS() noexcept;
+	CT_MOUSE_EVENTS(ET_MOUSE_STATUS type, const ST_MOUSE_INFO& parent) noexcept;
+	~CT_MOUSE_EVENTS() noexcept;
+
+	[[nodiscard]] bool IsValid() const noexcept //マウスイベント有効確認
 	{
-		return (m_Type != MOUSE_STATUS::Invalid) ? true : false;
+		return m_Type != ET_MOUSE_STATUS::me_Invalid;
 	}
-	MOUSE_STATUS GetType() const noexcept			//マウス状態取得
+
+	[[nodiscard]] ET_MOUSE_STATUS GetType() const noexcept //マウス状態取得
 	{
 		return m_Type;
 	}
-	std::pair<int, int> GetPos() const noexcept		//マウスXY座標取得
+
+	[[nodiscard]] std::pair<int, int> GetPos() const noexcept //マウスXY座標取得
 	{
-		return{ m_Info.nPosX, m_Info.nPosY };
+		return {m_Info.ms_PosX, m_Info.ms_PosY};
 	}
-	int GetPosX() const noexcept
+
+	[[nodiscard]] int GetPosX() const noexcept
 	{
-		return m_Info.nPosX;
+		return m_Info.ms_PosX;
 	}
-	int GetPosY() const noexcept
+
+	[[nodiscard]] int GetPosY() const noexcept
 	{
-		return m_Info.nPosY;
+		return m_Info.ms_PosY;
 	}
-	bool IsInWindow() const noexcept				//ウィンドウ内にいるか確認
+
+	[[nodiscard]] bool IsInWindow() const noexcept //ウィンドウ内にいるか確認
 	{
-		return m_Info.bIsInWindow;
+		return m_Info.ms_bIsInWindow;
 	}
-	bool LeftIsPressed() const noexcept				//マウス左右クリック確認
+
+	[[nodiscard]] bool LeftIsPressed() const noexcept //マウス左右クリック確認
 	{
-		return m_Info.bLeftIsPressed;
+		return m_Info.ms_bLeftIsPressed;
 	}
-	bool RightIsPressed() const noexcept
+
+	[[nodiscard]] bool RightIsPressed() const noexcept
 	{
-		return m_Info.bRightIsPressed;
+		return m_Info.ms_bRightIsPressed;
 	}
 
 private:
 
 	//変数宣言
-	MOUSE_STATUS m_Type;	//マウスの状態
-	MOUSE_INFO m_Info;		//マウス情報
+	ET_MOUSE_STATUS m_Type; //マウスの状態
+	ST_MOUSE_INFO m_Info;   //マウス情報
 };
 
 //***** マウス処理 *****
-class MOUSE
+class CT_MOUSE
 {
 public:
 
 	//RawInput用構造体（マウス変化量）
-	struct RAW_DELTA
+	struct ST_RAW_DELTA
 	{
-		int x;
-		int y;
-		bool bClear;	//NULLデータであることを示すフラグ
+		//コピー＆ムーブ
+		ST_RAW_DELTA(const ST_RAW_DELTA&) = default;
+		ST_RAW_DELTA& operator =(const ST_RAW_DELTA&) = default;
+		ST_RAW_DELTA(ST_RAW_DELTA&&) noexcept = default;
+		ST_RAW_DELTA& operator=(ST_RAW_DELTA&&) noexcept = default;
 
-		RAW_DELTA(bool bClr = false) noexcept : x(0), y(0), bClear(bClr)
-		{}
-		RAW_DELTA(int xIn, int yIn, bool bClr = false) noexcept :
-			x(xIn), y(yIn), bClear(bClr)
-		{}
-		~RAW_DELTA() noexcept
-		{}
+		//変数宣言
+		int ms_X;
+		int ms_Y;
+		bool ms_bClear; //NULLデータであることを示すフラグ
+
+		//コンストラクタ
+		explicit ST_RAW_DELTA(const bool bClr = false) noexcept
+			: ms_X(0)
+			, ms_Y(0)
+			, ms_bClear(bClr) {}
+
+		ST_RAW_DELTA(const int xIn, const int yIn, const bool bClr = false) noexcept
+			: ms_X(xIn)
+			, ms_Y(yIn)
+			, ms_bClear(bClr) {}
+
+		~ST_RAW_DELTA() noexcept = default;
 	};
 
+	//コピー＆ムーブ
+	CT_MOUSE(const CT_MOUSE&) = default;
+	CT_MOUSE& operator =(const CT_MOUSE&) = default;
+	CT_MOUSE(CT_MOUSE&&) noexcept = default;
+	CT_MOUSE& operator=(CT_MOUSE&&) noexcept = default;
+
 	//プロトタイプ宣言
-	explicit MOUSE() noexcept;
-	~MOUSE() noexcept;
-	std::pair<int, int> GetPos() const noexcept;	//マウス座標取得
-	int GetPosX() const noexcept;					//マウスX座標取得
-	int GetPosY() const noexcept;					//マウスY座標取得
-	int GetWheelVal() const noexcept;				//ホイール値取得
-	bool IsInWindow() const noexcept;				//ウィンドウ内にいるか確認
-	bool LeftIsPressed() const noexcept;			//マウス左クリック確認
-	bool RightIsPressed() const noexcept;			//マウス右クリック確認
-	MOUSE_EVENTS ReadBuffer() noexcept;				//バッファ読込み
-	bool IsEmpty() const noexcept;					//バッファの空き確認
-	void ClearBuffer() noexcept;					//バッファクリア
-	RAW_DELTA ReadRawDelta() noexcept;				//RawInputバッファ読込み
-	void SetRawInput(bool bUse) noexcept;			//RawInput使用制御
-	bool IsUsingRawInput() const noexcept;			//RawInput使用状態確認
+	explicit CT_MOUSE() noexcept;
+	~CT_MOUSE() noexcept;
+	[[nodiscard]] std::pair<int, int> GetPos() const noexcept; //マウス座標取得
+	[[nodiscard]] int GetPosX() const noexcept;                //マウスX座標取得
+	[[nodiscard]] int GetPosY() const noexcept;                //マウスY座標取得
+	[[nodiscard]] int GetWheelVal() const noexcept;            //ホイール値取得
+	[[nodiscard]] bool IsInWindow() const noexcept;            //ウィンドウ内にいるか確認
+	[[nodiscard]] bool LeftIsPressed() const noexcept;         //マウス左クリック確認
+	[[nodiscard]] bool RightIsPressed() const noexcept;        //マウス右クリック確認
+	CT_MOUSE_EVENTS ReadBuffer() noexcept;                     //バッファ読込み
+	[[nodiscard]] bool IsEmpty() const noexcept;               //バッファの空き確認
+	void ClearBuffer() noexcept;                               //バッファクリア
+	ST_RAW_DELTA ReadRawDelta() noexcept;                      //RawInputバッファ読込み
+	void SetRawInput(bool bUse) noexcept;                      //RawInput使用制御
+	[[nodiscard]] bool IsUsingRawInput() const noexcept;       //RawInput使用状態確認
 
 private:
 
 	//変数宣言
-	static constexpr unsigned int nBufferSize = 16u;	//キューのサイズ（フレームごとの最大受付数）
-	std::queue<MOUSE_EVENTS> m_Buffer;					//マウスイベント用キュー
-	MOUSE_INFO m_Info;									//マウス情報
-	int m_WheelDelta;									//ホイール操作量
-	int m_WheelVal;										//ホイール値
-	std::queue<RAW_DELTA> m_RawDeltaBuffer;				//RawInput用キュー
-	bool m_bUseRawInput;								//RawInput使用フラグ
+	static constexpr unsigned int c_BufferSize = 16u; //キューのサイズ（フレームごとの最大受付数）
+	std::queue<CT_MOUSE_EVENTS> m_Buffer;             //マウスイベント用キュー
+	ST_MOUSE_INFO m_Info;                             //マウス情報
+	int m_WheelDelta;                                 //ホイール操作量
+	int m_WheelVal;                                   //ホイール値
+	std::queue<ST_RAW_DELTA> m_RawDeltaBuffer;        //RawInput用キュー
+	bool m_bUseRawInput;                              //RawInput使用フラグ
 
 	//プロトタイプ宣言
-	void TruncateBuffer() noexcept;					//バッファ切り捨て
-	void MouseMove(int PosX, int PosY) noexcept;	//マウス移動
-	void LeaveWindow() noexcept;					//ウィンドウ外に行く
-	void Enterwindow() noexcept;					//ウィンドウ内に入る
-	void LeftPressed() noexcept;					//左クリックオン
-	void LeftReleased() noexcept;					//左クリックオフ
-	void RightPressed() noexcept;					//右クリックオン
-	void RightReleased() noexcept;					//右クリックオフ
-	void WheelUp() noexcept;						//ホイールアップ
-	void WheelDown() noexcept;						//ホイールダウン
-	void WheelProc(int nDelta) noexcept;			//ホイール処理
-	void TruncateRawInputBuffer() noexcept;			//RawInputバッファ切り捨て
-	void GetRawDelta(int dx, int dy) noexcept;		//RawInput情報取得
+	void TruncateBuffer() noexcept;              //バッファ切り捨て
+	void MouseMove(int posX, int posY) noexcept; //マウス移動
+	void LeaveWindow() noexcept;                 //ウィンドウ外に行く
+	void EnterWindow() noexcept;                 //ウィンドウ内に入る
+	void LeftPressed() noexcept;                 //左クリックオン
+	void LeftReleased() noexcept;                //左クリックオフ
+	void RightPressed() noexcept;                //右クリックオン
+	void RightReleased() noexcept;               //右クリックオフ
+	void WheelUp() noexcept;                     //ホイールアップ
+	void WheelDown() noexcept;                   //ホイールダウン
+	void WheelProc(int nDelta) noexcept;         //ホイール処理
+	void TruncateRawInputBuffer() noexcept;      //RawInputバッファ切り捨て
+	void GetRawDelta(int dx, int dy) noexcept;   //RawInput情報取得
 
 	//権限指定
 	friend class WIN_WINDOW;

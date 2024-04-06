@@ -26,11 +26,11 @@ public:
 	//コピー＆ムーブ
 	CT_ERROR_OUTPUT(const CT_ERROR_OUTPUT&) = default;
 	CT_ERROR_OUTPUT& operator =(const CT_ERROR_OUTPUT&) = default;
-	CT_ERROR_OUTPUT(CT_ERROR_OUTPUT&&) = default;
-	CT_ERROR_OUTPUT& operator=(CT_ERROR_OUTPUT&&) = default;
+	CT_ERROR_OUTPUT(CT_ERROR_OUTPUT&&) noexcept = default;
+	CT_ERROR_OUTPUT& operator=(CT_ERROR_OUTPUT&&) noexcept = default;
 
 	//プロトタイプ宣言
-	explicit CT_ERROR_OUTPUT(int nLine, const char* chFile) noexcept;
+	explicit CT_ERROR_OUTPUT(const int& nLine, const char* chFile) noexcept;
 	~CT_ERROR_OUTPUT() noexcept override;
 	std::string GetErrorInfo() const noexcept;  //エラー情報取得
 	const char* what() const noexcept override; //エラー情報出力

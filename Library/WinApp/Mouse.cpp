@@ -15,224 +15,220 @@
 //===== クラス実装 =====
 
 //***** マウスイベント ****
-MOUSE_EVENTS::MOUSE_EVENTS() noexcept : m_Type(MOUSE_STATUS::Invalid), m_Info()
+CT_MOUSE_EVENTS::CT_MOUSE_EVENTS() noexcept : m_Type(ET_MOUSE_STATUS::me_Invalid), m_Info()
 {
 }
 
-MOUSE_EVENTS::MOUSE_EVENTS(MOUSE_STATUS Type, const MOUSE_INFO& Parent) noexcept :
-	m_Type(Type), m_Info(Parent)
+CT_MOUSE_EVENTS::CT_MOUSE_EVENTS(const ET_MOUSE_STATUS type, const ST_MOUSE_INFO& parent) noexcept :
+	m_Type(type), m_Info(parent)
 {
 }
 
-MOUSE_EVENTS::~MOUSE_EVENTS() noexcept
-{
-}
+CT_MOUSE_EVENTS::~CT_MOUSE_EVENTS() noexcept = default;
 
 //***** マウス処理 *****
-MOUSE::MOUSE() noexcept : m_Buffer(), m_Info(), m_WheelDelta(0), m_WheelVal(0),
+CT_MOUSE::CT_MOUSE() noexcept : m_Buffer(), m_Info(), m_WheelDelta(0), m_WheelVal(0),
 	m_RawDeltaBuffer(), m_bUseRawInput(false)
 {
 }
 
-MOUSE::~MOUSE() noexcept
-{
-}
+CT_MOUSE::~CT_MOUSE() noexcept = default;
 
 //マウスXY座標取得
-std::pair<int, int> MOUSE::GetPos() const noexcept
+std::pair<int, int> CT_MOUSE::GetPos() const noexcept
 {
-	return { m_Info.nPosX, m_Info.nPosY };
+	return { m_Info.ms_PosX, m_Info.ms_PosY };
 }
 
-int MOUSE::GetPosX() const noexcept
+int CT_MOUSE::GetPosX() const noexcept
 {
-	return m_Info.nPosX;
+	return m_Info.ms_PosX;
 }
 
-int MOUSE::GetPosY() const noexcept
+int CT_MOUSE::GetPosY() const noexcept
 {
-	return m_Info.nPosY;
+	return m_Info.ms_PosY;
 }
 
 //ホイール値取得
-int MOUSE::GetWheelVal() const noexcept
+int CT_MOUSE::GetWheelVal() const noexcept
 {
 	return m_WheelVal;
 }
 
 //ウィンドウ内にいるか確認
-bool MOUSE::IsInWindow() const noexcept
+bool CT_MOUSE::IsInWindow() const noexcept
 {
-	return m_Info.bIsInWindow;
+	return m_Info.ms_bIsInWindow;
 }
 
 //マウス左クリック確認
-bool MOUSE::LeftIsPressed() const noexcept
+bool CT_MOUSE::LeftIsPressed() const noexcept
 {
-	return m_Info.bLeftIsPressed;
+	return m_Info.ms_bLeftIsPressed;
 }
 
 //マウス右クリック確認
-bool MOUSE::RightIsPressed() const noexcept
+bool CT_MOUSE::RightIsPressed() const noexcept
 {
-	return m_Info.bRightIsPressed;
+	return m_Info.ms_bRightIsPressed;
 }
 
 //バッファ読込み
-MOUSE_EVENTS MOUSE::ReadBuffer() noexcept
+CT_MOUSE_EVENTS CT_MOUSE::ReadBuffer() noexcept
 {
 	//例外処理
 	if (m_Buffer.empty())
-		return MOUSE_EVENTS{};
+		return CT_MOUSE_EVENTS{};
 
-	const MOUSE_EVENTS Event = m_Buffer.front();	//次のイベントにアクセス
-	m_Buffer.pop();									//イベントを削除する
-	return Event;
+	const CT_MOUSE_EVENTS l_Event = m_Buffer.front();	//次のイベントにアクセス
+	m_Buffer.pop();										//イベントを削除する
+	return l_Event;
 }
 
 //バッファの空き確認
-bool MOUSE::IsEmpty() const noexcept
+bool CT_MOUSE::IsEmpty() const noexcept
 {
 	return m_Buffer.empty();
 }
 
 //バッファクリア
-void MOUSE::ClearBuffer() noexcept
+void CT_MOUSE::ClearBuffer() noexcept
 {
-	m_Buffer = std::queue<MOUSE_EVENTS>{};
+	m_Buffer = std::queue<CT_MOUSE_EVENTS>{};
 }
 
 //RawInputバッファ読込み
-MOUSE::RAW_DELTA MOUSE::ReadRawDelta() noexcept
+CT_MOUSE::ST_RAW_DELTA CT_MOUSE::ReadRawDelta() noexcept
 {
 	//例外処理(キューが空になった)
 	if (m_RawDeltaBuffer.empty())
-		return RAW_DELTA{ true };
+		return ST_RAW_DELTA{ true };
 
-	const RAW_DELTA Data = m_RawDeltaBuffer.front();	//次のイベントにアクセス
-	m_RawDeltaBuffer.pop();								//イベントを削除する
-	return Data;
+	const ST_RAW_DELTA l_Data = m_RawDeltaBuffer.front();	//次のイベントにアクセス
+	m_RawDeltaBuffer.pop();									//イベントを削除する
+	return l_Data;
 }
 
 //RawInput使用制御
-void MOUSE::SetRawInput(bool bUse) noexcept
+void CT_MOUSE::SetRawInput(const bool bUse) noexcept
 {
 	m_bUseRawInput = bUse;
 }
 
 //RawInput使用状態確認
-bool MOUSE::IsUsingRawInput() const noexcept
+bool CT_MOUSE::IsUsingRawInput() const noexcept
 {
 	return m_bUseRawInput;
 }
 
 //バッファ切り捨て
-void MOUSE::TruncateBuffer() noexcept
+void CT_MOUSE::TruncateBuffer() noexcept
 {
-	while (m_Buffer.size() > nBufferSize)	//上限サイズに収まるまで
+	while (m_Buffer.size() > c_BufferSize)	//上限サイズに収まるまで
 		m_Buffer.pop();						//キューポップ
 }
 
 //マウス移動
-void MOUSE::MouseMove(int PosX, int PosY) noexcept
+void CT_MOUSE::MouseMove(const int posX, const int posY) noexcept
 {
-	m_Info.nPosX = PosX;
-	m_Info.nPosY = PosY;							//座標格納
-	m_Buffer.push({ MOUSE_STATUS::Move, m_Info });	//キュープッシュ
-	TruncateBuffer();								//バッファ上限管理
+	m_Info.ms_PosX = posX;
+	m_Info.ms_PosY = posY;										//座標格納
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_Move, m_Info);		//キュープッシュ
+	TruncateBuffer();											//バッファ上限管理
 }
 
 //ウィンドウ外に行く
-void MOUSE::LeaveWindow() noexcept
+void CT_MOUSE::LeaveWindow() noexcept
 {
-	m_Info.bIsInWindow = false;
-	m_Buffer.push({ MOUSE_STATUS::LeaveWindow, m_Info });
+	m_Info.ms_bIsInWindow = false;
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_LeaveWindow, m_Info);
 	TruncateBuffer();
 }
 
 //ウィンドウ内に入る
-void MOUSE::Enterwindow() noexcept
+void CT_MOUSE::EnterWindow() noexcept
 {
-	m_Info.bIsInWindow = true;
-	m_Buffer.push({ MOUSE_STATUS::EnterWindow, m_Info });
+	m_Info.ms_bIsInWindow = true;
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_EnterWindow, m_Info);
 	TruncateBuffer();
 }
 
 //左クリックオン
-void MOUSE::LeftPressed() noexcept
+void CT_MOUSE::LeftPressed() noexcept
 {
-	m_Info.bLeftIsPressed = true;
-	m_Buffer.push({ MOUSE_STATUS::L_Press, m_Info });
+	m_Info.ms_bLeftIsPressed = true;
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_L_Press, m_Info);
 	TruncateBuffer();
 }
 
 //左クリックオフ
-void MOUSE::LeftReleased() noexcept
+void CT_MOUSE::LeftReleased() noexcept
 {
-	m_Info.bLeftIsPressed = false;
-	m_Buffer.push({ MOUSE_STATUS::L_Release, m_Info });
+	m_Info.ms_bLeftIsPressed = false;
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_L_Release, m_Info);
 	TruncateBuffer();
 }
 
 //右クリックオン
-void MOUSE::RightPressed() noexcept
+void CT_MOUSE::RightPressed() noexcept
 {
-	m_Info.bRightIsPressed = true;
-	m_Buffer.push({ MOUSE_STATUS::R_Press, m_Info });
+	m_Info.ms_bRightIsPressed = true;
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_R_Press, m_Info);
 	TruncateBuffer();
 }
 
 //右クリックオフ
-void MOUSE::RightReleased() noexcept
+void CT_MOUSE::RightReleased() noexcept
 {
-	m_Info.bRightIsPressed = false;
-	m_Buffer.push({ MOUSE_STATUS::R_Release, m_Info });
+	m_Info.ms_bRightIsPressed = false;
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_R_Release, m_Info);
 	TruncateBuffer();
 }
 
 //ホイールアップ
-void MOUSE::WheelUp() noexcept
+void CT_MOUSE::WheelUp() noexcept
 {
-	m_Buffer.push({ MOUSE_STATUS::WheelUp, m_Info });
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_WheelUp, m_Info);
 	TruncateBuffer();
 	m_WheelVal++;
 }
 
 //ホイールダウン
-void MOUSE::WheelDown() noexcept
+void CT_MOUSE::WheelDown() noexcept
 {
-	m_Buffer.push({ MOUSE_STATUS::WheelDown, m_Info });
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_WheelDown, m_Info);
 	TruncateBuffer();
 	m_WheelVal--;
 }
 
 //ホイール処理
-void MOUSE::WheelProc(int nDelta) noexcept
+void CT_MOUSE::WheelProc(const int nDelta) noexcept
 {
 	m_WheelDelta += nDelta;
 
 	//ホイール応答精度制御(1回のメッセージで応答)
-	static int nResponse = WHEEL_DELTA * 1;
-	if (m_WheelDelta >= nResponse) {
+	static int l_NResponse = WHEEL_DELTA * 1;
+	if (m_WheelDelta >= l_NResponse) {
 		m_WheelDelta = 0;
 		WheelUp();
 	}
-	if (m_WheelDelta <= -nResponse) {
+	if (m_WheelDelta <= -l_NResponse) {
 		m_WheelDelta = 0;
 		WheelDown();
 	}
 }
 
 //RawInputバッファ切り捨て
-void MOUSE::TruncateRawInputBuffer() noexcept
+void CT_MOUSE::TruncateRawInputBuffer() noexcept
 {
-	while (m_RawDeltaBuffer.size() > nBufferSize)	//上限サイズに収まるまで
+	while (m_RawDeltaBuffer.size() > c_BufferSize)	//上限サイズに収まるまで
 		m_RawDeltaBuffer.pop();						//キューポップ
 }
 
 //RawInput情報取得
-void MOUSE::GetRawDelta(int dx, int dy) noexcept
+void CT_MOUSE::GetRawDelta(int dx, int dy) noexcept
 {
-	m_RawDeltaBuffer.push({ dx, dy });
+	m_RawDeltaBuffer.emplace(dx, dy);
 	TruncateRawInputBuffer();
 }

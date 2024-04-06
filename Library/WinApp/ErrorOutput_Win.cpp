@@ -2,7 +2,7 @@
 #include <WinApp/ErrorOutput_Win.h>
 
 //===== クラス実装 =====
-CT_EO_WIN::CT_EO_WIN(const int nLine, const char* chFile, const HRESULT hr, const char* str) noexcept
+CT_EO_WIN::CT_EO_WIN(const int& nLine, const char* chFile, const HRESULT& hr, const char* str) noexcept
 	: CT_ERROR_OUTPUT(nLine, chFile)
 	, m_Hr(hr)
 {
@@ -34,7 +34,7 @@ std::string CT_EO_WIN::GetType() const noexcept
  * \param hr
  * \return std::string
  */
-std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT hr) const noexcept
+std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT& hr) const noexcept
 {
 	//カスタム例外
 	if (hr == S_OK && (!m_StrError.empty()))

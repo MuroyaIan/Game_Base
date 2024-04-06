@@ -12,7 +12,7 @@ IMGUI_MGR::IMGUI_MGR() noexcept
 
 #ifdef _DEBUG
 
-		PrintD(L"Error : IMGUI‰Šú‰»Ž¸”s!\n");
+		PRINT_D(L"Error : IMGUI‰Šú‰»Ž¸”s!\n");
 
 #endif // _DEBUG
 
