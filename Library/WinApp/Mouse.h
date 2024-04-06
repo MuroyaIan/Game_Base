@@ -5,6 +5,7 @@
  * @date 2022/05/03
  * @履歴 2022/05/03：クラス作成
  *		 2022/11/15：OS別処理への対応
+ *		 2024/04/06：書式改善
  */
 
 //===== インクルードガード =====
@@ -73,7 +74,7 @@ public:
 
 	//プロトタイプ宣言
 	explicit CT_MOUSE_EVENTS() noexcept;
-	CT_MOUSE_EVENTS(ET_MOUSE_STATUS type, const ST_MOUSE_INFO& parent) noexcept;
+	CT_MOUSE_EVENTS(const ET_MOUSE_STATUS& type, const ST_MOUSE_INFO& parent) noexcept;
 	~CT_MOUSE_EVENTS() noexcept;
 
 	[[nodiscard]] bool IsValid() const noexcept //マウスイベント有効確認
@@ -143,12 +144,12 @@ public:
 		bool ms_bClear; //NULLデータであることを示すフラグ
 
 		//コンストラクタ
-		explicit ST_RAW_DELTA(const bool bClr = false) noexcept
+		explicit ST_RAW_DELTA(const bool& bClr = false) noexcept
 			: ms_X(0)
 			, ms_Y(0)
 			, ms_bClear(bClr) {}
 
-		ST_RAW_DELTA(const int xIn, const int yIn, const bool bClr = false) noexcept
+		ST_RAW_DELTA(const int& xIn, const int& yIn, const bool& bClr = false) noexcept
 			: ms_X(xIn)
 			, ms_Y(yIn)
 			, ms_bClear(bClr) {}
@@ -176,7 +177,7 @@ public:
 	[[nodiscard]] bool IsEmpty() const noexcept;               //バッファの空き確認
 	void ClearBuffer() noexcept;                               //バッファクリア
 	ST_RAW_DELTA ReadRawDelta() noexcept;                      //RawInputバッファ読込み
-	void SetRawInput(bool bUse) noexcept;                      //RawInput使用制御
+	void SetRawInput(const bool& bUse) noexcept;               //RawInput使用制御
 	[[nodiscard]] bool IsUsingRawInput() const noexcept;       //RawInput使用状態確認
 
 private:
@@ -191,19 +192,19 @@ private:
 	bool m_bUseRawInput;                              //RawInput使用フラグ
 
 	//プロトタイプ宣言
-	void TruncateBuffer() noexcept;              //バッファ切り捨て
-	void MouseMove(int posX, int posY) noexcept; //マウス移動
-	void LeaveWindow() noexcept;                 //ウィンドウ外に行く
-	void EnterWindow() noexcept;                 //ウィンドウ内に入る
-	void LeftPressed() noexcept;                 //左クリックオン
-	void LeftReleased() noexcept;                //左クリックオフ
-	void RightPressed() noexcept;                //右クリックオン
-	void RightReleased() noexcept;               //右クリックオフ
-	void WheelUp() noexcept;                     //ホイールアップ
-	void WheelDown() noexcept;                   //ホイールダウン
-	void WheelProc(int nDelta) noexcept;         //ホイール処理
-	void TruncateRawInputBuffer() noexcept;      //RawInputバッファ切り捨て
-	void GetRawDelta(int dx, int dy) noexcept;   //RawInput情報取得
+	void TruncateBuffer() noexcept;                            //バッファ切り捨て
+	void MouseMove(const int& posX, const int& posY) noexcept; //マウス移動
+	void LeaveWindow() noexcept;                               //ウィンドウ外に行く
+	void EnterWindow() noexcept;                               //ウィンドウ内に入る
+	void LeftPressed() noexcept;                               //左クリックオン
+	void LeftReleased() noexcept;                              //左クリックオフ
+	void RightPressed() noexcept;                              //右クリックオン
+	void RightReleased() noexcept;                             //右クリックオフ
+	void WheelUp() noexcept;                                   //ホイールアップ
+	void WheelDown() noexcept;                                 //ホイールダウン
+	void WheelProc(const int& nDelta) noexcept;                //ホイール処理
+	void TruncateRawInputBuffer() noexcept;                    //RawInputバッファ切り捨て
+	void GetRawDelta(const int& dx, const int& dy) noexcept;   //RawInput情報取得
 
 	//権限指定
 	friend class WIN_WINDOW;
