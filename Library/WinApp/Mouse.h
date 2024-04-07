@@ -207,5 +207,5 @@ private:
 	void GetRawDelta(const int& dx, const int& dy) noexcept;   //RawInputî•ñæ“¾
 
 	//Œ ŒÀw’è
-	friend class WIN_WINDOW;
+	friend class CT_IW_WIN;
 };

@@ -49,10 +49,10 @@ APP::APP() :
 #ifdef _WIN64
 
 	//ウィンドウ初期化
-	m_pWindow = std::make_unique<WIN_WINDOW>(WINDOW_NAME, static_cast<int>(SCREEN_WIDTH), static_cast<int>(SCREEN_HEIGHT), WND_POS_X, WND_POS_Y);
+	m_pWindow = std::make_unique<CT_IW_WIN>(WINDOW_NAME, static_cast<int>(SCREEN_WIDTH), static_cast<int>(SCREEN_HEIGHT), WND_POS_X, WND_POS_Y);
 
 	//DirectX初期化
-	m_pDX = std::make_unique<GRAPHIC>(dynamic_cast<WIN_WINDOW*>(m_pWindow.get())->GetHandle(), SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_pDX = std::make_unique<GRAPHIC>(dynamic_cast<CT_IW_WIN*>(m_pWindow.get())->GetHandle(), SCREEN_WIDTH, SCREEN_HEIGHT);
 
 #endif // _WIN64
 

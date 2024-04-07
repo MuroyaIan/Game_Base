@@ -56,7 +56,7 @@ public:
 private:
 
 	//* 変数宣言 *
-	IF_WINDOW& m_Window;		//Windows参照
+	CT_IF_WINDOW& m_Window;		//Windows参照
 	CT_MOUSE& m_Mouse;				//マウス参照
 	INPUT_KB& m_KB;				//キーボード参照
 	DirectX::XMINT2 MoveVal;	//移動量（毎フレーム）

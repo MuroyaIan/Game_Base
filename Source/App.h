@@ -64,7 +64,7 @@ public:
 	void Update();										//更新処理
 	void Draw();										//描画処理
 
-	IF_WINDOW& GetWindowProc() const noexcept			//ウィンドウ処理参照
+	CT_IF_WINDOW& GetWindowProc() const noexcept			//ウィンドウ処理参照
 	{
 		return *m_pWindow.get();
 	}
@@ -111,7 +111,7 @@ private:
 
 #endif // IMGUI
 
-	std::unique_ptr<IF_WINDOW> m_pWindow;				//ゲームウィンドウ
+	std::unique_ptr<CT_IF_WINDOW> m_pWindow;				//ゲームウィンドウ
 	MSG m_Message;										//メッセージ構造体
 	GAME_TIME m_Time;									//時間処理
 	std::unique_ptr<GRAPHIC> m_pDX;						//DirectX用ポインタ

@@ -113,5 +113,5 @@ private:
 	void ClearState() noexcept;                              //キー状態リセット
 
 	//権限指定
-	friend class WIN_WINDOW;
+	friend class CT_IW_WIN;
 };

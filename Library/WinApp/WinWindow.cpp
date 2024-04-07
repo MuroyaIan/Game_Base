@@ -14,7 +14,7 @@
 #pragma comment(lib, "imm32")
 
 //===== クラス実装 =====
-WIN_WINDOW::WIN_WINDOW(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nWndPosX, int nWndPosY) : IF_WINDOW(),
+CT_IW_WIN::CT_IW_WIN(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nWndPosX, int nWndPosY) : CT_IF_WINDOW(),
 	m_hAppInst(GetModuleHandle(nullptr)), m_PosX(nWndPosX), m_PosY(nWndPosY), m_Width(nWndWidth), m_Height(nWndHeight), m_hWindow(nullptr),
 	m_bDrawCursor(true), m_RawBuffer(0), m_useImgui(false)
 {
@@ -22,7 +22,7 @@ WIN_WINDOW::WIN_WINDOW(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nW
 	WNDCLASSEX WindowClass{};
 	WindowClass.cbSize = static_cast<UINT>(sizeof(WNDCLASSEX));
 	WindowClass.style = CS_OWNDC;
-	WindowClass.lpfnWndProc = WIN_WINDOW::WndProc_Init;
+	WindowClass.lpfnWndProc = CT_IW_WIN::WndProc_Init;
 	WindowClass.cbClsExtra = 0;
 	WindowClass.cbWndExtra = 0;
 	WindowClass.hInstance = m_hAppInst;
@@ -78,7 +78,7 @@ WIN_WINDOW::WIN_WINDOW(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nW
 
 }
 
-WIN_WINDOW::~WIN_WINDOW() noexcept(false)
+CT_IW_WIN::~CT_IW_WIN() noexcept(false)
 {
 
 #ifdef IMGUI
@@ -98,7 +98,7 @@ WIN_WINDOW::~WIN_WINDOW() noexcept(false)
 }
 
 //トランスフォーム
-void WIN_WINDOW::Transform(int nWndPosX, int nWndPosY, int nWndWidth, int nWndHeight)
+void CT_IW_WIN::Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth, const int& nWndHeight)
 {
 	//サイズ取得
 	RECT rcClient;								//クライアント領域
@@ -134,7 +134,7 @@ void WIN_WINDOW::Transform(int nWndPosX, int nWndPosY, int nWndWidth, int nWndHe
 }
 
 //タイトル出力
-void WIN_WINDOW::TitlePrint(const std::string& Text) const
+void CT_IW_WIN::TitlePrint(const std::string& Text) const
 {
 	std::string TitleName = Text;
 	if (!SetWindowTextA(m_hWindow, TitleName.c_str()))
@@ -142,7 +142,7 @@ void WIN_WINDOW::TitlePrint(const std::string& Text) const
 }
 
 //タイトル出力（マウス座標）
-void WIN_WINDOW::TitlePrint_MousePos() const
+void CT_IW_WIN::TitlePrint_MousePos() const
 {
 	//メッセージボックス表示バグあり
 	auto [x, y] = m_Mouse.GetPos();
@@ -152,7 +152,7 @@ void WIN_WINDOW::TitlePrint_MousePos() const
 }
 
 //タイトル出力（ホイール値）
-void WIN_WINDOW::TitlePrint_WheelVal()
+void CT_IW_WIN::TitlePrint_WheelVal()
 {
 	while (!m_Mouse.IsEmpty()) {
 
@@ -182,7 +182,7 @@ void WIN_WINDOW::TitlePrint_WheelVal()
 }
 
 //マウス使用・不使用
-void WIN_WINDOW::EnableCursor() noexcept
+void CT_IW_WIN::EnableCursor() noexcept
 {
 	m_bDrawCursor = true;
 	ShowCursor();
@@ -196,7 +196,7 @@ void WIN_WINDOW::EnableCursor() noexcept
 
 }
 
-void WIN_WINDOW::DisableCursor() noexcept
+void CT_IW_WIN::DisableCursor() noexcept
 {
 	m_bDrawCursor = false;
 	HideCursor();
@@ -211,26 +211,26 @@ void WIN_WINDOW::DisableCursor() noexcept
 }
 
 //マウス使用状態確認
-bool WIN_WINDOW::IsUsingCursor() const noexcept
+bool CT_IW_WIN::IsUsingCursor() const noexcept
 {
 	return m_bDrawCursor;
 }
 
 //WndProc初期化
-LRESULT CALLBACK WIN_WINDOW::WndProc_Init(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CALLBACK CT_IW_WIN::WndProc_Init(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	//Instance作成時
 	if (uMsg == WM_NCCREATE)
 	{
 		//Instanceポインタを取得
 		const CREATESTRUCT* const pCreateInfo = reinterpret_cast<CREATESTRUCT*>(lParam);
-		WIN_WINDOW* const pGameWnd = static_cast<WIN_WINDOW*>(pCreateInfo->lpCreateParams);
+		CT_IW_WIN* const pGameWnd = static_cast<CT_IW_WIN*>(pCreateInfo->lpCreateParams);
 
 		//InstanceポインタをWinAPIのユーザデータとして登録（WinAPIはクラスのメンバ関数を認識できない為）
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pGameWnd));
 
 		//初期化以後のWndProc呼び出し関数を設定
-		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WIN_WINDOW::WndProc_Call));
+		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&CT_IW_WIN::WndProc_Call));
 
 		//WndProc本処理
 		return pGameWnd->WndProc(hWnd, uMsg, wParam, lParam);
@@ -241,17 +241,17 @@ LRESULT CALLBACK WIN_WINDOW::WndProc_Init(HWND hWnd, UINT uMsg, WPARAM wParam, L
 }
 
 //WndProc呼び出し
-LRESULT CALLBACK WIN_WINDOW::WndProc_Call(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CALLBACK CT_IW_WIN::WndProc_Call(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	//Instanceポインタを取得
-	WIN_WINDOW* const pGameWnd = reinterpret_cast<WIN_WINDOW*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+	CT_IW_WIN* const pGameWnd = reinterpret_cast<CT_IW_WIN*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
 	//WndProc本処理
 	return pGameWnd->WndProc(hWnd, uMsg, wParam, lParam);
 }
 
 //WndProc本処理
-LRESULT WIN_WINDOW::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CT_IW_WIN::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
 {
 
 #ifdef IMGUI
@@ -509,18 +509,18 @@ LRESULT WIN_WINDOW::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 }
 
 //マウス非表示・表示
-void WIN_WINDOW::HideCursor() noexcept
+void CT_IW_WIN::HideCursor() noexcept
 {
 	while (::ShowCursor(FALSE) >= 0);
 }
 
-void WIN_WINDOW::ShowCursor() noexcept
+void CT_IW_WIN::ShowCursor() noexcept
 {
 	while (::ShowCursor(TRUE) < 0);
 }
 
 //マウスをウィンドウ内にロック・ロック解除
-void WIN_WINDOW::LockCursor() noexcept
+void CT_IW_WIN::LockCursor() noexcept
 {
 	RECT rect;
 	GetClientRect(m_hWindow, &rect);
@@ -528,7 +528,7 @@ void WIN_WINDOW::LockCursor() noexcept
 	ClipCursor(&rect);															//マウスを指定範囲内にロックする
 }
 
-void WIN_WINDOW::UnlockCursor() noexcept
+void CT_IW_WIN::UnlockCursor() noexcept
 {
 	ClipCursor(nullptr);
 

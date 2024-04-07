@@ -16,14 +16,20 @@
 #include <vector>						//動的配列
 
 //===== クラス定義 =====
-class WIN_WINDOW : public IF_WINDOW
+class CT_IW_WIN : public CT_IF_WINDOW
 {
 public:
 
+	//コピー＆ムーブ
+	CT_IW_WIN(const CT_IW_WIN&) = default;
+	CT_IW_WIN& operator =(const CT_IW_WIN&) = default;
+	CT_IW_WIN(CT_IW_WIN&&) noexcept = default;
+	CT_IW_WIN& operator=(CT_IW_WIN&&) noexcept = default;
+
 	//プロトタイプ宣言
-	explicit WIN_WINDOW(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nWndPosX = CW_USEDEFAULT, int nWndPosY = CW_USEDEFAULT);
-	~WIN_WINDOW() noexcept(false) override;
-	void Transform(int nWndPosX, int nWndPosY, int nWndWidth = 0, int nWndHeight = 0) override;		//トランスフォーム
+	explicit CT_IW_WIN(LPCWSTR WindowName, int nWndWidth, int nWndHeight, int nWndPosX = CW_USEDEFAULT, int nWndPosY = CW_USEDEFAULT);
+	~CT_IW_WIN() noexcept(false) override;
+	void Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth = 0, const int& nWndHeight = 0) override;		//トランスフォーム
 	void TitlePrint(const std::string& Text) const override;										//タイトル出力
 	void TitlePrint_MousePos() const override;														//タイトル出力（マウス座標）
 	void TitlePrint_WheelVal() override;															//タイトル出力（ホイール値）
@@ -43,7 +49,7 @@ public:
 	{
 		return m_hWindow;
 	}
-	const bool IsUsingImgui() const noexcept override		//Imgui使用確認
+	bool IsUsingImgui() const noexcept override		//Imgui使用確認
 	{
 		return m_useImgui;
 	}
