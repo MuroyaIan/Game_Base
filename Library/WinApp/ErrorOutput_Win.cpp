@@ -41,19 +41,19 @@ std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT& hr) const noexcept
 		return m_StrError;
 
 	//î•ñ—pƒƒ‚ƒŠ‚ğŠm•Û
-	LPSTR l_PtrMsgBuffer = nullptr;
+	LPSTR l_pMsgBuffer = nullptr;
 	const DWORD l_MsgLen = FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM,
 		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPSTR>(&l_PtrMsgBuffer), 0, nullptr);
+		reinterpret_cast<LPSTR>(&l_pMsgBuffer), 0, nullptr);
 
 	//—áŠOˆ—
 	if (l_MsgLen == 0)
 		return std::string{"Unknown Error"};
 
 	//î•ñæ“¾
-	std::string l_StrError{l_PtrMsgBuffer};
-	LocalFree(l_PtrMsgBuffer); //ƒƒ‚ƒŠ‰ğ•ú
+	std::string l_StrError{l_pMsgBuffer};
+	LocalFree(l_pMsgBuffer); //ƒƒ‚ƒŠ‰ğ•ú
 	return l_StrError;
 }
 

@@ -27,11 +27,11 @@ struct ST_MOUSE_INFO
 	ST_MOUSE_INFO& operator=(ST_MOUSE_INFO&&) noexcept = default;
 
 	//変数宣言
-	bool ms_bLeftIsPressed;		//左クリック
-	bool ms_bRightIsPressed;	//右クリック
-	int ms_PosX;
-	int ms_PosY;				//マウス座標
-	bool ms_bIsInWindow;		//ウィンドウ内にいる
+	bool ms_bLeftIsPressed;  //左クリック
+	bool ms_bRightIsPressed; //右クリック
+	int ms_PosX;             //マウスX座標
+	int ms_PosY;             //マウスY座標
+	bool ms_bIsInWindow;     //ウィンドウ内にいる
 
 	//コンストラクタ
 	explicit ST_MOUSE_INFO() noexcept
@@ -92,12 +92,12 @@ public:
 		return {m_Info.ms_PosX, m_Info.ms_PosY};
 	}
 
-	[[nodiscard]] int GetPosX() const noexcept
+	[[nodiscard]] int GetPosX() const noexcept //マウスX座標取得
 	{
 		return m_Info.ms_PosX;
 	}
 
-	[[nodiscard]] int GetPosY() const noexcept
+	[[nodiscard]] int GetPosY() const noexcept //マウスY座標取得
 	{
 		return m_Info.ms_PosY;
 	}
@@ -107,12 +107,12 @@ public:
 		return m_Info.ms_bIsInWindow;
 	}
 
-	[[nodiscard]] bool LeftIsPressed() const noexcept //マウス左右クリック確認
+	[[nodiscard]] bool LeftIsPressed() const noexcept //マウス左クリック確認
 	{
 		return m_Info.ms_bLeftIsPressed;
 	}
 
-	[[nodiscard]] bool RightIsPressed() const noexcept
+	[[nodiscard]] bool RightIsPressed() const noexcept //マウス右クリック確認
 	{
 		return m_Info.ms_bRightIsPressed;
 	}

@@ -324,7 +324,7 @@ void APP::Draw()
 
 	//static float fAngle{ 0.0f };	//y2DƒeƒXƒgz‰ñ“]Šp“x
 	//fAngle += 0.01f;
-	//m_pDX->DrawTestTriangle(fAngle, (float)m_Window.m_Mouse.GetPosX() / 800.0f - 1.0f, -(float)m_Window.m_Mouse.GetPosY() / 450.0f + 1.0f);
+	//m_pDX->DrawTestTriangle(fAngle, (float)m_pWindow->m_Mouse.GetPosX() / 800.0f - 1.0f, -(float)m_pWindow->m_Mouse.GetPosY() / 450.0f + 1.0f);
 
 
 

@@ -15,7 +15,7 @@
 #include <sdkddkver.h>
 
 //使用しない機能の制限
-//#define WIN32_LEAN_AND_MEAN		//FBX読込対策
+//#define WIN32_LEAN_AND_MEAN	//FBX読込対策
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
 #define NOMENUS
