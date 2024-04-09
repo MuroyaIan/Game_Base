@@ -49,7 +49,7 @@ public:
 
 	//プロトタイプ宣言
 	explicit GRAPHIC(HWND hWindow, float fWidth, float fHeight);
-	~GRAPHIC() noexcept(!IS_DEBUG);
+	~GRAPHIC() noexcept(!gc_IS_DEBUG);
 	void BeginFrame(float R, float G, float B) const noexcept;				//フレーム開始
 	void DrawIndexed(UINT IndexNum) const noexcept;							//インデックス描画
 	void DrawInstanced(UINT IndexNum, UINT InstanceNum) const noexcept;		//インスタンシング描画

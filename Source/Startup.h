@@ -14,13 +14,13 @@
 
 #ifdef _DEBUG
 
-constexpr bool IS_DEBUG = true;		//デバッグモード
-#define IMGUI						//ImGui使用
-constexpr bool RUN_EDITOR = true;	//エディタモード
+#define IMGUI						 //ImGui使用
+constexpr bool gc_IS_DEBUG = true;   //デバッグモード
+constexpr bool gc_RUN_EDITOR = true; //エディタモード
 
 #else
 
-constexpr bool IS_DEBUG = false;
-constexpr bool RUN_EDITOR = false;
+constexpr bool gc_IS_DEBUG = false;
+constexpr bool gc_RUN_EDITOR = false;
 
 #endif // _DEBUG

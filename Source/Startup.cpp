@@ -6,11 +6,20 @@
 //***** エントリーポイント *****
 #ifdef _WIN64
 
+/**
+ * エントリーポイント(Win)
+ *
+ * \param hInstance
+ * \param hPrevInstance
+ * \param lpCmdLine
+ * \param nCmdShow
+ * \return int
+ */
 int CALLBACK WinMain(
-	_In_ HINSTANCE hInstance,			//Instanceハンドル
-	_In_opt_ HINSTANCE hPrevInstance,	//基本NULL
-	_In_ LPSTR lpCmdLine,				//コマンドライン
-	_In_ int nCmdShow)
+	_In_ const HINSTANCE hInstance,         //Instanceハンドル
+	_In_opt_ const HINSTANCE hPrevInstance, //基本NULL
+	_In_ const LPSTR lpCmdLine,             //コマンドライン
+	_In_ const int nCmdShow)
 {
 	try
 	{
@@ -27,31 +36,31 @@ int CALLBACK WinMain(
 #endif // _DEBUG
 
 		//アプリケーション実行
-		int wParam = APP{}.Run();
+		const int l_WParam = APP{}.Run();
 
 #ifdef _DEBUG
 
 		{
 			//エラー処理
-			Microsoft::WRL::ComPtr<IDXGIDebug1> pDebugDxgi;
-			if (SUCCEEDED(DXGIGetDebugInterface1(0u, IID_PPV_ARGS(&pDebugDxgi))))
-				pDebugDxgi->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+			Microsoft::WRL::ComPtr<IDXGIDebug1> l_PDebugDxgi;
+			if (SUCCEEDED(DXGIGetDebugInterface1(0u, IID_PPV_ARGS(&l_PDebugDxgi))))
+				l_PDebugDxgi->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
 		}
 
 #endif // _DEBUG
 
 		//終了処理
-		return wParam;
+		return l_WParam;
 	}
-	catch (const CT_EO_WIN& e)
+	catch (const CT_EO_WIN& l_Error)
 	{
 		//Windowエラー
-		MessageBoxA(nullptr, e.what(), e.GetType().c_str(), MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, l_Error.what(), l_Error.GetType().c_str(), MB_OK | MB_ICONEXCLAMATION);
 	}
-	catch (const std::exception& e)
+	catch (const std::exception& l_Error)
 	{
 		//標準エラー
-		MessageBoxA(nullptr, e.what(), "標準的例外（エラー）", MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, l_Error.what(), "標準的例外（エラー）", MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (...)
 	{

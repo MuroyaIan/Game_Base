@@ -189,7 +189,7 @@ GRAPHIC::GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 }
 
-GRAPHIC::~GRAPHIC() noexcept(!IS_DEBUG)
+GRAPHIC::~GRAPHIC() noexcept(!gc_IS_DEBUG)
 {
 
 #ifdef IMGUI
