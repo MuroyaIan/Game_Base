@@ -51,7 +51,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	explicit MODEL_MGR(GRAPHIC& Gfx);
+	explicit MODEL_MGR(CT_GRAPHIC& Gfx);
 	~MODEL_MGR() noexcept;
 	ID3D11ShaderResourceView* SetTextureOn(MODEL_ID id, std::string TexName);
 	void SetTextureOff(MODEL_ID id, std::string TexName);						//テクスチャバッファ利用開始・終了
@@ -68,7 +68,7 @@ private:
 	//変数宣言
 	std::vector<std::unique_ptr<ModelRef::MODEL_PACK>> m_aModelPackPtr;				//モデルパック配列
 	std::vector<TEX_PACK> m_aTexPack;												//テクスチャパック配列
-	GRAPHIC& m_DX;																	//DX参照
+	CT_GRAPHIC& m_DX;																	//DX参照
 
 	static std::string aModelName[static_cast<int>(MODEL_ID::ID_Max)];				//モデル名配列
 	static std::vector<std::string> aAnimName[static_cast<int>(MODEL_ID::ID_Max)];	//アニメーション名配列

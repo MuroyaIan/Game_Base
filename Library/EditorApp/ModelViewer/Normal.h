@@ -25,7 +25,7 @@ class NORMAL : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	explicit NORMAL(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn);
+	explicit NORMAL(CT_GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn);
 	~NORMAL() noexcept override;
 	void Update() noexcept override;														//更新処理
 	void Draw(int InstanceNum = 0) noexcept override;										//描画処理

@@ -10,7 +10,7 @@ std::unique_ptr<cb> CB_MATERIAL::m_pCBuff{};
 int CB_MATERIAL::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MATERIAL::CB_MATERIAL(const GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_MATERIAL& Material) :
+CB_MATERIAL::CB_MATERIAL(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_MATERIAL& Material) :
 	BINDER(), m_Material(Material)
 {
 	//定数バッファ初期化
@@ -30,7 +30,7 @@ CB_MATERIAL::~CB_MATERIAL() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MATERIAL::Bind(const GRAPHIC& Gfx) const
+void CB_MATERIAL::Bind(const CT_GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	m_pCBuff->Update(Gfx, m_Material);

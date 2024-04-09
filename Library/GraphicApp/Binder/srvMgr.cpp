@@ -18,7 +18,7 @@ SRV_MGR::~SRV_MGR() noexcept
 }
 
 //バインド処理
-void SRV_MGR::Bind(const GRAPHIC& Gfx) const
+void SRV_MGR::Bind(const CT_GRAPHIC& Gfx) const
 {
 	//それぞれのシェーダへバインドする
 	if (m_SrvSizeVS > 0u)

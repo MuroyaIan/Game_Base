@@ -11,7 +11,7 @@ void SetVertex(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone) noexcept;
 void SetVertexAnimation(VS_DATA<VERTEX_C>& vsData, FBX_LOADER::BONE_DATA& Bone, FBX_LOADER::SKIN_DATA& Skin, int& AnimFrame) noexcept;	//頂点設定（アニメーション再生時）
 
 //===== クラス実装 =====
-BONE_LINE::BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn) :
+BONE_LINE::BONE_LINE(CT_GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn) :
 	DRAWER(Gfx), m_Gfx(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_mtxWorld(), m_Bone(BoneIn),
 	m_bDrawAnimation(Viewer.GetFlag_DrawAnimation()), m_AnimationID(Viewer.GetAnimationID()), m_AnimFrame(Viewer.GetAnimationFrame())
 {

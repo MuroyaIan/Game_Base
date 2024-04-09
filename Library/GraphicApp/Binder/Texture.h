@@ -22,9 +22,9 @@ class TEXTURE : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit TEXTURE(const GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, UINT StartSlot = 0u);
+	explicit TEXTURE(const CT_GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, UINT StartSlot = 0u);
 	~TEXTURE() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理
 
 	ID3D11ShaderResourceView* GetSrvPtr() const		//ポインタ参照
 	{

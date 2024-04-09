@@ -34,8 +34,8 @@ namespace dx = DirectX;
 
 //===== グローバル定数宣言 =====
 constexpr LPCWSTR WINDOW_NAME = L"Game_Base";	//Window名
-constexpr float SCREEN_WIDTH = 1600.0f;
-constexpr float SCREEN_HEIGHT = 900.0f;			//画面解像度
+constexpr float SCREEN_WIDTH = 2560.0f;
+constexpr float SCREEN_HEIGHT = 1440.0f;		//画面解像度
 constexpr int WND_POS_X = 150;
 constexpr int WND_POS_Y = 50;					//Window左上座標
 
@@ -52,7 +52,7 @@ APP::APP() :
 	m_pWindow = std::make_unique<CT_IW_WIN>(WINDOW_NAME, static_cast<int>(SCREEN_WIDTH), static_cast<int>(SCREEN_HEIGHT), WND_POS_X, WND_POS_Y);
 
 	//DirectX初期化
-	m_pDX = std::make_unique<GRAPHIC>(dynamic_cast<CT_IW_WIN*>(m_pWindow.get())->GetHandle(), SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_pDX = std::make_unique<CT_GRAPHIC>(dynamic_cast<CT_IW_WIN*>(m_pWindow.get())->GetHandle(), SCREEN_WIDTH, SCREEN_HEIGHT);
 
 #endif // _WIN64
 

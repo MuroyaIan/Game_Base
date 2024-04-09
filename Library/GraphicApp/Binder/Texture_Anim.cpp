@@ -3,7 +3,7 @@
 #include <GraphicApp/Binder/Texture_Anim.h>
 
 //===== クラス実装 =====
-TEXTURE_ANIM::TEXTURE_ANIM(const GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT StartSlot) :
+TEXTURE_ANIM::TEXTURE_ANIM(const CT_GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT StartSlot) :
 	BINDER(), m_pTextureView(), m_StartSlot(StartSlot)
 {
 	//エラーハンドル
@@ -50,7 +50,7 @@ TEXTURE_ANIM::~TEXTURE_ANIM() noexcept
 }
 
 //バインド処理
-void TEXTURE_ANIM::Bind(const GRAPHIC& Gfx) const
+void TEXTURE_ANIM::Bind(const CT_GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->PSSetShaderResources(m_StartSlot, 1u, m_pTextureView.GetAddressOf());
 }

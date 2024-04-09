@@ -5,7 +5,7 @@
 #include <EditorApp/ModelViewer/ModelLoader.h>
 
 //===== ÉNÉâÉXé¿ëï =====
-SURFACE::SURFACE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn) :
+SURFACE::SURFACE(CT_GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, FBX_LOADER& Loader, int MeshIndex, DRAWER& ModelIn) :
 	DRAWER(Gfx), m_ShaderMgr(ShaderMgr), m_Loader(Loader), m_MeshIndex(MeshIndex), m_mtxWorld(), m_Model(ModelIn)
 {
 	//í∏ì_èÓïÒçÏê¨

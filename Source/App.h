@@ -27,7 +27,7 @@
 //===== 構造体定義 =====
 struct GFX_PACK					//描画用データ
 {
-	GRAPHIC& m_DX;				//DXオブジェクト参照
+	CT_GRAPHIC& m_DX;				//DXオブジェクト参照
 	SHADER_MGR& m_ShaderMgr;	//シェーダマネージャ参照
 	TEXTURE_MGR& m_TextureMgr;	//テクスチャマネージャ参照
 	MODEL_MGR& m_ModelMgr;		//モデルマネージャ参照
@@ -114,7 +114,7 @@ private:
 	std::unique_ptr<CT_IF_WINDOW> m_pWindow;				//ゲームウィンドウ
 	MSG m_Message;										//メッセージ構造体
 	GAME_TIME m_Time;									//時間処理
-	std::unique_ptr<GRAPHIC> m_pDX;						//DirectX用ポインタ
+	std::unique_ptr<CT_GRAPHIC> m_pDX;						//DirectX用ポインタ
 	std::unique_ptr<SHADER_MGR> m_pShaderMgr;			//シェーダマネージャ用ポインタ
 	std::unique_ptr<TEXTURE_MGR> m_pTextureMgr;			//テクスチャマネージャ用ポインタ
 	std::unique_ptr<MODEL_MGR> m_pModelMgr;				//モデルマネージャ用ポインタ

@@ -1,4 +1,3 @@
-
 //===== インクルード部 =====
 #include <Startup.h>
 #include <App.h>
@@ -15,11 +14,11 @@
  * \param nCmdShow
  * \return int
  */
-int CALLBACK WinMain(
-	_In_ const HINSTANCE hInstance,         //Instanceハンドル
-	_In_opt_ const HINSTANCE hPrevInstance, //基本NULL
-	_In_ const LPSTR lpCmdLine,             //コマンドライン
-	_In_ const int nCmdShow)
+int CALLBACK WinMain(_In_ const HINSTANCE hInstance,        //Instanceハンドル
+					_In_opt_ const HINSTANCE hPrevInstance, //基本NULL
+					_In_ const LPSTR lpCmdLine,             //コマンドライン
+					_In_ const int nCmdShow
+)
 {
 	try
 	{
@@ -31,7 +30,7 @@ int CALLBACK WinMain(
 
 #ifdef _DEBUG
 
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);	//メモリリーク検出
+		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); //メモリリーク検出
 
 #endif // _DEBUG
 

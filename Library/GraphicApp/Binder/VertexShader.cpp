@@ -3,7 +3,7 @@
 #include <GraphicApp/Binder/VertexShader.h>
 
 //===== クラス実装 =====
-VERTEX_SHADER::VERTEX_SHADER(const GRAPHIC& Gfx, const std::wstring& Path) :
+VERTEX_SHADER::VERTEX_SHADER(const CT_GRAPHIC& Gfx, const std::wstring& Path) :
 	BINDER(), m_pBlob(), m_pVertexShader()
 {
 	//エラーハンドル
@@ -25,7 +25,7 @@ VERTEX_SHADER::~VERTEX_SHADER() noexcept
 }
 
 //バインド処理
-void VERTEX_SHADER::Bind(const GRAPHIC& Gfx) const
+void VERTEX_SHADER::Bind(const CT_GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->VSSetShader(m_pVertexShader.Get(), nullptr, 0u);
 }

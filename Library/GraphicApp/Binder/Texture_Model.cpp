@@ -3,7 +3,7 @@
 #include <GraphicApp/Binder/Texture_Model.h>
 
 //===== クラス実装 =====
-TEXTURE_MODEL::TEXTURE_MODEL(const GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot) :
+TEXTURE_MODEL::TEXTURE_MODEL(const CT_GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot) :
 	BINDER(), m_pTextureViews(static_cast<int>(TEX_TYPE::MaxType)), m_StartSlot(StartSlot)
 {
 	//バッファ作成
@@ -16,7 +16,7 @@ TEXTURE_MODEL::~TEXTURE_MODEL() noexcept
 }
 
 //バインド処理
-void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) const
+void TEXTURE_MODEL::Bind(const CT_GRAPHIC& Gfx) const
 {
 	std::vector<ID3D11ShaderResourceView*> pBuffers(0);
 	for (auto& p : m_pTextureViews)
@@ -26,7 +26,7 @@ void TEXTURE_MODEL::Bind(const GRAPHIC& Gfx) const
 }
 
 //バッファ作成
-void TEXTURE_MODEL::MakeBuffer(const GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, TEX_TYPE Type)
+void TEXTURE_MODEL::MakeBuffer(const CT_GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, TEX_TYPE Type)
 {
 	//エラーハンドル
 	HRESULT hr{};

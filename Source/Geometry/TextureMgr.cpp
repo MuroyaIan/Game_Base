@@ -18,7 +18,7 @@ TEXTURE_MGR::TEX_PACK::~TEX_PACK() noexcept
 {}
 
 //===== クラス実装 =====
-TEXTURE_MGR::TEXTURE_MGR(GRAPHIC& Gfx) : m_aTexPack(static_cast<int>(TEX_ID::ID_Max)), m_DX(Gfx)
+TEXTURE_MGR::TEXTURE_MGR(CT_GRAPHIC& Gfx) : m_aTexPack(static_cast<int>(TEX_ID::ID_Max)), m_DX(Gfx)
 {
 	//テクスチャ読込
 	if (m_aTexPack.size() > 0) {

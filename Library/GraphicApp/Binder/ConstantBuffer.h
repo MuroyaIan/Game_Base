@@ -35,7 +35,7 @@ class CONSTANT_BUFFER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CONSTANT_BUFFER(const GRAPHIC& Gfx, const C& Consts, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
+	explicit CONSTANT_BUFFER(const CT_GRAPHIC& Gfx, const C& Consts, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
 		BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)
 	{
 		//エラーハンドル
@@ -52,7 +52,7 @@ public:
 		SetBuffPtr(cbPtr);
 	}
 
-	explicit CONSTANT_BUFFER(const GRAPHIC& Gfx, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
+	explicit CONSTANT_BUFFER(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
 		BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)		//バッファ初期化なし
 	{
 		//エラーハンドル
@@ -69,7 +69,7 @@ public:
 
 	~CONSTANT_BUFFER() noexcept override {}
 
-	void Update(const GRAPHIC& Gfx, const C& Consts) const	//バッファ更新
+	void Update(const CT_GRAPHIC& Gfx, const C& Consts) const	//バッファ更新
 	{
 		MapBuffer(Gfx, Consts, m_pConstantBuffer.Get());
 	}
@@ -87,7 +87,7 @@ public:
 			cbPtr->m_aBuffPtrPS.push_back(m_pConstantBuffer.Get());
 	}
 
-	void Bind(const GRAPHIC& Gfx) const override	//バインド処理
+	void Bind(const CT_GRAPHIC& Gfx) const override	//バインド処理
 	{
 		(void)Gfx;
 	}

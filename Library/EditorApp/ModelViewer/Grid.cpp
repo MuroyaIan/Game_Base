@@ -7,7 +7,7 @@
 namespace dx = DirectX;
 
 //===== ÉNÉâÉXé¿ëï =====
-GRID::GRID(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr) :
+GRID::GRID(CT_GRAPHIC& Gfx, SHADER_MGR& ShaderMgr) :
 	DRAWER(Gfx), m_ShaderMgr(ShaderMgr), m_mtxWorld(), m_Size(dx::XMFLOAT2(20.0f, 20.0f))
 {
 	//í∏ì_èÓïÒçÏê¨

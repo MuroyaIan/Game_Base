@@ -45,7 +45,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	explicit TEXTURE_MGR(GRAPHIC& Gfx);
+	explicit TEXTURE_MGR(CT_GRAPHIC& Gfx);
 	~TEXTURE_MGR() noexcept;
 	ID3D11ShaderResourceView* SetTextureOn(TEX_ID id);
 	void SetTextureOff(TEX_ID id) noexcept;				//バッファ利用開始・終了
@@ -55,7 +55,7 @@ private:
 
 	//変数宣言
 	std::vector<TEX_PACK> m_aTexPack;	//テクスチャパック配列
-	GRAPHIC& m_DX;						//DX参照
+	CT_GRAPHIC& m_DX;						//DX参照
 
 	static std::string aFilePath[static_cast<int>(TEX_ID::ID_Max)];
 };

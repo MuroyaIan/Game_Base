@@ -18,7 +18,7 @@ CBUFF_MGR::~CBUFF_MGR() noexcept
 }
 
 //バインド処理
-void CBUFF_MGR::Bind(const GRAPHIC& Gfx) const
+void CBUFF_MGR::Bind(const CT_GRAPHIC& Gfx) const
 {
 	//それぞれのシェーダへバインドする
 	if (m_BuffSizeVS > 0u)

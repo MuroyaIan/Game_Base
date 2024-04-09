@@ -10,7 +10,7 @@ std::unique_ptr<cb> CB_BONE::m_pCBuff{};
 int CB_BONE::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_BONE::CB_BONE(const GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_BONE& aMtxBone, bool Transpose) :
+CB_BONE::CB_BONE(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_BONE& aMtxBone, bool Transpose) :
 	BINDER(), m_aMtxBone(aMtxBone), m_bTransposeMatrix(Transpose)
 {
 	//定数バッファ初期化
@@ -30,7 +30,7 @@ CB_BONE::~CB_BONE() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_BONE::Bind(const GRAPHIC& Gfx) const
+void CB_BONE::Bind(const CT_GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	if (m_bTransposeMatrix) {

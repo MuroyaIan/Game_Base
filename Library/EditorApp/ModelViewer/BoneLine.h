@@ -26,7 +26,7 @@ class BONE_LINE : public DRAWER
 public:
 
 	//プロトタイプ宣言
-	explicit BONE_LINE(GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn);
+	explicit BONE_LINE(CT_GRAPHIC& Gfx, SHADER_MGR& ShaderMgr, VIEWER& Viewer, FBX_LOADER& Loader, DRAWER& BoneIn);
 	~BONE_LINE() noexcept override;
 	void Update() override;																	//更新処理
 	void Draw(int InstanceNum = 0) noexcept override;										//描画処理
@@ -51,7 +51,7 @@ public:
 private:
 
 	//変数宣言
-	GRAPHIC& m_Gfx;							//グラフィック参照
+	CT_GRAPHIC& m_Gfx;							//グラフィック参照
 	SHADER_MGR& m_ShaderMgr;				//シェーダMgr参照
 	FBX_LOADER& m_Loader;					//ローダ参照
 	DirectX::XMFLOAT4X4 m_mtxWorld;			//ワールド行列

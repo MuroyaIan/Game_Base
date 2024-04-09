@@ -21,9 +21,9 @@ class INDEX_BUFFER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit INDEX_BUFFER(const GRAPHIC& Gfx, const std::vector<UINT>& aIndex);
+	explicit INDEX_BUFFER(const CT_GRAPHIC& Gfx, const std::vector<UINT>& aIndex);
 	~INDEX_BUFFER() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理
 
 	UINT GetIndexNum() const noexcept				//インデックス数取得
 	{

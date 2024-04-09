@@ -6,7 +6,7 @@
 #include <GraphicApp/Binder/VertexBuffer.h>
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-DRAWER::DRAWER(const GRAPHIC& Gfx) noexcept : m_Gfx(Gfx), m_aBinder(),
+DRAWER::DRAWER(const CT_GRAPHIC& Gfx) noexcept : m_Gfx(Gfx), m_aBinder(),
 	m_pIndexBuffer(nullptr), m_pVertexBuffer(nullptr), m_MaxInstanceNum(0)
 {
 }

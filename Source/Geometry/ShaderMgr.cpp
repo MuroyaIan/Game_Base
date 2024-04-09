@@ -5,7 +5,7 @@
 #include <Light/LightMgr.h>
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
-SHADER_MGR::SHADER_MGR(GRAPHIC& Gfx) :
+SHADER_MGR::SHADER_MGR(CT_GRAPHIC& Gfx) :
 	m_DX(Gfx), m_aBinder(static_cast<int>(BINDER_ID::ID_Max))
 {
 	//DEFAULT

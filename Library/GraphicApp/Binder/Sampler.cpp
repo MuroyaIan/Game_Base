@@ -3,7 +3,7 @@
 #include <GraphicApp/Binder/Sampler.h>
 
 //===== クラス実装 =====
-SAMPLER::SAMPLER(const GRAPHIC& Gfx, UINT StartSlot, bool IsPixel) :
+SAMPLER::SAMPLER(const CT_GRAPHIC& Gfx, UINT StartSlot, bool IsPixel) :
 	BINDER(), m_pSampler(), m_StartSlot(StartSlot)
 {
 	//エラーハンドル
@@ -27,7 +27,7 @@ SAMPLER::~SAMPLER() noexcept
 }
 
 //バインド処理
-void SAMPLER::Bind(const GRAPHIC& Gfx) const
+void SAMPLER::Bind(const CT_GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->PSSetSamplers(m_StartSlot, 1u, m_pSampler.GetAddressOf());
 }

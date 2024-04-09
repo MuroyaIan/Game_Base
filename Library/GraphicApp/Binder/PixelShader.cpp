@@ -5,7 +5,7 @@
 namespace wrl = Microsoft::WRL;
 
 //===== クラス実装 =====
-PIXEL_SHADER::PIXEL_SHADER(const GRAPHIC& Gfx, const std::wstring& Path) :
+PIXEL_SHADER::PIXEL_SHADER(const CT_GRAPHIC& Gfx, const std::wstring& Path) :
 	BINDER(), m_pPixelShader()
 {
 	//エラーハンドル
@@ -28,7 +28,7 @@ PIXEL_SHADER::~PIXEL_SHADER() noexcept
 }
 
 //バインド処理
-void PIXEL_SHADER::Bind(const GRAPHIC& Gfx) const
+void PIXEL_SHADER::Bind(const CT_GRAPHIC& Gfx) const
 {
 	GetContext(Gfx)->PSSetShader(m_pPixelShader.Get(), nullptr, 0u);
 }

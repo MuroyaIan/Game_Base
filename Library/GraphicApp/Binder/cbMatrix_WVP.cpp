@@ -12,7 +12,7 @@ std::unique_ptr<cb> CB_MTX_WVP::m_pCBuff{};
 int CB_MTX_WVP::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MTX_WVP::CB_MTX_WVP(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent) :
+CB_MTX_WVP::CB_MTX_WVP(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent) :
 	BINDER(), m_Parent(Parent)
 {
 	//定数バッファ初期化
@@ -32,7 +32,7 @@ CB_MTX_WVP::~CB_MTX_WVP() noexcept
 }
 
 //バインド処理(データ更新)
-void CB_MTX_WVP::Bind(const GRAPHIC& Gfx) const
+void CB_MTX_WVP::Bind(const CT_GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	dx::XMFLOAT4X4 World = m_Parent.GetWorldMatrix();

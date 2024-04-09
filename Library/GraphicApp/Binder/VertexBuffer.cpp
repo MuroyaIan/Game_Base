@@ -8,7 +8,7 @@ VERTEX_BUFFER::~VERTEX_BUFFER() noexcept
 }
 
 //ÉoÉCÉìÉhèàóù
-void VERTEX_BUFFER::Bind(const GRAPHIC& Gfx) const
+void VERTEX_BUFFER::Bind(const CT_GRAPHIC& Gfx) const
 {
 	if (m_pVertexBuffers[static_cast<int>(VB_TYPE::Instance)].Get() == nullptr) {
 

@@ -31,9 +31,9 @@ class TEXTURE_ANIM : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit TEXTURE_ANIM(const GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT StartSlot = 0u);
+	explicit TEXTURE_ANIM(const CT_GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UINT StartSlot = 0u);
 	~TEXTURE_ANIM() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理
 
 	ID3D11ShaderResourceView* GetSrvPtr() const		//ポインタ参照
 	{

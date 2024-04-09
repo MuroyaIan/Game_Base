@@ -34,7 +34,7 @@ MODEL_MGR::TEX_PACK::~TEX_PACK() noexcept
 {}
 
 //===== クラス実装 =====
-MODEL_MGR::MODEL_MGR(GRAPHIC& Gfx) :
+MODEL_MGR::MODEL_MGR(CT_GRAPHIC& Gfx) :
 	m_aModelPackPtr(static_cast<int>(MODEL_ID::ID_Max)), m_aTexPack(static_cast<int>(MODEL_ID::ID_Max)), m_DX(Gfx)
 {
 	//モデルパック配列初期化

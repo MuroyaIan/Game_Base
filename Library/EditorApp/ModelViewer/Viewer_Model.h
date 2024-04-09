@@ -56,7 +56,7 @@ public:
 private:
 
 	//変数宣言
-	GRAPHIC& m_Gfx;							//グラフィックAPI参照
+	CT_GRAPHIC& m_Gfx;							//グラフィックAPI参照
 	SHADER_MGR& m_ShaderMgr;				//シェーダMgr参照
 	VIEWER& m_Viewer;						//ビューワ参照
 	FBX_LOADER& m_Loader;					//ローダ参照

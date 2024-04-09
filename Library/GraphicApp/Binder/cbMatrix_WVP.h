@@ -24,9 +24,9 @@ class CB_MTX_WVP : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CB_MTX_WVP(const GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent);
+	explicit CB_MTX_WVP(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent);
 	~CB_MTX_WVP() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理(データ更新)
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理(データ更新)
 
 	void SetBuffPtr(CB_PTR* cbPtr) const noexcept	//バッファポインタ設定
 	{

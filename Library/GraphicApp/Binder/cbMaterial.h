@@ -24,9 +24,9 @@ class CB_MATERIAL : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit CB_MATERIAL(const GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_MATERIAL& Material);
+	explicit CB_MATERIAL(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_MATERIAL& Material);
 	~CB_MATERIAL() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理(データ更新)
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理(データ更新)
 
 	void SetBuffPtr(CB_PTR* cbPtr) const noexcept	//バッファポインタ設定
 	{

@@ -21,9 +21,9 @@ class SAMPLER : public BINDER
 public:
 
 	//プロトタイプ宣言
-	explicit SAMPLER(const GRAPHIC& Gfx, UINT StartSlot = 0u, bool IsPixel = false);
+	explicit SAMPLER(const CT_GRAPHIC& Gfx, UINT StartSlot = 0u, bool IsPixel = false);
 	~SAMPLER() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 

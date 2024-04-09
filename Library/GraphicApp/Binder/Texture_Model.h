@@ -33,9 +33,9 @@ public:
 	};
 
 	//プロトタイプ宣言
-	explicit TEXTURE_MODEL(const GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot = 0u);
+	explicit TEXTURE_MODEL(const CT_GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot = 0u);
 	~TEXTURE_MODEL() noexcept override;
-	void Bind(const GRAPHIC& Gfx) const override;	//バインド処理
+	void Bind(const CT_GRAPHIC& Gfx) const override;	//バインド処理
 
 private:
 
@@ -45,6 +45,6 @@ private:
 	std::vector<com_pSRV> m_pTextureViews;	//ポインタ配列
 
 	//プロトタイプ宣言
-	void MakeBuffer(const GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, TEX_TYPE Type);	//バッファ作成
+	void MakeBuffer(const CT_GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, TEX_TYPE Type);	//バッファ作成
 	UINT m_StartSlot;																		//レジスタ番号
 };

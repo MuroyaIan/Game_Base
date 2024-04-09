@@ -88,7 +88,7 @@ public:
 	};
 
 	//プロトタイプ宣言
-	explicit SHADER_MGR(GRAPHIC& Gfx);
+	explicit SHADER_MGR(CT_GRAPHIC& Gfx);
 	~SHADER_MGR() noexcept;
 	void Bind(BINDER_ID id) const noexcept;				//バインド処理
 	void Bind_Default() const noexcept;					//バインド処理（デフォルト）
@@ -110,6 +110,6 @@ public:
 private:
 
 	//変数宣言
-	GRAPHIC& m_DX;										//DX参照
+	CT_GRAPHIC& m_DX;										//DX参照
 	std::vector<std::unique_ptr<BINDER>> m_aBinder;		//バインダのポインタ配列
 };

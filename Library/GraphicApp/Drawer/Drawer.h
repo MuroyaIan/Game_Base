@@ -29,7 +29,7 @@ public:
 	DRAWER& operator=(const DRAWER&) = delete;
 
 	//プロトタイプ宣言
-	explicit DRAWER(const GRAPHIC& Gfx) noexcept;
+	explicit DRAWER(const CT_GRAPHIC& Gfx) noexcept;
 	virtual ~DRAWER() noexcept;
 
 	virtual void Update() = 0;																	//更新処理
@@ -51,7 +51,7 @@ public:
 protected:
 
 	//変数宣言
-	const GRAPHIC& m_Gfx;								//グラフィック参照先
+	const CT_GRAPHIC& m_Gfx;								//グラフィック参照先
 
 	//プロトタイプ宣言
 	void AddBind(std::unique_ptr<BINDER> pBinder);		//バインダ登録
