@@ -1,51 +1,51 @@
-/**
+ï»¿/**
  * @file ErrorOutput.h
- * @brief ƒGƒ‰[o—ÍƒNƒ‰ƒX
- * @author º’JƒCƒAƒ“
+ * @brief ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã‚¯ãƒ©ã‚¹
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/05/02
- * @—š—ğ 2022/05/02FƒNƒ‰ƒXì¬
- *		 2022/11/14FƒRƒ“ƒXƒgƒ‰ƒNƒ^‰ü‘P
- *		 2024/04/02F‘®‰ü‘P
+ * @å±¥æ­´ 2022/05/02ï¼šã‚¯ãƒ©ã‚¹ä½œæˆ
+ *		 2022/11/14ï¼šã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿æ”¹å–„
+ *		 2024/04/02ï¼šæ›¸å¼æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
-#include <exception>			//—áŠOˆ—
-#include <string>				//•¶š—ñƒNƒ‰ƒX
-#include <sstream>				//•¶š—ñƒXƒgƒŠ[ƒ€ƒNƒ‰ƒX
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
+#include <exception>			//ä¾‹å¤–å‡¦ç†
+#include <string>				//æ–‡å­—åˆ—ã‚¯ãƒ©ã‚¹
+#include <sstream>				//æ–‡å­—åˆ—ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¯ãƒ©ã‚¹
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 
-//***** ƒGƒ‰[o—Í *****
+//***** ã‚¨ãƒ©ãƒ¼å‡ºåŠ› *****
 class CT_ERROR_OUTPUT : public std::exception
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_ERROR_OUTPUT(const CT_ERROR_OUTPUT&) = default;
 	CT_ERROR_OUTPUT& operator =(const CT_ERROR_OUTPUT&) = default;
 	CT_ERROR_OUTPUT(CT_ERROR_OUTPUT&&) noexcept = default;
 	CT_ERROR_OUTPUT& operator=(CT_ERROR_OUTPUT&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_ERROR_OUTPUT(const int& nLine, const char* chFile) noexcept;
 	~CT_ERROR_OUTPUT() noexcept override;
-	std::string GetErrorInfo() const noexcept;  //ƒGƒ‰[î•ñæ“¾
-	const char* what() const noexcept override; //ƒGƒ‰[î•ño—Í
+	std::string GetErrorInfo() const noexcept;  //ã‚¨ãƒ©ãƒ¼æƒ…å ±å–å¾—
+	const char* what() const noexcept override; //ã‚¨ãƒ©ãƒ¼æƒ…å ±å‡ºåŠ›
 
-	//‰¼‘zŠÖ”
-	virtual std::string GetType() const noexcept = 0; //ƒGƒ‰[ƒ^ƒCƒvæ“¾
+	//ä»®æƒ³é–¢æ•°
+	virtual std::string GetType() const noexcept = 0; //ã‚¨ãƒ©ãƒ¼ã‚¿ã‚¤ãƒ—å–å¾—
 
 protected:
 
-	//•Ï”éŒ¾
-	mutable std::string m_InfoBuffer; //î•ñŠi”[—pƒoƒbƒtƒ@
+	//å¤‰æ•°å®£è¨€
+	mutable std::string m_InfoBuffer; //æƒ…å ±æ ¼ç´ç”¨ãƒãƒƒãƒ•ã‚¡
 
 private:
 
-	//•Ï”éŒ¾
-	int m_Line;         //”­¶ˆÊ’ui‰½s–Új
-	std::string m_File; //”­¶ƒtƒ@ƒCƒ‹–¼
+	//å¤‰æ•°å®£è¨€
+	int m_Line;         //ç™ºç”Ÿä½ç½®ï¼ˆä½•è¡Œç›®ï¼‰
+	std::string m_File; //ç™ºç”Ÿãƒ•ã‚¡ã‚¤ãƒ«å
 };

@@ -1,5 +1,5 @@
-
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <GraphicApp/Graphic.h>
 
 #ifdef IMGUI
@@ -9,7 +9,7 @@
 #
 #endif // IMGUI
 
-//===== ’Ç‰Áƒ‰ƒCƒuƒ‰ƒŠ =====
+//===== è¿½åŠ ãƒ©ã‚¤ãƒ–ãƒ©ãƒª =====
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dCompiler.lib")
@@ -17,18 +17,18 @@
 namespace wrl = Microsoft::WRL;
 namespace dx = DirectX;
 
-//===== ƒNƒ‰ƒXÀ‘• =====
+//===== ã‚¯ãƒ©ã‚¹å®Ÿè£… =====
 CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	m_pAdapter(), m_pDevice(), m_pSwapChain(), m_pContext(), m_pView_RenderTarget(), m_pView_DepthStencil(),
 	m_MtxView(), m_MtxProjection()
 {
-	//ƒGƒ‰[ƒnƒ“ƒhƒ‹
+	//ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒ«
 	HRESULT l_hr{};
 
-	//DXGI‰Šú‰»
+	//DXGIåˆæœŸåŒ–
 	InitDxgi();
 
-	//FeatureLevelİ’è
+	//FeatureLevelè¨­å®š
 	D3D_FEATURE_LEVEL l_FeatureLevels[] =
 	{
 		D3D_FEATURE_LEVEL_11_1,
@@ -37,7 +37,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	UINT l_NumFeatureLevels = ARRAYSIZE(l_FeatureLevels);
 	D3D_FEATURE_LEVEL l_FeatureLevel{};
 
-	//ƒXƒƒbƒvƒ`ƒF[ƒ“İ’è
+	//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³è¨­å®š
 	DXGI_SWAP_CHAIN_DESC l_scd{};
 	l_scd.BufferDesc.Width = static_cast<UINT>(fWidth);
 	l_scd.BufferDesc.Height = static_cast<UINT>(fHeight);
@@ -55,7 +55,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	l_scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	l_scd.Flags = 0u;
 
-	//ƒfƒoƒbƒOİ’è
+	//ãƒ‡ãƒãƒƒã‚°è¨­å®š
 	UINT l_CreateDeviceFlag = 0u;
 
 #ifdef _DEBUG
@@ -64,7 +64,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 #endif // _DEBUG
 
-	//ƒfƒoƒCƒXEƒXƒƒbƒvƒ`ƒF[ƒ“‰Šú‰»
+	//ãƒ‡ãƒã‚¤ã‚¹ãƒ»ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³åˆæœŸåŒ–
 	l_hr = D3D11CreateDeviceAndSwapChain(
 		m_pAdapter.Get(),
 		D3D_DRIVER_TYPE_UNKNOWN,
@@ -95,7 +95,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	//);
 	if (l_hr == E_INVALIDARG) {
 
-		//dx11_1”ñ‘Î‰‚Ìê‡idx11_0ˆÈ‰º‚ğ‚·j
+		//dx11_1éå¯¾å¿œã®å ´åˆï¼ˆdx11_0ä»¥ä¸‹ã‚’è©¦ã™ï¼‰
 		l_hr = D3D11CreateDeviceAndSwapChain(
 			m_pAdapter.Get(),
 			D3D_DRIVER_TYPE_UNKNOWN,
@@ -112,19 +112,19 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 		);
 	}
 	if (l_FeatureLevel != D3D_FEATURE_LEVEL_11_1 && l_FeatureLevel != D3D_FEATURE_LEVEL_11_0)
-		throw ERROR_EX2("GPU‚ÍDX11”ñ‘Î‰‚Å‚·B");
+		throw ERROR_EX2("GPUã¯DX11éå¯¾å¿œã§ã™ã€‚");
 	ERROR_DX(l_hr);
 
-	//RTVì¬
+	//RTVä½œæˆ
 	wrl::ComPtr<ID3D11Resource> l_pBackBuffer;
-	l_hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&l_pBackBuffer));	//ƒoƒbƒtƒ@æ“¾
+	l_hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&l_pBackBuffer));	//ãƒãƒƒãƒ•ã‚¡å–å¾—
 	ERROR_DX(l_hr);
 	l_hr = m_pDevice->CreateRenderTargetView(l_pBackBuffer.Get(), nullptr, &m_pView_RenderTarget);
 	ERROR_DX(l_hr);
 
 
 
-	//DSƒXƒe[ƒgì¬
+	//DSã‚¹ãƒ†ãƒ¼ãƒˆä½œæˆ
 	D3D11_DEPTH_STENCIL_DESC l_dsd{};
 	l_dsd.DepthEnable = TRUE;
 	l_dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -132,9 +132,9 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	wrl::ComPtr<ID3D11DepthStencilState> l_pState_DepthStencil;
 	l_hr = m_pDevice->CreateDepthStencilState(&l_dsd, &l_pState_DepthStencil);
 	ERROR_DX(l_hr);
-	m_pContext->OMSetDepthStencilState(l_pState_DepthStencil.Get(), 1u);		//ƒoƒCƒ“ƒhˆ—
+	m_pContext->OMSetDepthStencilState(l_pState_DepthStencil.Get(), 1u);		//ãƒã‚¤ãƒ³ãƒ‰å‡¦ç†
 
-	//DSƒoƒbƒtƒ@ì¬(ƒeƒNƒXƒ`ƒƒ)
+	//DSãƒãƒƒãƒ•ã‚¡ä½œæˆ(ãƒ†ã‚¯ã‚¹ãƒãƒ£)
 	D3D11_TEXTURE2D_DESC l_Desc_DepthStencil{};
 	l_Desc_DepthStencil.Width = static_cast<UINT>(fWidth);
 	l_Desc_DepthStencil.Height = static_cast<UINT>(fHeight);
@@ -149,7 +149,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	l_hr = m_pDevice->CreateTexture2D(&l_Desc_DepthStencil, nullptr, &l_pBuffer_DepthStencil);
 	ERROR_DX(l_hr);
 
-	//DSVì¬
+	//DSVä½œæˆ
 	D3D11_DEPTH_STENCIL_VIEW_DESC l_Desc_DepthStencilView{};
 	l_Desc_DepthStencilView.Format = l_Desc_DepthStencil.Format;
 	l_Desc_DepthStencilView.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
@@ -157,10 +157,10 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	l_hr = m_pDevice->CreateDepthStencilView(l_pBuffer_DepthStencil.Get(), &l_Desc_DepthStencilView, &m_pView_DepthStencil);
 	ERROR_DX(l_hr);
 
-	//•`‰æƒ‚[ƒhİ’è
+	//æç”»ãƒ¢ãƒ¼ãƒ‰è¨­å®š
 	SetDrawMode(ET_DRAW_MODE::me_Draw_3D);
 
-	//ƒrƒ…[ƒ|[ƒgİ’èiƒ‰ƒXƒ^ƒ‰ƒCƒUj
+	//ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¨­å®šï¼ˆãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ï¼‰
 	D3D11_VIEWPORT l_vp{};
 	l_vp.TopLeftX = 0.0f;
 	l_vp.TopLeftY = 0.0f;
@@ -172,17 +172,17 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 
 
-	//s—ñ‰Šú‰»
+	//è¡Œåˆ—åˆæœŸåŒ–
 	dx::XMStoreFloat4x4(&m_MtxView, dx::XMMatrixIdentity());
 	dx::XMStoreFloat4x4(&m_MtxProjection, dx::XMMatrixIdentity());
 
 #ifdef IMGUI
 
-	//IMGUI‰Šú‰»
+	//IMGUIåˆæœŸåŒ–
 	if (!ImGui_ImplDX11_Init(m_pDevice.Get(), m_pContext.Get()))
-		throw ERROR_EX2("IMGUI‰Šú‰»¸”s");
+		throw ERROR_EX2("IMGUIåˆæœŸåŒ–å¤±æ•—");
 
-	//ƒtƒ‰ƒO‰Šú‰»
+	//ãƒ•ãƒ©ã‚°åˆæœŸåŒ–
 	m_bDrawImGui = true;
 
 #endif // IMGUI
@@ -194,14 +194,14 @@ CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 
 #ifdef IMGUI
 
-	//IMGUII—¹
+	//IMGUIçµ‚äº†
 	ImGui_ImplDX11_Shutdown();
 
 #endif // IMGUI
 
 //#ifdef _DEBUG
 //
-//	//ƒGƒ‰[Šm”F
+//	//ã‚¨ãƒ©ãƒ¼ç¢ºèª
 //	m_pView_DepthStencil.Reset();
 //	m_pView_RenderTarget.Reset();
 //	m_pContext.Reset();
@@ -220,17 +220,17 @@ CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 
 }
 
-//ƒtƒŒ[ƒ€ŠJn
+//ãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹
 void CT_GRAPHIC::BeginFrame(const float r, const float g, const float b) const noexcept
 {
-	//ƒoƒbƒtƒ@ƒNƒŠƒA
+	//ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
 	const float Color[] = { r, g, b, 1.0f };
 	m_pContext->ClearRenderTargetView(m_pView_RenderTarget.Get(), Color);
 	m_pContext->ClearDepthStencilView(m_pView_DepthStencil.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 #ifdef IMGUI
 
-	//IMGUI—pƒtƒŒ[ƒ€‘ŠJn
+	//IMGUIç”¨ãƒ•ãƒ¬ãƒ¼ãƒ æ›¸è¾¼é–‹å§‹
 	if (m_bDrawImGui) {
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
@@ -241,27 +241,27 @@ void CT_GRAPHIC::BeginFrame(const float r, const float g, const float b) const n
 
 }
 
-//ƒCƒ“ƒfƒbƒNƒX•`‰æ
+//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æç”»
 void CT_GRAPHIC::DrawIndexed(const UINT indexNum) const noexcept
 {
-	//‘‚İˆ—
+	//æ›¸è¾¼ã¿å‡¦ç†
 	m_pContext->DrawIndexed(indexNum, 0u, 0);
 }
 
-//ƒCƒ“ƒXƒ^ƒ“ƒVƒ“ƒO•`‰æ
+//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚·ãƒ³ã‚°æç”»
 void CT_GRAPHIC::DrawInstanced(const UINT indexNum, const UINT instanceNum) const noexcept
 {
-	//‘‚İˆ—
+	//æ›¸è¾¼ã¿å‡¦ç†
 	m_pContext->DrawIndexedInstanced(indexNum, instanceNum, 0u, 0, 0u);
 }
 
-//ƒtƒŒ[ƒ€I—¹
+//ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†
 void CT_GRAPHIC::EndFrame() const
 {
 
 #ifdef IMGUI
 
-	//IMGUI—pƒtƒŒ[ƒ€‘I—¹
+	//IMGUIç”¨ãƒ•ãƒ¬ãƒ¼ãƒ æ›¸è¾¼çµ‚äº†
 	if (m_bDrawImGui) {
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -269,7 +269,7 @@ void CT_GRAPHIC::EndFrame() const
 
 #endif // IMGUI
 
-	//•`‰æ–½—ß
+	//æç”»å‘½ä»¤
 	const HRESULT l_hr = m_pSwapChain->Present(1u, 0u);
 	if (l_hr == DXGI_ERROR_DEVICE_REMOVED)
 		throw ERROR_EX(m_pDevice->GetDeviceRemovedReason());
@@ -277,10 +277,10 @@ void CT_GRAPHIC::EndFrame() const
 		ERROR_DX(l_hr);
 }
 
-//•`‰æƒ‚[ƒhİ’è
+//æç”»ãƒ¢ãƒ¼ãƒ‰è¨­å®š
 void CT_GRAPHIC::SetDrawMode(const ET_DRAW_MODE mode) const noexcept
 {
-	//ƒrƒ…[‚ğƒoƒCƒ“ƒh
+	//ãƒ“ãƒ¥ãƒ¼ã‚’ãƒã‚¤ãƒ³ãƒ‰
 	switch (mode) {
 		case ET_DRAW_MODE::me_Draw_2D:
 			m_pContext->OMSetRenderTargets(1u, m_pView_RenderTarget.GetAddressOf(), nullptr);
@@ -293,19 +293,19 @@ void CT_GRAPHIC::SetDrawMode(const ET_DRAW_MODE mode) const noexcept
 	}
 }
 
-//DXGI‰Šú‰»
+//DXGIåˆæœŸåŒ–
 void CT_GRAPHIC::InitDxgi()
 {
-	//ƒGƒ‰[ƒnƒ“ƒhƒ‹
+	//ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒ«
 	HRESULT l_hr{};
 
-	//ƒtƒ@ƒNƒgƒŠ‰Šú‰»
+	//ãƒ•ã‚¡ã‚¯ãƒˆãƒªåˆæœŸåŒ–
 	wrl::ComPtr<IDXGIFactory> l_pFactory;
 	wrl::ComPtr<IDXGIFactory6> l_pFactory6;
 
 #ifdef _DEBUG
 
-	l_hr = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&l_pFactory));	//ƒfƒoƒbƒOî•ñ(DXGI)
+	l_hr = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&l_pFactory));	//ãƒ‡ãƒãƒƒã‚°æƒ…å ±(DXGI)
 	ERROR_DX(l_hr);
 
 #else
@@ -318,22 +318,22 @@ void CT_GRAPHIC::InitDxgi()
 	l_hr = l_pFactory->QueryInterface(IID_PPV_ARGS(&l_pFactory6));
 	ERROR_DX(l_hr);
 
-	//GPUƒfƒoƒCƒXw’è(‚ƒpƒtƒH[ƒ}ƒ“ƒX)
+	//GPUãƒ‡ãƒã‚¤ã‚¹æŒ‡å®š(é«˜ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹)
 	l_hr = l_pFactory6->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&m_pAdapter));
 	ERROR_DX(l_hr);
 
 #ifdef _DEBUG
 
-	//GPUî•ñæ“¾
+	//GPUæƒ…å ±å–å¾—
 	IDXGIAdapter* l_PTempAdapter = nullptr;
 	for (int l_Cnt = 0; ; l_Cnt++) {
 
-		//ƒAƒ_ƒvƒ^[‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾
+		//ã‚¢ãƒ€ãƒ—ã‚¿ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 		l_hr = l_pFactory6->EnumAdapters(static_cast<UINT>(l_Cnt), &l_PTempAdapter);
 		if (l_hr == DXGI_ERROR_NOT_FOUND)
 			break;
 
-		//ƒfƒoƒCƒX–¼o—Í
+		//ãƒ‡ãƒã‚¤ã‚¹åå‡ºåŠ›
 		DXGI_ADAPTER_DESC l_dad{};
 		l_hr = l_PTempAdapter->GetDesc(&l_dad);
 		ERROR_DX(l_hr);
@@ -341,7 +341,7 @@ void CT_GRAPHIC::InitDxgi()
 		l_oss << "Info : GPU(" << l_Cnt << ") " << l_dad.Description << std::endl;
 		PRINT_D(l_oss.str().c_str());
 
-		//ƒƒ‚ƒŠ‰ğ•ú
+		//ãƒ¡ãƒ¢ãƒªè§£æ”¾
 		l_PTempAdapter->Release();
 		l_PTempAdapter = nullptr;
 	}

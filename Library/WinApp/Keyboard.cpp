@@ -1,9 +1,9 @@
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/Keyboard.h>
 
-//===== ƒNƒ‰ƒXÀ‘• =====
+//===== ã‚¯ãƒ©ã‚¹å®Ÿè£… =====
 
-//***** ƒL[ƒCƒxƒ“ƒg *****
+//***** ã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆ *****
 CT_KEY_EVENTS::CT_KEY_EVENTS() noexcept
 	: m_Type(ET_KEY_STATUS::me_Invalid)
 	, m_Code(0u) {}
@@ -14,14 +14,14 @@ CT_KEY_EVENTS::CT_KEY_EVENTS(const ET_KEY_STATUS& type, const unsigned char& cod
 
 CT_KEY_EVENTS::~CT_KEY_EVENTS() noexcept = default;
 
-//***** ƒL[ƒ{[ƒhˆ— *****
+//***** ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‡¦ç† *****
 CT_KEYBOARD::CT_KEYBOARD() noexcept
 	: m_KeyStates(0ull) {}
 
 CT_KEYBOARD::~CT_KEYBOARD() noexcept = default;
 
 /**
- * ƒL[‰Ÿ‚µŠm”F
+ * ã‚­ãƒ¼æŠ¼ã—ç¢ºèª
  *
  * \param keyCode
  * \return bool
@@ -32,7 +32,7 @@ bool CT_KEYBOARD::KeyIsPressed(const unsigned char& keyCode) const noexcept
 }
 
 /**
- * ƒL[“Ç‚İ
+ * ã‚­ãƒ¼èª­è¾¼ã¿
  *
  * \param
  * \return CT_KEY_EVENTS
@@ -41,8 +41,8 @@ CT_KEY_EVENTS CT_KEYBOARD::ReadKey() noexcept
 {
 	if (!m_KeyBuffer.empty())
 	{
-		CT_KEY_EVENTS l_Event = m_KeyBuffer.front(); //Ÿ‚ÌƒCƒxƒ“ƒg‚ÉƒAƒNƒZƒX
-		m_KeyBuffer.pop();                           //ƒCƒxƒ“ƒg‚ğíœ‚·‚é
+		CT_KEY_EVENTS l_Event = m_KeyBuffer.front(); //æ¬¡ã®ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚¢ã‚¯ã‚»ã‚¹
+		m_KeyBuffer.pop();                           //ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 		return l_Event;
 	}
 
@@ -50,7 +50,7 @@ CT_KEY_EVENTS CT_KEYBOARD::ReadKey() noexcept
 }
 
 /**
- * ƒeƒLƒXƒg“Ç‚İ
+ * ãƒ†ã‚­ã‚¹ãƒˆèª­è¾¼ã¿
  *
  * \param
  * \return unsigned char
@@ -68,7 +68,7 @@ unsigned char CT_KEYBOARD::ReadChar() noexcept
 }
 
 /**
- * ƒL[ƒoƒbƒtƒ@‚Ì‹ó‚«Šm”F
+ * ã‚­ãƒ¼ãƒãƒƒãƒ•ã‚¡ã®ç©ºãç¢ºèª
  *
  * \param
  * \return bool
@@ -79,7 +79,7 @@ bool CT_KEYBOARD::KeyIsEmpty() const noexcept
 }
 
 /**
- * ƒeƒLƒXƒgƒoƒbƒtƒ@‚Ì‹ó‚«Šm”F
+ * ãƒ†ã‚­ã‚¹ãƒˆãƒãƒƒãƒ•ã‚¡ã®ç©ºãç¢ºèª
  *
  * \param
  * \return bool
@@ -90,7 +90,7 @@ bool CT_KEYBOARD::CharIsEmpty() const noexcept
 }
 
 /**
- * ƒL[ƒoƒbƒtƒ@ƒNƒŠƒA
+ * ã‚­ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
  *
  * \param
  * \return void
@@ -101,7 +101,7 @@ void CT_KEYBOARD::ClearKeyBuffer() noexcept
 }
 
 /**
- * ƒeƒLƒXƒgƒoƒbƒtƒ@ƒNƒŠƒA
+ * ãƒ†ã‚­ã‚¹ãƒˆãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
  *
  * \param
  * \return void
@@ -112,7 +112,7 @@ void CT_KEYBOARD::ClearCharBuffer() noexcept
 }
 
 /**
- * ‘Sƒoƒbƒtƒ@ƒNƒŠƒA
+ * å…¨ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
  *
  * \param
  * \return void
@@ -124,20 +124,20 @@ void CT_KEYBOARD::ClearBuffer() noexcept
 }
 
 /**
- * ƒL[‰Ÿ‚µ
+ * ã‚­ãƒ¼æŠ¼ã—
  *
  * \param keyCode
  * \return void
  */
 void CT_KEYBOARD::KeyPressed(const unsigned char& keyCode) noexcept
 {
-	m_KeyStates.set(keyCode);									//ó‘ÔŠi”[
-	m_KeyBuffer.emplace(ET_KEY_STATUS::me_Press, keyCode); //ƒLƒ…[ƒvƒbƒVƒ…
-	TruncateBuffer(m_KeyBuffer);								//ƒoƒbƒtƒ@ãŒÀŠÇ—
+	m_KeyStates.set(keyCode);									//çŠ¶æ…‹æ ¼ç´
+	m_KeyBuffer.emplace(ET_KEY_STATUS::me_Press, keyCode); //ã‚­ãƒ¥ãƒ¼ãƒ—ãƒƒã‚·ãƒ¥
+	TruncateBuffer(m_KeyBuffer);								//ãƒãƒƒãƒ•ã‚¡ä¸Šé™ç®¡ç†
 }
 
 /**
- * ƒL[—£‚µ
+ * ã‚­ãƒ¼é›¢ã—
  *
  * \param keyCode
  * \return void
@@ -150,19 +150,19 @@ void CT_KEYBOARD::KeyReleased(const unsigned char& keyCode) noexcept
 }
 
 /**
- * ƒeƒLƒXƒg“ü—Í
+ * ãƒ†ã‚­ã‚¹ãƒˆå…¥åŠ›
  *
  * \param character
  * \return void
  */
 void CT_KEYBOARD::CharInput(const unsigned char& character) noexcept
 {
-	m_CharBuffer.push(character);		//ƒLƒ…[ƒvƒbƒVƒ…
-	TruncateBuffer(m_CharBuffer);	//ƒoƒbƒtƒ@ãŒÀŠÇ—
+	m_CharBuffer.push(character);		//ã‚­ãƒ¥ãƒ¼ãƒ—ãƒƒã‚·ãƒ¥
+	TruncateBuffer(m_CharBuffer);	//ãƒãƒƒãƒ•ã‚¡ä¸Šé™ç®¡ç†
 }
 
 /**
- * ƒL[ó‘ÔƒŠƒZƒbƒg
+ * ã‚­ãƒ¼çŠ¶æ…‹ãƒªã‚»ãƒƒãƒˆ
  *
  * \param
  * \return void

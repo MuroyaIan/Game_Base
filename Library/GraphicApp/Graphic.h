@@ -1,64 +1,64 @@
-/**
+ï»¿/**
  * @file Graphic.h
- * @brief DirectXˆ—
- * @author º’JƒCƒAƒ“
+ * @brief DirectXå‡¦ç†
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/06/12
- * @—š—ğ 2022/06/12Fƒtƒ@ƒCƒ‹ì¬
- *		 2022/11/21Fˆ—‰ü‘P
+ * @å±¥æ­´ 2022/06/12ï¼šãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆ
+ *		 2022/11/21ï¼šå‡¦ç†æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/WinWindow.h>
-#include <wrl.h>					//COMƒ|ƒCƒ“ƒ^
+#include <wrl.h>					//COMãƒã‚¤ãƒ³ã‚¿
 #include <dxgi1_6.h>
 #include <d3d11.h>
-#include <d3dcompiler.h>			//ƒVƒF[ƒ_ƒRƒ“ƒpƒCƒ‹
+#include <d3dcompiler.h>			//ã‚·ã‚§ãƒ¼ãƒ€ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 #include <DirectXMath.h>
-#include <Startup.h>				//ƒfƒoƒbƒO¯•Ê
+#include <Startup.h>				//ãƒ‡ãƒãƒƒã‚°è­˜åˆ¥
 
 #ifdef _DEBUG
 
 #include <Initguid.h>
-#include <dxgidebug.h>				//DXGIƒfƒoƒbƒO
+#include <dxgidebug.h>				//DXGIãƒ‡ãƒãƒƒã‚°
 
 #endif // _DEBUG
 
-//===== ’è”Eƒ}ƒNƒ’è‹` =====
-#define ERROR_DX(hr) if((hr) != S_OK) throw ERROR_EX(hr)	//ƒGƒ‰[o—Í(DirectX—p)
+//===== å®šæ•°ãƒ»ãƒã‚¯ãƒ­å®šç¾© =====
+#define ERROR_DX(hr) if((hr) != S_OK) throw ERROR_EX(hr)	//ã‚¨ãƒ©ãƒ¼å‡ºåŠ›(DirectXç”¨)
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 
-//***** ƒOƒ‰ƒtƒBƒbƒN *****
+//***** ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ *****
 class CT_GRAPHIC
 {
 public:
 
-	//•`‰æƒ‚[ƒh
+	//æç”»ãƒ¢ãƒ¼ãƒ‰
 	enum class ET_DRAW_MODE
 	{
 		me_Draw_2D,	//2D
 		me_Draw_3D	//3D
 	};
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_GRAPHIC(const CT_GRAPHIC&) = delete;
 	CT_GRAPHIC& operator =(const CT_GRAPHIC&) = delete;
 	CT_GRAPHIC(CT_GRAPHIC&&) noexcept = default;
 	CT_GRAPHIC& operator=(CT_GRAPHIC&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight);
 	~CT_GRAPHIC() noexcept(!gc_IS_DEBUG);
-	void BeginFrame(float r, float g, float b) const noexcept;				//ƒtƒŒ[ƒ€ŠJn
-	void DrawIndexed(UINT indexNum) const noexcept;							//ƒCƒ“ƒfƒbƒNƒX•`‰æ
-	void DrawInstanced(UINT indexNum, UINT instanceNum) const noexcept;		//ƒCƒ“ƒXƒ^ƒ“ƒVƒ“ƒO•`‰æ
-	void EndFrame() const;													//ƒtƒŒ[ƒ€I—¹Ë•`‰æŠJn
-	void SetDrawMode(ET_DRAW_MODE mode) const noexcept;						//•`‰æƒ‚[ƒhİ’è
+	void BeginFrame(float r, float g, float b) const noexcept;				//ãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹
+	void DrawIndexed(UINT indexNum) const noexcept;							//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æç”»
+	void DrawInstanced(UINT indexNum, UINT instanceNum) const noexcept;		//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚·ãƒ³ã‚°æç”»
+	void EndFrame() const;													//ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†â‡’æç”»é–‹å§‹
+	void SetDrawMode(ET_DRAW_MODE mode) const noexcept;						//æç”»ãƒ¢ãƒ¼ãƒ‰è¨­å®š
 
-	void SetViewMtx(const DirectX::XMFLOAT4X4& mtxView) noexcept			//ƒrƒ…[s—ñ‚Ö‚ÌƒAƒNƒZƒX
+	void SetViewMtx(const DirectX::XMFLOAT4X4& mtxView) noexcept			//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
 	{
 		m_MtxView = mtxView;
 	}
@@ -66,7 +66,7 @@ public:
 	{
 		return m_MtxView;
 	}
-	void SetProjectionMtx(const DirectX::XMFLOAT4X4& mtxProj) noexcept		//“Š‰es—ñ‚Ö‚ÌƒAƒNƒZƒX
+	void SetProjectionMtx(const DirectX::XMFLOAT4X4& mtxProj) noexcept		//æŠ•å½±è¡Œåˆ—ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
 	{
 		m_MtxProjection = mtxProj;
 	}
@@ -77,12 +77,12 @@ public:
 
 #ifdef IMGUI
 
-	void SetImGuiMode(const bool bEnable) noexcept							//ImGui•`‰æON/OFF
+	void SetImGuiMode(const bool bEnable) noexcept							//ImGuiæç”»ON/OFF
 	{
 		m_bDrawImGui = bEnable;
 	}
 
-	[[nodiscard]] bool IsImGuiEnabled() const noexcept						//ImGui•`‰æó‘ÔŠm”F
+	[[nodiscard]] bool IsImGuiEnabled() const noexcept						//ImGuiæç”»çŠ¶æ…‹ç¢ºèª
 	{
 		return m_bDrawImGui;
 	}
@@ -91,26 +91,26 @@ public:
 
 private:
 
-	//•Ï”éŒ¾
-	Microsoft::WRL::ComPtr<IDXGIAdapter> m_pAdapter;						//ƒAƒ_ƒvƒ^[
-	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;							//ƒfƒoƒCƒX
-	Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain;					//ƒXƒƒbƒvƒ`ƒF[ƒ“
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;					//ƒRƒ“ƒeƒLƒXƒg
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//ƒ^[ƒQƒbƒgƒrƒ…[
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//[“xEƒXƒeƒ“ƒVƒ‹ƒrƒ…[
+	//å¤‰æ•°å®£è¨€
+	Microsoft::WRL::ComPtr<IDXGIAdapter> m_pAdapter;						//ã‚¢ãƒ€ãƒ—ã‚¿ãƒ¼
+	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;							//ãƒ‡ãƒã‚¤ã‚¹
+	Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain;					//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;					//ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//æ·±åº¦ãƒ»ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ãƒ“ãƒ¥ãƒ¼
 
-	DirectX::XMFLOAT4X4 m_MtxView;			//ƒrƒ…[s—ñiƒJƒƒ‰j
-	DirectX::XMFLOAT4X4 m_MtxProjection;	//“Š‰es—ñ
+	DirectX::XMFLOAT4X4 m_MtxView;			//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ï¼ˆã‚«ãƒ¡ãƒ©ï¼‰
+	DirectX::XMFLOAT4X4 m_MtxProjection;	//æŠ•å½±è¡Œåˆ—
 
 #ifdef IMGUI
 
-	bool m_bDrawImGui;						//ImGUI•`‰æ§Œä
+	bool m_bDrawImGui;						//ImGUIæç”»åˆ¶å¾¡
 
 #endif // IMGUI
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
-	void InitDxgi();						//DXGI‰Šú‰»
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
+	void InitDxgi();						//DXGIåˆæœŸåŒ–
 
-	//Œ ŒÀw’è
+	//æ¨©é™æŒ‡å®š
 	friend class BINDER;
 };

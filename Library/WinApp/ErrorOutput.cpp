@@ -1,7 +1,7 @@
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/ErrorOutput.h>
 
-//===== ƒNƒ‰ƒXÀ‘• =====
+//===== ã‚¯ãƒ©ã‚¹å®Ÿè£… =====
 CT_ERROR_OUTPUT::CT_ERROR_OUTPUT(const int& nLine, const char* chFile) noexcept
 	: m_Line(nLine)
 	, m_File(chFile) {}
@@ -9,7 +9,7 @@ CT_ERROR_OUTPUT::CT_ERROR_OUTPUT(const int& nLine, const char* chFile) noexcept
 CT_ERROR_OUTPUT::~CT_ERROR_OUTPUT() noexcept = default;
 
 /**
- * ƒGƒ‰[î•ñæ“¾
+ * ã‚¨ãƒ©ãƒ¼æƒ…å ±å–å¾—
  *
  * \param
  * \return std::string
@@ -23,7 +23,7 @@ std::string CT_ERROR_OUTPUT::GetErrorInfo() const noexcept
 }
 
 /**
- * ƒGƒ‰[î•ño—Í
+ * ã‚¨ãƒ©ãƒ¼æƒ…å ±å‡ºåŠ›
  *
  * \param
  * \return const char*

@@ -1,4 +1,4 @@
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/WinWindow.h>
 #include <resource.h>
 #include <Startup.h>
@@ -9,10 +9,10 @@
 #
 #endif // IMGUI
 
-//===== ’Ç‰Áƒ‰ƒCƒuƒ‰ƒŠ =====
+//===== è¿½åŠ ãƒ©ã‚¤ãƒ–ãƒ©ãƒª =====
 #pragma comment(lib, "imm32")
 
-//===== ƒNƒ‰ƒXÀ‘• =====
+//===== ã‚¯ãƒ©ã‚¹å®Ÿè£… =====
 CT_IW_WIN::CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int& nWndHeight, const int& nWndPosX, const int& nWndPosY)
 	: CT_IF_WINDOW()
 	, m_AppInst(GetModuleHandle(nullptr))
@@ -25,7 +25,7 @@ CT_IW_WIN::CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int&
 	, m_RawBuffer(0)
 	, m_bUseImgui(false)
 {
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX“o˜^
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ç™»éŒ²
 	WNDCLASSEX l_WindowClass{};
 	l_WindowClass.cbSize = static_cast<UINT>(sizeof(WNDCLASSEX));
 	l_WindowClass.style = CS_OWNDC;
@@ -33,40 +33,40 @@ CT_IW_WIN::CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int&
 	l_WindowClass.cbClsExtra = 0;
 	l_WindowClass.cbWndExtra = 0;
 	l_WindowClass.hInstance = m_AppInst;
-	l_WindowClass.hIcon = LoadIcon(m_AppInst, MAKEINTRESOURCE(IDI_ICON_BASE));       //ƒAƒCƒRƒ“
-	l_WindowClass.hCursor = LoadCursor(m_AppInst, MAKEINTRESOURCE(IDC_CURSOR_BASE)); //ƒJ[ƒ\ƒ‹
+	l_WindowClass.hIcon = LoadIcon(m_AppInst, MAKEINTRESOURCE(IDI_ICON_BASE));       //ã‚¢ã‚¤ã‚³ãƒ³
+	l_WindowClass.hCursor = LoadCursor(m_AppInst, MAKEINTRESOURCE(IDC_CURSOR_BASE)); //ã‚«ãƒ¼ã‚½ãƒ«
 	l_WindowClass.hbrBackground = nullptr;
 	l_WindowClass.lpszMenuName = nullptr;
-	l_WindowClass.lpszClassName = c_Class_Name;                                  //ƒNƒ‰ƒX–¼
-	l_WindowClass.hIconSm = LoadIcon(m_AppInst, MAKEINTRESOURCE(IDI_ICON_BASE)); //¬ƒAƒCƒRƒ“
+	l_WindowClass.lpszClassName = c_Class_Name;                                  //ã‚¯ãƒ©ã‚¹å
+	l_WindowClass.hIconSm = LoadIcon(m_AppInst, MAKEINTRESOURCE(IDI_ICON_BASE)); //å°ã‚¢ã‚¤ã‚³ãƒ³
 	if (!RegisterClassEx(&l_WindowClass))
 		throw ERROR_DEFAULT();
 
-	//ƒTƒCƒYZo
+	//ã‚µã‚¤ã‚ºç®—å‡º
 	DWORD l_ExStyle = 0;
 	DWORD l_Style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
-	RECT l_WinRect = {0L, 0L, static_cast<LONG>(m_Width), static_cast<LONG>(m_Height)}; //Client—ÌˆæƒTƒCƒYİ’è
-	if (!AdjustWindowRectEx(&l_WinRect, l_Style, false, l_ExStyle))                                //WindowƒTƒCƒYZo
+	RECT l_WinRect = {0L, 0L, static_cast<LONG>(m_Width), static_cast<LONG>(m_Height)}; //Clienté ˜åŸŸã‚µã‚¤ã‚ºè¨­å®š
+	if (!AdjustWindowRectEx(&l_WinRect, l_Style, false, l_ExStyle))                                //Windowã‚µã‚¤ã‚ºç®—å‡º
 		throw ERROR_DEFAULT();
 	int l_Width = l_WinRect.right - l_WinRect.left;
-	int l_Height = l_WinRect.bottom - l_WinRect.top; //•E‚‚³‚ğİ’è
+	int l_Height = l_WinRect.bottom - l_WinRect.top; //å¹…ãƒ»é«˜ã•ã‚’è¨­å®š
 
-	//Instanceì¬
+	//Instanceä½œæˆ
 	m_WinHandle = CreateWindowEx(l_ExStyle, c_Class_Name, windowName, l_Style, m_PosX, m_PosY, l_Width, l_Height, nullptr, nullptr, m_AppInst, this);
 	if (!m_WinHandle)
 		throw ERROR_DEFAULT();
 
-	//Window•\¦
+	//Windowè¡¨ç¤º
 	ShowWindow(m_WinHandle, SW_SHOW);
 	UpdateWindow(m_WinHandle);
 
-	//IME–³Œø‰»
+	//IMEç„¡åŠ¹åŒ–
 	ImmAssociateContext(m_WinHandle, nullptr);
 
-	//RawInputƒfƒoƒCƒX“o˜^
+	//RawInputãƒ‡ãƒã‚¤ã‚¹ç™»éŒ²
 	RAWINPUTDEVICE l_Rid{};
-	l_Rid.usUsagePage = 0x01; //ƒ}ƒEƒX¯•Ê—p
-	l_Rid.usUsage = 0x02;     //ƒ}ƒEƒX¯•Ê—p
+	l_Rid.usUsagePage = 0x01; //ãƒã‚¦ã‚¹è­˜åˆ¥ç”¨
+	l_Rid.usUsage = 0x02;     //ãƒã‚¦ã‚¹è­˜åˆ¥ç”¨
 	l_Rid.dwFlags = 0;
 	l_Rid.hwndTarget = nullptr;
 	if (!RegisterRawInputDevices(&l_Rid, 1, sizeof(l_Rid)))
@@ -74,7 +74,7 @@ CT_IW_WIN::CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int&
 
 #ifdef IMGUI
 
-	//IMGUI‰Šú‰»
+	//IMGUIåˆæœŸåŒ–
 	if (!ImGui_ImplWin32_Init(m_WinHandle))
 		throw ERROR_EX2("IMGUI : Fail to init");
 
@@ -85,22 +85,22 @@ CT_IW_WIN::~CT_IW_WIN() noexcept(false)
 {
 #ifdef IMGUI
 
-	//IMGUII—¹
+	//IMGUIçµ‚äº†
 	ImGui_ImplWin32_Shutdown();
 
 #endif // IMGUI
 
-	//Instance”jŠü
+	//Instanceç ´æ£„
 	if (!DestroyWindow(m_WinHandle))
 		throw ERROR_DEFAULT();
 
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX“o˜^‰ğœ
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ç™»éŒ²è§£é™¤
 	if (!UnregisterClass(c_Class_Name, m_AppInst))
 		throw ERROR_DEFAULT();
 }
 
 /**
- * ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€
+ * ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ 
  *
  * \param nWndPosX
  * \param nWndPosY
@@ -110,19 +110,19 @@ CT_IW_WIN::~CT_IW_WIN() noexcept(false)
  */
 void CT_IW_WIN::Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth, const int& nWndHeight)
 {
-	//ƒTƒCƒYæ“¾
-	RECT l_ClientRect; //ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ
+	//ã‚µã‚¤ã‚ºå–å¾—
+	RECT l_ClientRect; //ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸ
 	if (!GetClientRect(m_WinHandle, &l_ClientRect))
 		throw ERROR_DEFAULT();
 	l_ClientRect.right -= l_ClientRect.left;
 	l_ClientRect.bottom -= l_ClientRect.top;
-	RECT l_WindowRect; //”ñƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ
+	RECT l_WindowRect; //éã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸ
 	if (!GetWindowRect(m_WinHandle, &l_WindowRect))
 		throw ERROR_DEFAULT();
 	l_WindowRect.right -= l_WindowRect.left;
 	l_WindowRect.bottom -= l_WindowRect.top;
 
-	//ƒTƒCƒYXV
+	//ã‚µã‚¤ã‚ºæ›´æ–°
 	int l_Width, l_Height;
 	if (nWndWidth <= 0)
 		l_Width = l_WindowRect.right;
@@ -139,13 +139,13 @@ void CT_IW_WIN::Transform(const int& nWndPosX, const int& nWndPosY, const int& n
 		m_Height = nWndHeight;
 	}
 
-	//WindowˆÚ“®
+	//Windowç§»å‹•
 	if (!SetWindowPos(m_WinHandle, HWND_TOP, nWndPosX, nWndPosY, l_Width, l_Height, SWP_SHOWWINDOW))
 		throw ERROR_DEFAULT();
 }
 
 /**
- * ƒ^ƒCƒgƒ‹o—Í
+ * ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›
  *
  * \param text
  * \return void
@@ -158,14 +158,14 @@ void CT_IW_WIN::TitlePrint(const std::string& text) const
 }
 
 /**
- * ƒ^ƒCƒgƒ‹o—Íiƒ}ƒEƒXÀ•Wj
+ * ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›ï¼ˆãƒã‚¦ã‚¹åº§æ¨™ï¼‰
  *
  * \param
  * \return void
  */
 void CT_IW_WIN::TitlePrint_MousePos() const
 {
-	//ƒƒbƒZ[ƒWƒ{ƒbƒNƒX•\¦ƒoƒO‚ ‚è
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹è¡¨ç¤ºãƒã‚°ã‚ã‚Š
 	auto [x, y] = m_Mouse.GetPos();
 	std::ostringstream l_Oss;
 	l_Oss << "MousePos:(" << x << ", " << y << ")";
@@ -173,7 +173,7 @@ void CT_IW_WIN::TitlePrint_MousePos() const
 }
 
 /**
- * ƒ^ƒCƒgƒ‹o—ÍiƒzƒC[ƒ‹’lj
+ * ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›ï¼ˆãƒ›ã‚¤ãƒ¼ãƒ«å€¤ï¼‰
  *
  * \param
  * \return void
@@ -182,12 +182,12 @@ void CT_IW_WIN::TitlePrint_WheelVal()
 {
 	while (!m_Mouse.IsEmpty())
 	{
-		//•Ï”éŒ¾
+		//å¤‰æ•°å®£è¨€
 		const CT_MOUSE_EVENTS l_Event = m_Mouse.ReadBuffer();
 		static int l_Cnt = 0;
 		std::ostringstream l_Oss;
 
-		//XVˆ—
+		//æ›´æ–°å‡¦ç†
 		switch (l_Event.GetType())
 		{
 			case ET_MOUSE_STATUS::me_WheelUp:
@@ -209,7 +209,7 @@ void CT_IW_WIN::TitlePrint_WheelVal()
 }
 
 /**
- * ƒ}ƒEƒXg—p
+ * ãƒã‚¦ã‚¹ä½¿ç”¨
  *
  * \param
  * \return void
@@ -228,7 +228,7 @@ void CT_IW_WIN::EnableCursor() noexcept
 }
 
 /**
- * ƒ}ƒEƒX•sg—p
+ * ãƒã‚¦ã‚¹ä¸ä½¿ç”¨
  *
  * \param
  * \return void
@@ -247,7 +247,7 @@ void CT_IW_WIN::DisableCursor() noexcept
 }
 
 /**
- * ƒ}ƒEƒXg—pó‘ÔŠm”F
+ * ãƒã‚¦ã‚¹ä½¿ç”¨çŠ¶æ…‹ç¢ºèª
  *
  * \param
  * \return bool
@@ -258,7 +258,7 @@ bool CT_IW_WIN::IsUsingCursor() const noexcept
 }
 
 /**
- * WndProc‰Šú‰»
+ * WndProcåˆæœŸåŒ–
  *
  * \param hWnd
  * \param uMsg
@@ -268,29 +268,29 @@ bool CT_IW_WIN::IsUsingCursor() const noexcept
  */
 LRESULT CALLBACK CT_IW_WIN::WndProc_Init(const HWND hWnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) noexcept
 {
-	//Instanceì¬
+	//Instanceä½œæˆæ™‚
 	if (uMsg == WM_NCCREATE)
 	{
-		//Instanceƒ|ƒCƒ“ƒ^‚ğæ“¾
+		//Instanceãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 		const CREATESTRUCT* const l_pCreateInfo = reinterpret_cast<CREATESTRUCT*>(lParam);
 		const auto l_pGameWnd = static_cast<CT_IW_WIN*>(l_pCreateInfo->lpCreateParams);
 
-		//Instanceƒ|ƒCƒ“ƒ^‚ğWinAPI‚Ìƒ†[ƒUƒf[ƒ^‚Æ‚µ‚Ä“o˜^iWinAPI‚ÍƒNƒ‰ƒX‚Ìƒƒ“ƒoŠÖ”‚ğ”F¯‚Å‚«‚È‚¢ˆ×j
+		//Instanceãƒã‚¤ãƒ³ã‚¿ã‚’WinAPIã®ãƒ¦ãƒ¼ã‚¶ãƒ‡ãƒ¼ã‚¿ã¨ã—ã¦ç™»éŒ²ï¼ˆWinAPIã¯ã‚¯ãƒ©ã‚¹ã®ãƒ¡ãƒ³ãƒé–¢æ•°ã‚’èªè­˜ã§ããªã„ç‚ºï¼‰
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(l_pGameWnd));
 
-		//‰Šú‰»ˆÈŒã‚ÌWndProcŒÄ‚Ño‚µŠÖ”‚ğİ’è
+		//åˆæœŸåŒ–ä»¥å¾Œã®WndProcå‘¼ã³å‡ºã—é–¢æ•°ã‚’è¨­å®š
 		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&CT_IW_WIN::WndProc_Call));
 
-		//WndProc–{ˆ—
+		//WndProcæœ¬å‡¦ç†
 		return l_pGameWnd->WndProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	//WM_NCCREATEˆÈ‘O‚Ìˆ—æ
+	//WM_NCCREATEä»¥å‰ã®å‡¦ç†å…ˆ
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 /**
- * WndProcŒÄ‚Ño‚µ
+ * WndProcå‘¼ã³å‡ºã—
  *
  * \param hWnd
  * \param uMsg
@@ -300,15 +300,15 @@ LRESULT CALLBACK CT_IW_WIN::WndProc_Init(const HWND hWnd, const UINT uMsg, const
  */
 LRESULT CALLBACK CT_IW_WIN::WndProc_Call(const HWND hWnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) noexcept
 {
-	//Instanceƒ|ƒCƒ“ƒ^‚ğæ“¾
+	//Instanceãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 	const auto l_pGameWnd = reinterpret_cast<CT_IW_WIN*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
-	//WndProc–{ˆ—
+	//WndProcæœ¬å‡¦ç†
 	return l_pGameWnd->WndProc(hWnd, uMsg, wParam, lParam);
 }
 
 /**
- * WndProc–{ˆ—
+ * WndProcæœ¬å‡¦ç†
  *
  * \param hWnd
  * \param uMsg
@@ -320,7 +320,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 {
 #ifdef IMGUI
 
-	//IMGUI—p
+	//IMGUIç”¨
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
 		return true;
 
@@ -331,42 +331,42 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 	switch (uMsg)
 	{
 		case WM_CLOSE:
-			if (MessageBox(hWnd, L"ƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚Ü‚·‚©H", L"I—¹Šm”F", MB_OKCANCEL | MB_ICONQUESTION) != IDOK)
+			if (MessageBox(hWnd, L"ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã¾ã™ã‹ï¼Ÿ", L"çµ‚äº†ç¢ºèª", MB_OKCANCEL | MB_ICONQUESTION) != IDOK)
 				return 0;
-			PostQuitMessage(0); //WM_QUIT‚ğ¶¬
-			return 0;                   //ƒfƒXƒgƒ‰ƒNƒ^ŒÄ‚Ño‚µ
+			PostQuitMessage(0); //WM_QUITã‚’ç”Ÿæˆ
+			return 0;                   //ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å‘¼ã³å‡ºã—
 
-		//ƒEƒBƒ“ƒhƒEƒAƒNƒeƒBƒu”»’è
+		//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åˆ¤å®š
 		case WM_ACTIVATE:
 
-			//ƒ}ƒEƒXó‘ÔXV
+			//ãƒã‚¦ã‚¹çŠ¶æ…‹æ›´æ–°
 			if (!m_bDrawCursor)
 			{
 				if (wParam & WA_ACTIVE)
 				{
-					LockCursor();   //ƒAƒNƒeƒBƒuËƒ}ƒEƒXƒƒbƒN
+					LockCursor();   //ã‚¢ã‚¯ãƒ†ã‚£ãƒ–â‡’ãƒã‚¦ã‚¹ãƒ­ãƒƒã‚¯
 					HideCursor();
 				}
 				else
 				{
-					UnlockCursor(); //”ñƒAƒNƒeƒBƒuËƒ}ƒEƒXƒƒbƒN‰ğœ
+					UnlockCursor(); //éã‚¢ã‚¯ãƒ†ã‚£ãƒ–â‡’ãƒã‚¦ã‚¹ãƒ­ãƒƒã‚¯è§£é™¤
 					ShowCursor();
 				}
 			}
 			break;
 
-		//ƒL[ƒ{[ƒhˆ—
+		//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‡¦ç†
 		case WM_KILLFOCUS:
-			m_Keyboard.ClearState(); //ƒEƒBƒ“ƒhƒE”ñƒAƒNƒeƒBƒuË“ü—ÍƒŠƒZƒbƒg
+			m_Keyboard.ClearState(); //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦éã‚¢ã‚¯ãƒ†ã‚£ãƒ–â‡’å…¥åŠ›ãƒªã‚»ãƒƒãƒˆ
 			break;
 		case WM_KEYDOWN:
-		case WM_SYSKEYDOWN:          //uWM_SYSKEYvËuALTv‚ÆuF10v‚ğ‘Î‰
+		case WM_SYSKEYDOWN:          //ã€ŒWM_SYSKEYã€â‡’ã€ŒALTã€ã¨ã€ŒF10ã€ã‚’å¯¾å¿œ
 
 #ifdef IMGUI
 
 			if (l_Imgui.WantCaptureKeyboard)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -376,12 +376,12 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 			m_bUseImgui = false;
 			switch (wParam)
 			{
-				case VK_ESCAPE:                                            //uESCvËƒEƒBƒ“ƒhƒEI—¹
+				case VK_ESCAPE:                                            //ã€ŒESCã€â‡’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦çµ‚äº†
 					PostMessage(hWnd, WM_CLOSE, 0, 0);
 				default:;
 			}
 			if (!(lParam & 0x40000000))
-				m_Keyboard.KeyPressed(static_cast<unsigned char>(wParam)); //ƒL[‚ğ‰Ÿ‚µ‚½
+				m_Keyboard.KeyPressed(static_cast<unsigned char>(wParam)); //ã‚­ãƒ¼ã‚’æŠ¼ã—ãŸ
 			break;
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
@@ -390,7 +390,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureKeyboard)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -398,7 +398,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 #endif // IMGUI
 
 			m_bUseImgui = false;
-			m_Keyboard.KeyReleased(static_cast<unsigned char>(wParam));    //ƒL[‚ğ—£‚µ‚½
+			m_Keyboard.KeyReleased(static_cast<unsigned char>(wParam));    //ã‚­ãƒ¼ã‚’é›¢ã—ãŸ
 			break;
 		case WM_CHAR:
 
@@ -406,7 +406,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureKeyboard)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -414,30 +414,30 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 #endif // IMGUI
 
 			m_bUseImgui = false;
-			m_Keyboard.CharInput(static_cast<unsigned char>(wParam));      //ƒeƒLƒXƒg‚ğ“ü—Í‚µ‚½
+			m_Keyboard.CharInput(static_cast<unsigned char>(wParam));      //ãƒ†ã‚­ã‚¹ãƒˆã‚’å…¥åŠ›ã—ãŸ
 			break;
 
-		//ƒ}ƒEƒXˆ—
+		//ãƒã‚¦ã‚¹å‡¦ç†
 		case WM_MOUSEMOVE:
 
-			//ƒ}ƒEƒX”ñ•\¦‚Ìê‡
+			//ãƒã‚¦ã‚¹éè¡¨ç¤ºã®å ´åˆ
 			if (!m_bDrawCursor)
 			{
 				if (!m_Mouse.IsInWindow())
 				{
-					//ƒEƒBƒ“ƒhƒE‚É“ü‚Á‚½‰‰ñƒ‹[ƒvËƒ}ƒEƒX‚ªƒEƒBƒ“ƒhƒEŠO”»’è‚Ìê‡
+					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«å…¥ã£ãŸåˆå›ãƒ«ãƒ¼ãƒ—â‡’ãƒã‚¦ã‚¹ãŒã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¤–åˆ¤å®šã®å ´åˆ
 					SetCapture(hWnd);
-					m_Mouse.EnterWindow(); //ƒLƒƒƒvƒ`ƒƒ[ƒIƒ“Aƒ}ƒEƒXƒƒbƒZ[ƒWXV
-					HideCursor();          //ƒ}ƒEƒX”ñ•\¦
+					m_Mouse.EnterWindow(); //ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚ªãƒ³ã€ãƒã‚¦ã‚¹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ›´æ–°
+					HideCursor();          //ãƒã‚¦ã‚¹éè¡¨ç¤º
 				}
-				break;                     //ƒ}ƒEƒXÀ•Wˆ—‚ğƒXƒLƒbƒv
+				break;                     //ãƒã‚¦ã‚¹åº§æ¨™å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—
 			}
 
 #ifdef IMGUI
 
 			if (l_Imgui.WantCaptureMouse)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -449,34 +449,34 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 				const POINTS l_Points = MAKEPOINTS(lParam);
 				if (l_Points.x >= 0 && l_Points.x < m_Width && l_Points.y >= 0 && l_Points.y < m_Height)
 				{
-					//ƒEƒBƒ“ƒhƒE“à‚Ìê‡
-					m_Mouse.MouseMove(l_Points.x, l_Points.y);     //À•W‹L˜^
+					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã®å ´åˆ
+					m_Mouse.MouseMove(l_Points.x, l_Points.y);     //åº§æ¨™è¨˜éŒ²
 					if (!m_Mouse.IsInWindow())
 					{
-						//ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[ƒIƒ“
+						//ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚ªãƒ³
 						SetCapture(hWnd);
 						m_Mouse.EnterWindow();
 					}
 				}
 				else
 				{
-					//ƒEƒBƒ“ƒhƒEŠO‚Ìê‡
-					if (wParam & (MK_LBUTTON | MK_RBUTTON))        //ƒNƒŠƒbƒN‚µ‚Ä‚éê‡
-						m_Mouse.MouseMove(l_Points.x, l_Points.y); //À•W‹L˜^
+					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¤–ã®å ´åˆ
+					if (wParam & (MK_LBUTTON | MK_RBUTTON))        //ã‚¯ãƒªãƒƒã‚¯ã—ã¦ã‚‹å ´åˆ
+						m_Mouse.MouseMove(l_Points.x, l_Points.y); //åº§æ¨™è¨˜éŒ²
 					else
 					{
-						//ƒNƒŠƒbƒN‚µ‚Ä‚È‚¢ê‡
-						ReleaseCapture();                          //ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[ƒIƒt
+						//ã‚¯ãƒªãƒƒã‚¯ã—ã¦ãªã„å ´åˆ
+						ReleaseCapture();                          //ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚ªãƒ•
 						m_Mouse.LeaveWindow();
 					}
 				}
 			}
 			break;
 		case WM_LBUTTONDOWN:
-			SetForegroundWindow(hWnd); //ƒEƒBƒ“ƒhƒE‚ğƒAƒNƒeƒBƒu
+			SetForegroundWindow(hWnd); //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–
 			if (!m_bDrawCursor)
 			{
-				//ƒ}ƒEƒXó‘ÔXV
+				//ãƒã‚¦ã‚¹çŠ¶æ…‹æ›´æ–°
 				LockCursor();
 				HideCursor();
 			}
@@ -485,7 +485,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureMouse)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -501,7 +501,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureMouse)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -513,8 +513,8 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 				const POINTS l_Points = MAKEPOINTS(lParam);
 				if (l_Points.x < 0 || l_Points.x >= m_Width || l_Points.y < 0 || l_Points.y >= m_Height)
 				{
-					//ƒEƒBƒ“ƒhƒEŠO‚Ìê‡
-					ReleaseCapture(); //ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[ƒIƒt
+					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¤–ã®å ´åˆ
+					ReleaseCapture(); //ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚ªãƒ•
 					m_Mouse.LeaveWindow();
 				}
 			}
@@ -526,7 +526,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureMouse)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -542,7 +542,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureMouse)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -554,8 +554,8 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 				const POINTS l_Points = MAKEPOINTS(lParam);
 				if (l_Points.x < 0 || l_Points.x >= m_Width || l_Points.y < 0 || l_Points.y >= m_Height)
 				{
-					//ƒEƒBƒ“ƒhƒEŠO‚Ìê‡
-					ReleaseCapture(); //ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[ƒIƒt
+					//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¤–ã®å ´åˆ
+					ReleaseCapture(); //ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚ªãƒ•
 					m_Mouse.LeaveWindow();
 				}
 			}
@@ -567,7 +567,7 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			if (l_Imgui.WantCaptureMouse)
 			{
-				//IMGUI“ü—ÍØ‘Ö
+				//IMGUIå…¥åŠ›åˆ‡æ›¿
 				m_bUseImgui = true;
 				break;
 			}
@@ -576,28 +576,28 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 
 			m_bUseImgui = false;
 			{
-				const int l_Delta = GET_WHEEL_DELTA_WPARAM(wParam); //ƒzƒC[ƒ‹‘€ì—Êæ“¾(ƒƒbƒZ[ƒWˆê‰ñ‚Å+-120)
+				const int l_Delta = GET_WHEEL_DELTA_WPARAM(wParam); //ãƒ›ã‚¤ãƒ¼ãƒ«æ“ä½œé‡å–å¾—(ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸€å›ã§+-120)
 				m_Mouse.WheelProc(l_Delta);
 			}
 			break;
 
-		//RawInputˆ—
+		//RawInputå‡¦ç†
 		case WM_INPUT:
 		{
 			if (!m_Mouse.IsUsingRawInput())
 				break;
 			UINT l_Size{};
 
-			//“ü—Íî•ñ‚ÌƒTƒCƒY‚ğæ“¾
+			//å…¥åŠ›æƒ…å ±ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
 			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &l_Size, sizeof(RAWINPUTHEADER)) == static_cast<UINT>(-1))
-				break; //ƒGƒ‰[ƒƒbƒZ[ƒW
+				break; //ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 			m_RawBuffer.resize(l_Size);
 
-			//“ü—Íî•ñ“Ç
+			//å…¥åŠ›æƒ…å ±èª­è¾¼
 			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, m_RawBuffer.data(), &l_Size, sizeof(RAWINPUTHEADER)) != l_Size)
-				break; //ƒGƒ‰[ƒƒbƒZ[ƒW
+				break; //ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
-			//ƒf[ƒ^óæ
+			//ãƒ‡ãƒ¼ã‚¿å—å–
 			auto& l_RawInput = reinterpret_cast<const RAWINPUT&>(*m_RawBuffer.data());
 			if (l_RawInput.header.dwType == RIM_TYPEMOUSE && (l_RawInput.data.mouse.lLastX != 0 || l_RawInput.data.mouse.lLastY != 0))
 				m_Mouse.GetRawDelta(l_RawInput.data.mouse.lLastX, l_RawInput.data.mouse.lLastY);
@@ -609,12 +609,12 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 			break;
 	}
 
-	//Šî–{“®ì‚ğƒTƒ|[ƒg
+	//åŸºæœ¬å‹•ä½œã‚’ã‚µãƒãƒ¼ãƒˆ
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 /**
- * ƒ}ƒEƒX”ñ•\¦
+ * ãƒã‚¦ã‚¹éè¡¨ç¤º
  *
  * \param
  * \return void
@@ -625,7 +625,7 @@ void CT_IW_WIN::HideCursor() noexcept
 }
 
 /**
- * ƒ}ƒEƒX•\¦
+ * ãƒã‚¦ã‚¹è¡¨ç¤º
  *
  * \param
  * \return void
@@ -636,7 +636,7 @@ void CT_IW_WIN::ShowCursor() noexcept
 }
 
 /**
- * ƒ}ƒEƒX‚ğƒEƒBƒ“ƒhƒE“à‚ÉƒƒbƒN
+ * ãƒã‚¦ã‚¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ãƒ­ãƒƒã‚¯
  *
  * \param
  * \return void
@@ -645,12 +645,12 @@ void CT_IW_WIN::LockCursor() const noexcept
 {
 	RECT l_Rect;
 	GetClientRect(m_WinHandle, &l_Rect);
-	MapWindowPoints(m_WinHandle, nullptr, reinterpret_cast<POINT*>(&l_Rect), 2); //ƒEƒBƒ“ƒhƒE“àÀ•W‚ğƒXƒNƒŠ[ƒ“À•W‚Ö•ÏŠ·
-	ClipCursor(&l_Rect);                                                                              //ƒ}ƒEƒX‚ğw’è”ÍˆÍ“à‚ÉƒƒbƒN‚·‚é
+	MapWindowPoints(m_WinHandle, nullptr, reinterpret_cast<POINT*>(&l_Rect), 2); //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…åº§æ¨™ã‚’ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã¸å¤‰æ›
+	ClipCursor(&l_Rect);                                                                              //ãƒã‚¦ã‚¹ã‚’æŒ‡å®šç¯„å›²å†…ã«ãƒ­ãƒƒã‚¯ã™ã‚‹
 }
 
 /**
- * ƒ}ƒEƒX‚ğƒEƒBƒ“ƒhƒE“à‚ÉƒƒbƒN‰ğœ
+ * ãƒã‚¦ã‚¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ãƒ­ãƒƒã‚¯è§£é™¤
  *
  * \param
  * \return void
@@ -659,10 +659,10 @@ void CT_IW_WIN::UnlockCursor() const noexcept
 {
 	ClipCursor(nullptr);
 
-	//ƒJ[ƒ\ƒ‹‚ğ‰æ–Ê’†S‚Ö–ß‚·
+	//ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç”»é¢ä¸­å¿ƒã¸æˆ»ã™
 	RECT l_Rect;
 	GetClientRect(m_WinHandle, &l_Rect);
-	MapWindowPoints(m_WinHandle, nullptr, reinterpret_cast<POINT*>(&l_Rect), 2); //ƒEƒBƒ“ƒhƒE“àÀ•W‚ğƒXƒNƒŠ[ƒ“À•W‚Ö•ÏŠ·
+	MapWindowPoints(m_WinHandle, nullptr, reinterpret_cast<POINT*>(&l_Rect), 2); //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…åº§æ¨™ã‚’ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã¸å¤‰æ›
 	const int l_X = l_Rect.left + m_Width / 2;
 	const int l_Y = l_Rect.top + m_Height / 2;
 	SetCursorPos(l_X, l_Y);

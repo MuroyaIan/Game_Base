@@ -1,83 +1,83 @@
-/**
+ï»¿/**
  * @file WinWindow.h
- * @brief ƒQ[ƒ€ƒEƒBƒ“ƒhƒEˆ—
- * @author º’JƒCƒAƒ“
+ * @brief ã‚²ãƒ¼ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å‡¦ç†
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/05/01
- * @—š—ğ 2022/05/01FƒEƒBƒ“ƒhƒEƒNƒ‰ƒXì¬
- *		 2022/05/02FƒGƒ‰[o—ÍƒNƒ‰ƒXì¬AƒL[ƒ{[ƒhó•tˆ—À‘•
- *		 2024/04/07F‘®‰ü‘P
+ * @å±¥æ­´ 2022/05/01ï¼šã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ä½œæˆ
+ *		 2022/05/02ï¼šã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã‚¯ãƒ©ã‚¹ä½œæˆã€ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å—ä»˜å‡¦ç†å®Ÿè£…
+ *		 2024/04/07ï¼šæ›¸å¼æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
-#include <WinApp/BaseWindow.h>			//ƒCƒ“ƒ^[ƒtƒF[ƒX
-#include <WinApp/ErrorOutput_Win.h>		//ƒGƒ‰[o—Í
-#include <vector>						//“®“I”z—ñ
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
+#include <WinApp/BaseWindow.h>			//ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
+#include <WinApp/ErrorOutput_Win.h>		//ã‚¨ãƒ©ãƒ¼å‡ºåŠ›
+#include <vector>						//å‹•çš„é…åˆ—
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 class CT_IW_WIN final : public CT_IF_WINDOW
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_IW_WIN(const CT_IW_WIN&) = default;
 	CT_IW_WIN& operator =(const CT_IW_WIN&) = default;
 	CT_IW_WIN(CT_IW_WIN&&) noexcept = default;
 	CT_IW_WIN& operator=(CT_IW_WIN&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int& nWndHeight, const int& nWndPosX = CW_USEDEFAULT, const int& nWndPosY = CW_USEDEFAULT);
 	~CT_IW_WIN() noexcept(false) override;
-	void Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth = 0, const int& nWndHeight = 0) override; //ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€
-	void TitlePrint(const std::string& text) const override;                                                                //ƒ^ƒCƒgƒ‹o—Í
-	void TitlePrint_MousePos() const override;                                                                              //ƒ^ƒCƒgƒ‹o—Íiƒ}ƒEƒXÀ•Wj
-	void TitlePrint_WheelVal() override;                                                                                    //ƒ^ƒCƒgƒ‹o—ÍiƒzƒC[ƒ‹’lj
-	void EnableCursor() noexcept override;                                                                                  //ƒ}ƒEƒXg—p
-	void DisableCursor() noexcept override;                                                                                 //ƒ}ƒEƒX•sg—p
-	[[nodiscard]] bool IsUsingCursor() const noexcept override;                                                             //ƒ}ƒEƒXg—pó‘ÔŠm”F
+	void Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth = 0, const int& nWndHeight = 0) override; //ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ 
+	void TitlePrint(const std::string& text) const override;                                                                //ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›
+	void TitlePrint_MousePos() const override;                                                                              //ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›ï¼ˆãƒã‚¦ã‚¹åº§æ¨™ï¼‰
+	void TitlePrint_WheelVal() override;                                                                                    //ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›ï¼ˆãƒ›ã‚¤ãƒ¼ãƒ«å€¤ï¼‰
+	void EnableCursor() noexcept override;                                                                                  //ãƒã‚¦ã‚¹ä½¿ç”¨
+	void DisableCursor() noexcept override;                                                                                 //ãƒã‚¦ã‚¹ä¸ä½¿ç”¨
+	[[nodiscard]] bool IsUsingCursor() const noexcept override;                                                             //ãƒã‚¦ã‚¹ä½¿ç”¨çŠ¶æ…‹ç¢ºèª
 
-	[[nodiscard]] std::pair<int, int> GetPos() const noexcept override //ƒEƒBƒ“ƒhƒE¶ãÀ•Wæ“¾
+	[[nodiscard]] std::pair<int, int> GetPos() const noexcept override //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å·¦ä¸Šåº§æ¨™å–å¾—
 	{
 		return {m_PosX, m_PosY};
 	}
 
-	[[nodiscard]] std::pair<int, int> GetSize() const noexcept override //ƒEƒBƒ“ƒhƒEƒTƒCƒYæ“¾
+	[[nodiscard]] std::pair<int, int> GetSize() const noexcept override //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºå–å¾—
 	{
 		return {m_Width, m_Height};
 	}
 
-	[[nodiscard]] bool IsUsingImgui() const noexcept override //Imguig—pŠm”F
+	[[nodiscard]] bool IsUsingImgui() const noexcept override //Imguiä½¿ç”¨ç¢ºèª
 	{
 		return m_bUseImgui;
 	}
 
-	[[nodiscard]] HWND GetHandle() const noexcept //ƒnƒ“ƒhƒ‹æ“¾
+	[[nodiscard]] HWND GetHandle() const noexcept //ãƒãƒ³ãƒ‰ãƒ«å–å¾—
 	{
 		return m_WinHandle;
 	}
 
 private:
 
-	//•Ï”éŒ¾
-	static constexpr LPCWSTR c_Class_Name = L"WindowClass_Game"; //ƒNƒ‰ƒX–¼
-	HINSTANCE m_AppInst;                                         //Instanceƒnƒ“ƒhƒ‹
-	int m_PosX;                                                  //ƒEƒBƒ“ƒhƒE¶ãXÀ•W
-	int m_PosY;                                                  //ƒEƒBƒ“ƒhƒE¶ãYÀ•W
-	int m_Width;                                                 //•iƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæj
-	int m_Height;                                                //‚‚³iƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæj
-	HWND m_WinHandle;                                            //ƒnƒ“ƒhƒ‹
-	bool m_bDrawCursor;                                          //ƒ}ƒEƒX•`‰æƒtƒ‰ƒO
-	std::vector<BYTE> m_RawBuffer;                               //RawInput—pƒoƒbƒtƒ@
-	bool m_bUseImgui;                                            //Imguig—p’†ƒtƒ‰ƒO
+	//å¤‰æ•°å®£è¨€
+	static constexpr LPCWSTR c_Class_Name = L"WindowClass_Game"; //ã‚¯ãƒ©ã‚¹å
+	HINSTANCE m_AppInst;                                         //Instanceãƒãƒ³ãƒ‰ãƒ«
+	int m_PosX;                                                  //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å·¦ä¸ŠXåº§æ¨™
+	int m_PosY;                                                  //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å·¦ä¸ŠYåº§æ¨™
+	int m_Width;                                                 //å¹…ï¼ˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸï¼‰
+	int m_Height;                                                //é«˜ã•ï¼ˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸï¼‰
+	HWND m_WinHandle;                                            //ãƒãƒ³ãƒ‰ãƒ«
+	bool m_bDrawCursor;                                          //ãƒã‚¦ã‚¹æç”»ãƒ•ãƒ©ã‚°
+	std::vector<BYTE> m_RawBuffer;                               //RawInputç”¨ãƒãƒƒãƒ•ã‚¡
+	bool m_bUseImgui;                                            //Imguiä½¿ç”¨ä¸­ãƒ•ãƒ©ã‚°
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
-	static LRESULT CALLBACK WndProc_Init(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept;        //WndProc‰Šú‰»
-	static LRESULT CALLBACK WndProc_Call(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept;        //WndProcŒÄ‚Ño‚µ
-	LRESULT WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wParam, const LPARAM& lParam) noexcept; //WndProc–{ˆ—
-	static void HideCursor() noexcept;                                                                        //ƒ}ƒEƒX”ñ•\¦
-	static void ShowCursor() noexcept;                                                                        //ƒ}ƒEƒX•\¦
-	void LockCursor() const noexcept;                                                                         //ƒ}ƒEƒX‚ğƒEƒBƒ“ƒhƒE“à‚ÉƒƒbƒN
-	void UnlockCursor() const noexcept;                                                                       //ƒ}ƒEƒX‚ğƒEƒBƒ“ƒhƒE“à‚ÉƒƒbƒN‰ğœ
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
+	static LRESULT CALLBACK WndProc_Init(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept;        //WndProcåˆæœŸåŒ–
+	static LRESULT CALLBACK WndProc_Call(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept;        //WndProcå‘¼ã³å‡ºã—
+	LRESULT WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wParam, const LPARAM& lParam) noexcept; //WndProcæœ¬å‡¦ç†
+	static void HideCursor() noexcept;                                                                        //ãƒã‚¦ã‚¹éè¡¨ç¤º
+	static void ShowCursor() noexcept;                                                                        //ãƒã‚¦ã‚¹è¡¨ç¤º
+	void LockCursor() const noexcept;                                                                         //ãƒã‚¦ã‚¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ãƒ­ãƒƒã‚¯
+	void UnlockCursor() const noexcept;                                                                       //ãƒã‚¦ã‚¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ãƒ­ãƒƒã‚¯è§£é™¤
 };

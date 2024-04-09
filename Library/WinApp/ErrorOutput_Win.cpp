@@ -1,7 +1,7 @@
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/ErrorOutput_Win.h>
 
-//===== ƒNƒ‰ƒXÀ‘• =====
+//===== ã‚¯ãƒ©ã‚¹å®Ÿè£… =====
 CT_EO_WIN::CT_EO_WIN(const int& nLine, const char* chFile, const HRESULT& hr, const char* str) noexcept
 	: CT_ERROR_OUTPUT(nLine, chFile)
 	, m_Hr(hr)
@@ -18,7 +18,7 @@ CT_EO_WIN::CT_EO_WIN(const int& nLine, const char* chFile, const HRESULT& hr, co
 CT_EO_WIN::~CT_EO_WIN() noexcept = default;
 
 /**
- * ƒGƒ‰[ƒ^ƒCƒvæ“¾
+ * ã‚¨ãƒ©ãƒ¼ã‚¿ã‚¤ãƒ—å–å¾—
  *
  * \param
  * \return std::string
@@ -29,36 +29,36 @@ std::string CT_EO_WIN::GetType() const noexcept
 }
 
 /**
- * ƒGƒ‰[ƒR[ƒhî•ñæ“¾
+ * ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰æƒ…å ±å–å¾—
  *
  * \param hr
  * \return std::string
  */
 std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT& hr) const noexcept
 {
-	//ƒJƒXƒ^ƒ€—áŠO
+	//ã‚«ã‚¹ã‚¿ãƒ ä¾‹å¤–
 	if (hr == S_OK && (!m_StrError.empty()))
 		return m_StrError;
 
-	//î•ñ—pƒƒ‚ƒŠ‚ğŠm•Û
+	//æƒ…å ±ç”¨ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
 	LPSTR l_pMsgBuffer = nullptr;
 	const DWORD l_MsgLen = FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM,
 		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		reinterpret_cast<LPSTR>(&l_pMsgBuffer), 0, nullptr);
 
-	//—áŠOˆ—
+	//ä¾‹å¤–å‡¦ç†
 	if (l_MsgLen == 0)
 		return std::string{"Unknown Error"};
 
-	//î•ñæ“¾
+	//æƒ…å ±å–å¾—
 	std::string l_StrError{l_pMsgBuffer};
-	LocalFree(l_pMsgBuffer); //ƒƒ‚ƒŠ‰ğ•ú
+	LocalFree(l_pMsgBuffer); //ãƒ¡ãƒ¢ãƒªè§£æ”¾
 	return l_StrError;
 }
 
 /**
- * ƒGƒ‰[î•ño—Í
+ * ã‚¨ãƒ©ãƒ¼æƒ…å ±å‡ºåŠ›
  *
  * \param
  * \return const char*

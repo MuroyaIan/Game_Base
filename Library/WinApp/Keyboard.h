@@ -1,22 +1,22 @@
-/**
+ï»¿/**
  * @file Keyboard.h
- * @brief ƒL[ƒ{[ƒhˆ—
- * @author º’JƒCƒAƒ“
+ * @brief ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‡¦ç†
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/05/02
- * @—š—ğ 2022/05/02FƒNƒ‰ƒXì¬
- *		 2024/04/04F‘®‰ü‘P
+ * @å±¥æ­´ 2022/05/02ï¼šã‚¯ãƒ©ã‚¹ä½œæˆ
+ *		 2024/04/04ï¼šæ›¸å¼æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
-#include <bitset>				//ƒrƒbƒgW‡ƒNƒ‰ƒX
-#include <queue>				//FIFOƒRƒ“ƒeƒi
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
+#include <bitset>				//ãƒ“ãƒƒãƒˆé›†åˆã‚¯ãƒ©ã‚¹
+#include <queue>				//FIFOã‚³ãƒ³ãƒ†ãƒŠ
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 
-//***** ƒL[ó‘Ô *****
+//***** ã‚­ãƒ¼çŠ¶æ…‹ *****
 enum class ET_KEY_STATUS
 {
 	me_Press,
@@ -24,94 +24,94 @@ enum class ET_KEY_STATUS
 	me_Invalid
 };
 
-//***** ƒL[ƒCƒxƒ“ƒg *****
+//***** ã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆ *****
 class CT_KEY_EVENTS
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_KEY_EVENTS(const CT_KEY_EVENTS&) = default;
 	CT_KEY_EVENTS& operator =(const CT_KEY_EVENTS&) = default;
 	CT_KEY_EVENTS(CT_KEY_EVENTS&&) noexcept = default;
 	CT_KEY_EVENTS& operator=(CT_KEY_EVENTS&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_KEY_EVENTS() noexcept;
 	CT_KEY_EVENTS(const ET_KEY_STATUS& type, const unsigned char& code) noexcept;
 	~CT_KEY_EVENTS() noexcept;
 
-	[[nodiscard]] bool IsPress() const noexcept //ƒL[‰Ÿ‚µŠm”F
+	[[nodiscard]] bool IsPress() const noexcept //ã‚­ãƒ¼æŠ¼ã—ç¢ºèª
 	{
 		return m_Type == ET_KEY_STATUS::me_Press;
 	}
 
-	[[nodiscard]] bool IsRelease() const noexcept //ƒL[—£‚µŠm”F
+	[[nodiscard]] bool IsRelease() const noexcept //ã‚­ãƒ¼é›¢ã—ç¢ºèª
 	{
 		return m_Type == ET_KEY_STATUS::me_Release;
 	}
 
-	[[nodiscard]] bool IsValid() const noexcept //ƒL[ƒCƒxƒ“ƒg—LŒøŠm”F
+	[[nodiscard]] bool IsValid() const noexcept //ã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆæœ‰åŠ¹ç¢ºèª
 	{
 		return m_Type == ET_KEY_STATUS::me_Invalid;
 	}
 
-	[[nodiscard]] unsigned char GetCode() const noexcept //ƒL[ƒR[ƒhæ“¾
+	[[nodiscard]] unsigned char GetCode() const noexcept //ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰å–å¾—
 	{
 		return m_Code;
 	}
 
 private:
 
-	//•Ï”éŒ¾
-	ET_KEY_STATUS m_Type; //ƒL[‚Ìó‘Ô
-	unsigned char m_Code; //‰¼‘zƒL[ƒR[ƒh‚Ì’l
+	//å¤‰æ•°å®£è¨€
+	ET_KEY_STATUS m_Type; //ã‚­ãƒ¼ã®çŠ¶æ…‹
+	unsigned char m_Code; //ä»®æƒ³ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã®å€¤
 };
 
-//***** ƒL[ƒ{[ƒhˆ— *****
+//***** ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‡¦ç† *****
 class CT_KEYBOARD
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_KEYBOARD(const CT_KEYBOARD&) = default;
 	CT_KEYBOARD& operator =(const CT_KEYBOARD&) = default;
 	CT_KEYBOARD(CT_KEYBOARD&&) noexcept = default;
 	CT_KEYBOARD& operator=(CT_KEYBOARD&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_KEYBOARD() noexcept;
 	~CT_KEYBOARD() noexcept;
-	[[nodiscard]] bool KeyIsPressed(const unsigned char& keyCode) const noexcept; //ƒL[‰Ÿ‚µŠm”F
-	CT_KEY_EVENTS ReadKey() noexcept;                                             //ƒL[“Ç‚İ
-	unsigned char ReadChar() noexcept;                                            //ƒeƒLƒXƒg“Ç‚İ
-	[[nodiscard]] bool KeyIsEmpty() const noexcept;                               //ƒL[ƒoƒbƒtƒ@‚Ì‹ó‚«Šm”F
-	[[nodiscard]] bool CharIsEmpty() const noexcept;                              //ƒeƒLƒXƒgƒoƒbƒtƒ@‚Ì‹ó‚«Šm”F
-	void ClearKeyBuffer() noexcept;                                               //ƒL[ƒoƒbƒtƒ@ƒNƒŠƒA
-	void ClearCharBuffer() noexcept;                                              //ƒeƒLƒXƒgƒoƒbƒtƒ@ƒNƒŠƒA
-	void ClearBuffer() noexcept;                                                  //‘Sƒoƒbƒtƒ@ƒNƒŠƒA
+	[[nodiscard]] bool KeyIsPressed(const unsigned char& keyCode) const noexcept; //ã‚­ãƒ¼æŠ¼ã—ç¢ºèª
+	CT_KEY_EVENTS ReadKey() noexcept;                                             //ã‚­ãƒ¼èª­è¾¼ã¿
+	unsigned char ReadChar() noexcept;                                            //ãƒ†ã‚­ã‚¹ãƒˆèª­è¾¼ã¿
+	[[nodiscard]] bool KeyIsEmpty() const noexcept;                               //ã‚­ãƒ¼ãƒãƒƒãƒ•ã‚¡ã®ç©ºãç¢ºèª
+	[[nodiscard]] bool CharIsEmpty() const noexcept;                              //ãƒ†ã‚­ã‚¹ãƒˆãƒãƒƒãƒ•ã‚¡ã®ç©ºãç¢ºèª
+	void ClearKeyBuffer() noexcept;                                               //ã‚­ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
+	void ClearCharBuffer() noexcept;                                              //ãƒ†ã‚­ã‚¹ãƒˆãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
+	void ClearBuffer() noexcept;                                                  //å…¨ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
 
 private:
 
-	//•Ï”éŒ¾
-	static constexpr unsigned int c_Keys = 256u;      //ƒL[”
-	static constexpr unsigned int c_BufferSize = 16u; //ƒLƒ…[‚ÌƒTƒCƒYiƒtƒŒ[ƒ€‚²‚Æ‚ÌÅ‘åó•t”j
-	std::bitset<c_Keys> m_KeyStates;                  //256ŒÂ‚ÌƒL[‚É‘Î‰‚·‚éƒrƒbƒgW‡
-	std::queue<CT_KEY_EVENTS> m_KeyBuffer;            //ƒL[ƒCƒxƒ“ƒg—pƒLƒ…[
-	std::queue<unsigned char> m_CharBuffer;           //ƒeƒLƒXƒg“ü—Í—pƒLƒ…[
+	//å¤‰æ•°å®£è¨€
+	static constexpr unsigned int c_Keys = 256u;      //ã‚­ãƒ¼æ•°
+	static constexpr unsigned int c_BufferSize = 16u; //ã‚­ãƒ¥ãƒ¼ã®ã‚µã‚¤ã‚ºï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã®æœ€å¤§å—ä»˜æ•°ï¼‰
+	std::bitset<c_Keys> m_KeyStates;                  //256å€‹ã®ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ãƒ“ãƒƒãƒˆé›†åˆ
+	std::queue<CT_KEY_EVENTS> m_KeyBuffer;            //ã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã‚­ãƒ¥ãƒ¼
+	std::queue<unsigned char> m_CharBuffer;           //ãƒ†ã‚­ã‚¹ãƒˆå…¥åŠ›ç”¨ã‚­ãƒ¥ãƒ¼
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	template<typename t_Buffer>
-	static void TruncateBuffer(std::queue<t_Buffer>& buffer) noexcept	//ƒoƒbƒtƒ@Ø‚èÌ‚Ä
+	static void TruncateBuffer(std::queue<t_Buffer>& buffer) noexcept	//ãƒãƒƒãƒ•ã‚¡åˆ‡ã‚Šæ¨ã¦
 	{
-		while (buffer.size() > c_BufferSize)							//ãŒÀƒTƒCƒY‚Éû‚Ü‚é‚Ü‚Å
-			buffer.pop();												//ƒLƒ…[ƒ|ƒbƒv
+		while (buffer.size() > c_BufferSize)							//ä¸Šé™ã‚µã‚¤ã‚ºã«åã¾ã‚‹ã¾ã§
+			buffer.pop();												//ã‚­ãƒ¥ãƒ¼ãƒãƒƒãƒ—
 	}
 
-	void KeyPressed(const unsigned char& keyCode) noexcept;  //ƒL[‰Ÿ‚µ
-	void KeyReleased(const unsigned char& keyCode) noexcept; //ƒL[—£‚µ
-	void CharInput(const unsigned char& character) noexcept; //ƒeƒLƒXƒg“ü—Í
-	void ClearState() noexcept;                              //ƒL[ó‘ÔƒŠƒZƒbƒg
+	void KeyPressed(const unsigned char& keyCode) noexcept;  //ã‚­ãƒ¼æŠ¼ã—
+	void KeyReleased(const unsigned char& keyCode) noexcept; //ã‚­ãƒ¼é›¢ã—
+	void CharInput(const unsigned char& character) noexcept; //ãƒ†ã‚­ã‚¹ãƒˆå…¥åŠ›
+	void ClearState() noexcept;                              //ã‚­ãƒ¼çŠ¶æ…‹ãƒªã‚»ãƒƒãƒˆ
 
-	//Œ ŒÀw’è
+	//æ¨©é™æŒ‡å®š
 	friend class CT_IW_WIN;
 };

@@ -1,12 +1,12 @@
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <Startup.h>
 #include <App.h>
 
-//***** ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg *****
+//***** ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ *****
 #ifdef _WIN64
 
 /**
- * ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg(Win)
+ * ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ(Win)
  *
  * \param hInstance
  * \param hPrevInstance
@@ -14,15 +14,15 @@
  * \param nCmdShow
  * \return int
  */
-int CALLBACK WinMain(_In_ const HINSTANCE hInstance,        //Instanceƒnƒ“ƒhƒ‹
-					_In_opt_ const HINSTANCE hPrevInstance, //Šî–{NULL
-					_In_ const LPSTR lpCmdLine,             //ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“
+int CALLBACK WinMain(_In_ const HINSTANCE hInstance,        //Instanceãƒãƒ³ãƒ‰ãƒ«
+					_In_opt_ const HINSTANCE hPrevInstance, //åŸºæœ¬NULL
+					_In_ const LPSTR lpCmdLine,             //ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³
 					_In_ const int nCmdShow
 )
 {
 	try
 	{
-		//‘Oˆ—
+		//å‰å‡¦ç†
 		(void)hInstance;
 		(void)hPrevInstance;
 		(void)lpCmdLine;
@@ -30,17 +30,17 @@ int CALLBACK WinMain(_In_ const HINSTANCE hInstance,        //Instanceƒnƒ“ƒhƒ‹
 
 #ifdef _DEBUG
 
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); //ƒƒ‚ƒŠƒŠ[ƒNŒŸo
+		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); //ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡º
 
 #endif // _DEBUG
 
-		//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“Às
+		//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œ
 		const int l_WParam = APP{}.Run();
 
 #ifdef _DEBUG
 
 		{
-			//ƒGƒ‰[ˆ—
+			//ã‚¨ãƒ©ãƒ¼å‡¦ç†
 			Microsoft::WRL::ComPtr<IDXGIDebug1> l_PDebugDxgi;
 			if (SUCCEEDED(DXGIGetDebugInterface1(0u, IID_PPV_ARGS(&l_PDebugDxgi))))
 				l_PDebugDxgi->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
@@ -48,26 +48,26 @@ int CALLBACK WinMain(_In_ const HINSTANCE hInstance,        //Instanceƒnƒ“ƒhƒ‹
 
 #endif // _DEBUG
 
-		//I—¹ˆ—
+		//çµ‚äº†å‡¦ç†
 		return l_WParam;
 	}
 	catch (const CT_EO_WIN& l_Error)
 	{
-		//WindowƒGƒ‰[
+		//Windowã‚¨ãƒ©ãƒ¼
 		MessageBoxA(nullptr, l_Error.what(), l_Error.GetType().c_str(), MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (const std::exception& l_Error)
 	{
-		//•W€ƒGƒ‰[
-		MessageBoxA(nullptr, l_Error.what(), "•W€“I—áŠOiƒGƒ‰[j", MB_OK | MB_ICONEXCLAMATION);
+		//æ¨™æº–ã‚¨ãƒ©ãƒ¼
+		MessageBoxA(nullptr, l_Error.what(), "æ¨™æº–çš„ä¾‹å¤–ï¼ˆã‚¨ãƒ©ãƒ¼ï¼‰", MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (...)
 	{
-		//–¢’è‹`ƒGƒ‰[
-		MessageBoxA(nullptr, "Ú×•s–¾‚Å‚·B", "•s–¾‚ÌƒGƒ‰[", MB_OK | MB_ICONEXCLAMATION);
+		//æœªå®šç¾©ã‚¨ãƒ©ãƒ¼
+		MessageBoxA(nullptr, "è©³ç´°ä¸æ˜ã§ã™ã€‚", "ä¸æ˜ã®ã‚¨ãƒ©ãƒ¼", MB_OK | MB_ICONEXCLAMATION);
 	}
 
-	//ˆÙíI—¹
+	//ç•°å¸¸çµ‚äº†
 	return -1;
 }
 

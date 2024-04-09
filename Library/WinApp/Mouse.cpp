@@ -1,4 +1,4 @@
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+ï»¿//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/Mouse.h>
 
 #ifdef _WIN64
@@ -11,9 +11,9 @@
 
 #endif // _WIN64
 
-//===== ƒNƒ‰ƒXÀ‘• =====
+//===== ã‚¯ãƒ©ã‚¹å®Ÿè£… =====
 
-//***** ƒ}ƒEƒXƒCƒxƒ“ƒg ****
+//***** ãƒã‚¦ã‚¹ã‚¤ãƒ™ãƒ³ãƒˆ ****
 CT_MOUSE_EVENTS::CT_MOUSE_EVENTS() noexcept
 	: m_Type(ET_MOUSE_STATUS::me_Invalid)
 	, m_Info() {}
@@ -24,7 +24,7 @@ CT_MOUSE_EVENTS::CT_MOUSE_EVENTS(const ET_MOUSE_STATUS& type, const ST_MOUSE_INF
 
 CT_MOUSE_EVENTS::~CT_MOUSE_EVENTS() noexcept = default;
 
-//***** ƒ}ƒEƒXˆ— *****
+//***** ãƒã‚¦ã‚¹å‡¦ç† *****
 CT_MOUSE::CT_MOUSE() noexcept
 	: m_Buffer()
 	, m_Info()
@@ -36,7 +36,7 @@ CT_MOUSE::CT_MOUSE() noexcept
 CT_MOUSE::~CT_MOUSE() noexcept = default;
 
 /**
- * ƒ}ƒEƒXXYÀ•Wæ“¾
+ * ãƒã‚¦ã‚¹XYåº§æ¨™å–å¾—
  *
  * \param
  * \return std::pair<int, int>
@@ -47,7 +47,7 @@ std::pair<int, int> CT_MOUSE::GetPos() const noexcept
 }
 
 /**
- * ƒ}ƒEƒXXÀ•Wæ“¾
+ * ãƒã‚¦ã‚¹Xåº§æ¨™å–å¾—
  *
  * \param
  * \return int
@@ -58,7 +58,7 @@ int CT_MOUSE::GetPosX() const noexcept
 }
 
 /**
- * ƒ}ƒEƒXYÀ•Wæ“¾
+ * ãƒã‚¦ã‚¹Yåº§æ¨™å–å¾—
  *
  * \param
  * \return int
@@ -69,7 +69,7 @@ int CT_MOUSE::GetPosY() const noexcept
 }
 
 /**
- * ƒzƒC[ƒ‹’læ“¾
+ * ãƒ›ã‚¤ãƒ¼ãƒ«å€¤å–å¾—
  *
  * \param
  * \return int
@@ -80,7 +80,7 @@ int CT_MOUSE::GetWheelVal() const noexcept
 }
 
 /**
- * ƒEƒBƒ“ƒhƒE“à‚É‚¢‚é‚©Šm”F
+ * ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ã„ã‚‹ã‹ç¢ºèª
  *
  * \param
  * \return bool
@@ -91,7 +91,7 @@ bool CT_MOUSE::IsInWindow() const noexcept
 }
 
 /**
- * ƒ}ƒEƒX¶ƒNƒŠƒbƒNŠm”F
+ * ãƒã‚¦ã‚¹å·¦ã‚¯ãƒªãƒƒã‚¯ç¢ºèª
  *
  * \param
  * \return bool
@@ -102,7 +102,7 @@ bool CT_MOUSE::LeftIsPressed() const noexcept
 }
 
 /**
- * ƒ}ƒEƒX‰EƒNƒŠƒbƒNŠm”F
+ * ãƒã‚¦ã‚¹å³ã‚¯ãƒªãƒƒã‚¯ç¢ºèª
  *
  * \param
  * \return bool
@@ -113,24 +113,24 @@ bool CT_MOUSE::RightIsPressed() const noexcept
 }
 
 /**
- * ƒoƒbƒtƒ@“Ç‚İ
+ * ãƒãƒƒãƒ•ã‚¡èª­è¾¼ã¿
  *
  * \param
  * \return CT_MOUSE_EVENTS
  */
 CT_MOUSE_EVENTS CT_MOUSE::ReadBuffer() noexcept
 {
-	//—áŠOˆ—
+	//ä¾‹å¤–å‡¦ç†
 	if (m_Buffer.empty())
 		return CT_MOUSE_EVENTS{};
 
-	const CT_MOUSE_EVENTS l_Event = m_Buffer.front(); //Ÿ‚ÌƒCƒxƒ“ƒg‚ÉƒAƒNƒZƒX
-	m_Buffer.pop();                                   //ƒCƒxƒ“ƒg‚ğíœ‚·‚é
+	const CT_MOUSE_EVENTS l_Event = m_Buffer.front(); //æ¬¡ã®ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚¢ã‚¯ã‚»ã‚¹
+	m_Buffer.pop();                                   //ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 	return l_Event;
 }
 
 /**
- * ƒoƒbƒtƒ@‚Ì‹ó‚«Šm”F
+ * ãƒãƒƒãƒ•ã‚¡ã®ç©ºãç¢ºèª
  *
  * \param
  * \return bool
@@ -141,7 +141,7 @@ bool CT_MOUSE::IsEmpty() const noexcept
 }
 
 /**
- * ƒoƒbƒtƒ@ƒNƒŠƒA
+ * ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
  *
  * \param
  * \return void
@@ -152,24 +152,24 @@ void CT_MOUSE::ClearBuffer() noexcept
 }
 
 /**
- * RawInputƒoƒbƒtƒ@“Ç‚İ
+ * RawInputãƒãƒƒãƒ•ã‚¡èª­è¾¼ã¿
  *
  * \param
  * \return CT_MOUSE::ST_RAW_DELTA
  */
 CT_MOUSE::ST_RAW_DELTA CT_MOUSE::ReadRawDelta() noexcept
 {
-	//—áŠOˆ—(ƒLƒ…[‚ª‹ó‚É‚È‚Á‚½)
+	//ä¾‹å¤–å‡¦ç†(ã‚­ãƒ¥ãƒ¼ãŒç©ºã«ãªã£ãŸ)
 	if (m_RawDeltaBuffer.empty())
 		return ST_RAW_DELTA{true};
 
-	const ST_RAW_DELTA l_Data = m_RawDeltaBuffer.front(); //Ÿ‚ÌƒCƒxƒ“ƒg‚ÉƒAƒNƒZƒX
-	m_RawDeltaBuffer.pop();                               //ƒCƒxƒ“ƒg‚ğíœ‚·‚é
+	const ST_RAW_DELTA l_Data = m_RawDeltaBuffer.front(); //æ¬¡ã®ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚¢ã‚¯ã‚»ã‚¹
+	m_RawDeltaBuffer.pop();                               //ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 	return l_Data;
 }
 
 /**
- * RawInputg—p§Œä
+ * RawInputä½¿ç”¨åˆ¶å¾¡
  *
  * \param bUse
  * \return void
@@ -180,7 +180,7 @@ void CT_MOUSE::SetRawInput(const bool& bUse) noexcept
 }
 
 /**
- * RawInputg—pó‘ÔŠm”F
+ * RawInputä½¿ç”¨çŠ¶æ…‹ç¢ºèª
  *
  * \param
  * \return void
@@ -191,19 +191,19 @@ bool CT_MOUSE::IsUsingRawInput() const noexcept
 }
 
 /**
- * ƒoƒbƒtƒ@Ø‚èÌ‚Ä
+ * ãƒãƒƒãƒ•ã‚¡åˆ‡ã‚Šæ¨ã¦
  *
  * \param
  * \return void
  */
 void CT_MOUSE::TruncateBuffer() noexcept
 {
-	while (m_Buffer.size() > c_BufferSize) //ãŒÀƒTƒCƒY‚Éû‚Ü‚é‚Ü‚Å
-		m_Buffer.pop();                    //ƒLƒ…[ƒ|ƒbƒv
+	while (m_Buffer.size() > c_BufferSize) //ä¸Šé™ã‚µã‚¤ã‚ºã«åã¾ã‚‹ã¾ã§
+		m_Buffer.pop();                    //ã‚­ãƒ¥ãƒ¼ãƒãƒƒãƒ—
 }
 
 /**
- * ƒ}ƒEƒXˆÚ“®
+ * ãƒã‚¦ã‚¹ç§»å‹•
  *
  * \param posX
  * \param posY
@@ -212,13 +212,13 @@ void CT_MOUSE::TruncateBuffer() noexcept
 void CT_MOUSE::MouseMove(const int& posX, const int& posY) noexcept
 {
 	m_Info.ms_PosX = posX;
-	m_Info.ms_PosY = posY;										//À•WŠi”[
-	m_Buffer.emplace(ET_MOUSE_STATUS::me_Move, m_Info);		//ƒLƒ…[ƒvƒbƒVƒ…
-	TruncateBuffer();											//ƒoƒbƒtƒ@ãŒÀŠÇ—
+	m_Info.ms_PosY = posY;										//åº§æ¨™æ ¼ç´
+	m_Buffer.emplace(ET_MOUSE_STATUS::me_Move, m_Info);		//ã‚­ãƒ¥ãƒ¼ãƒ—ãƒƒã‚·ãƒ¥
+	TruncateBuffer();											//ãƒãƒƒãƒ•ã‚¡ä¸Šé™ç®¡ç†
 }
 
 /**
- * ƒEƒBƒ“ƒhƒEŠO‚És‚­
+ * ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¤–ã«è¡Œã
  *
  * \param
  * \return void
@@ -231,7 +231,7 @@ void CT_MOUSE::LeaveWindow() noexcept
 }
 
 /**
- * ƒEƒBƒ“ƒhƒE“à‚É“ü‚é
+ * ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«å…¥ã‚‹
  *
  * \param
  * \return void
@@ -244,7 +244,7 @@ void CT_MOUSE::EnterWindow() noexcept
 }
 
 /**
- * ¶ƒNƒŠƒbƒNƒIƒ“
+ * å·¦ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ³
  *
  * \param
  * \return void
@@ -257,7 +257,7 @@ void CT_MOUSE::LeftPressed() noexcept
 }
 
 /**
- * ¶ƒNƒŠƒbƒNƒIƒt
+ * å·¦ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ•
  *
  * \param
  * \return void
@@ -270,7 +270,7 @@ void CT_MOUSE::LeftReleased() noexcept
 }
 
 /**
- * ‰EƒNƒŠƒbƒNƒIƒ“
+ * å³ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ³
  *
  * \param
  * \return void
@@ -283,7 +283,7 @@ void CT_MOUSE::RightPressed() noexcept
 }
 
 /**
- * ‰EƒNƒŠƒbƒNƒIƒt
+ * å³ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ•
  *
  * \param
  * \return void
@@ -296,7 +296,7 @@ void CT_MOUSE::RightReleased() noexcept
 }
 
 /**
- * ƒzƒC[ƒ‹ƒAƒbƒv
+ * ãƒ›ã‚¤ãƒ¼ãƒ«ã‚¢ãƒƒãƒ—
  *
  * \param
  * \return void
@@ -309,7 +309,7 @@ void CT_MOUSE::WheelUp() noexcept
 }
 
 /**
- * ƒzƒC[ƒ‹ƒ_ƒEƒ“
+ * ãƒ›ã‚¤ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³
  *
  * \param
  * \return void
@@ -322,7 +322,7 @@ void CT_MOUSE::WheelDown() noexcept
 }
 
 /**
- * ƒzƒC[ƒ‹ˆ—
+ * ãƒ›ã‚¤ãƒ¼ãƒ«å‡¦ç†
  *
  * \param nDelta
  * \return void
@@ -331,7 +331,7 @@ void CT_MOUSE::WheelProc(const int& nDelta) noexcept
 {
 	m_WheelDelta += nDelta;
 
-	//ƒzƒC[ƒ‹‰“š¸“x§Œä(1‰ñ‚ÌƒƒbƒZ[ƒW‚Å‰“š)
+	//ãƒ›ã‚¤ãƒ¼ãƒ«å¿œç­”ç²¾åº¦åˆ¶å¾¡(1å›ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã§å¿œç­”)
 	static int l_NResponse = WHEEL_DELTA * 1;
 	if (m_WheelDelta >= l_NResponse)
 	{
@@ -346,19 +346,19 @@ void CT_MOUSE::WheelProc(const int& nDelta) noexcept
 }
 
 /**
- * RawInputƒoƒbƒtƒ@Ø‚èÌ‚Ä
+ * RawInputãƒãƒƒãƒ•ã‚¡åˆ‡ã‚Šæ¨ã¦
  *
  * \param
  * \return void
  */
 void CT_MOUSE::TruncateRawInputBuffer() noexcept
 {
-	while (m_RawDeltaBuffer.size() > c_BufferSize) //ãŒÀƒTƒCƒY‚Éû‚Ü‚é‚Ü‚Å
-		m_RawDeltaBuffer.pop();                    //ƒLƒ…[ƒ|ƒbƒv
+	while (m_RawDeltaBuffer.size() > c_BufferSize) //ä¸Šé™ã‚µã‚¤ã‚ºã«åã¾ã‚‹ã¾ã§
+		m_RawDeltaBuffer.pop();                    //ã‚­ãƒ¥ãƒ¼ãƒãƒƒãƒ—
 }
 
 /**
- * RawInputî•ñæ“¾
+ * RawInputæƒ…å ±å–å¾—
  *
  * \param dx
  * \param dy

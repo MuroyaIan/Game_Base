@@ -1,21 +1,21 @@
-/**
+ï»¿/**
  * @file WinConfig.h
- * @brief OSŠÂ‹«İ’è—pƒwƒbƒ_(Windows)
- * @author º’JƒCƒAƒ“
+ * @brief OSç’°å¢ƒè¨­å®šç”¨ãƒ˜ãƒƒãƒ€(Windows)
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/05/04
- * @—š—ğ 2022/05/04Fƒwƒbƒ_ì¬
- *		 2022/11/14FƒfƒoƒbƒOİ’è’Ç‰Á
+ * @å±¥æ­´ 2022/05/04ï¼šãƒ˜ãƒƒãƒ€ä½œæˆ
+ *		 2022/11/14ï¼šãƒ‡ãƒãƒƒã‚°è¨­å®šè¿½åŠ 
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
-#define WINVER 0x0A00			//ƒo[ƒWƒ‡ƒ“w’è(Win10)
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
+#define WINVER 0x0A00			//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š(Win10)
 #include <sdkddkver.h>
 
-//g—p‚µ‚È‚¢‹@”\‚Ì§ŒÀ
-//#define WIN32_LEAN_AND_MEAN	//FBX“Ç‘Îô
+//ä½¿ç”¨ã—ãªã„æ©Ÿèƒ½ã®åˆ¶é™
+//#define WIN32_LEAN_AND_MEAN	//FBXèª­è¾¼å¯¾ç­–
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
 #define NOMENUS
@@ -26,10 +26,10 @@
 #define NOATOM
 #define NOCLIPBOARD
 #define NOCOLOR
-//#define NOCTLMGR				//IMGUI‘Îô
+//#define NOCTLMGR				//IMGUIå¯¾ç­–
 #define NODRAWTEXT
 #define NOKERNEL
-//#define NONLS					//ƒeƒNƒXƒ`ƒƒ“Ç‘Îô
+//#define NONLS					//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­è¾¼å¯¾ç­–
 #define NOMEMMGR
 #define NOMETAFILE
 #define NOMINMAX
@@ -51,12 +51,12 @@
 #define NOTAPE
 #include <Windows.h>
 
-//ƒfƒoƒbƒO‹@”\
+//ãƒ‡ãƒãƒƒã‚°æ©Ÿèƒ½
 #ifdef _DEBUG
 
-#include <debugapi.h>	//ƒfƒoƒbƒO•\¦
-#include <crtdbg.h>		//ƒƒ‚ƒŠƒŠ[ƒNŒŸo
+#include <debugapi.h>	//ãƒ‡ãƒãƒƒã‚°è¡¨ç¤º
+#include <crtdbg.h>		//ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡º
 
-#define PRINT_D(wStr) OutputDebugString(wStr)	//ƒfƒoƒbƒOo—Í—p
+#define PRINT_D(wStr) OutputDebugString(wStr)	//ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ç”¨
 
 #endif // _DEBUG

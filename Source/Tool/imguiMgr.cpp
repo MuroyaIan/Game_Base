@@ -27,7 +27,7 @@ IMGUI_MGR::IMGUI_MGR() noexcept
 
 	//ƒtƒHƒ“ƒg“Çž
 	ImGuiIO& io = ImGui::GetIO();
-	ImFont* Font = io.Fonts->AddFontFromFileTTF("Asset/Font/UDEVGothicJPDOC-Regular.ttf", 16.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+	ImFont* Font = io.Fonts->AddFontFromFileTTF("Asset/Font/UDEVGothicJPDOC-Regular.ttf", 24.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	IM_ASSERT(Font != NULL);
 	(void)Font;
 }

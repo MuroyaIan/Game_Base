@@ -1,22 +1,22 @@
-/**
+ï»¿/**
  * @file Startup.h
- * @brief ƒXƒ^[ƒgƒAƒbƒvˆ—
- * @author Žº’JƒCƒAƒ“
+ * @brief ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—å‡¦ç†
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/04/30
- * @—š—ð 2022/04/30FƒEƒBƒ“ƒhƒEì¬AWndProcì¬
- *		 2022/06/09FƒEƒBƒ“ƒhƒEˆ—ƒ‰ƒCƒuƒ‰ƒŠ‰»
+ * @å±¥æ­´ 2022/04/30ï¼šã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆã€WndProcä½œæˆ
+ *		 2022/06/09ï¼šã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å‡¦ç†ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåŒ–
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ’è”Eƒ}ƒNƒ’è‹` =====
+//===== å®šæ•°ãƒ»ãƒžã‚¯ãƒ­å®šç¾© =====
 
 #ifdef _DEBUG
 
-#define IMGUI						 //ImGuiŽg—p
-constexpr bool gc_IS_DEBUG = true;   //ƒfƒoƒbƒOƒ‚[ƒh
-constexpr bool gc_RUN_EDITOR = true; //ƒGƒfƒBƒ^ƒ‚[ƒh
+#define IMGUI						 //ImGuiä½¿ç”¨
+constexpr bool gc_IS_DEBUG = true;   //ãƒ‡ãƒãƒƒã‚°ãƒ¢ãƒ¼ãƒ‰
+constexpr bool gc_RUN_EDITOR = true; //ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¢ãƒ¼ãƒ‰
 
 #else
 

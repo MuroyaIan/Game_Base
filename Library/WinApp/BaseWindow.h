@@ -1,49 +1,49 @@
-/**
+ï»¿/**
  * @file BaseWindow.h
- * @brief ƒEƒBƒ“ƒhƒE—pƒCƒ“ƒ^[ƒtƒF[ƒX
- * @author º’JƒCƒAƒ“
+ * @brief ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç”¨ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/11/15
- * @—š—ğ 2022/11/15Fƒtƒ@ƒCƒ‹ì¬
- *		 2024/04/07F‘®‰ü‘P
+ * @å±¥æ­´ 2022/11/15ï¼šãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆ
+ *		 2024/04/07ï¼šæ›¸å¼æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
-#include <string>				//•¶š—ñƒNƒ‰ƒX
-#include <WinApp/Keyboard.h>	//ƒL[ƒ{[ƒhˆ—
-#include <WinApp/Mouse.h>		//ƒ}ƒEƒXˆ—
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
+#include <string>				//æ–‡å­—åˆ—ã‚¯ãƒ©ã‚¹
+#include <WinApp/Keyboard.h>	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‡¦ç†
+#include <WinApp/Mouse.h>		//ãƒã‚¦ã‚¹å‡¦ç†
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 class CT_IF_WINDOW
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_IF_WINDOW(const CT_IF_WINDOW&) = default;
 	CT_IF_WINDOW& operator =(const CT_IF_WINDOW&) = default;
 	CT_IF_WINDOW(CT_IF_WINDOW&&) noexcept = default;
 	CT_IF_WINDOW& operator=(CT_IF_WINDOW&&) noexcept = default;
 
-	//•Ï”éŒ¾
-	CT_KEYBOARD m_Keyboard; //ƒL[ƒ{[ƒhˆ—
-	CT_MOUSE m_Mouse;       //ƒ}ƒEƒXˆ—
+	//å¤‰æ•°å®£è¨€
+	CT_KEYBOARD m_Keyboard; //ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‡¦ç†
+	CT_MOUSE m_Mouse;       //ãƒã‚¦ã‚¹å‡¦ç†
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	explicit CT_IF_WINDOW() noexcept = default;
 	virtual ~CT_IF_WINDOW() noexcept(false) = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
-	virtual void Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth = 0, const int& nWndHeight = 0) = 0; //ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€
-	virtual void TitlePrint(const std::string& text) const = 0;                                                                //ƒ^ƒCƒgƒ‹o—Í
-	virtual void TitlePrint_MousePos() const = 0;                                                                              //ƒ^ƒCƒgƒ‹o—Íiƒ}ƒEƒXÀ•Wj
-	virtual void TitlePrint_WheelVal() = 0;                                                                                    //ƒ^ƒCƒgƒ‹o—ÍiƒzƒC[ƒ‹’lj
-	virtual void EnableCursor() noexcept = 0;                                                                                  //ƒ}ƒEƒXg—pE•sg—p
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
+	virtual void Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth = 0, const int& nWndHeight = 0) = 0; //ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ 
+	virtual void TitlePrint(const std::string& text) const = 0;                                                                //ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›
+	virtual void TitlePrint_MousePos() const = 0;                                                                              //ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›ï¼ˆãƒã‚¦ã‚¹åº§æ¨™ï¼‰
+	virtual void TitlePrint_WheelVal() = 0;                                                                                    //ã‚¿ã‚¤ãƒˆãƒ«å‡ºåŠ›ï¼ˆãƒ›ã‚¤ãƒ¼ãƒ«å€¤ï¼‰
+	virtual void EnableCursor() noexcept = 0;                                                                                  //ãƒã‚¦ã‚¹ä½¿ç”¨ãƒ»ä¸ä½¿ç”¨
 	virtual void DisableCursor() noexcept = 0;
-	[[nodiscard]] virtual bool IsUsingCursor() const noexcept = 0;			//ƒ}ƒEƒXg—pó‘ÔŠm”F
+	[[nodiscard]] virtual bool IsUsingCursor() const noexcept = 0;			//ãƒã‚¦ã‚¹ä½¿ç”¨çŠ¶æ…‹ç¢ºèª
 
-	[[nodiscard]] virtual std::pair<int, int> GetPos() const noexcept = 0;  //ƒEƒBƒ“ƒhƒE¶ãÀ•Wæ“¾
-	[[nodiscard]] virtual std::pair<int, int> GetSize() const noexcept = 0; //ƒEƒBƒ“ƒhƒEƒTƒCƒYæ“¾
-	[[nodiscard]] virtual bool IsUsingImgui() const noexcept = 0;           //Imguig—pŠm”F
+	[[nodiscard]] virtual std::pair<int, int> GetPos() const noexcept = 0;  //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å·¦ä¸Šåº§æ¨™å–å¾—
+	[[nodiscard]] virtual std::pair<int, int> GetSize() const noexcept = 0; //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºå–å¾—
+	[[nodiscard]] virtual bool IsUsingImgui() const noexcept = 0;           //Imguiä½¿ç”¨ç¢ºèª
 };

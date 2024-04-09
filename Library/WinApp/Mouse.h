@@ -1,39 +1,39 @@
-/**
+ï»¿/**
  * @file Mouse.h
- * @brief ƒ}ƒEƒXˆ—
- * @author º’JƒCƒAƒ“
+ * @brief ãƒã‚¦ã‚¹å‡¦ç†
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/05/03
- * @—š—ğ 2022/05/03FƒNƒ‰ƒXì¬
- *		 2022/11/15FOS•Êˆ—‚Ö‚Ì‘Î‰
- *		 2024/04/06F‘®‰ü‘P
+ * @å±¥æ­´ 2022/05/03ï¼šã‚¯ãƒ©ã‚¹ä½œæˆ
+ *		 2022/11/15ï¼šOSåˆ¥å‡¦ç†ã¸ã®å¯¾å¿œ
+ *		 2024/04/06ï¼šæ›¸å¼æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <utility>				//std::pair
-#include <queue>				//FIFOƒRƒ“ƒeƒi
+#include <queue>				//FIFOã‚³ãƒ³ãƒ†ãƒŠ
 
-//===== \‘¢‘Ì’è‹` =====
+//===== æ§‹é€ ä½“å®šç¾© =====
 
-//***** ƒ}ƒEƒXî•ñ *****
+//***** ãƒã‚¦ã‚¹æƒ…å ± *****
 struct ST_MOUSE_INFO
 {
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	ST_MOUSE_INFO(const ST_MOUSE_INFO&) = default;
 	ST_MOUSE_INFO& operator =(const ST_MOUSE_INFO&) = default;
 	ST_MOUSE_INFO(ST_MOUSE_INFO&&) noexcept = default;
 	ST_MOUSE_INFO& operator=(ST_MOUSE_INFO&&) noexcept = default;
 
-	//•Ï”éŒ¾
-	bool ms_bLeftIsPressed;  //¶ƒNƒŠƒbƒN
-	bool ms_bRightIsPressed; //‰EƒNƒŠƒbƒN
-	int ms_PosX;             //ƒ}ƒEƒXXÀ•W
-	int ms_PosY;             //ƒ}ƒEƒXYÀ•W
-	bool ms_bIsInWindow;     //ƒEƒBƒ“ƒhƒE“à‚É‚¢‚é
+	//å¤‰æ•°å®£è¨€
+	bool ms_bLeftIsPressed;  //å·¦ã‚¯ãƒªãƒƒã‚¯
+	bool ms_bRightIsPressed; //å³ã‚¯ãƒªãƒƒã‚¯
+	int ms_PosX;             //ãƒã‚¦ã‚¹Xåº§æ¨™
+	int ms_PosY;             //ãƒã‚¦ã‚¹Yåº§æ¨™
+	bool ms_bIsInWindow;     //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ã„ã‚‹
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	explicit ST_MOUSE_INFO() noexcept
 		: ms_bLeftIsPressed(false)
 		, ms_bRightIsPressed(false)
@@ -44,9 +44,9 @@ struct ST_MOUSE_INFO
 	~ST_MOUSE_INFO() noexcept = default;
 };
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 
-//***** ƒ}ƒEƒXó‘Ô ****
+//***** ãƒã‚¦ã‚¹çŠ¶æ…‹ ****
 enum class ET_MOUSE_STATUS
 {
 	me_L_Press,
@@ -61,89 +61,89 @@ enum class ET_MOUSE_STATUS
 	me_Invalid
 };
 
-//***** ƒ}ƒEƒXƒCƒxƒ“ƒg ****
+//***** ãƒã‚¦ã‚¹ã‚¤ãƒ™ãƒ³ãƒˆ ****
 class CT_MOUSE_EVENTS
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_MOUSE_EVENTS(const CT_MOUSE_EVENTS&) = default;
 	CT_MOUSE_EVENTS& operator =(const CT_MOUSE_EVENTS&) = default;
 	CT_MOUSE_EVENTS(CT_MOUSE_EVENTS&&) noexcept = default;
 	CT_MOUSE_EVENTS& operator=(CT_MOUSE_EVENTS&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_MOUSE_EVENTS() noexcept;
 	CT_MOUSE_EVENTS(const ET_MOUSE_STATUS& type, const ST_MOUSE_INFO& parent) noexcept;
 	~CT_MOUSE_EVENTS() noexcept;
 
-	[[nodiscard]] bool IsValid() const noexcept //ƒ}ƒEƒXƒCƒxƒ“ƒg—LŒøŠm”F
+	[[nodiscard]] bool IsValid() const noexcept //ãƒã‚¦ã‚¹ã‚¤ãƒ™ãƒ³ãƒˆæœ‰åŠ¹ç¢ºèª
 	{
 		return m_Type != ET_MOUSE_STATUS::me_Invalid;
 	}
 
-	[[nodiscard]] ET_MOUSE_STATUS GetType() const noexcept //ƒ}ƒEƒXó‘Ôæ“¾
+	[[nodiscard]] ET_MOUSE_STATUS GetType() const noexcept //ãƒã‚¦ã‚¹çŠ¶æ…‹å–å¾—
 	{
 		return m_Type;
 	}
 
-	[[nodiscard]] std::pair<int, int> GetPos() const noexcept //ƒ}ƒEƒXXYÀ•Wæ“¾
+	[[nodiscard]] std::pair<int, int> GetPos() const noexcept //ãƒã‚¦ã‚¹XYåº§æ¨™å–å¾—
 	{
 		return {m_Info.ms_PosX, m_Info.ms_PosY};
 	}
 
-	[[nodiscard]] int GetPosX() const noexcept //ƒ}ƒEƒXXÀ•Wæ“¾
+	[[nodiscard]] int GetPosX() const noexcept //ãƒã‚¦ã‚¹Xåº§æ¨™å–å¾—
 	{
 		return m_Info.ms_PosX;
 	}
 
-	[[nodiscard]] int GetPosY() const noexcept //ƒ}ƒEƒXYÀ•Wæ“¾
+	[[nodiscard]] int GetPosY() const noexcept //ãƒã‚¦ã‚¹Yåº§æ¨™å–å¾—
 	{
 		return m_Info.ms_PosY;
 	}
 
-	[[nodiscard]] bool IsInWindow() const noexcept //ƒEƒBƒ“ƒhƒE“à‚É‚¢‚é‚©Šm”F
+	[[nodiscard]] bool IsInWindow() const noexcept //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ã„ã‚‹ã‹ç¢ºèª
 	{
 		return m_Info.ms_bIsInWindow;
 	}
 
-	[[nodiscard]] bool LeftIsPressed() const noexcept //ƒ}ƒEƒX¶ƒNƒŠƒbƒNŠm”F
+	[[nodiscard]] bool LeftIsPressed() const noexcept //ãƒã‚¦ã‚¹å·¦ã‚¯ãƒªãƒƒã‚¯ç¢ºèª
 	{
 		return m_Info.ms_bLeftIsPressed;
 	}
 
-	[[nodiscard]] bool RightIsPressed() const noexcept //ƒ}ƒEƒX‰EƒNƒŠƒbƒNŠm”F
+	[[nodiscard]] bool RightIsPressed() const noexcept //ãƒã‚¦ã‚¹å³ã‚¯ãƒªãƒƒã‚¯ç¢ºèª
 	{
 		return m_Info.ms_bRightIsPressed;
 	}
 
 private:
 
-	//•Ï”éŒ¾
-	ET_MOUSE_STATUS m_Type; //ƒ}ƒEƒX‚Ìó‘Ô
-	ST_MOUSE_INFO m_Info;   //ƒ}ƒEƒXî•ñ
+	//å¤‰æ•°å®£è¨€
+	ET_MOUSE_STATUS m_Type; //ãƒã‚¦ã‚¹ã®çŠ¶æ…‹
+	ST_MOUSE_INFO m_Info;   //ãƒã‚¦ã‚¹æƒ…å ±
 };
 
-//***** ƒ}ƒEƒXˆ— *****
+//***** ãƒã‚¦ã‚¹å‡¦ç† *****
 class CT_MOUSE
 {
 public:
 
-	//RawInput—p\‘¢‘Ìiƒ}ƒEƒX•Ï‰»—Êj
+	//RawInputç”¨æ§‹é€ ä½“ï¼ˆãƒã‚¦ã‚¹å¤‰åŒ–é‡ï¼‰
 	struct ST_RAW_DELTA
 	{
-		//ƒRƒs[•ƒ€[ƒu
+		//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 		ST_RAW_DELTA(const ST_RAW_DELTA&) = default;
 		ST_RAW_DELTA& operator =(const ST_RAW_DELTA&) = default;
 		ST_RAW_DELTA(ST_RAW_DELTA&&) noexcept = default;
 		ST_RAW_DELTA& operator=(ST_RAW_DELTA&&) noexcept = default;
 
-		//•Ï”éŒ¾
+		//å¤‰æ•°å®£è¨€
 		int ms_X;
 		int ms_Y;
-		bool ms_bClear; //NULLƒf[ƒ^‚Å‚ ‚é‚±‚Æ‚ğ¦‚·ƒtƒ‰ƒO
+		bool ms_bClear; //NULLãƒ‡ãƒ¼ã‚¿ã§ã‚ã‚‹ã“ã¨ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
 
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		explicit ST_RAW_DELTA(const bool& bClr = false) noexcept
 			: ms_X(0)
 			, ms_Y(0)
@@ -157,55 +157,55 @@ public:
 		~ST_RAW_DELTA() noexcept = default;
 	};
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_MOUSE(const CT_MOUSE&) = default;
 	CT_MOUSE& operator =(const CT_MOUSE&) = default;
 	CT_MOUSE(CT_MOUSE&&) noexcept = default;
 	CT_MOUSE& operator=(CT_MOUSE&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_MOUSE() noexcept;
 	~CT_MOUSE() noexcept;
-	[[nodiscard]] std::pair<int, int> GetPos() const noexcept; //ƒ}ƒEƒXÀ•Wæ“¾
-	[[nodiscard]] int GetPosX() const noexcept;                //ƒ}ƒEƒXXÀ•Wæ“¾
-	[[nodiscard]] int GetPosY() const noexcept;                //ƒ}ƒEƒXYÀ•Wæ“¾
-	[[nodiscard]] int GetWheelVal() const noexcept;            //ƒzƒC[ƒ‹’læ“¾
-	[[nodiscard]] bool IsInWindow() const noexcept;            //ƒEƒBƒ“ƒhƒE“à‚É‚¢‚é‚©Šm”F
-	[[nodiscard]] bool LeftIsPressed() const noexcept;         //ƒ}ƒEƒX¶ƒNƒŠƒbƒNŠm”F
-	[[nodiscard]] bool RightIsPressed() const noexcept;        //ƒ}ƒEƒX‰EƒNƒŠƒbƒNŠm”F
-	CT_MOUSE_EVENTS ReadBuffer() noexcept;                     //ƒoƒbƒtƒ@“Ç‚İ
-	[[nodiscard]] bool IsEmpty() const noexcept;               //ƒoƒbƒtƒ@‚Ì‹ó‚«Šm”F
-	void ClearBuffer() noexcept;                               //ƒoƒbƒtƒ@ƒNƒŠƒA
-	ST_RAW_DELTA ReadRawDelta() noexcept;                      //RawInputƒoƒbƒtƒ@“Ç‚İ
-	void SetRawInput(const bool& bUse) noexcept;               //RawInputg—p§Œä
-	[[nodiscard]] bool IsUsingRawInput() const noexcept;       //RawInputg—pó‘ÔŠm”F
+	[[nodiscard]] std::pair<int, int> GetPos() const noexcept; //ãƒã‚¦ã‚¹åº§æ¨™å–å¾—
+	[[nodiscard]] int GetPosX() const noexcept;                //ãƒã‚¦ã‚¹Xåº§æ¨™å–å¾—
+	[[nodiscard]] int GetPosY() const noexcept;                //ãƒã‚¦ã‚¹Yåº§æ¨™å–å¾—
+	[[nodiscard]] int GetWheelVal() const noexcept;            //ãƒ›ã‚¤ãƒ¼ãƒ«å€¤å–å¾—
+	[[nodiscard]] bool IsInWindow() const noexcept;            //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«ã„ã‚‹ã‹ç¢ºèª
+	[[nodiscard]] bool LeftIsPressed() const noexcept;         //ãƒã‚¦ã‚¹å·¦ã‚¯ãƒªãƒƒã‚¯ç¢ºèª
+	[[nodiscard]] bool RightIsPressed() const noexcept;        //ãƒã‚¦ã‚¹å³ã‚¯ãƒªãƒƒã‚¯ç¢ºèª
+	CT_MOUSE_EVENTS ReadBuffer() noexcept;                     //ãƒãƒƒãƒ•ã‚¡èª­è¾¼ã¿
+	[[nodiscard]] bool IsEmpty() const noexcept;               //ãƒãƒƒãƒ•ã‚¡ã®ç©ºãç¢ºèª
+	void ClearBuffer() noexcept;                               //ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
+	ST_RAW_DELTA ReadRawDelta() noexcept;                      //RawInputãƒãƒƒãƒ•ã‚¡èª­è¾¼ã¿
+	void SetRawInput(const bool& bUse) noexcept;               //RawInputä½¿ç”¨åˆ¶å¾¡
+	[[nodiscard]] bool IsUsingRawInput() const noexcept;       //RawInputä½¿ç”¨çŠ¶æ…‹ç¢ºèª
 
 private:
 
-	//•Ï”éŒ¾
-	static constexpr unsigned int c_BufferSize = 16u; //ƒLƒ…[‚ÌƒTƒCƒYiƒtƒŒ[ƒ€‚²‚Æ‚ÌÅ‘åó•t”j
-	std::queue<CT_MOUSE_EVENTS> m_Buffer;             //ƒ}ƒEƒXƒCƒxƒ“ƒg—pƒLƒ…[
-	ST_MOUSE_INFO m_Info;                             //ƒ}ƒEƒXî•ñ
-	int m_WheelDelta;                                 //ƒzƒC[ƒ‹‘€ì—Ê
-	int m_WheelVal;                                   //ƒzƒC[ƒ‹’l
-	std::queue<ST_RAW_DELTA> m_RawDeltaBuffer;        //RawInput—pƒLƒ…[
-	bool m_bUseRawInput;                              //RawInputg—pƒtƒ‰ƒO
+	//å¤‰æ•°å®£è¨€
+	static constexpr unsigned int c_BufferSize = 16u; //ã‚­ãƒ¥ãƒ¼ã®ã‚µã‚¤ã‚ºï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã®æœ€å¤§å—ä»˜æ•°ï¼‰
+	std::queue<CT_MOUSE_EVENTS> m_Buffer;             //ãƒã‚¦ã‚¹ã‚¤ãƒ™ãƒ³ãƒˆç”¨ã‚­ãƒ¥ãƒ¼
+	ST_MOUSE_INFO m_Info;                             //ãƒã‚¦ã‚¹æƒ…å ±
+	int m_WheelDelta;                                 //ãƒ›ã‚¤ãƒ¼ãƒ«æ“ä½œé‡
+	int m_WheelVal;                                   //ãƒ›ã‚¤ãƒ¼ãƒ«å€¤
+	std::queue<ST_RAW_DELTA> m_RawDeltaBuffer;        //RawInputç”¨ã‚­ãƒ¥ãƒ¼
+	bool m_bUseRawInput;                              //RawInputä½¿ç”¨ãƒ•ãƒ©ã‚°
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
-	void TruncateBuffer() noexcept;                            //ƒoƒbƒtƒ@Ø‚èÌ‚Ä
-	void MouseMove(const int& posX, const int& posY) noexcept; //ƒ}ƒEƒXˆÚ“®
-	void LeaveWindow() noexcept;                               //ƒEƒBƒ“ƒhƒEŠO‚És‚­
-	void EnterWindow() noexcept;                               //ƒEƒBƒ“ƒhƒE“à‚É“ü‚é
-	void LeftPressed() noexcept;                               //¶ƒNƒŠƒbƒNƒIƒ“
-	void LeftReleased() noexcept;                              //¶ƒNƒŠƒbƒNƒIƒt
-	void RightPressed() noexcept;                              //‰EƒNƒŠƒbƒNƒIƒ“
-	void RightReleased() noexcept;                             //‰EƒNƒŠƒbƒNƒIƒt
-	void WheelUp() noexcept;                                   //ƒzƒC[ƒ‹ƒAƒbƒv
-	void WheelDown() noexcept;                                 //ƒzƒC[ƒ‹ƒ_ƒEƒ“
-	void WheelProc(const int& nDelta) noexcept;                //ƒzƒC[ƒ‹ˆ—
-	void TruncateRawInputBuffer() noexcept;                    //RawInputƒoƒbƒtƒ@Ø‚èÌ‚Ä
-	void GetRawDelta(const int& dx, const int& dy) noexcept;   //RawInputî•ñæ“¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
+	void TruncateBuffer() noexcept;                            //ãƒãƒƒãƒ•ã‚¡åˆ‡ã‚Šæ¨ã¦
+	void MouseMove(const int& posX, const int& posY) noexcept; //ãƒã‚¦ã‚¹ç§»å‹•
+	void LeaveWindow() noexcept;                               //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¤–ã«è¡Œã
+	void EnterWindow() noexcept;                               //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å†…ã«å…¥ã‚‹
+	void LeftPressed() noexcept;                               //å·¦ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ³
+	void LeftReleased() noexcept;                              //å·¦ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ•
+	void RightPressed() noexcept;                              //å³ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ³
+	void RightReleased() noexcept;                             //å³ã‚¯ãƒªãƒƒã‚¯ã‚ªãƒ•
+	void WheelUp() noexcept;                                   //ãƒ›ã‚¤ãƒ¼ãƒ«ã‚¢ãƒƒãƒ—
+	void WheelDown() noexcept;                                 //ãƒ›ã‚¤ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³
+	void WheelProc(const int& nDelta) noexcept;                //ãƒ›ã‚¤ãƒ¼ãƒ«å‡¦ç†
+	void TruncateRawInputBuffer() noexcept;                    //RawInputãƒãƒƒãƒ•ã‚¡åˆ‡ã‚Šæ¨ã¦
+	void GetRawDelta(const int& dx, const int& dy) noexcept;   //RawInputæƒ…å ±å–å¾—
 
-	//Œ ŒÀw’è
+	//æ¨©é™æŒ‡å®š
 	friend class CT_IW_WIN;
 };

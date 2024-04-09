@@ -1,47 +1,47 @@
-/**
+ï»¿/**
  * @file ErrorOutput_Win.h
- * @brief ƒGƒ‰[o—ÍƒNƒ‰ƒX(Window)
- * @author º’JƒCƒAƒ“
+ * @brief ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ã‚¯ãƒ©ã‚¹(Window)
+ * @author å®¤è°·ã‚¤ã‚¢ãƒ³
  * @date 2022/11/15
- * @—š—ğ 2022/11/15FƒNƒ‰ƒXì¬
- *		 2024/04/02F‘®‰ü‘P
+ * @å±¥æ­´ 2022/11/15ï¼šã‚¯ãƒ©ã‚¹ä½œæˆ
+ *		 2024/04/02ï¼šæ›¸å¼æ”¹å–„
  */
 
-//===== ƒCƒ“ƒNƒ‹[ƒhƒK[ƒh =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚¬ãƒ¼ãƒ‰ =====
 #pragma once
 
-//===== ƒCƒ“ƒNƒ‹[ƒh•” =====
+//===== ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨ =====
 #include <WinApp/ErrorOutput.h>
 #include <WinApp/WinConfig.h>
 
-//===== ƒNƒ‰ƒX’è‹` =====
+//===== ã‚¯ãƒ©ã‚¹å®šç¾© =====
 
-//***** ƒGƒ‰[o—ÍiWindows—pj *****
+//***** ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ï¼ˆWindowsç”¨ï¼‰ *****
 class CT_EO_WIN final : public CT_ERROR_OUTPUT
 {
 public:
 
-	//ƒRƒs[•ƒ€[ƒu
+	//ã‚³ãƒ”ãƒ¼ï¼†ãƒ ãƒ¼ãƒ–
 	CT_EO_WIN(const CT_EO_WIN&) = default;
 	CT_EO_WIN& operator =(const CT_EO_WIN&) = default;
 	CT_EO_WIN(CT_EO_WIN&&) noexcept = default;
 	CT_EO_WIN& operator=(CT_EO_WIN&&) noexcept = default;
 
-	//ƒvƒƒgƒ^ƒCƒvéŒ¾
+	//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 	explicit CT_EO_WIN(const int& nLine, const char* chFile, const HRESULT& hr, const char* str = nullptr) noexcept;
 	~CT_EO_WIN() noexcept override;
-	std::string GetType() const noexcept override;                  //ƒGƒ‰[ƒ^ƒCƒvæ“¾
-	std::string GetErrorCodeInfo(const HRESULT& hr) const noexcept; //ƒGƒ‰[ƒR[ƒhî•ñæ“¾
-	const char* what() const noexcept override;                     //ƒGƒ‰[î•ño—Í
+	std::string GetType() const noexcept override;                  //ã‚¨ãƒ©ãƒ¼ã‚¿ã‚¤ãƒ—å–å¾—
+	std::string GetErrorCodeInfo(const HRESULT& hr) const noexcept; //ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰æƒ…å ±å–å¾—
+	const char* what() const noexcept override;                     //ã‚¨ãƒ©ãƒ¼æƒ…å ±å‡ºåŠ›
 
 private:
 
-	//•Ï”éŒ¾
-	HRESULT m_Hr;           //ƒƒbƒZ[ƒW¯•Êq
-	std::string m_StrError; //ƒJƒXƒ^ƒ€ƒGƒ‰[î•ñ
+	//å¤‰æ•°å®£è¨€
+	HRESULT m_Hr;           //ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è­˜åˆ¥å­
+	std::string m_StrError; //ã‚«ã‚¹ã‚¿ãƒ ã‚¨ãƒ©ãƒ¼æƒ…å ±
 };
 
-//===== ƒ}ƒNƒ’è‹` =====
+//===== ãƒã‚¯ãƒ­å®šç¾© =====
 #define ERROR_DEFAULT() CT_EO_WIN{__LINE__, __FILE__, HRESULT_FROM_WIN32(GetLastError())}
 #define ERROR_EX(hr) CT_EO_WIN{__LINE__, __FILE__, (hr)}
 #define ERROR_EX2(str) CT_EO_WIN{__LINE__, __FILE__, S_OK, (str)}
