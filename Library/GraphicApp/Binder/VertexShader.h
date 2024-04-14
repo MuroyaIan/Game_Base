@@ -37,6 +37,6 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3DBlob> m_pBlob;						//シェーダリソース
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader;		//ポインタ
+	ComPtr<ID3DBlob> m_pBlob;						//シェーダリソース
+	ComPtr<ID3D11VertexShader> m_pVertexShader;		//ポインタ
 };

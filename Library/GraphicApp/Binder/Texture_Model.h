@@ -39,10 +39,8 @@ public:
 
 private:
 
-	using com_pSRV = Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>;
-
 	//変数宣言
-	std::vector<com_pSRV> m_pTextureViews;	//ポインタ配列
+	std::vector<ComPtr<ID3D11ShaderResourceView>> m_pTextureViews;	//ポインタ配列
 
 	//プロトタイプ宣言
 	void MakeBuffer(const CT_GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, TEX_TYPE Type);	//バッファ作成

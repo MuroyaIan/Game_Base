@@ -28,5 +28,5 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pPixelShader;	//ポインタ
+	ComPtr<ID3D11PixelShader> m_pPixelShader;	//ポインタ
 };

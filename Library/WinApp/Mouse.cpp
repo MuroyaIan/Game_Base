@@ -332,13 +332,13 @@ void CT_MOUSE::WheelProc(const int& nDelta) noexcept
 	m_WheelDelta += nDelta;
 
 	//ホイール応答精度制御(1回のメッセージで応答)
-	static int l_NResponse = WHEEL_DELTA * 1;
-	if (m_WheelDelta >= l_NResponse)
+	static int l_Response = WHEEL_DELTA * 1;
+	if (m_WheelDelta >= l_Response)
 	{
 		m_WheelDelta = 0;
 		WheelUp();
 	}
-	if (m_WheelDelta <= -l_NResponse)
+	if (m_WheelDelta <= -l_Response)
 	{
 		m_WheelDelta = 0;
 		WheelDown();

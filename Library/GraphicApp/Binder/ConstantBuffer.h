@@ -95,7 +95,7 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3D11Buffer> m_pConstantBuffer;			//ポインタ
+	ComPtr<ID3D11Buffer> m_pConstantBuffer;							//ポインタ
 	bool m_bSlotVS;													//スロット有効(VS)
 	bool m_bSlotPS;													//スロット有効(PS)
 

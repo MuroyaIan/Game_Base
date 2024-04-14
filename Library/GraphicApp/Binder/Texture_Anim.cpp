@@ -28,7 +28,7 @@ TEXTURE_ANIM::TEXTURE_ANIM(const CT_GRAPHIC& Gfx, const TEX_DATA_ANIM& Data, UIN
 		D3D11_SUBRESOURCE_DATA sd{};
 		sd.pSysMem = Data.pAnimData;
 		sd.SysMemPitch = Data.nWidth * sizeof(float) * 16u;
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
+		ComPtr<ID3D11Texture2D> pTexture;
 		hr = GetDevice(Gfx)->CreateTexture2D(&td, &sd, &pTexture);
 		ERROR_DX(hr);
 

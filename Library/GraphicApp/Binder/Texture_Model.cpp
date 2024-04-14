@@ -50,7 +50,7 @@ void TEXTURE_MODEL::MakeBuffer(const CT_GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA
 		D3D11_SUBRESOURCE_DATA sd{};
 		sd.pSysMem = Data.pImageData;
 		sd.SysMemPitch = Data.nWidth * sizeof(uint32_t);
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
+		ComPtr<ID3D11Texture2D> pTexture;
 		hr = GetDevice(Gfx)->CreateTexture2D(&td, &sd, &pTexture);
 		ERROR_DX(hr);
 

@@ -65,11 +65,11 @@ std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT& hr) const noexcept
  */
 const char* CT_EO_WIN::what() const noexcept
 {
-	std::ostringstream l_Oss;
-	l_Oss << GetType() << '\n'
+	std::ostringstream l_oss;
+	l_oss << GetType() << '\n'
 		<< "[Error Code] " << m_Hr << '\n'
 		<< "[Description] " << GetErrorCodeInfo(m_Hr) << '\n'
 		<< GetErrorInfo();
-	m_InfoBuffer = l_Oss.str();
+	m_InfoBuffer = l_oss.str();
 	return m_InfoBuffer.c_str();
 }

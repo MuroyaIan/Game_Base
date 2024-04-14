@@ -28,5 +28,5 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_pInputLayout;	//ポインタ
+	ComPtr<ID3D11InputLayout> m_pInputLayout;	//ポインタ
 };

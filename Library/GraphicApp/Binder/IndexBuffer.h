@@ -33,6 +33,6 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3D11Buffer> m_pIndexBuffer;	//ポインタ
-	UINT m_IndexNum;										//インデックス数
+	ComPtr<ID3D11Buffer> m_pIndexBuffer;	//ポインタ
+	UINT m_IndexNum;						//インデックス数
 };

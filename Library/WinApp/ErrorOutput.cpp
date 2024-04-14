@@ -16,10 +16,10 @@ CT_ERROR_OUTPUT::~CT_ERROR_OUTPUT() noexcept = default;
  */
 std::string CT_ERROR_OUTPUT::GetErrorInfo() const noexcept
 {
-	std::ostringstream l_Oss;
-	l_Oss << "[File] " << m_File << '\n'
+	std::ostringstream l_oss;
+	l_oss << "[File] " << m_File << '\n'
 		<< "[Line] " << m_Line;
-	return l_Oss.str();
+	return l_oss.str();
 }
 
 /**
@@ -30,9 +30,9 @@ std::string CT_ERROR_OUTPUT::GetErrorInfo() const noexcept
  */
 const char* CT_ERROR_OUTPUT::what() const noexcept
 {
-	std::ostringstream l_Oss;
-	l_Oss << GetType() << '\n'
+	std::ostringstream l_oss;
+	l_oss << GetType() << '\n'
 		<< GetErrorInfo();
-	m_InfoBuffer = l_Oss.str();
+	m_InfoBuffer = l_oss.str();
 	return m_InfoBuffer.c_str();
 }

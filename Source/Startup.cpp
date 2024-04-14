@@ -41,7 +41,7 @@ int CALLBACK WinMain(_In_ const HINSTANCE hInstance,        //Instanceハンド�
 
 		{
 			//エラー処理
-			Microsoft::WRL::ComPtr<IDXGIDebug1> l_PDebugDxgi;
+			ComPtr<IDXGIDebug1> l_PDebugDxgi;
 			if (SUCCEEDED(DXGIGetDebugInterface1(0u, IID_PPV_ARGS(&l_PDebugDxgi))))
 				l_PDebugDxgi->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
 		}

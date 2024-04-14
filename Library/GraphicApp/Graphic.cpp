@@ -14,9 +14,6 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dCompiler.lib")
 
-namespace wrl = Microsoft::WRL;
-namespace dx = DirectX;
-
 //===== クラス実装 =====
 CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	m_pAdapter(), m_pDevice(), m_pSwapChain(), m_pContext(), m_pView_RenderTarget(), m_pView_DepthStencil(),
@@ -116,7 +113,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	ERROR_DX(l_hr);
 
 	//RTV作成
-	wrl::ComPtr<ID3D11Resource> l_pBackBuffer;
+	ComPtr<ID3D11Resource> l_pBackBuffer;
 	l_hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&l_pBackBuffer));	//バッファ取得
 	ERROR_DX(l_hr);
 	l_hr = m_pDevice->CreateRenderTargetView(l_pBackBuffer.Get(), nullptr, &m_pView_RenderTarget);
@@ -129,32 +126,32 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	l_dsd.DepthEnable = TRUE;
 	l_dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	l_dsd.DepthFunc = D3D11_COMPARISON_LESS;
-	wrl::ComPtr<ID3D11DepthStencilState> l_pState_DepthStencil;
+	ComPtr<ID3D11DepthStencilState> l_pState_DepthStencil;
 	l_hr = m_pDevice->CreateDepthStencilState(&l_dsd, &l_pState_DepthStencil);
 	ERROR_DX(l_hr);
 	m_pContext->OMSetDepthStencilState(l_pState_DepthStencil.Get(), 1u);		//バインド処理
 
 	//DSバッファ作成(テクスチャ)
-	D3D11_TEXTURE2D_DESC l_Desc_DepthStencil{};
-	l_Desc_DepthStencil.Width = static_cast<UINT>(fWidth);
-	l_Desc_DepthStencil.Height = static_cast<UINT>(fHeight);
-	l_Desc_DepthStencil.MipLevels = 1u;
-	l_Desc_DepthStencil.ArraySize = 1u;
-	l_Desc_DepthStencil.Format = DXGI_FORMAT_D32_FLOAT;
-	l_Desc_DepthStencil.SampleDesc.Count = 1u;
-	l_Desc_DepthStencil.SampleDesc.Quality = 0u;
-	l_Desc_DepthStencil.Usage = D3D11_USAGE_DEFAULT;
-	l_Desc_DepthStencil.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	wrl::ComPtr<ID3D11Texture2D> l_pBuffer_DepthStencil;
-	l_hr = m_pDevice->CreateTexture2D(&l_Desc_DepthStencil, nullptr, &l_pBuffer_DepthStencil);
+	D3D11_TEXTURE2D_DESC l_desc_ds{};
+	l_desc_ds.Width = static_cast<UINT>(fWidth);
+	l_desc_ds.Height = static_cast<UINT>(fHeight);
+	l_desc_ds.MipLevels = 1u;
+	l_desc_ds.ArraySize = 1u;
+	l_desc_ds.Format = DXGI_FORMAT_D32_FLOAT;
+	l_desc_ds.SampleDesc.Count = 1u;
+	l_desc_ds.SampleDesc.Quality = 0u;
+	l_desc_ds.Usage = D3D11_USAGE_DEFAULT;
+	l_desc_ds.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	ComPtr<ID3D11Texture2D> l_pBuffer_DepthStencil;
+	l_hr = m_pDevice->CreateTexture2D(&l_desc_ds, nullptr, &l_pBuffer_DepthStencil);
 	ERROR_DX(l_hr);
 
 	//DSV作成
-	D3D11_DEPTH_STENCIL_VIEW_DESC l_Desc_DepthStencilView{};
-	l_Desc_DepthStencilView.Format = l_Desc_DepthStencil.Format;
-	l_Desc_DepthStencilView.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	l_Desc_DepthStencilView.Texture2D.MipSlice = 0u;
-	l_hr = m_pDevice->CreateDepthStencilView(l_pBuffer_DepthStencil.Get(), &l_Desc_DepthStencilView, &m_pView_DepthStencil);
+	D3D11_DEPTH_STENCIL_VIEW_DESC l_desc_dsv{};
+	l_desc_dsv.Format = l_desc_ds.Format;
+	l_desc_dsv.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	l_desc_dsv.Texture2D.MipSlice = 0u;
+	l_hr = m_pDevice->CreateDepthStencilView(l_pBuffer_DepthStencil.Get(), &l_desc_dsv, &m_pView_DepthStencil);
 	ERROR_DX(l_hr);
 
 	//描画モード設定
@@ -208,7 +205,7 @@ CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 //	m_pSwapChain.Reset();
 //
 //	{
-//		wrl::ComPtr<ID3D11Debug> l_pDebug_Gfx;
+//		ComPtr<ID3D11Debug> l_pDebug_Gfx;
 //		HRESULT l_hr = m_pDevice->QueryInterface(IID_PPV_ARGS(&l_pDebug_Gfx));
 //		ERROR_DX(l_hr);
 //		l_hr = l_pDebug_Gfx->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
@@ -224,8 +221,8 @@ CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 void CT_GRAPHIC::BeginFrame(const float r, const float g, const float b) const noexcept
 {
 	//バッファクリア
-	const float Color[] = { r, g, b, 1.0f };
-	m_pContext->ClearRenderTargetView(m_pView_RenderTarget.Get(), Color);
+	const float l_Color[] = { r, g, b, 1.0f };
+	m_pContext->ClearRenderTargetView(m_pView_RenderTarget.Get(), l_Color);
 	m_pContext->ClearDepthStencilView(m_pView_DepthStencil.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 #ifdef IMGUI
@@ -273,8 +270,8 @@ void CT_GRAPHIC::EndFrame() const
 	const HRESULT l_hr = m_pSwapChain->Present(1u, 0u);
 	if (l_hr == DXGI_ERROR_DEVICE_REMOVED)
 		throw ERROR_EX(m_pDevice->GetDeviceRemovedReason());
-	else
-		ERROR_DX(l_hr);
+
+	ERROR_DX(l_hr);
 }
 
 //描画モード設定
@@ -300,8 +297,8 @@ void CT_GRAPHIC::InitDxgi()
 	HRESULT l_hr{};
 
 	//ファクトリ初期化
-	wrl::ComPtr<IDXGIFactory> l_pFactory;
-	wrl::ComPtr<IDXGIFactory6> l_pFactory6;
+	ComPtr<IDXGIFactory> l_pFactory;
+	ComPtr<IDXGIFactory6> l_pFactory6;
 
 #ifdef _DEBUG
 
@@ -325,25 +322,25 @@ void CT_GRAPHIC::InitDxgi()
 #ifdef _DEBUG
 
 	//GPU情報取得
-	IDXGIAdapter* l_PTempAdapter = nullptr;
+	IDXGIAdapter* l_pTempAdapter = nullptr;
 	for (int l_Cnt = 0; ; l_Cnt++) {
 
 		//アダプターのポインタを取得
-		l_hr = l_pFactory6->EnumAdapters(static_cast<UINT>(l_Cnt), &l_PTempAdapter);
+		l_hr = l_pFactory6->EnumAdapters(static_cast<UINT>(l_Cnt), &l_pTempAdapter);
 		if (l_hr == DXGI_ERROR_NOT_FOUND)
 			break;
 
 		//デバイス名出力
 		DXGI_ADAPTER_DESC l_dad{};
-		l_hr = l_PTempAdapter->GetDesc(&l_dad);
+		l_hr = l_pTempAdapter->GetDesc(&l_dad);
 		ERROR_DX(l_hr);
 		std::wostringstream l_oss;
 		l_oss << "Info : GPU(" << l_Cnt << ") " << l_dad.Description << std::endl;
 		PRINT_D(l_oss.str().c_str());
 
 		//メモリ解放
-		l_PTempAdapter->Release();
-		l_PTempAdapter = nullptr;
+		l_pTempAdapter->Release();
+		l_pTempAdapter = nullptr;
 	}
 
 #endif // _DEBUG

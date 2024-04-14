@@ -2,8 +2,6 @@
 //===== インクルード部 =====
 #include <GraphicApp/Binder/PixelShader.h>
 
-namespace wrl = Microsoft::WRL;
-
 //===== クラス実装 =====
 PIXEL_SHADER::PIXEL_SHADER(const CT_GRAPHIC& Gfx, const std::wstring& Path) :
 	BINDER(), m_pPixelShader()
@@ -13,7 +11,7 @@ PIXEL_SHADER::PIXEL_SHADER(const CT_GRAPHIC& Gfx, const std::wstring& Path) :
 	std::wstring strPath = Path;
 
 	//シェーダ作成
-	wrl::ComPtr<ID3DBlob> pBlob;
+	ComPtr<ID3DBlob> pBlob;
 	hr = D3DReadFileToBlob(strPath.c_str(), &pBlob);
 	ERROR_DX(hr);
 	hr = GetDevice(Gfx)->CreatePixelShader(

@@ -29,6 +29,13 @@
 //===== 定数・マクロ定義 =====
 #define ERROR_DX(hr) if((hr) != S_OK) throw ERROR_EX(hr)	//エラー出力(DirectX用)
 
+//===== エイリアス宣言 =====
+template <class t_PtrType>
+using ComPtr = Microsoft::WRL::ComPtr<t_PtrType>;			//COMポインター
+
+//===== 名前空間 =====
+namespace dx = DirectX;
+
 //===== クラス定義 =====
 
 //***** グラフィック *****
@@ -58,31 +65,31 @@ public:
 	void EndFrame() const;													//フレーム終了⇒描画開始
 	void SetDrawMode(ET_DRAW_MODE mode) const noexcept;						//描画モード設定
 
-	void SetViewMtx(const DirectX::XMFLOAT4X4& mtxView) noexcept			//ビュー行列へのアクセス
+	void SetViewMtx(const dx::XMFLOAT4X4& mtxView) noexcept			//ビュー行列設定
 	{
 		m_MtxView = mtxView;
 	}
-	[[nodiscard]] DirectX::XMFLOAT4X4 GetViewMtx() const noexcept
+	[[nodiscard]] dx::XMFLOAT4X4 GetViewMtx() const noexcept		//ビュー行列取得
 	{
 		return m_MtxView;
 	}
-	void SetProjectionMtx(const DirectX::XMFLOAT4X4& mtxProj) noexcept		//投影行列へのアクセス
+	void SetProjectionMtx(const dx::XMFLOAT4X4& mtxProj) noexcept	//投影行列設定
 	{
 		m_MtxProjection = mtxProj;
 	}
-	[[nodiscard]] DirectX::XMFLOAT4X4 GetProjectionMtx() const noexcept
+	[[nodiscard]] dx::XMFLOAT4X4 GetProjectionMtx() const noexcept	//投影行列取得
 	{
 		return m_MtxProjection;
 	}
 
 #ifdef IMGUI
 
-	void SetImGuiMode(const bool bEnable) noexcept							//ImGui描画ON/OFF
+	void SetImGuiMode(const bool bEnable) noexcept					//ImGui描画ON/OFF
 	{
 		m_bDrawImGui = bEnable;
 	}
 
-	[[nodiscard]] bool IsImGuiEnabled() const noexcept						//ImGui描画状態確認
+	[[nodiscard]] bool IsImGuiEnabled() const noexcept				//ImGui描画状態確認
 	{
 		return m_bDrawImGui;
 	}
@@ -92,24 +99,24 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<IDXGIAdapter> m_pAdapter;						//アダプター
-	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;							//デバイス
-	Microsoft::WRL::ComPtr<IDXGISwapChain> m_pSwapChain;					//スワップチェーン
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;					//コンテキスト
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//ターゲットビュー
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//深度・ステンシルビュー
+	ComPtr<IDXGIAdapter> m_pAdapter;						//アダプター
+	ComPtr<ID3D11Device> m_pDevice;							//デバイス
+	ComPtr<IDXGISwapChain> m_pSwapChain;					//スワップチェーン
+	ComPtr<ID3D11DeviceContext> m_pContext;					//コンテキスト
+	ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//ターゲットビュー
+	ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//深度・ステンシルビュー
 
-	DirectX::XMFLOAT4X4 m_MtxView;			//ビュー行列（カメラ）
-	DirectX::XMFLOAT4X4 m_MtxProjection;	//投影行列
+	dx::XMFLOAT4X4 m_MtxView;			//ビュー行列（カメラ）
+	dx::XMFLOAT4X4 m_MtxProjection;		//投影行列
 
 #ifdef IMGUI
 
-	bool m_bDrawImGui;						//ImGUI描画制御
+	bool m_bDrawImGui;					//ImGUI描画制御
 
 #endif // IMGUI
 
 	//プロトタイプ宣言
-	void InitDxgi();						//DXGI初期化
+	void InitDxgi();					//DXGI初期化
 
 	//権限指定
 	friend class BINDER;

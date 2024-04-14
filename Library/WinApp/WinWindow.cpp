@@ -44,7 +44,7 @@ CT_IW_WIN::CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int&
 
 	//サイズ算出
 	DWORD l_ExStyle = 0;
-	DWORD l_Style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
+	DWORD l_Style = WS_CAPTION | WS_SYSMENU;
 	RECT l_WinRect = {0L, 0L, static_cast<LONG>(m_Width), static_cast<LONG>(m_Height)}; //Client領域サイズ設定
 	if (!AdjustWindowRectEx(&l_WinRect, l_Style, false, l_ExStyle))                                //Windowサイズ算出
 		throw ERROR_DEFAULT();
@@ -64,12 +64,12 @@ CT_IW_WIN::CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int&
 	ImmAssociateContext(m_WinHandle, nullptr);
 
 	//RawInputデバイス登録
-	RAWINPUTDEVICE l_Rid{};
-	l_Rid.usUsagePage = 0x01; //マウス識別用
-	l_Rid.usUsage = 0x02;     //マウス識別用
-	l_Rid.dwFlags = 0;
-	l_Rid.hwndTarget = nullptr;
-	if (!RegisterRawInputDevices(&l_Rid, 1, sizeof(l_Rid)))
+	RAWINPUTDEVICE l_rid{};
+	l_rid.usUsagePage = 0x01; //マウス識別用
+	l_rid.usUsage = 0x02;     //マウス識別用
+	l_rid.dwFlags = 0;
+	l_rid.hwndTarget = nullptr;
+	if (!RegisterRawInputDevices(&l_rid, 1, sizeof(l_rid)))
 		throw ERROR_EX2("RawInput : Fail to init");
 
 #ifdef IMGUI
@@ -167,9 +167,9 @@ void CT_IW_WIN::TitlePrint_MousePos() const
 {
 	//メッセージボックス表示バグあり
 	auto [x, y] = m_Mouse.GetPos();
-	std::ostringstream l_Oss;
-	l_Oss << "MousePos:(" << x << ", " << y << ")";
-	TitlePrint(l_Oss.str());
+	std::ostringstream l_oss;
+	l_oss << "MousePos:(" << x << ", " << y << ")";
+	TitlePrint(l_oss.str());
 }
 
 /**
@@ -185,24 +185,24 @@ void CT_IW_WIN::TitlePrint_WheelVal()
 		//変数宣言
 		const CT_MOUSE_EVENTS l_Event = m_Mouse.ReadBuffer();
 		static int l_Cnt = 0;
-		std::ostringstream l_Oss;
+		std::ostringstream l_oss;
 
 		//更新処理
 		switch (l_Event.GetType())
 		{
 			case ET_MOUSE_STATUS::me_WheelUp:
 				l_Cnt++;
-				l_Oss << "Wheel Val : " << l_Cnt;
-				TitlePrint(l_Oss.str());
+				l_oss << "Wheel Val : " << l_Cnt;
+				TitlePrint(l_oss.str());
 				break;
 			case ET_MOUSE_STATUS::me_WheelDown:
 				l_Cnt--;
-				l_Oss << "Wheel Val : " << l_Cnt;
-				TitlePrint(l_Oss.str());
+				l_oss << "Wheel Val : " << l_Cnt;
+				TitlePrint(l_oss.str());
 				break;
 			default:
-				l_Oss << "Wheel Val : " << l_Cnt;
-				TitlePrint(l_Oss.str());
+				l_oss << "Wheel Val : " << l_Cnt;
+				TitlePrint(l_oss.str());
 				break;
 		}
 	}
@@ -374,12 +374,8 @@ LRESULT CT_IW_WIN::WndProc(const HWND& hWnd, const UINT& uMsg, const WPARAM& wPa
 #endif // IMGUI
 
 			m_bUseImgui = false;
-			switch (wParam)
-			{
-				case VK_ESCAPE:                                            //「ESC」⇒ウィンドウ終了
-					PostMessage(hWnd, WM_CLOSE, 0, 0);
-				default:;
-			}
+			if (wParam == VK_ESCAPE)
+				PostMessage(hWnd, WM_CLOSE, 0, 0);         //「ESC」⇒ウィンドウ終了
 			if (!(lParam & 0x40000000))
 				m_Keyboard.KeyPressed(static_cast<unsigned char>(wParam)); //キーを押した
 			break;

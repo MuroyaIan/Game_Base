@@ -132,9 +132,9 @@ public:
 private:
 
 	//変数宣言
-	std::vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> m_pVertexBuffers;		//ポインタ配列
-	bool m_bDynamicBuffer;													//頂点バッファはダイナミックかどうか
-	std::vector<UINT> m_aStride;											//頂点バッファ配列の要素1個分のサイズの配列
+	std::vector<ComPtr<ID3D11Buffer>> m_pVertexBuffers;		//ポインタ配列
+	bool m_bDynamicBuffer;									//頂点バッファはダイナミックかどうか
+	std::vector<UINT> m_aStride;							//頂点バッファ配列の要素1個分のサイズの配列
 
 	//プロトタイプ宣言
 	D3D11_BUFFER_DESC GetBufferDesc(UINT ArraySize, UINT TypeSize, bool bDynamic) const noexcept;	//バッファ設定取得

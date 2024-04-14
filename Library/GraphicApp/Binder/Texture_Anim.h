@@ -47,6 +47,6 @@ public:
 private:
 
 	//変数宣言
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pTextureView;	//ポインタ
-	UINT m_StartSlot;													//レジスタ番号
+	ComPtr<ID3D11ShaderResourceView> m_pTextureView;	//ポインタ
+	UINT m_StartSlot;									//レジスタ番号
 };
