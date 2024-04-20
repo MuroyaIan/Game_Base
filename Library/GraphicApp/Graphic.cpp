@@ -297,8 +297,8 @@ void CT_GRAPHIC::InitDxgi()
 	HRESULT l_hr{};
 
 	//ファクトリ初期化
-	ComPtr<IDXGIFactory> l_pFactory;
-	ComPtr<IDXGIFactory6> l_pFactory6;
+	ComPtr<IDXGIFactory> l_pFactory{};
+	ComPtr<IDXGIFactory6> l_pFactory6{};
 
 #ifdef _DEBUG
 
@@ -307,7 +307,7 @@ void CT_GRAPHIC::InitDxgi()
 
 #else
 
-	hr = CreateDXGIFactory(IID_PPV_ARGS(&pFactory));
+	hr = CreateDXGIFactory(IID_PPV_ARGS(&l_pFactory));
 	ERROR_DX(hr);
 
 #endif // _DEBUG
@@ -322,7 +322,7 @@ void CT_GRAPHIC::InitDxgi()
 #ifdef _DEBUG
 
 	//GPU情報取得
-	IDXGIAdapter* l_pTempAdapter = nullptr;
+	IDXGIAdapter* l_pTempAdapter{ nullptr };
 	for (int l_Cnt = 0; ; l_Cnt++) {
 
 		//アダプターのポインタを取得
@@ -334,8 +334,8 @@ void CT_GRAPHIC::InitDxgi()
 		DXGI_ADAPTER_DESC l_dad{};
 		l_hr = l_pTempAdapter->GetDesc(&l_dad);
 		ERROR_DX(l_hr);
-		std::wostringstream l_oss;
-		l_oss << "Info : GPU(" << l_Cnt << ") " << l_dad.Description << std::endl;
+		std::wostringstream l_oss{};
+		l_oss << L"Info : GPU(" << l_Cnt << L") " << l_dad.Description << std::endl;
 		PRINT_D(l_oss.str().c_str());
 
 		//メモリ解放

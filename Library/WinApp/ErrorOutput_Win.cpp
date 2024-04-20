@@ -41,7 +41,7 @@ std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT& hr) const noexcept
 		return m_StrError;
 
 	//情報用メモリを確保
-	LPSTR l_pMsgBuffer = nullptr;
+	LPSTR l_pMsgBuffer{nullptr};
 	const DWORD l_MsgLen = FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM,
 		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
@@ -65,7 +65,7 @@ std::string CT_EO_WIN::GetErrorCodeInfo(const HRESULT& hr) const noexcept
  */
 const char* CT_EO_WIN::what() const noexcept
 {
-	std::ostringstream l_oss;
+	std::ostringstream l_oss{};
 	l_oss << GetType() << '\n'
 		<< "[Error Code] " << m_Hr << '\n'
 		<< "[Description] " << GetErrorCodeInfo(m_Hr) << '\n'

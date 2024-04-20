@@ -111,12 +111,12 @@ CT_IW_WIN::~CT_IW_WIN() noexcept(false)
 void CT_IW_WIN::Transform(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth, const int& nWndHeight)
 {
 	//サイズ取得
-	RECT l_ClientRect; //クライアント領域
+	RECT l_ClientRect{}; //クライアント領域
 	if (!GetClientRect(m_WinHandle, &l_ClientRect))
 		throw ERROR_DEFAULT();
 	l_ClientRect.right -= l_ClientRect.left;
 	l_ClientRect.bottom -= l_ClientRect.top;
-	RECT l_WindowRect; //非クライアント領域
+	RECT l_WindowRect{}; //非クライアント領域
 	if (!GetWindowRect(m_WinHandle, &l_WindowRect))
 		throw ERROR_DEFAULT();
 	l_WindowRect.right -= l_WindowRect.left;
@@ -152,7 +152,7 @@ void CT_IW_WIN::Transform(const int& nWndPosX, const int& nWndPosY, const int& n
  */
 void CT_IW_WIN::TitlePrint(const std::string& text) const
 {
-	const std::string& l_TitleName = text;
+	const std::string& l_TitleName{text};
 	if (!SetWindowTextA(m_WinHandle, l_TitleName.c_str()))
 		throw ERROR_DEFAULT();
 }
@@ -167,7 +167,7 @@ void CT_IW_WIN::TitlePrint_MousePos() const
 {
 	//メッセージボックス表示バグあり
 	auto [x, y] = m_Mouse.GetPos();
-	std::ostringstream l_oss;
+	std::ostringstream l_oss{};
 	l_oss << "MousePos:(" << x << ", " << y << ")";
 	TitlePrint(l_oss.str());
 }
@@ -184,8 +184,8 @@ void CT_IW_WIN::TitlePrint_WheelVal()
 	{
 		//変数宣言
 		const CT_MOUSE_EVENTS l_Event = m_Mouse.ReadBuffer();
-		static int l_Cnt = 0;
-		std::ostringstream l_oss;
+		static int l_Cnt{0};
+		std::ostringstream l_oss{};
 
 		//更新処理
 		switch (l_Event.GetType())
@@ -639,7 +639,7 @@ void CT_IW_WIN::ShowCursor() noexcept
  */
 void CT_IW_WIN::LockCursor() const noexcept
 {
-	RECT l_Rect;
+	RECT l_Rect{};
 	GetClientRect(m_WinHandle, &l_Rect);
 	MapWindowPoints(m_WinHandle, nullptr, reinterpret_cast<POINT*>(&l_Rect), 2); //ウィンドウ内座標をスクリーン座標へ変換
 	ClipCursor(&l_Rect);                                                                              //マウスを指定範囲内にロックする
@@ -656,7 +656,7 @@ void CT_IW_WIN::UnlockCursor() const noexcept
 	ClipCursor(nullptr);
 
 	//カーソルを画面中心へ戻す
-	RECT l_Rect;
+	RECT l_Rect{};
 	GetClientRect(m_WinHandle, &l_Rect);
 	MapWindowPoints(m_WinHandle, nullptr, reinterpret_cast<POINT*>(&l_Rect), 2); //ウィンドウ内座標をスクリーン座標へ変換
 	const int l_X = l_Rect.left + m_Width / 2;

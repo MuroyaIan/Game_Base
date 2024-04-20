@@ -12,17 +12,17 @@
 
 //===== インクルード部 =====
 #include <WinApp/WinWindow.h>
-#include <wrl.h>					//COMポインタ
+#include <wrl.h>				//COMポインタ
 #include <dxgi1_6.h>
 #include <d3d11.h>
-#include <d3dcompiler.h>			//シェーダコンパイル
+#include <d3dcompiler.h>		//シェーダコンパイル
 #include <DirectXMath.h>
-#include <Startup.h>				//デバッグ識別
+#include <Startup.h>			//デバッグ識別
 
 #ifdef _DEBUG
 
 #include <Initguid.h>
-#include <dxgidebug.h>				//DXGIデバッグ
+#include <dxgidebug.h>			//DXGIデバッグ
 
 #endif // _DEBUG
 

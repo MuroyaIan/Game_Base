@@ -93,18 +93,18 @@ public:
 private:
 
 	//変数宣言
-	static constexpr unsigned int c_Keys = 256u;      //キー数
-	static constexpr unsigned int c_BufferSize = 16u; //キューのサイズ（フレームごとの最大受付数）
-	std::bitset<c_Keys> m_KeyStates;                  //256個のキーに対応するビット集合
-	std::queue<CT_KEY_EVENTS> m_KeyBuffer;            //キーイベント用キュー
-	std::queue<unsigned char> m_CharBuffer;           //テキスト入力用キュー
+	static constexpr unsigned int c_Keys{256u};      //キー数
+	static constexpr unsigned int c_BufferSize{16u}; //キューのサイズ（フレームごとの最大受付数）
+	std::bitset<c_Keys> m_KeyStates;                 //256個のキーに対応するビット集合
+	std::queue<CT_KEY_EVENTS> m_KeyBuffer;           //キーイベント用キュー
+	std::queue<unsigned char> m_CharBuffer;          //テキスト入力用キュー
 
 	//プロトタイプ宣言
 	template<typename t_Buffer>
-	static void TruncateBuffer(std::queue<t_Buffer>& buffer) noexcept	//バッファ切り捨て
+	static void TruncateBuffer(std::queue<t_Buffer>& buffer) noexcept //バッファ切り捨て
 	{
-		while (buffer.size() > c_BufferSize)							//上限サイズに収まるまで
-			buffer.pop();												//キューポップ
+		while (buffer.size() > c_BufferSize) //上限サイズに収まるまで
+			buffer.pop();                    //キューポップ
 	}
 
 	void KeyPressed(const unsigned char& keyCode) noexcept;  //キー押し

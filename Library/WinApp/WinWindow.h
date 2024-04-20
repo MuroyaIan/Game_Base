@@ -61,16 +61,16 @@ public:
 private:
 
 	//変数宣言
-	static constexpr LPCWSTR c_Class_Name = L"WindowClass_Game"; //クラス名
-	HINSTANCE m_AppInst;                                         //Instanceハンドル
-	int m_PosX;                                                  //ウィンドウ左上X座標
-	int m_PosY;                                                  //ウィンドウ左上Y座標
-	int m_Width;                                                 //幅（クライアント領域）
-	int m_Height;                                                //高さ（クライアント領域）
-	HWND m_WinHandle;                                            //ハンドル
-	bool m_bDrawCursor;                                          //マウス描画フラグ
-	std::vector<BYTE> m_RawBuffer;                               //RawInput用バッファ
-	bool m_bUseImgui;                                            //Imgui使用中フラグ
+	static constexpr auto c_Class_Name{L"WindowClass_Game"}; //クラス名
+	HINSTANCE m_AppInst;                                     //Instanceハンドル
+	int m_PosX;                                              //ウィンドウ左上X座標
+	int m_PosY;                                              //ウィンドウ左上Y座標
+	int m_Width;                                             //幅（クライアント領域）
+	int m_Height;                                            //高さ（クライアント領域）
+	HWND m_WinHandle;                                        //ハンドル
+	bool m_bDrawCursor;                                      //マウス描画フラグ
+	std::vector<BYTE> m_RawBuffer;                           //RawInput用バッファ
+	bool m_bUseImgui;                                        //Imgui使用中フラグ
 
 	//プロトタイプ宣言
 	static LRESULT CALLBACK WndProc_Init(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept;        //WndProc初期化

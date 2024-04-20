@@ -183,13 +183,13 @@ public:
 private:
 
 	//変数宣言
-	static constexpr unsigned int c_BufferSize = 16u; //キューのサイズ（フレームごとの最大受付数）
-	std::queue<CT_MOUSE_EVENTS> m_Buffer;             //マウスイベント用キュー
-	ST_MOUSE_INFO m_Info;                             //マウス情報
-	int m_WheelDelta;                                 //ホイール操作量
-	int m_WheelVal;                                   //ホイール値
-	std::queue<ST_RAW_DELTA> m_RawDeltaBuffer;        //RawInput用キュー
-	bool m_bUseRawInput;                              //RawInput使用フラグ
+	static constexpr unsigned int c_BufferSize{16u}; //キューのサイズ（フレームごとの最大受付数）
+	std::queue<CT_MOUSE_EVENTS> m_Buffer;            //マウスイベント用キュー
+	ST_MOUSE_INFO m_Info;                            //マウス情報
+	int m_WheelDelta;                                //ホイール操作量
+	int m_WheelVal;                                  //ホイール値
+	std::queue<ST_RAW_DELTA> m_RawDeltaBuffer;       //RawInput用キュー
+	bool m_bUseRawInput;                             //RawInput使用フラグ
 
 	//プロトタイプ宣言
 	void TruncateBuffer() noexcept;                            //バッファ切り捨て
