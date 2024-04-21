@@ -26,8 +26,8 @@ public:
 	//コピー＆ムーブ
 	CT_ERROR_OUTPUT(const CT_ERROR_OUTPUT&) = default;
 	CT_ERROR_OUTPUT& operator =(const CT_ERROR_OUTPUT&) = default;
-	CT_ERROR_OUTPUT(CT_ERROR_OUTPUT&&) noexcept = default;
-	CT_ERROR_OUTPUT& operator=(CT_ERROR_OUTPUT&&) noexcept = default;
+	CT_ERROR_OUTPUT(CT_ERROR_OUTPUT&&) noexcept = delete;
+	CT_ERROR_OUTPUT& operator=(CT_ERROR_OUTPUT&&) noexcept = delete;
 
 	//プロトタイプ宣言
 	explicit CT_ERROR_OUTPUT(const int& nLine, const char* chFile) noexcept;

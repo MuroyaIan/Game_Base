@@ -22,10 +22,10 @@ class CT_IW_WIN final : public CT_IF_WINDOW
 public:
 
 	//コピー＆ムーブ
-	CT_IW_WIN(const CT_IW_WIN&) = default;
-	CT_IW_WIN& operator =(const CT_IW_WIN&) = default;
-	CT_IW_WIN(CT_IW_WIN&&) noexcept = default;
-	CT_IW_WIN& operator=(CT_IW_WIN&&) noexcept = default;
+	CT_IW_WIN(const CT_IW_WIN&) = delete;
+	CT_IW_WIN& operator =(const CT_IW_WIN&) = delete;
+	CT_IW_WIN(CT_IW_WIN&&) noexcept = delete;
+	CT_IW_WIN& operator=(CT_IW_WIN&&) noexcept = delete;
 
 	//プロトタイプ宣言
 	explicit CT_IW_WIN(const LPCWSTR& windowName, const int& nWndWidth, const int& nWndHeight, const int& nWndPosX = CW_USEDEFAULT, const int& nWndPosY = CW_USEDEFAULT);

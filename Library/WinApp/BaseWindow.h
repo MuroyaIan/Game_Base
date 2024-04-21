@@ -21,10 +21,10 @@ class CT_IF_WINDOW
 public:
 
 	//コピー＆ムーブ
-	CT_IF_WINDOW(const CT_IF_WINDOW&) = default;
-	CT_IF_WINDOW& operator =(const CT_IF_WINDOW&) = default;
-	CT_IF_WINDOW(CT_IF_WINDOW&&) noexcept = default;
-	CT_IF_WINDOW& operator=(CT_IF_WINDOW&&) noexcept = default;
+	CT_IF_WINDOW(const CT_IF_WINDOW&) = delete;
+	CT_IF_WINDOW& operator =(const CT_IF_WINDOW&) = delete;
+	CT_IF_WINDOW(CT_IF_WINDOW&&) noexcept = delete;
+	CT_IF_WINDOW& operator=(CT_IF_WINDOW&&) noexcept = delete;
 
 	//変数宣言
 	CT_KEYBOARD m_Keyboard; //キーボード処理

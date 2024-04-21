@@ -24,8 +24,8 @@ public:
 	//コピー＆ムーブ
 	CT_EO_WIN(const CT_EO_WIN&) = default;
 	CT_EO_WIN& operator =(const CT_EO_WIN&) = default;
-	CT_EO_WIN(CT_EO_WIN&&) noexcept = default;
-	CT_EO_WIN& operator=(CT_EO_WIN&&) noexcept = default;
+	CT_EO_WIN(CT_EO_WIN&&) noexcept = delete;
+	CT_EO_WIN& operator=(CT_EO_WIN&&) noexcept = delete;
 
 	//プロトタイプ宣言
 	explicit CT_EO_WIN(const int& nLine, const char* chFile, const HRESULT& hr, const char* str = nullptr) noexcept;

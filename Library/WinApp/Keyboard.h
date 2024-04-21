@@ -73,10 +73,10 @@ class CT_KEYBOARD
 public:
 
 	//コピー＆ムーブ
-	CT_KEYBOARD(const CT_KEYBOARD&) = default;
-	CT_KEYBOARD& operator =(const CT_KEYBOARD&) = default;
-	CT_KEYBOARD(CT_KEYBOARD&&) noexcept = default;
-	CT_KEYBOARD& operator=(CT_KEYBOARD&&) noexcept = default;
+	CT_KEYBOARD(const CT_KEYBOARD&) = delete;
+	CT_KEYBOARD& operator =(const CT_KEYBOARD&) = delete;
+	CT_KEYBOARD(CT_KEYBOARD&&) noexcept = delete;
+	CT_KEYBOARD& operator=(CT_KEYBOARD&&) noexcept = delete;
 
 	//プロトタイプ宣言
 	explicit CT_KEYBOARD() noexcept;

@@ -23,8 +23,8 @@ struct ST_MOUSE_INFO
 	//コピー＆ムーブ
 	ST_MOUSE_INFO(const ST_MOUSE_INFO&) = default;
 	ST_MOUSE_INFO& operator =(const ST_MOUSE_INFO&) = default;
-	ST_MOUSE_INFO(ST_MOUSE_INFO&&) noexcept = default;
-	ST_MOUSE_INFO& operator=(ST_MOUSE_INFO&&) noexcept = default;
+	ST_MOUSE_INFO(ST_MOUSE_INFO&&) noexcept = delete;
+	ST_MOUSE_INFO& operator=(ST_MOUSE_INFO&&) noexcept = delete;
 
 	//変数宣言
 	bool ms_bLeftIsPressed;  //左クリック
@@ -69,8 +69,8 @@ public:
 	//コピー＆ムーブ
 	CT_MOUSE_EVENTS(const CT_MOUSE_EVENTS&) = default;
 	CT_MOUSE_EVENTS& operator =(const CT_MOUSE_EVENTS&) = default;
-	CT_MOUSE_EVENTS(CT_MOUSE_EVENTS&&) noexcept = default;
-	CT_MOUSE_EVENTS& operator=(CT_MOUSE_EVENTS&&) noexcept = default;
+	CT_MOUSE_EVENTS(CT_MOUSE_EVENTS&&) noexcept = delete;
+	CT_MOUSE_EVENTS& operator=(CT_MOUSE_EVENTS&&) noexcept = delete;
 
 	//プロトタイプ宣言
 	explicit CT_MOUSE_EVENTS() noexcept;
@@ -135,8 +135,8 @@ public:
 		//コピー＆ムーブ
 		ST_RAW_DELTA(const ST_RAW_DELTA&) = default;
 		ST_RAW_DELTA& operator =(const ST_RAW_DELTA&) = default;
-		ST_RAW_DELTA(ST_RAW_DELTA&&) noexcept = default;
-		ST_RAW_DELTA& operator=(ST_RAW_DELTA&&) noexcept = default;
+		ST_RAW_DELTA(ST_RAW_DELTA&&) noexcept = delete;
+		ST_RAW_DELTA& operator=(ST_RAW_DELTA&&) noexcept = delete;
 
 		//変数宣言
 		int ms_X;
@@ -158,10 +158,10 @@ public:
 	};
 
 	//コピー＆ムーブ
-	CT_MOUSE(const CT_MOUSE&) = default;
-	CT_MOUSE& operator =(const CT_MOUSE&) = default;
-	CT_MOUSE(CT_MOUSE&&) noexcept = default;
-	CT_MOUSE& operator=(CT_MOUSE&&) noexcept = default;
+	CT_MOUSE(const CT_MOUSE&) = delete;
+	CT_MOUSE& operator =(const CT_MOUSE&) = delete;
+	CT_MOUSE(CT_MOUSE&&) noexcept = delete;
+	CT_MOUSE& operator=(CT_MOUSE&&) noexcept = delete;
 
 	//プロトタイプ宣言
 	explicit CT_MOUSE() noexcept;
