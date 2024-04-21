@@ -18,9 +18,10 @@
 
 namespace n_GfxDebug
 {
-	HRESULT SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, const std::string& name) noexcept;
+	//プロトタイプ宣言
+	HRESULT SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, const std::string& name) noexcept; //D3DのObject名セット・クリア
 	HRESULT SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, std::nullptr_t) noexcept;
-	HRESULT SetDebugObjectName_Dxgi(IDXGIObject* object, const std::string& name) noexcept;
+	HRESULT SetDebugObjectName_Dxgi(IDXGIObject* object, const std::string& name) noexcept; //DXGIのObject名セット・クリア
 	HRESULT SetDebugObjectName_Dxgi(IDXGIObject* object, std::nullptr_t) noexcept;
 }
 
@@ -28,6 +29,7 @@ namespace n_GfxDebug
 
 namespace n_GfxDebug
 {
+	//プロトタイプ宣言
 	void SetDebugObjectName_D3D11(const ID3D11DeviceChild* resource, const std::string& name) noexcept;
 	void SetDebugObjectName_D3D11(const ID3D11DeviceChild* resource, std::nullptr_t) noexcept;
 	void SetDebugObjectName_Dxgi(const IDXGIObject* object, const std::string& name) noexcept;

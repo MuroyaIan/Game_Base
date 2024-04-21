@@ -13,7 +13,7 @@
  */
 HRESULT n_GfxDebug::SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, const std::string& name) noexcept
 {
-    return resource->SetPrivateData(WKPDID_D3DDebugObjectName, static_cast<UINT>(name.length()), name.c_str());
+	return resource->SetPrivateData(WKPDID_D3DDebugObjectName, static_cast<UINT>(name.length()), name.c_str());
 }
 
 /**
@@ -24,7 +24,7 @@ HRESULT n_GfxDebug::SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, const 
  */
 HRESULT n_GfxDebug::SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, std::nullptr_t) noexcept
 {
-    return resource->SetPrivateData(WKPDID_D3DDebugObjectName, 0, nullptr);
+	return resource->SetPrivateData(WKPDID_D3DDebugObjectName, 0, nullptr);
 }
 
 /**
@@ -36,7 +36,7 @@ HRESULT n_GfxDebug::SetDebugObjectName_D3D11(ID3D11DeviceChild* resource, std::n
  */
 HRESULT n_GfxDebug::SetDebugObjectName_Dxgi(IDXGIObject* object, const std::string& name) noexcept
 {
-    return object->SetPrivateData(WKPDID_D3DDebugObjectName, static_cast<UINT>(name.length()), name.c_str());
+	return object->SetPrivateData(WKPDID_D3DDebugObjectName, static_cast<UINT>(name.length()), name.c_str());
 }
 
 /**
@@ -47,7 +47,7 @@ HRESULT n_GfxDebug::SetDebugObjectName_Dxgi(IDXGIObject* object, const std::stri
  */
 HRESULT n_GfxDebug::SetDebugObjectName_Dxgi(IDXGIObject* object, std::nullptr_t) noexcept
 {
-    return object->SetPrivateData(WKPDID_D3DDebugObjectName, 0, nullptr);
+	return object->SetPrivateData(WKPDID_D3DDebugObjectName, 0, nullptr);
 }
 
 #else

@@ -57,13 +57,14 @@ public:
 	CT_GRAPHIC& operator=(CT_GRAPHIC&&) noexcept = default;
 
 	//プロトタイプ宣言
-	explicit CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight);
+	explicit CT_GRAPHIC(CT_IF_WINDOW& pWindow, float fWidth, float fHeight);
 	~CT_GRAPHIC() noexcept(!gc_IS_DEBUG);
-	void BeginFrame(float r, float g, float b) const noexcept;				//フレーム開始
-	void DrawIndexed(UINT indexNum) const noexcept;							//インデックス描画
-	void DrawInstanced(UINT indexNum, UINT instanceNum) const noexcept;		//インスタンシング描画
-	void EndFrame() const;													//フレーム終了⇒描画開始
-	void SetDrawMode(ET_DRAW_MODE mode) const noexcept;						//描画モード設定
+	void SetResolution(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth, const int& nWndHeight);	//解像度設定
+	void BeginFrame(const float& r, const float& g, const float& b) const noexcept;								//フレーム開始
+	void DrawIndexed(const UINT& indexNum) const noexcept;														//インデックス描画
+	void DrawInstanced(const UINT& indexNum, const UINT& instanceNum) const noexcept;							//インスタンシング描画
+	void EndFrame() const;																						//フレーム終了⇒描画開始
+	void SetDrawMode(const ET_DRAW_MODE& mode) const noexcept;													//描画モード設定
 
 	void SetViewMtx(const dx::XMFLOAT4X4& mtxView) noexcept			//ビュー行列設定
 	{
@@ -105,12 +106,17 @@ private:
 	ComPtr<ID3D11Device1> m_pDevice1;
 	ComPtr<ID3D11DeviceContext1> m_pContext1;
 	ComPtr<IDXGISwapChain1> m_pSwapChain1;					//[DX11.1]バージョン用
-	ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//ターゲットビュー
-	ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//深度・ステンシルビュー
+	bool m_Version_11_1;									//バージョン確認用
+
+	ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//RTV
+	ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//DSV
+	ComPtr<ID3D11Texture2D> m_pBuffer_DepthStencil;			//DSバッファ
+    D3D11_VIEWPORT m_Viewport;								//ビューポート
 
 	UINT m_MsaaQuality;										//MSAAのサポートレベル
 	bool m_EnableMsaa;										//MSAA使用
 
+	CT_IF_WINDOW& m_pWindow;								//Winクラスの参照
 	dx::XMFLOAT4X4 m_MtxView;								//ビュー行列（カメラ）
 	dx::XMFLOAT4X4 m_MtxProjection;							//投影行列
 
@@ -121,6 +127,7 @@ private:
 #endif // IMGUI
 
 	//プロトタイプ宣言
+	void UpdateResolution(const float& fWidth, const float& fHeight);								//解像度更新
 	static void InitGfxCard(const ComPtr<IDXGIFactory>& pFactory, ComPtr<IDXGIAdapter>& pAdapter);	//グラボ初期化
 
 	//権限指定

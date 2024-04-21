@@ -52,7 +52,7 @@ APP::APP() :
 	m_pWindow = std::make_unique<CT_IW_WIN>(WINDOW_NAME, static_cast<int>(SCREEN_WIDTH), static_cast<int>(SCREEN_HEIGHT), WND_POS_X, WND_POS_Y);
 
 	//DirectXèâä˙âª
-	m_pDX = std::make_unique<CT_GRAPHIC>(dynamic_cast<CT_IW_WIN*>(m_pWindow.get())->GetHandle(), SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_pDX = std::make_unique<CT_GRAPHIC>(*m_pWindow.get(), SCREEN_WIDTH, SCREEN_HEIGHT);
 
 #endif // _WIN64
 

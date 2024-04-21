@@ -20,14 +20,12 @@
 #endif // _DEBUG
 
 //===== クラス実装 =====
-CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
-	m_pDevice(), m_pContext(), m_pSwapChain(), m_pDevice1(), m_pContext1(), m_pSwapChain1(),
-	m_pView_RenderTarget(), m_pView_DepthStencil(), m_MsaaQuality(0u), m_EnableMsaa(false), m_MtxView(), m_MtxProjection()
+CT_GRAPHIC::CT_GRAPHIC(CT_IF_WINDOW& pWindow, float fWidth, float fHeight) :
+	m_Version_11_1(true), m_Viewport(), m_MsaaQuality(0u), m_EnableMsaa(false), m_pWindow(pWindow), m_MtxView(), m_MtxProjection()
 {
-	//エラーハンドル
-	HRESULT l_hr{};
-
 	//DXGI初期化
+	HRESULT l_hr{};
+	HWND l_WinHandle = dynamic_cast<CT_IW_WIN&>(m_pWindow).GetHandle();
 	ComPtr<IDXGIFactory> l_pDxgiFactory{};
 	ComPtr<IDXGIAdapter> l_pDxgiAdapter{};
 
@@ -123,7 +121,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 	l_hr = l_pDxgiFactory1.As(&l_pDxgiFactory2);
 	if (l_pDxgiFactory2 != nullptr)
     {
-		//D3D11.1
+		//D3D11.1が使用可能の場合
         l_hr = m_pDevice.As(&m_pDevice1);
 		ERROR_DX(l_hr);
         l_hr = m_pContext.As(&m_pContext1);
@@ -159,7 +157,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
         l_fd.Windowed = TRUE;
 
         //作成処理
-        l_hr = l_pDxgiFactory2->CreateSwapChainForHwnd(m_pDevice1.Get(), hWindow, &l_scd1, &l_fd, nullptr, &m_pSwapChain1);
+        l_hr = l_pDxgiFactory2->CreateSwapChainForHwnd(m_pDevice.Get(), l_WinHandle, &l_scd1, &l_fd, nullptr, &m_pSwapChain1);
 		ERROR_DX(l_hr);
         l_hr = m_pSwapChain1.As(&m_pSwapChain);
 		ERROR_DX(l_hr);
@@ -176,7 +174,7 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
         l_scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
         l_scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
         l_scd.Windowed = TRUE;
-		l_scd.OutputWindow = hWindow;
+		l_scd.OutputWindow = l_WinHandle;
         if (m_EnableMsaa)
         {
 			//MSAAオン
@@ -197,69 +195,36 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 		//作成処理
         l_hr = l_pDxgiFactory1->CreateSwapChain(m_pDevice.Get(), &l_scd, &m_pSwapChain);
 		ERROR_DX(l_hr);
+		m_Version_11_1 = false;
     }
 
-
-
-	//RTV作成
-	ComPtr<ID3D11Resource> l_pBackBuffer;
-	l_hr = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&l_pBackBuffer));	//バッファ取得
-	ERROR_DX(l_hr);
-	l_hr = m_pDevice->CreateRenderTargetView(l_pBackBuffer.Get(), nullptr, &m_pView_RenderTarget);
-	ERROR_DX(l_hr);
+	//解像度関連初期化
+	UpdateResolution(fWidth, fHeight);
 
 
 
-	//DSステート作成
-	D3D11_DEPTH_STENCIL_DESC l_dsd{};
-	l_dsd.DepthEnable = TRUE;
-	l_dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	l_dsd.DepthFunc = D3D11_COMPARISON_LESS;
-	ComPtr<ID3D11DepthStencilState> l_pState_DepthStencil;
-	l_hr = m_pDevice->CreateDepthStencilState(&l_dsd, &l_pState_DepthStencil);
-	ERROR_DX(l_hr);
-	m_pContext->OMSetDepthStencilState(l_pState_DepthStencil.Get(), 1u);		//バインド処理
+	////DSステート作成
+	//D3D11_DEPTH_STENCIL_DESC l_dsd{};
+	//l_dsd.DepthEnable = TRUE;
+	//l_dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	//l_dsd.DepthFunc = D3D11_COMPARISON_LESS;
+	//ComPtr<ID3D11DepthStencilState> l_pState_DepthStencil;
+	//l_hr = m_pDevice->CreateDepthStencilState(&l_dsd, &l_pState_DepthStencil);
+	//ERROR_DX(l_hr);
+	//m_pContext->OMSetDepthStencilState(l_pState_DepthStencil.Get(), 1u);		//バインド処理
 
-	//DSバッファ作成(テクスチャ)
-	D3D11_TEXTURE2D_DESC l_desc_ds{};
-	l_desc_ds.Width = static_cast<UINT>(fWidth);
-	l_desc_ds.Height = static_cast<UINT>(fHeight);
-	l_desc_ds.MipLevels = 1u;
-	l_desc_ds.ArraySize = 1u;
-	l_desc_ds.Format = DXGI_FORMAT_D32_FLOAT;
-	l_desc_ds.SampleDesc.Count = 1u;
-	l_desc_ds.SampleDesc.Quality = 0u;
-	l_desc_ds.Usage = D3D11_USAGE_DEFAULT;
-	l_desc_ds.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	ComPtr<ID3D11Texture2D> l_pBuffer_DepthStencil;
-	l_hr = m_pDevice->CreateTexture2D(&l_desc_ds, nullptr, &l_pBuffer_DepthStencil);
-	ERROR_DX(l_hr);
-
-	//DSV作成
-	D3D11_DEPTH_STENCIL_VIEW_DESC l_desc_dsv{};
-	l_desc_dsv.Format = l_desc_ds.Format;
-	l_desc_dsv.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	l_desc_dsv.Texture2D.MipSlice = 0u;
-	l_hr = m_pDevice->CreateDepthStencilView(l_pBuffer_DepthStencil.Get(), &l_desc_dsv, &m_pView_DepthStencil);
-	ERROR_DX(l_hr);
-
-	//描画モード設定
-	SetDrawMode(ET_DRAW_MODE::me_Draw_3D);
-
-	//ビューポート設定（ラスタライザ）
-	D3D11_VIEWPORT l_vp{};
-	l_vp.TopLeftX = 0.0f;
-	l_vp.TopLeftY = 0.0f;
-	l_vp.Width = fWidth;
-	l_vp.Height = fHeight;
-	l_vp.MinDepth = 0.0f;
-	l_vp.MaxDepth = 1.0f;
-	m_pContext->RSSetViewports(1u, &l_vp);
+	////DSV作成
+	//D3D11_DEPTH_STENCIL_VIEW_DESC l_desc_dsv{};
+	//l_desc_dsv.Format = l_desc_ds.Format;
+	//l_desc_dsv.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	//l_desc_dsv.Texture2D.MipSlice = 0u;
+	//l_hr = m_pDevice->CreateDepthStencilView(l_pBuffer_DepthStencil.Get(), &l_desc_dsv, &m_pView_DepthStencil);
+	//ERROR_DX(l_hr);
 
 
 
 	//[alt + enter]禁止
-    l_hr = l_pDxgiFactory->MakeWindowAssociation(hWindow, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES);
+    l_hr = l_pDxgiFactory->MakeWindowAssociation(l_WinHandle, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES);
 	ERROR_DX(l_hr);
 
 	//行列初期化
@@ -291,6 +256,9 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 {
+    //終了処理
+    if (m_pContext)
+        m_pContext->ClearState();
 
 #ifdef IMGUI
 
@@ -302,13 +270,14 @@ CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 //#ifdef _DEBUG
 //
 //	//エラー確認
+//	m_pBuffer_DepthStencil.Reset();
 //	m_pView_DepthStencil.Reset();
 //	m_pView_RenderTarget.Reset();
-//	m_pContext.Reset();
 //	m_pSwapChain.Reset();
+//	m_pContext.Reset();
 //
 //	{
-//		ComPtr<ID3D11Debug> l_pDebug_Gfx;
+//		ComPtr<ID3D11Debug> l_pDebug_Gfx{};
 //		HRESULT l_hr = m_pDevice->QueryInterface(IID_PPV_ARGS(&l_pDebug_Gfx));
 //		ERROR_DX(l_hr);
 //		l_hr = l_pDebug_Gfx->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
@@ -320,13 +289,40 @@ CT_GRAPHIC::~CT_GRAPHIC() noexcept(!gc_IS_DEBUG)
 
 }
 
-//フレーム開始
-void CT_GRAPHIC::BeginFrame(const float r, const float g, const float b) const noexcept
+/**
+ * 解像度更新
+ *
+ * \param nWndPosX
+ * \param nWndPosY
+ * \param nWndWidth
+ * \param nWndHeight
+ * \return void
+ */
+void CT_GRAPHIC::SetResolution(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth, const int& nWndHeight)
+{
+	//Win側の更新
+	m_pWindow.Transform(nWndPosX, nWndPosY, nWndWidth, nWndHeight);
+
+	//DX側の更新
+	const float l_Width = static_cast<float>(nWndWidth);
+	const float l_Height = static_cast<float>(nWndHeight);
+	UpdateResolution(l_Width, l_Height);
+}
+
+/**
+ * フレーム開始
+ *
+ * \param r
+ * \param g
+ * \param b
+ * \return void
+ */
+void CT_GRAPHIC::BeginFrame(const float& r, const float& g, const float& b) const noexcept
 {
 	//バッファクリア
 	const float l_Color[] = { r, g, b, 1.0f };
 	m_pContext->ClearRenderTargetView(m_pView_RenderTarget.Get(), l_Color);
-	m_pContext->ClearDepthStencilView(m_pView_DepthStencil.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_pContext->ClearDepthStencilView(m_pView_DepthStencil.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 #ifdef IMGUI
 
@@ -341,21 +337,37 @@ void CT_GRAPHIC::BeginFrame(const float r, const float g, const float b) const n
 
 }
 
-//インデックス描画
-void CT_GRAPHIC::DrawIndexed(const UINT indexNum) const noexcept
+/**
+ * インデックス描画
+ *
+ * \param indexNum
+ * \return void
+ */
+void CT_GRAPHIC::DrawIndexed(const UINT& indexNum) const noexcept
 {
 	//書込み処理
 	m_pContext->DrawIndexed(indexNum, 0u, 0);
 }
 
-//インスタンシング描画
-void CT_GRAPHIC::DrawInstanced(const UINT indexNum, const UINT instanceNum) const noexcept
+/**
+ * インスタンシング描画
+ *
+ * \param indexNum
+ * \param instanceNum
+ * \return void
+ */
+void CT_GRAPHIC::DrawInstanced(const UINT& indexNum, const UINT& instanceNum) const noexcept
 {
 	//書込み処理
 	m_pContext->DrawIndexedInstanced(indexNum, instanceNum, 0u, 0, 0u);
 }
 
-//フレーム終了
+/**
+ * フレーム終了
+ *
+ * \param
+ * \return void
+ */
 void CT_GRAPHIC::EndFrame() const
 {
 
@@ -373,12 +385,16 @@ void CT_GRAPHIC::EndFrame() const
 	const HRESULT l_hr = m_pSwapChain->Present(1u, 0u);
 	if (l_hr == DXGI_ERROR_DEVICE_REMOVED)
 		throw ERROR_EX(m_pDevice->GetDeviceRemovedReason());
-
 	ERROR_DX(l_hr);
 }
 
-//描画モード設定
-void CT_GRAPHIC::SetDrawMode(const ET_DRAW_MODE mode) const noexcept
+/**
+ * 描画モード設定
+ *
+ * \param mode
+ * \return void
+ */
+void CT_GRAPHIC::SetDrawMode(const ET_DRAW_MODE& mode) const noexcept
 {
 	//ビューをバインド
 	switch (mode) {
@@ -393,7 +409,92 @@ void CT_GRAPHIC::SetDrawMode(const ET_DRAW_MODE mode) const noexcept
 	}
 }
 
-//DXGI初期化
+/**
+ * 解像度更新
+ *
+ * \param fWidth
+ * \param fHeight
+ * \return void
+ */
+void CT_GRAPHIC::UpdateResolution(const float& fWidth, const float& fHeight)
+{
+	//リソースクリア
+    m_pView_RenderTarget.Reset();
+    m_pView_DepthStencil.Reset();
+    m_pBuffer_DepthStencil.Reset();
+
+	//変数宣言
+	HRESULT l_hr{};
+	const UINT l_ClientWidth = static_cast<UINT>(fWidth);
+	const UINT l_ClientHeight = static_cast<UINT>(fHeight);
+
+	//RTV設定
+    ComPtr<ID3D11Texture2D> l_BackBuffer{};
+    l_hr = m_pSwapChain->ResizeBuffers(1u, l_ClientWidth, l_ClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0u);
+	ERROR_DX(l_hr);
+    l_hr = m_pSwapChain->GetBuffer(0u, IID_PPV_ARGS(&l_BackBuffer));
+	ERROR_DX(l_hr);
+    l_hr = m_pDevice->CreateRenderTargetView(l_BackBuffer.Get(), nullptr, &m_pView_RenderTarget);
+	ERROR_DX(l_hr);
+
+#ifdef _DEBUG
+
+	//GFXデバッグ
+	l_hr = n_GfxDebug::SetDebugObjectName_D3D11(l_BackBuffer.Get(), "BufferRTV[0]");
+	ERROR_DX(l_hr);
+
+#endif // _DEBUG
+
+    l_BackBuffer.Reset();
+
+	//DSV設定
+	D3D11_TEXTURE2D_DESC l_dsb;
+    l_dsb.Width = l_ClientWidth;
+    l_dsb.Height = l_ClientHeight;
+    l_dsb.MipLevels = 1u;
+    l_dsb.ArraySize = 1u;
+    l_dsb.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	if (m_EnableMsaa)
+    {
+		//MSAAオン
+        l_dsb.SampleDesc.Count = 4u;
+        l_dsb.SampleDesc.Quality = m_MsaaQuality - 1u;
+    }
+    else
+    {
+		//MSAAオフ
+        l_dsb.SampleDesc.Count = 1u;
+        l_dsb.SampleDesc.Quality = 0u;
+    }
+    l_dsb.Usage = D3D11_USAGE_DEFAULT;
+    l_dsb.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    l_dsb.CPUAccessFlags = 0u;
+    l_dsb.MiscFlags = 0u;
+	l_hr = m_pDevice->CreateTexture2D(&l_dsb, nullptr, &m_pBuffer_DepthStencil);
+	ERROR_DX(l_hr);
+    l_hr = m_pDevice->CreateDepthStencilView(m_pBuffer_DepthStencil.Get(), nullptr, &m_pView_DepthStencil);
+	ERROR_DX(l_hr);
+
+	//描画モード設定
+	SetDrawMode(ET_DRAW_MODE::me_Draw_3D);
+
+	//ビューポート設定
+    m_Viewport.TopLeftX = 0.0f;
+    m_Viewport.TopLeftY = 0.0f;
+    m_Viewport.Width = fWidth;
+    m_Viewport.Height = fHeight;
+    m_Viewport.MinDepth = 0.0f;
+    m_Viewport.MaxDepth = 1.0f;
+    m_pContext->RSSetViewports(1u, &m_Viewport);
+}
+
+/**
+ * グラボ設定初期化
+ *
+ * \param pFactory
+ * \param pAdapter
+ * \return void
+ */
 void CT_GRAPHIC::InitGfxCard(const ComPtr<IDXGIFactory>& pFactory, ComPtr<IDXGIAdapter>& pAdapter)
 {
 	//変数宣言
