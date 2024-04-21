@@ -182,6 +182,7 @@
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdPrism.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdRef.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Drawer\vsdSphere.h" />
+    <ClInclude Include="..\..\Library\GraphicApp\GfxConfig.h" />
     <ClInclude Include="..\..\Library\GraphicApp\Graphic.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +205,7 @@
     <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexBuffer.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Binder\VertexShader.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Drawer\Drawer.cpp" />
+    <ClCompile Include="..\..\Library\GraphicApp\GfxConfig.cpp" />
     <ClCompile Include="..\..\Library\GraphicApp\Graphic.cpp" />
   </ItemGroup>
   <ItemGroup>

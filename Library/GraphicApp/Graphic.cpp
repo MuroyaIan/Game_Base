@@ -1,5 +1,4 @@
-﻿
-//===== インクルード部 =====
+﻿//===== インクルード部 =====
 #include <GraphicApp/Graphic.h>
 
 #ifdef IMGUI
@@ -14,103 +13,193 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dCompiler.lib")
 
+#ifdef _DEBUG
+
+#pragma comment( lib, "dxguid.lib")
+
+#endif // _DEBUG
+
 //===== クラス実装 =====
 CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
-	m_pAdapter(), m_pDevice(), m_pSwapChain(), m_pContext(), m_pView_RenderTarget(), m_pView_DepthStencil(),
-	m_MtxView(), m_MtxProjection()
+	m_pDevice(), m_pContext(), m_pSwapChain(), m_pDevice1(), m_pContext1(), m_pSwapChain1(),
+	m_pView_RenderTarget(), m_pView_DepthStencil(), m_MsaaQuality(0u), m_EnableMsaa(false), m_MtxView(), m_MtxProjection()
 {
 	//エラーハンドル
 	HRESULT l_hr{};
 
 	//DXGI初期化
-	InitDxgi();
-
-	//FeatureLevel設定
-	D3D_FEATURE_LEVEL l_FeatureLevels[] =
-	{
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-	};
-	UINT l_NumFeatureLevels = ARRAYSIZE(l_FeatureLevels);
-	D3D_FEATURE_LEVEL l_FeatureLevel{};
-
-	//スワップチェーン設定
-	DXGI_SWAP_CHAIN_DESC l_scd{};
-	l_scd.BufferDesc.Width = static_cast<UINT>(fWidth);
-	l_scd.BufferDesc.Height = static_cast<UINT>(fHeight);
-	l_scd.BufferDesc.RefreshRate.Numerator = 0u;
-	l_scd.BufferDesc.RefreshRate.Denominator = 0u;
-	l_scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	l_scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	l_scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	l_scd.SampleDesc.Count = 1u;
-	l_scd.SampleDesc.Quality = 0u;
-	l_scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	l_scd.BufferCount = 1u;
-	l_scd.OutputWindow = hWindow;
-	l_scd.Windowed = TRUE;
-	l_scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	l_scd.Flags = 0u;
-
-	//デバッグ設定
-	UINT l_CreateDeviceFlag = 0u;
+	ComPtr<IDXGIFactory> l_pDxgiFactory{};
+	ComPtr<IDXGIAdapter> l_pDxgiAdapter{};
 
 #ifdef _DEBUG
 
-	l_CreateDeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
+	l_hr = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&l_pDxgiFactory));	//ファクトリ作成
+	ERROR_DX(l_hr);
+
+#else
+
+	l_hr = CreateDXGIFactory2(0u, IID_PPV_ARGS(&l_pDxgiFactory));
+	ERROR_DX(l_hr);
 
 #endif // _DEBUG
 
-	//デバイス・スワップチェーン初期化
-	l_hr = D3D11CreateDeviceAndSwapChain(
-		m_pAdapter.Get(),
+	InitGfxCard(l_pDxgiFactory, l_pDxgiAdapter);	//グラボ指定
+
+	//デバイス用データ作成
+    D3D_FEATURE_LEVEL l_FeatureLevels[] =
+    {
+        D3D_FEATURE_LEVEL_11_1,
+        D3D_FEATURE_LEVEL_11_0,
+    };
+    UINT l_NumFeatureLevel = ARRAYSIZE(l_FeatureLevels);
+
+    D3D_FEATURE_LEVEL l_FeatureLevel{};
+
+	//デバッグ設定
+	UINT l_CreateDeviceFlags = 0u;
+
+#ifdef _DEBUG
+
+	l_CreateDeviceFlags = D3D11_CREATE_DEVICE_DEBUG;
+
+#endif // _DEBUG
+
+	//デバイス作成（D3D_FEATURE_LEVEL_11_1）
+	l_hr = D3D11CreateDevice(
+		l_pDxgiAdapter.Get(),
 		D3D_DRIVER_TYPE_UNKNOWN,
 		nullptr,
-		l_CreateDeviceFlag,
+		l_CreateDeviceFlags,
 		l_FeatureLevels,
-		l_NumFeatureLevels,
+		l_NumFeatureLevel,
 		D3D11_SDK_VERSION,
-		&l_scd,
-		&m_pSwapChain,
 		&m_pDevice,
 		&l_FeatureLevel,
 		&m_pContext
 	);
-	//l_hr = D3D11CreateDeviceAndSwapChain(
-	//	nullptr,
-	//	D3D_DRIVER_TYPE_HARDWARE,
-	//	nullptr,
-	//	l_CreateDeviceFlag,
-	//	l_FeatureLevels,
-	//	l_NumFeatureLevels,
-	//	D3D11_SDK_VERSION,
-	//	&l_scd,
-	//	&m_pSwapChain,
-	//	&m_pDevice,
-	//	&l_FeatureLevel,
-	//	&m_pContext
-	//);
-	if (l_hr == E_INVALIDARG) {
 
-		//dx11_1非対応の場合（dx11_0以下を試す）
-		l_hr = D3D11CreateDeviceAndSwapChain(
-			m_pAdapter.Get(),
+	//D3D_FEATURE_LEVEL_11_0
+	if (l_hr == E_INVALIDARG)
+    {
+		l_hr = D3D11CreateDevice(
+			l_pDxgiAdapter.Get(),
 			D3D_DRIVER_TYPE_UNKNOWN,
 			nullptr,
-			l_CreateDeviceFlag,
-			nullptr,
-			0u,
+			l_CreateDeviceFlags,
+			&l_FeatureLevels[1],
+			l_NumFeatureLevel - 1u,
 			D3D11_SDK_VERSION,
-			&l_scd,
-			&m_pSwapChain,
 			&m_pDevice,
 			&l_FeatureLevel,
 			&m_pContext
 		);
-	}
-	if (l_FeatureLevel != D3D_FEATURE_LEVEL_11_1 && l_FeatureLevel != D3D_FEATURE_LEVEL_11_0)
-		throw ERROR_EX2("GPUはDX11非対応です。");
+
+#ifdef _DEBUG
+
+		PRINT_D(L"Warning : [D3D_FEATURE_LEVEL_11_1] not supported.\n");
+
+#endif // _DEBUG
+
+    }
 	ERROR_DX(l_hr);
+
+	//MSAA確認
+    l_hr = m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &m_MsaaQuality);
+	ERROR_DX(l_hr);
+
+#ifdef _DEBUG
+
+	std::wostringstream l_oss{};
+	l_oss << L"Info : MSAA support (QualityLevel : " << m_MsaaQuality << L")" << std::endl;
+	PRINT_D(l_oss.str().c_str());
+
+#endif // _DEBUG
+
+	//スワップチェーン作成
+    ComPtr<IDXGIFactory1> l_pDxgiFactory1{};	//D3D11.0(DXGI1.1)
+    ComPtr<IDXGIFactory2> l_pDxgiFactory2{};	//D3D11.1(DXGI1.2)
+	l_hr = l_pDxgiFactory.As(&l_pDxgiFactory1);
+	ERROR_DX(l_hr);
+	l_hr = l_pDxgiFactory1.As(&l_pDxgiFactory2);
+	if (l_pDxgiFactory2 != nullptr)
+    {
+		//D3D11.1
+        l_hr = m_pDevice.As(&m_pDevice1);
+		ERROR_DX(l_hr);
+        l_hr = m_pContext.As(&m_pContext1);
+		ERROR_DX(l_hr);
+
+        //スワップチェーン用データ作成
+        DXGI_SWAP_CHAIN_DESC1 l_scd1{};
+        l_scd1.Width = static_cast<UINT>(fWidth);
+        l_scd1.Height = static_cast<UINT>(fHeight);
+        l_scd1.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        if (m_EnableMsaa)
+        {
+			//MSAAオン
+            l_scd1.SampleDesc.Count = 4u;
+            l_scd1.SampleDesc.Quality = m_MsaaQuality - 1u;
+        }
+        else
+        {
+			//MSAAオフ
+            l_scd1.SampleDesc.Count = 1u;
+            l_scd1.SampleDesc.Quality = 0u;
+        }
+        l_scd1.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        l_scd1.BufferCount = 1u;
+        l_scd1.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        l_scd1.Flags = 0u;
+
+        DXGI_SWAP_CHAIN_FULLSCREEN_DESC l_fd{};
+        l_fd.RefreshRate.Numerator = 60u;
+        l_fd.RefreshRate.Denominator = 1u;
+        l_fd.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+        l_fd.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+        l_fd.Windowed = TRUE;
+
+        //作成処理
+        l_hr = l_pDxgiFactory2->CreateSwapChainForHwnd(m_pDevice1.Get(), hWindow, &l_scd1, &l_fd, nullptr, &m_pSwapChain1);
+		ERROR_DX(l_hr);
+        l_hr = m_pSwapChain1.As(&m_pSwapChain);
+		ERROR_DX(l_hr);
+    }
+    else
+    {
+        //スワップチェーン用データ作成
+        DXGI_SWAP_CHAIN_DESC l_scd{};
+        l_scd.BufferDesc.Width = static_cast<UINT>(fWidth);
+        l_scd.BufferDesc.Height = static_cast<UINT>(fHeight);
+        l_scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        l_scd.BufferDesc.RefreshRate.Numerator = 60u;
+        l_scd.BufferDesc.RefreshRate.Denominator = 1u;
+        l_scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+        l_scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+        l_scd.Windowed = TRUE;
+		l_scd.OutputWindow = hWindow;
+        if (m_EnableMsaa)
+        {
+			//MSAAオン
+            l_scd.SampleDesc.Count = 4u;
+            l_scd.SampleDesc.Quality = m_MsaaQuality - 1u;
+        }
+        else
+        {
+			//MSAAオフ
+            l_scd.SampleDesc.Count = 1u;
+            l_scd.SampleDesc.Quality = 0u;
+        }
+        l_scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        l_scd.BufferCount = 1u;
+        l_scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        l_scd.Flags = 0u;
+
+		//作成処理
+        l_hr = l_pDxgiFactory1->CreateSwapChain(m_pDevice.Get(), &l_scd, &m_pSwapChain);
+		ERROR_DX(l_hr);
+    }
+
+
 
 	//RTV作成
 	ComPtr<ID3D11Resource> l_pBackBuffer;
@@ -169,9 +258,23 @@ CT_GRAPHIC::CT_GRAPHIC(HWND hWindow, float fWidth, float fHeight) :
 
 
 
+	//[alt + enter]禁止
+    l_hr = l_pDxgiFactory->MakeWindowAssociation(hWindow, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES);
+	ERROR_DX(l_hr);
+
 	//行列初期化
 	dx::XMStoreFloat4x4(&m_MtxView, dx::XMMatrixIdentity());
 	dx::XMStoreFloat4x4(&m_MtxProjection, dx::XMMatrixIdentity());
+
+#ifdef _DEBUG
+
+	//GFXデバッグ
+	l_hr = n_GfxDebug::SetDebugObjectName_D3D11(m_pContext.Get(), "dxContext");
+	ERROR_DX(l_hr);
+	l_hr = n_GfxDebug::SetDebugObjectName_Dxgi(m_pSwapChain.Get(), "dxSwapChain");
+	ERROR_DX(l_hr);
+
+#endif // _DEBUG
 
 #ifdef IMGUI
 
@@ -291,38 +394,22 @@ void CT_GRAPHIC::SetDrawMode(const ET_DRAW_MODE mode) const noexcept
 }
 
 //DXGI初期化
-void CT_GRAPHIC::InitDxgi()
+void CT_GRAPHIC::InitGfxCard(const ComPtr<IDXGIFactory>& pFactory, ComPtr<IDXGIAdapter>& pAdapter)
 {
-	//エラーハンドル
+	//変数宣言
 	HRESULT l_hr{};
-
-	//ファクトリ初期化
-	ComPtr<IDXGIFactory> l_pFactory{};
 	ComPtr<IDXGIFactory6> l_pFactory6{};
 
-#ifdef _DEBUG
-
-	l_hr = CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&l_pFactory));	//デバッグ情報(DXGI)
-	ERROR_DX(l_hr);
-
-#else
-
-	hr = CreateDXGIFactory(IID_PPV_ARGS(&l_pFactory));
-	ERROR_DX(hr);
-
-#endif // _DEBUG
-
-	l_hr = l_pFactory->QueryInterface(IID_PPV_ARGS(&l_pFactory6));
-	ERROR_DX(l_hr);
-
 	//GPUデバイス指定(高パフォーマンス)
-	l_hr = l_pFactory6->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&m_pAdapter));
+	l_hr = pFactory.As(&l_pFactory6);
+	ERROR_DX(l_hr);
+	l_hr = l_pFactory6->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&pAdapter));
 	ERROR_DX(l_hr);
 
 #ifdef _DEBUG
 
 	//GPU情報取得
-	IDXGIAdapter* l_pTempAdapter{ nullptr };
+	IDXGIAdapter* l_pTempAdapter{nullptr};
 	for (int l_Cnt = 0; ; l_Cnt++) {
 
 		//アダプターのポインタを取得

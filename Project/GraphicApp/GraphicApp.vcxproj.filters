@@ -147,6 +147,9 @@
     <ClInclude Include="..\..\Library\GraphicApp\Binder\srvMgr.h">
       <Filter>ヘッダー ファイル\Binder\TEX</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\GraphicApp\GfxConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\Binder.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\GraphicApp\Binder\srvMgr.cpp">
       <Filter>ソース ファイル\Binder\TEX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\GraphicApp\GfxConfig.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

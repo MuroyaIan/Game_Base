@@ -12,17 +12,17 @@
 
 //===== インクルード部 =====
 #include <WinApp/WinWindow.h>
-#include <wrl.h>				//COMポインタ
-#include <dxgi1_6.h>
-#include <d3d11.h>
-#include <d3dcompiler.h>		//シェーダコンパイル
+#include <wrl.h>					//COMポインタ
+#include <dxgi1_6.h>				//DXGI
+#include <GraphicApp/GfxConfig.h>	//Gfxデバッグ
+#include <d3dcompiler.h>			//シェーダコンパイル
 #include <DirectXMath.h>
-#include <Startup.h>			//デバッグ識別
+#include <Startup.h>				//デバッグ識別
 
 #ifdef _DEBUG
 
 #include <Initguid.h>
-#include <dxgidebug.h>			//DXGIデバッグ
+#include <dxgidebug.h>				//DXGIデバッグ
 
 #endif // _DEBUG
 
@@ -99,24 +99,29 @@ public:
 private:
 
 	//変数宣言
-	ComPtr<IDXGIAdapter> m_pAdapter;						//アダプター
 	ComPtr<ID3D11Device> m_pDevice;							//デバイス
-	ComPtr<IDXGISwapChain> m_pSwapChain;					//スワップチェーン
 	ComPtr<ID3D11DeviceContext> m_pContext;					//コンテキスト
+	ComPtr<IDXGISwapChain> m_pSwapChain;					//スワップチェーン
+	ComPtr<ID3D11Device1> m_pDevice1;
+	ComPtr<ID3D11DeviceContext1> m_pContext1;
+	ComPtr<IDXGISwapChain1> m_pSwapChain1;					//[DX11.1]バージョン用
 	ComPtr<ID3D11RenderTargetView> m_pView_RenderTarget;	//ターゲットビュー
 	ComPtr<ID3D11DepthStencilView> m_pView_DepthStencil;	//深度・ステンシルビュー
 
-	dx::XMFLOAT4X4 m_MtxView;			//ビュー行列（カメラ）
-	dx::XMFLOAT4X4 m_MtxProjection;		//投影行列
+	UINT m_MsaaQuality;										//MSAAのサポートレベル
+	bool m_EnableMsaa;										//MSAA使用
+
+	dx::XMFLOAT4X4 m_MtxView;								//ビュー行列（カメラ）
+	dx::XMFLOAT4X4 m_MtxProjection;							//投影行列
 
 #ifdef IMGUI
 
-	bool m_bDrawImGui;					//ImGUI描画制御
+	bool m_bDrawImGui;										//ImGUI描画制御
 
 #endif // IMGUI
 
 	//プロトタイプ宣言
-	void InitDxgi();					//DXGI初期化
+	static void InitGfxCard(const ComPtr<IDXGIFactory>& pFactory, ComPtr<IDXGIAdapter>& pAdapter);	//グラボ初期化
 
 	//権限指定
 	friend class BINDER;
