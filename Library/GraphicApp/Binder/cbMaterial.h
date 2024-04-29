@@ -19,7 +19,7 @@ struct CBD_MATERIAL;
 //===== クラス定義 =====
 
 //***** マテリアルバッファ *****
-class CB_MATERIAL : public BINDER
+class CB_MATERIAL : public CT_BINDER
 {
 public:
 

@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 INPUT_LAYOUT::INPUT_LAYOUT(const CT_GRAPHIC& Gfx, const std::vector<D3D11_INPUT_ELEMENT_DESC>& aLayout, ID3DBlob* pCodeVS) :
-	BINDER(), m_pInputLayout()
+	CT_BINDER(), m_pInputLayout()
 {
 	//エラーハンドル
 	HRESULT hr{};

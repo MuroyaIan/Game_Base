@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** 骨情報バッファ *****
-class CB_BONE : public BINDER
+class CB_BONE : public CT_BINDER
 {
 public:
 

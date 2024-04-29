@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 PIXEL_SHADER::PIXEL_SHADER(const CT_GRAPHIC& Gfx, const std::wstring& Path) :
-	BINDER(), m_pPixelShader()
+	CT_BINDER(), m_pPixelShader()
 {
 	//エラーハンドル
 	HRESULT hr{};

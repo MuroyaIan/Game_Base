@@ -11,7 +11,7 @@ int CB_BONE::m_RefCount = 0;
 
 //===== クラス実装 =====
 CB_BONE::CB_BONE(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const CBD_BONE& aMtxBone, bool Transpose) :
-	BINDER(), m_aMtxBone(aMtxBone), m_bTransposeMatrix(Transpose)
+	CT_BINDER(), m_aMtxBone(aMtxBone), m_bTransposeMatrix(Transpose)
 {
 	//定数バッファ初期化
 	if (!m_pCBuff)

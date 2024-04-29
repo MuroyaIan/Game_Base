@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** 変換行列バッファ（ビュー行列、投影行列） *****
-class CB_MTX_VP : public BINDER
+class CB_MTX_VP : public CT_BINDER
 {
 public:
 

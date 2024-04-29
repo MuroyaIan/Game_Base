@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 VERTEX_SHADER::VERTEX_SHADER(const CT_GRAPHIC& Gfx, const std::wstring& Path) :
-	BINDER(), m_pBlob(), m_pVertexShader()
+	CT_BINDER(), m_pBlob(), m_pVertexShader()
 {
 	//エラーハンドル
 	HRESULT hr{};

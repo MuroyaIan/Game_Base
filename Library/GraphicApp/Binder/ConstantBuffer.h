@@ -30,13 +30,13 @@ struct CB_PTR									//定数バッファのポインタ情報
 
 //===== クラス定義 =====
 template<typename C>
-class CONSTANT_BUFFER : public BINDER
+class CONSTANT_BUFFER : public CT_BINDER
 {
 public:
 
 	//プロトタイプ宣言
 	explicit CONSTANT_BUFFER(const CT_GRAPHIC& Gfx, const C& Consts, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
-		BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)
+		CT_BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -53,7 +53,7 @@ public:
 	}
 
 	explicit CONSTANT_BUFFER(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, bool SlotVS = false, bool SlotPS = false) :
-		BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)		//バッファ初期化なし
+		CT_BINDER(), m_pConstantBuffer(), m_bSlotVS(SlotVS), m_bSlotPS(SlotPS)		//バッファ初期化なし
 	{
 		//エラーハンドル
 		HRESULT hr{};

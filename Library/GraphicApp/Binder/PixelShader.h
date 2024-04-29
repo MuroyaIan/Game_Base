@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** ピクセルシェーダ *****
-class PIXEL_SHADER : public BINDER
+class PIXEL_SHADER : public CT_BINDER
 {
 public:
 

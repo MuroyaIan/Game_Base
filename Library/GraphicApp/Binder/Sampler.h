@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** サンプラー *****
-class SAMPLER : public BINDER
+class SAMPLER : public CT_BINDER
 {
 public:
 

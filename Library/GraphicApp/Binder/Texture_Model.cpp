@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 TEXTURE_MODEL::TEXTURE_MODEL(const CT_GRAPHIC& Gfx, const std::vector<TEX_LOADER::TEX_DATA>& aData, UINT StartSlot) :
-	BINDER(), m_pTextureViews(static_cast<int>(TEX_TYPE::MaxType)), m_StartSlot(StartSlot)
+	CT_BINDER(), m_pTextureViews(static_cast<int>(TEX_TYPE::MaxType)), m_StartSlot(StartSlot)
 {
 	//バッファ作成
 	for (size_t i = 0, Cnt = m_pTextureViews.size(); i < Cnt; i++)

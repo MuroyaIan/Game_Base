@@ -13,7 +13,7 @@ int CB_MTX_WVP::m_RefCount = 0;
 
 //===== クラス実装 =====
 CB_MTX_WVP::CB_MTX_WVP(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr, const DRAWER& Parent) :
-	BINDER(), m_Parent(Parent)
+	CT_BINDER(), m_Parent(Parent)
 {
 	//定数バッファ初期化
 	if (!m_pCBuff)

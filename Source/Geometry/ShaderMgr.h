@@ -13,7 +13,7 @@
 #include <GraphicApp/Graphic.h>
 
 //===== 前方宣言 =====
-class BINDER;
+class CT_BINDER;
 struct CB_PTR;
 
 //===== クラス定義 =====
@@ -100,7 +100,7 @@ public:
 	void Bind_Instance_Phong() const noexcept;			//バインド処理（インスタンシング＿Phongモデル）
 	void Bind_Instance_Phong_Anim() const noexcept;		//バインド処理（インスタンシング＿Phongモデル＿アニメ付）
 
-	BINDER& GetBinder(BINDER_ID id) const noexcept		//バインダ参照を取得
+	CT_BINDER& GetBinder(BINDER_ID id) const noexcept		//バインダ参照を取得
 	{
 		return *m_aBinder[static_cast<int>(id)];
 	}
@@ -111,5 +111,5 @@ private:
 
 	//変数宣言
 	CT_GRAPHIC& m_DX;										//DX参照
-	std::vector<std::unique_ptr<BINDER>> m_aBinder;		//バインダのポインタ配列
+	std::vector<std::unique_ptr<CT_BINDER>> m_aBinder;		//バインダのポインタ配列
 };

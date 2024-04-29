@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 SAMPLER::SAMPLER(const CT_GRAPHIC& Gfx, UINT StartSlot, bool IsPixel) :
-	BINDER(), m_pSampler(), m_StartSlot(StartSlot)
+	CT_BINDER(), m_pSampler(), m_StartSlot(StartSlot)
 {
 	//エラーハンドル
 	HRESULT hr{};

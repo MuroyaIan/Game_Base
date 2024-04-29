@@ -20,7 +20,7 @@
 #endif // _DEBUG
 
 //===== クラス実装 =====
-CT_GRAPHIC::CT_GRAPHIC(CT_IF_WINDOW& pWindow, float fWidth, float fHeight)
+CT_GRAPHIC::CT_GRAPHIC(CT_IF_WINDOW& pWindow, const float& fWidth, const float& fHeight)
 	: m_Version_11_1(true)
 	, m_Viewport()
 	, m_MsaaQuality(0u)

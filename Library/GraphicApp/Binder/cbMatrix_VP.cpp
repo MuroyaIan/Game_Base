@@ -11,7 +11,7 @@ std::unique_ptr<cb> CB_MTX_VP::m_pCBuff{};
 int CB_MTX_VP::m_RefCount = 0;
 
 //===== クラス実装 =====
-CB_MTX_VP::CB_MTX_VP(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr) : BINDER()
+CB_MTX_VP::CB_MTX_VP(const CT_GRAPHIC& Gfx, CB_PTR* cbPtr) : CT_BINDER()
 {
 	//定数バッファ初期化
 	if (!m_pCBuff)

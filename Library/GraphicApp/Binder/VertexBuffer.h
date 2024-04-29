@@ -17,7 +17,7 @@
 //===== クラス定義 =====
 
 //***** 頂点バッファ *****
-class VERTEX_BUFFER : public BINDER
+class VERTEX_BUFFER : public CT_BINDER
 {
 public:
 
@@ -33,7 +33,7 @@ public:
 	//プロトタイプ宣言
 	template<class V>
 	explicit VERTEX_BUFFER(const CT_GRAPHIC& Gfx, const std::vector<V>& aVertice, bool bDynamic = false) :
-		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MaxType)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MaxType))
+		CT_BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MaxType)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MaxType))
 	{
 		//エラーハンドル
 		HRESULT hr{};
@@ -55,7 +55,7 @@ public:
 
 	template<class V, class I>
 	explicit VERTEX_BUFFER(const CT_GRAPHIC& Gfx, const std::vector<V>& aVertice, const std::vector<I>& aInstance, bool bDynamic = false) :
-		BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MaxType)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MaxType))
+		CT_BINDER(), m_pVertexBuffers(static_cast<int>(VB_TYPE::MaxType)), m_bDynamicBuffer(bDynamic), m_aStride(static_cast<int>(VB_TYPE::MaxType))
 	{
 		//エラーハンドル
 		HRESULT hr{};

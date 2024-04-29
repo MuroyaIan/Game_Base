@@ -13,7 +13,7 @@
 #include <GraphicApp/Binder/ConstantBuffer.h>
 
 //===== ƒNƒ‰ƒX’è‹` =====
-class CBUFF_MGR : public BINDER
+class CBUFF_MGR : public CT_BINDER
 {
 public:
 

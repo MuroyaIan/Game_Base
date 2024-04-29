@@ -13,7 +13,7 @@
 #include <GraphicApp/Graphic.h>
 
 //===== 前方宣言 =====
-class BINDER;
+class CT_BINDER;
 class INDEX_BUFFER;
 class VERTEX_BUFFER;
 
@@ -54,7 +54,7 @@ protected:
 	const CT_GRAPHIC& m_Gfx;								//グラフィック参照先
 
 	//プロトタイプ宣言
-	void AddBind(std::unique_ptr<BINDER> pBinder);		//バインダ登録
+	void AddBind(std::unique_ptr<CT_BINDER> pBinder);		//バインダ登録
 	UINT GetIndexNum() const noexcept;					//インデックス数取得
 
 	VERTEX_BUFFER& GetVertexBuffer() const noexcept		//頂点バッファ参照
@@ -72,7 +72,7 @@ protected:
 private:
 
 	//変数宣言
-	std::vector<std::unique_ptr<BINDER>> m_aBinder;		//バインダのポインタ配列
+	std::vector<std::unique_ptr<CT_BINDER>> m_aBinder;		//バインダのポインタ配列
 	const INDEX_BUFFER* m_pIndexBuffer;					//インデックスバッファのポインタ（所有権なし）
 	VERTEX_BUFFER* m_pVertexBuffer;						//頂点バッファのポインタ（インスタンス更新用）
 	int m_MaxInstanceNum;								//最大インスタンス数

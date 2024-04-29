@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** トポロジー *****
-class TOPOLOGY : public BINDER
+class TOPOLOGY : public CT_BINDER
 {
 public:
 

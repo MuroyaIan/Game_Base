@@ -17,7 +17,7 @@
 //===== クラス定義 =====
 
 //***** テクスチャ *****
-class TEXTURE_MODEL : public BINDER
+class TEXTURE_MODEL : public CT_BINDER
 {
 public:
 

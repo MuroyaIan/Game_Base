@@ -7,7 +7,7 @@
  */
 
 //インクルード部
-#include <VS_Base.hlsli>
+#include "VS_Base.hlsli"
 
 //入力用構造体
 struct VS_IN

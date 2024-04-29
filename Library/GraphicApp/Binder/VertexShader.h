@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** 頂点シェーダ *****
-class VERTEX_SHADER : public BINDER
+class VERTEX_SHADER : public CT_BINDER
 {
 public:
 

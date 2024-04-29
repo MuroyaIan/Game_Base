@@ -22,7 +22,7 @@ void DRAWER::Draw(int InstanceNum)
 }
 
 //バインダ登録
-void DRAWER::AddBind(std::unique_ptr<BINDER> pBinder)
+void DRAWER::AddBind(std::unique_ptr<CT_BINDER> pBinder)
 {
 	//例外処理
 	if (pBinder == nullptr)

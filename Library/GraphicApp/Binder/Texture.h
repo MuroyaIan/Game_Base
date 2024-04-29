@@ -17,7 +17,7 @@
 //===== クラス定義 =====
 
 //***** テクスチャ *****
-class TEXTURE : public BINDER
+class TEXTURE : public CT_BINDER
 {
 public:
 

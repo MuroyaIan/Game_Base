@@ -16,7 +16,7 @@
 
 //===== 前方宣言 =====
 class DRAWER;
-class BINDER;
+class CT_BINDER;
 
 //===== クラス定義 =====
 

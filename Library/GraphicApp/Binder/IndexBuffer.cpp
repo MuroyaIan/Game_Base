@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 INDEX_BUFFER::INDEX_BUFFER(const CT_GRAPHIC& Gfx, const std::vector<UINT>& aIndex) :
-	BINDER(), m_pIndexBuffer(), m_IndexNum(static_cast<UINT>(aIndex.size()))
+	CT_BINDER(), m_pIndexBuffer(), m_IndexNum(static_cast<UINT>(aIndex.size()))
 {
 	//エラーハンドル
 	HRESULT hr{};

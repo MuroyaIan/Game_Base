@@ -1,12 +1,6 @@
-
 //===== インクルード部 =====
 #include <GraphicApp/Binder/Binder.h>
 
 //===== クラス実装 =====
-BINDER::BINDER() noexcept
-{
-}
-
-BINDER::~BINDER() noexcept
-{
-}
+CT_BINDER::CT_BINDER() noexcept = default;
+CT_BINDER::~CT_BINDER() noexcept = default;

@@ -145,6 +145,7 @@
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>$(ProjectDir)Asset\Shader\%(Filename).cso</ObjectFileOutput>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -174,6 +175,7 @@
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>$(SolutionDir)Asset\Shader\%(Filename).cso</ObjectFileOutput>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

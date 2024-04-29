@@ -19,7 +19,7 @@ class DRAWER;
 //===== クラス定義 =====
 
 //***** 変換行列バッファ *****
-class CB_MTX_WVP : public BINDER
+class CB_MTX_WVP : public CT_BINDER
 {
 public:
 

@@ -31,8 +31,8 @@
 #define ERROR_DX(hr) if((hr) != S_OK) throw ERROR_EX(hr) //エラー出力(DirectX用)
 
 //===== エイリアス宣言 =====
-template<class t_PtrType>
-using ComPtr = Microsoft::WRL::ComPtr<t_PtrType>; //COMポインター
+template<class t_ptr>
+using ComPtr = Microsoft::WRL::ComPtr<t_ptr>; //COMポインター
 
 //===== 名前空間 =====
 namespace dx = DirectX;
@@ -58,7 +58,7 @@ public:
 	CT_GRAPHIC& operator=(CT_GRAPHIC&&) noexcept = delete;
 
 	//プロトタイプ宣言
-	explicit CT_GRAPHIC(CT_IF_WINDOW& pWindow, float fWidth, float fHeight);
+	explicit CT_GRAPHIC(CT_IF_WINDOW& pWindow, const float& fWidth, const float& fHeight);
 	~CT_GRAPHIC() noexcept(!gc_IS_DEBUG);
 	void SetResolution(const int& nWndPosX, const int& nWndPosY, const int& nWndWidth, const int& nWndHeight); //解像度設定
 	void BeginFrame(const float& r, const float& g, const float& b) const noexcept;                            //フレーム開始
@@ -89,7 +89,7 @@ public:
 
 #ifdef IMGUI
 
-	void SetImGuiMode(const bool bEnable) noexcept //ImGui描画ON/OFF
+	void SetImGuiMode(const bool& bEnable) noexcept //ImGui描画ON/OFF
 	{
 		m_bDrawImGui = bEnable;
 	}
@@ -135,5 +135,5 @@ private:
 	static void InitGfxCard(const ComPtr<IDXGIFactory>& pFactory, ComPtr<IDXGIAdapter>& pAdapter); //グラボ初期化
 
 	//権限指定
-	friend class BINDER;
+	friend class CT_BINDER;
 };

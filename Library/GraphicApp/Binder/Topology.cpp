@@ -4,7 +4,7 @@
 
 //===== ƒNƒ‰ƒXŽÀ‘• =====
 TOPOLOGY::TOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY Type) noexcept :
-	BINDER(), m_Type(Type)
+	CT_BINDER(), m_Type(Type)
 {
 }
 

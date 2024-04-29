@@ -26,7 +26,7 @@ struct TEX_DATA_ANIM
 };
 
 //===== ƒNƒ‰ƒX’è‹` =====
-class TEXTURE_ANIM : public BINDER
+class TEXTURE_ANIM : public CT_BINDER
 {
 public:
 

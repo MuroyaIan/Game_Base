@@ -125,19 +125,27 @@ void CT_IW_WIN::Transform(const int& nWndPosX, const int& nWndPosY, const int& n
 	//サイズ更新
 	int l_Width, l_Height;
 	if (nWndWidth <= 0)
+	{
 		l_Width = l_WindowRect.right;
+		m_Width = l_ClientRect.right;
+	}
 	else
 	{
 		l_Width = l_WindowRect.right - l_ClientRect.right + nWndWidth;
 		m_Width = nWndWidth;
 	}
 	if (nWndHeight <= 0)
+	{
 		l_Height = l_WindowRect.bottom;
+		m_Height = l_ClientRect.bottom;
+	}
 	else
 	{
 		l_Height = l_WindowRect.bottom - l_ClientRect.bottom + nWndHeight;
 		m_Height = nWndHeight;
 	}
+	m_PosX = nWndPosX;
+	m_PosY = nWndPosY;
 
 	//Window移動
 	if (!SetWindowPos(m_WinHandle, HWND_TOP, nWndPosX, nWndPosY, l_Width, l_Height, SWP_SHOWWINDOW))

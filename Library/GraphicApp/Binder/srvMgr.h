@@ -27,7 +27,7 @@ struct SRV_PTR												//SRVのポインタ情報
 };
 
 //===== クラス定義 =====
-class SRV_MGR : public BINDER
+class SRV_MGR : public CT_BINDER
 {
 public:
 

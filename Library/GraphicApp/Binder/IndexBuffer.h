@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** インデックスバッファ *****
-class INDEX_BUFFER : public BINDER
+class INDEX_BUFFER : public CT_BINDER
 {
 public:
 

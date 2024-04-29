@@ -16,7 +16,7 @@
 //===== クラス定義 =====
 
 //***** 入力レイアウト *****
-class INPUT_LAYOUT : public BINDER
+class INPUT_LAYOUT : public CT_BINDER
 {
 public:
 

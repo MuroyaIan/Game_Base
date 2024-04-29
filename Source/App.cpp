@@ -53,7 +53,7 @@ APP::APP() :
 
 	//DirectX初期化
 	m_pDX = std::make_unique<CT_GRAPHIC>(*m_pWindow.get(), SCREEN_WIDTH, SCREEN_HEIGHT);
-
+	m_pDX->SetResolution(WND_POS_X, WND_POS_Y, static_cast<int>(SCREEN_WIDTH), static_cast<int>(SCREEN_HEIGHT));
 #endif // _WIN64
 
 	//シェーダMgr初期化
@@ -138,7 +138,7 @@ APP::APP() :
 		};
 
 		//インスタンス作成
-		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(9, 15));
+		SHAPE Shape = static_cast<SHAPE>(RAND_MAKER::MakeRand_Int(static_cast<int>(SHAPE::Box), static_cast<int>(SHAPE::Plane_Tex)));
 		int InstIdx = aDrawer[static_cast<int>(Shape)]->AddInstance();
 
 		//ワールド行列設定
@@ -149,32 +149,31 @@ APP::APP() :
 			static_cast<float>(Idx / 20) * 2.0f - (20.0f - 1.0f))
 		);
 		aDrawer[static_cast<int>(Shape)]->SetWorldMatrix(mtxW, InstIdx);
-		return;
 	};
 
 	//生成処理
-	//for (int i = 0; i < nDrawNum; i++)
-	//	MakeGeom(i);
+	for (int i = 0; i < nDrawNum; i++)
+		MakeGeom(i);
 
 	//【モデルテスト】
-	m_aModel.reserve(1);
-	m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
-	int InstNum = 1600;
-	int Root = static_cast<int>(std::sqrtf(static_cast<float>(InstNum)));
-	float Interval = 10.0f;
-	for (int i = 0; i < InstNum; i++) {
-		m_aModel[0]->AddInstance();
+	//m_aModel.reserve(1);
+	//m_aModel.push_back(std::make_unique<MODEL>(*this, MODEL_MGR::MODEL_ID::Tarantella));
+	//int InstNum = 1600;
+	//int Root = static_cast<int>(std::sqrtf(static_cast<float>(InstNum)));
+	//float Interval = 10.0f;
+	//for (int i = 0; i < InstNum; i++) {
+	//	m_aModel[0]->AddInstance();
 
-		//ワールド行列設定
-		dx::XMFLOAT4X4 mtxW{};
-		dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
-				(i % Root) * Interval - (Root * Interval - Interval) * 0.5f,
-				0.0f,
-				static_cast<float>(i / Root) * Interval - (Root * Interval - Interval) * 0.5f
-			)
-		);
-		m_aModel[0]->SetWorldMatrix(mtxW, i);
-	}
+	//	//ワールド行列設定
+	//	dx::XMFLOAT4X4 mtxW{};
+	//	dx::XMStoreFloat4x4(&mtxW, dx::XMMatrixTranslation(
+	//			(i % Root) * Interval - (Root * Interval - Interval) * 0.5f,
+	//			0.0f,
+	//			static_cast<float>(i / Root) * Interval - (Root * Interval - Interval) * 0.5f
+	//		)
+	//	);
+	//	m_aModel[0]->SetWorldMatrix(mtxW, i);
+	//}
 
 	//水面テスト
 	//m_aDrawer.push_back(std::make_unique<WAVE>(*this));
@@ -258,24 +257,24 @@ void APP::Update()
 		for (auto& d : m_aDrawer)
 			d->Update();
 
-		static int Timer = 0;
-		static int AminID = 1;
-		Timer++;
-		if (Timer > 179) {
-			Timer = 0;
-			if (AminID > 1)
-				AminID--;
-			else
-				AminID++;
-			//AminID = 1 - AminID;
-			for (auto& m : m_aModel) {
-				for (int i = 0; i < 1600; i++)
-					m->ChangeAnimID(rand() % 3, i);
-					//m->ChangeAnimID(AminID, i);
-			}
-		}
-		for (auto& m : m_aModel)
-			m->Update();
+		//static int Timer = 0;
+		//static int AminID = 1;
+		//Timer++;
+		//if (Timer > 179) {
+		//	Timer = 0;
+		//	if (AminID > 1)
+		//		AminID--;
+		//	else
+		//		AminID++;
+		//	//AminID = 1 - AminID;
+		//	for (auto& m : m_aModel) {
+		//		for (int i = 0; i < 1600; i++)
+		//			m->ChangeAnimID(rand() % 3, i);
+		//			//m->ChangeAnimID(AminID, i);
+		//	}
+		//}
+		//for (auto& m : m_aModel)
+		//	m->Update();
 		//m_pPlayer->Update();
 
 
@@ -336,8 +335,8 @@ void APP::Draw()
 		//3D描画
 		for (auto& d : m_aDrawer)
 			d->Draw();
-		for (auto& m : m_aModel)
-			m->Draw();
+		//for (auto& m : m_aModel)
+		//	m->Draw();
 		//m_pPlayer->Draw();
 
 

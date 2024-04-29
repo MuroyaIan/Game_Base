@@ -4,7 +4,7 @@
 
 //===== クラス実装 =====
 TEXTURE::TEXTURE(const CT_GRAPHIC& Gfx, const TEX_LOADER::TEX_DATA& Data, UINT StartSlot) :
-	BINDER(), m_pTextureView(), m_StartSlot(StartSlot)
+	CT_BINDER(), m_pTextureView(), m_StartSlot(StartSlot)
 {
 	//エラーハンドル
 	HRESULT hr{};
