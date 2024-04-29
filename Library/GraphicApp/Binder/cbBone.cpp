@@ -35,7 +35,7 @@ void CB_BONE::Bind(const CT_GRAPHIC& Gfx) const
 	//バッファ更新
 	if (m_bTransposeMatrix) {
 		CBD_BONE BoneData = m_aMtxBone;
-		for (auto& m : BoneData.mtxBone)
+		for (auto& m : BoneData.ms_MtxBone)
 			gMath::MtxTranspose4x4_SSE(&m._11);
 		m_pCBuff->Update(Gfx, BoneData);
 	}

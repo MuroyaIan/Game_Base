@@ -688,63 +688,63 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 	if (Phong != nullptr) {
 
 		//環境光
-		Mesh.MaterialData.Ambient.x = static_cast<float>(Phong->Ambient.Get().mData[0]);
-		Mesh.MaterialData.Ambient.y = static_cast<float>(Phong->Ambient.Get().mData[1]);
-		Mesh.MaterialData.Ambient.z = static_cast<float>(Phong->Ambient.Get().mData[2]);
-		Mesh.MaterialData.Ambient.w = static_cast<float>(Phong->AmbientFactor.Get());
+		Mesh.MaterialData.ms_Ambient.x = static_cast<float>(Phong->Ambient.Get().mData[0]);
+		Mesh.MaterialData.ms_Ambient.y = static_cast<float>(Phong->Ambient.Get().mData[1]);
+		Mesh.MaterialData.ms_Ambient.z = static_cast<float>(Phong->Ambient.Get().mData[2]);
+		Mesh.MaterialData.ms_Ambient.w = static_cast<float>(Phong->AmbientFactor.Get());
 
 		//拡散反射光
-		Mesh.MaterialData.Diffuse.x = static_cast<float>(Phong->Diffuse.Get().mData[0]);
-		Mesh.MaterialData.Diffuse.y = static_cast<float>(Phong->Diffuse.Get().mData[1]);
-		Mesh.MaterialData.Diffuse.z = static_cast<float>(Phong->Diffuse.Get().mData[2]);
-		Mesh.MaterialData.Diffuse.w = static_cast<float>(Phong->DiffuseFactor.Get());
+		Mesh.MaterialData.ms_Diffuse.x = static_cast<float>(Phong->Diffuse.Get().mData[0]);
+		Mesh.MaterialData.ms_Diffuse.y = static_cast<float>(Phong->Diffuse.Get().mData[1]);
+		Mesh.MaterialData.ms_Diffuse.z = static_cast<float>(Phong->Diffuse.Get().mData[2]);
+		Mesh.MaterialData.ms_Diffuse.w = static_cast<float>(Phong->DiffuseFactor.Get());
 
 		//発射光
-		Mesh.MaterialData.Emissive.x = static_cast<float>(Phong->Emissive.Get().mData[0]);
-		Mesh.MaterialData.Emissive.y = static_cast<float>(Phong->Emissive.Get().mData[1]);
-		Mesh.MaterialData.Emissive.z = static_cast<float>(Phong->Emissive.Get().mData[2]);
-		Mesh.MaterialData.Emissive.w = static_cast<float>(Phong->EmissiveFactor.Get());
+		Mesh.MaterialData.ms_Emissive.x = static_cast<float>(Phong->Emissive.Get().mData[0]);
+		Mesh.MaterialData.ms_Emissive.y = static_cast<float>(Phong->Emissive.Get().mData[1]);
+		Mesh.MaterialData.ms_Emissive.z = static_cast<float>(Phong->Emissive.Get().mData[2]);
+		Mesh.MaterialData.ms_Emissive.w = static_cast<float>(Phong->EmissiveFactor.Get());
 
 		//透過度
-		Mesh.MaterialData.Transparent.x = static_cast<float>(Phong->TransparentColor.Get().mData[0]);
-		Mesh.MaterialData.Transparent.y = static_cast<float>(Phong->TransparentColor.Get().mData[1]);
-		Mesh.MaterialData.Transparent.z = static_cast<float>(Phong->TransparentColor.Get().mData[2]);
-		Mesh.MaterialData.Transparent.w = static_cast<float>(Phong->TransparencyFactor.Get());
+		Mesh.MaterialData.ms_Transparent.x = static_cast<float>(Phong->TransparentColor.Get().mData[0]);
+		Mesh.MaterialData.ms_Transparent.y = static_cast<float>(Phong->TransparentColor.Get().mData[1]);
+		Mesh.MaterialData.ms_Transparent.z = static_cast<float>(Phong->TransparentColor.Get().mData[2]);
+		Mesh.MaterialData.ms_Transparent.w = static_cast<float>(Phong->TransparencyFactor.Get());
 
 		//鏡面反射光
-		Mesh.MaterialData.Specular.x = static_cast<float>(Phong->Specular.Get().mData[0]);
-		Mesh.MaterialData.Specular.y = static_cast<float>(Phong->Specular.Get().mData[1]);
-		Mesh.MaterialData.Specular.z = static_cast<float>(Phong->Specular.Get().mData[2]);
-		Mesh.MaterialData.Specular.w = static_cast<float>(Phong->SpecularFactor.Get());
+		Mesh.MaterialData.ms_Specular.x = static_cast<float>(Phong->Specular.Get().mData[0]);
+		Mesh.MaterialData.ms_Specular.y = static_cast<float>(Phong->Specular.Get().mData[1]);
+		Mesh.MaterialData.ms_Specular.z = static_cast<float>(Phong->Specular.Get().mData[2]);
+		Mesh.MaterialData.ms_Specular.w = static_cast<float>(Phong->SpecularFactor.Get());
 
 		//光沢
-		Mesh.MaterialData.Shininess = static_cast<float>(Phong->Shininess.Get());
+		Mesh.MaterialData.ms_Shininess = static_cast<float>(Phong->Shininess.Get());
 	}
 	else if (Lambert != nullptr) {
 
 		//環境光
-		Mesh.MaterialData.Ambient.x = static_cast<float>(Lambert->Ambient.Get().mData[0]);
-		Mesh.MaterialData.Ambient.y = static_cast<float>(Lambert->Ambient.Get().mData[1]);
-		Mesh.MaterialData.Ambient.z = static_cast<float>(Lambert->Ambient.Get().mData[2]);
-		Mesh.MaterialData.Ambient.w = static_cast<float>(Lambert->AmbientFactor.Get());
+		Mesh.MaterialData.ms_Ambient.x = static_cast<float>(Lambert->Ambient.Get().mData[0]);
+		Mesh.MaterialData.ms_Ambient.y = static_cast<float>(Lambert->Ambient.Get().mData[1]);
+		Mesh.MaterialData.ms_Ambient.z = static_cast<float>(Lambert->Ambient.Get().mData[2]);
+		Mesh.MaterialData.ms_Ambient.w = static_cast<float>(Lambert->AmbientFactor.Get());
 
 		//拡散反射光
-		Mesh.MaterialData.Diffuse.x = static_cast<float>(Lambert->Diffuse.Get().mData[0]);
-		Mesh.MaterialData.Diffuse.y = static_cast<float>(Lambert->Diffuse.Get().mData[1]);
-		Mesh.MaterialData.Diffuse.z = static_cast<float>(Lambert->Diffuse.Get().mData[2]);
-		Mesh.MaterialData.Diffuse.w = static_cast<float>(Lambert->DiffuseFactor.Get());
+		Mesh.MaterialData.ms_Diffuse.x = static_cast<float>(Lambert->Diffuse.Get().mData[0]);
+		Mesh.MaterialData.ms_Diffuse.y = static_cast<float>(Lambert->Diffuse.Get().mData[1]);
+		Mesh.MaterialData.ms_Diffuse.z = static_cast<float>(Lambert->Diffuse.Get().mData[2]);
+		Mesh.MaterialData.ms_Diffuse.w = static_cast<float>(Lambert->DiffuseFactor.Get());
 
 		//発射光
-		Mesh.MaterialData.Emissive.x = static_cast<float>(Lambert->Emissive.Get().mData[0]);
-		Mesh.MaterialData.Emissive.y = static_cast<float>(Lambert->Emissive.Get().mData[1]);
-		Mesh.MaterialData.Emissive.z = static_cast<float>(Lambert->Emissive.Get().mData[2]);
-		Mesh.MaterialData.Emissive.w = static_cast<float>(Lambert->EmissiveFactor.Get());
+		Mesh.MaterialData.ms_Emissive.x = static_cast<float>(Lambert->Emissive.Get().mData[0]);
+		Mesh.MaterialData.ms_Emissive.y = static_cast<float>(Lambert->Emissive.Get().mData[1]);
+		Mesh.MaterialData.ms_Emissive.z = static_cast<float>(Lambert->Emissive.Get().mData[2]);
+		Mesh.MaterialData.ms_Emissive.w = static_cast<float>(Lambert->EmissiveFactor.Get());
 
 		//透過度
-		Mesh.MaterialData.Transparent.x = static_cast<float>(Lambert->TransparentColor.Get().mData[0]);
-		Mesh.MaterialData.Transparent.y = static_cast<float>(Lambert->TransparentColor.Get().mData[1]);
-		Mesh.MaterialData.Transparent.z = static_cast<float>(Lambert->TransparentColor.Get().mData[2]);
-		Mesh.MaterialData.Transparent.w = static_cast<float>(Lambert->TransparencyFactor.Get());
+		Mesh.MaterialData.ms_Transparent.x = static_cast<float>(Lambert->TransparentColor.Get().mData[0]);
+		Mesh.MaterialData.ms_Transparent.y = static_cast<float>(Lambert->TransparentColor.Get().mData[1]);
+		Mesh.MaterialData.ms_Transparent.z = static_cast<float>(Lambert->TransparentColor.Get().mData[2]);
+		Mesh.MaterialData.ms_Transparent.w = static_cast<float>(Lambert->TransparencyFactor.Get());
 	}
 
 	//テクスチャ取得
@@ -755,14 +755,14 @@ void FBX_LOADER::GetMesh(FbxNodeAttribute* MeshIn, std::string NodeName)
 
 	//テクスチャ確認
 	if (Mesh.aTex_Diffuse.size() > 0) {
-		Mesh.MaterialData.Diffuse.x = 1.0f;
-		Mesh.MaterialData.Diffuse.y = 1.0f;
-		Mesh.MaterialData.Diffuse.z = 1.0f;
+		Mesh.MaterialData.ms_Diffuse.x = 1.0f;
+		Mesh.MaterialData.ms_Diffuse.y = 1.0f;
+		Mesh.MaterialData.ms_Diffuse.z = 1.0f;
 	}
 	if (Mesh.aTex_Specular.size() > 0) {
-		Mesh.MaterialData.Specular.x = 1.0f;
-		Mesh.MaterialData.Specular.y = 1.0f;
-		Mesh.MaterialData.Specular.z = 1.0f;
+		Mesh.MaterialData.ms_Specular.x = 1.0f;
+		Mesh.MaterialData.ms_Specular.y = 1.0f;
+		Mesh.MaterialData.ms_Specular.z = 1.0f;
 	}
 
 	//骨情報取得

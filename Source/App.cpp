@@ -53,7 +53,7 @@ APP::APP() :
 
 	//DirectX初期化
 	m_pDX = std::make_unique<CT_GRAPHIC>(*m_pWindow.get(), SCREEN_WIDTH, SCREEN_HEIGHT);
-	m_pDX->SetResolution(WND_POS_X, WND_POS_Y, static_cast<int>(SCREEN_WIDTH), static_cast<int>(SCREEN_HEIGHT));
+
 #endif // _WIN64
 
 	//シェーダMgr初期化

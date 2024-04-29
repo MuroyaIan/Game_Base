@@ -34,9 +34,9 @@ void CB_MTX_VP::Bind(const CT_GRAPHIC& Gfx) const
 {
 	//バッファ更新
 	CBD_MTX_VP aMtx;
-	aMtx.mtxView = Gfx.GetViewMtx();
-	aMtx.mtxProj = Gfx.GetProjectionMtx();
-	gMath::MtxTranspose4x4_SSE(&aMtx.mtxView._11);
-	gMath::MtxTranspose4x4_SSE(&aMtx.mtxProj._11);
+	aMtx.ms_MtxView = Gfx.GetViewMtx();
+	aMtx.ms_MtxProj = Gfx.GetProjectionMtx();
+	gMath::MtxTranspose4x4_SSE(&aMtx.ms_MtxView._11);
+	gMath::MtxTranspose4x4_SSE(&aMtx.ms_MtxProj._11);
 	m_pCBuff->Update(Gfx, aMtx);
 }

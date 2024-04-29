@@ -55,9 +55,9 @@ WAVE::WAVE(APP& App) :
 	}
 
 	//ƒ}ƒeƒŠƒAƒ‹î•ñ‰Šú‰»
-	m_Material.Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_Material.Specular = { 0.6f, 0.6f, 0.6f, 1.0f };
-	m_Material.Shininess = 30.0f;
+	m_Material.ms_Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_Material.ms_Specular = { 0.6f, 0.6f, 0.6f, 1.0f };
+	m_Material.ms_Shininess = 30.0f;
 }
 
 WAVE::~WAVE() noexcept

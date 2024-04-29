@@ -42,9 +42,9 @@ SHAPE_MODEL::SHAPE_MODEL(GFX_PACK& Gfx, VSD_MAKER::SHAPE Type) :
 	AddBind(std::make_unique<SRV_MGR>(SrvData));
 
 	//ƒ}ƒeƒŠƒAƒ‹î•ñ‰Šú‰»
-	m_Material.Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_Material.Specular = { 0.6f, 0.6f, 0.6f, 1.0f };
-	m_Material.Shininess = 30.0f;
+	m_Material.ms_Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_Material.ms_Specular = { 0.6f, 0.6f, 0.6f, 1.0f };
+	m_Material.ms_Shininess = 30.0f;
 }
 
 SHAPE_MODEL::~SHAPE_MODEL() noexcept

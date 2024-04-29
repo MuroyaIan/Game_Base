@@ -5,6 +5,7 @@
  * @date 2022/06/24
  * @履歴 2022/06/24：ファイル作成
  *		 2022/11/21：処理改善
+ *		 2024/04/29：書式改善
  */
 
 //===== インクルードガード =====
@@ -29,12 +30,12 @@ public:
 	//プロトタイプ宣言
 	explicit CT_BINDER() noexcept;
 	virtual ~CT_BINDER() noexcept;
-	virtual void Bind(const CT_GRAPHIC& gfx) const = 0;	//バインド処理
+	virtual void Bind(const CT_GRAPHIC& gfx) const = 0; //バインド処理
 
 protected:
 
 	//プロトタイプ宣言
-	template <typename t_Data>
+	template<typename t_Data>
 	static void MapBuffer(const CT_GRAPHIC& gfx, const t_Data& data, ID3D11Resource* pBuffer) //バッファ更新
 	{
 		//例外処理
@@ -49,13 +50,13 @@ protected:
 		l_hr = GetContext(gfx)->Map(
 			pBuffer, 0u,
 			D3D11_MAP_WRITE_DISCARD, 0u,
-			&l_msr);								//GPUのアクセスをロック
+			&l_msr);								     //GPUのアクセスをロック
 		ERROR_DX(l_hr);
-		memcpy(l_msr.pData, &data, sizeof(t_Data));	//データ書込み
-		GetContext(gfx)->Unmap(pBuffer, 0u);	//GPUのアクセスを解放
+		memcpy(l_msr.pData, &data, sizeof(t_Data)); //データ書込み
+		GetContext(gfx)->Unmap(pBuffer, 0u);   //GPUのアクセスを解放
 	}
 
-	template <typename t_Data>
+	template<typename t_Data>
 	static void MapBuffer(const CT_GRAPHIC& gfx, const std::vector<t_Data>& aData, ID3D11Resource* pBuffer) //バッファ更新(配列)
 	{
 		//例外処理
@@ -70,13 +71,13 @@ protected:
 		l_hr = GetContext(gfx)->Map(
 			pBuffer, 0u,
 			D3D11_MAP_WRITE_DISCARD, 0u,
-			&l_msr);													//GPUのアクセスをロック
+			&l_msr);													           //GPUのアクセスをロック
 		ERROR_DX(l_hr);
-		memcpy(l_msr.pData, aData.data(), sizeof(t_Data) * aData.size());	//データ書込み
-		GetContext(gfx)->Unmap(pBuffer, 0u);						//GPUのアクセスを解放
+		memcpy(l_msr.pData, aData.data(), sizeof(t_Data) * aData.size()); //データ書込み
+		GetContext(gfx)->Unmap(pBuffer, 0u);                             //GPUのアクセスを解放
 	}
 
-	static ID3D11Device* GetDevice(const CT_GRAPHIC& gfx)				//デバイス取得
+	static ID3D11Device* GetDevice(const CT_GRAPHIC& gfx) //デバイス取得
 	{
 		//例外処理
 		if (gfx.m_pDevice == nullptr)
@@ -85,7 +86,7 @@ protected:
 		return gfx.m_pDevice.Get();
 	}
 
-	static ID3D11DeviceContext* GetContext(const CT_GRAPHIC& gfx)		//コンテキスト取得
+	static ID3D11DeviceContext* GetContext(const CT_GRAPHIC& gfx) //コンテキスト取得
 	{
 		//例外処理
 		if (gfx.m_pContext == nullptr)

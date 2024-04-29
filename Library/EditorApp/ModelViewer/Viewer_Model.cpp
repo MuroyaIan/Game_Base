@@ -123,7 +123,7 @@ void VIEWER_MODEL::Update() noexcept
 	else {
 
 		//骨情報リセット
-		for (auto& m : m_pMtxBone->mtxBone)
+		for (auto& m : m_pMtxBone->ms_MtxBone)
 			dx::XMStoreFloat4x4(&m, dx::XMMatrixIdentity());
 
 		//ローカル行列リセット
@@ -132,15 +132,15 @@ void VIEWER_MODEL::Update() noexcept
 
 	//マテリアル更新
 	if (m_Viewer.GetSpecularFlag())
-		m_Material.Specular = m_Loader.GetMesh(m_MeshIndex).MaterialData.Specular;
+		m_Material.ms_Specular = m_Loader.GetMesh(m_MeshIndex).MaterialData.ms_Specular;
 	else
-		m_Material.Specular = { 0.0f, 0.0f, 0.0f, 1.0f };
-	m_Material.Disp_MinLayerNum = m_Viewer.GetDispCoef().x;
-	m_Material.Disp_MaxLayerNum = m_Viewer.GetDispCoef().y;
-	m_Material.Disp_DepthScale = m_Viewer.GetDispCoef().z;										//視差マッピングの調整値を更新
-	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_MinLayerNum = m_Material.Disp_MinLayerNum;
-	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_MaxLayerNum = m_Material.Disp_MaxLayerNum;
-	m_Loader.GetMesh(m_MeshIndex).MaterialData.Disp_DepthScale = m_Material.Disp_DepthScale;	//データをモデル側にも更新
+		m_Material.ms_Specular = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_Material.ms_Disp_MinLayerNum = m_Viewer.GetDispCoef().x;
+	m_Material.ms_Disp_MaxLayerNum = m_Viewer.GetDispCoef().y;
+	m_Material.ms_Disp_DepthScale = m_Viewer.GetDispCoef().z;										//視差マッピングの調整値を更新
+	m_Loader.GetMesh(m_MeshIndex).MaterialData.ms_Disp_MinLayerNum = m_Material.ms_Disp_MinLayerNum;
+	m_Loader.GetMesh(m_MeshIndex).MaterialData.ms_Disp_MaxLayerNum = m_Material.ms_Disp_MaxLayerNum;
+	m_Loader.GetMesh(m_MeshIndex).MaterialData.ms_Disp_DepthScale = m_Material.ms_Disp_DepthScale;	//データをモデル側にも更新
 
 	//ライト制御
 	m_Viewer.GetLightMgr().GetData().DirectionalLight.Pos = { m_LightPos.x, m_LightPos.y, m_LightPos.z, 0.0f };
@@ -257,7 +257,7 @@ void VIEWER_MODEL::UpdateBoneData(int AnimID) noexcept
 	m_Viewer.GetAnimationFrame() = m_AnimFrame;			//ビューワ情報へ反映
 
 	//骨行列更新
-	auto pMtxBone = &m_pMtxBone->mtxBone[0];
+	auto pMtxBone = &m_pMtxBone->ms_MtxBone[0];
 	auto pMtxBoneRef = &m_Loader.GetSkin()[AnimID].aFrameData[0];
 	for (size_t i = 0, Cnt = m_Loader.GetSkin()[AnimID].aFrameData.size(); i < Cnt; i++) {
 		if (pMtxBoneRef->aMatrix.size() > 0)
